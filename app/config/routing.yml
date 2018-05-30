@@ -1,0 +1,10 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+    prefix:   /
+
+homepage:
+    path: /
+    defaults:
+        _controller: AppBundle:Advertisement:index
+        template:    AppBundle:advertisement:index.html.twig

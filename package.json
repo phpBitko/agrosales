@@ -1,0 +1,29 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.20.0",
+    "bootbox": "^4.4.0",
+    "bootstrap-sass": "^3.3.7",
+    "bootstrap-select": "^1.13.1",
+    "css-loader": "^0.28.9",
+    "file-loader": "^1.1.6",
+    "jquery": "^3.2.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "node-sass": "^4.7.2",
+    "resolve-url-loader": "^2.2.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "webpack-notifier": "^1.5.0"
+  },
+  "dependencies": {
+    "babel-loader": "^7.1.2",
+    "bootstrap-datepicker": "^1.8.0",
+    "bootstrap-select": "^1.13.1",
+    "font-awesome": "^4.7.0",
+    "getmdl-select": "^2.0.1",
+    "jquery-inputmask": "^1.0.1",
+    "jquery-ui": "^1.12.1",
+    "webpack": "^3.10.0",
+    "yarn-upgrade-all": "^0.3.0"
+  }
+}
