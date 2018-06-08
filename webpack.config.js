@@ -13,7 +13,7 @@ Encore
     .createSharedEntry('vendor',[
         'jquery',
         'jquery-ui',
-        'bootstrap-sass',
+        'bootstrap',
         'bootbox',
     ])
     // allow sass/scss files to be processed
@@ -49,6 +49,7 @@ var config = Encore.getWebpackConfig();
 
 config.externals = {
     module: {
+
         loaders: [
             {
                 test   : /\.css$/,
@@ -64,7 +65,18 @@ config.externals = {
                 use: [
                     {
                         loader: "style-loader"
+                    }, {
+                        loader: 'postcss-loader', // Run post css actions
+                        options: {
+                            plugins: function () { // post css plugins, can be exported to postcss.config.js
+                                return [
+                                    require('precss'),
+                                    require('autoprefixer')
+                                ];
+                            }
+                        }
                     },
+
                     {
                         loader: "css-loader",
                         options: {
