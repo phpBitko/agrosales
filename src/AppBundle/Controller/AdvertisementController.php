@@ -16,6 +16,6 @@ class AdvertisementController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('AppBundle:advertisement:index.html.twig');
+        return $this->render('AppBundle:advertisement:index.html.twig',['name'=>'Vasya']);
     }
 }
