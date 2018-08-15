@@ -7,18 +7,22 @@
 {% endblock %}
 
 
-{% block header%}
+{% block header %}
     <nav class="navbar navbar-expand-lg">
-        <div  class="container">
-            <a class="navbar-brand" href="#">
+        <div class="container">
+            <a class="navbar-brand logo-link" href="#">
                 <img class="logo" src=" {{ asset('bundles/app/img/logo.png') }}">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon color--white">
+                    <i class="fas fa-align-justify"></i>
+                </span>
+
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item active" >
+                <ul class="navbar-nav mr-auto">
+                    <li class="color-white nav-item active">
                         <a class="nav-link main-menu" href="#">Оголошення<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
@@ -27,8 +31,9 @@
                     <li class="nav-item">
                         <a class="nav-link main-menu" href="#">Контакти</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle main-menu" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <!--<li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle main-menu" href="#" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Випадаючий список
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -36,30 +41,115 @@
                             <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
-                <div>
-                    <a class="main-menu" href="#"><span class="bullseye"></span>Увійти</a>
+                <div >
+                    <a class="main-menu" href="#"><span class="btn-input fas fa-sign-in-alt pr-2 "></span>Увійти</a>
                 </div>
             </div>
+
 
         </div>
 
     </nav>
+    <div class="container">
+        <div class="row">
+            <div class="ogoloshenny col-10" >
+    {% for item in advertisement %}
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img class="img-fluid" src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
 
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:{{ item.price }}</p>
+                        <p>Площа:{{ item.area }}</p>
+                        <p>Дата:{{ item.addDate|date("H:m, d.m.Y") }}</p>
+                    </div>
+                </div>
+        {% endfor %}
+                <div class="navigation text-center">
+                    {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated', omitFirstPage: false}) }}
+                </div>
+                <!--
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:</p>
+                        <p>Площа:</p>
+                    </div>
+                </div>
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:</p>
+                        <p>Площа:</p>
+                    </div>
+                </div>
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:</p>
+                        <p>Площа:</p>
+                    </div>
+                </div>
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:</p>
+                        <p>Площа:</p>
+                    </div>
+                </div>
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:</p>
+                        <p>Площа:</p>
+                    </div>
+                </div>
+                <div class="ogol-one">
+                    <div class="ogol-img">
+                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
+                    </div>
+                    <div class="ogol-text">
+                        <p>Заголовок</p>
+                        <p>Ціна:</p>
+                        <p>Площа:</p>
+                    </div>
+                </div>-->
 
-        <div class="ogoloshenny">
-            <div class="ogol_img">
-                <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                <div class="ogol_text">текст</div>
+            </div>
+            <div class="poster-setting col-2">
+                <div class="ogol-text">
+                    <p>Заголовок</p>
+                    <p>Ціна:</p>
+                    <p>Площа:</p>
+                </div>
             </div>
         </div>
+    </div>
 
 {% endblock %}
 
 {% block footer %}
 
-    <div >
+    <div>
         <div class="copyright_content">
             <p>&copy; 2018 All Rights Reserved by 3B</p>
         </div>

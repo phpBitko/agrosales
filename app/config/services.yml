@@ -33,3 +33,6 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
+            tags:
+                - { name: doctrine.event_subscriber, connection: default }

@@ -1,17 +1,25 @@
 @import '../generalSettings';
 
-#wrapper{
-  color: #0000F0;
+.ogoloshenny {
+  border: solid 1px #5eb5e0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.navbar {
-  background-color: #17928c;
+.ogol-one {
+  width: 282px;
+  border: solid 1px #5eb5e0;
+  margin: 10px;
+
 }
-.logo {
-  width: 45%;
+.poster-setting {
+  width: 300px;
+  border: solid 1px #5eb5e0;
 }
-.main-menu {
-  color: #5eb5e0;
+.btn-input {
+  font-size: 1.5rem;
+  vertical-align: -19%
 }
-.navbar-toggler-icon{
-  color: #0000F0;
+.color--white {
+  color: #c8e8f7;
 }

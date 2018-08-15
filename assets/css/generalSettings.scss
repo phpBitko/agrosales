@@ -3,3 +3,26 @@ $fa-font-path: "~font-awesome/fonts";
 
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
+
+#wrapper{
+  color: #0000F0;
+}
+.navbar {
+  background-color: #17928c;
+}
+.logo-link {
+  width: 100px;
+}
+
+.logo {
+  width: 71%;
+}
+.main-menu {
+  color: #c8e8f7;
+}
+.main-menu:hover {
+  color: #edf8fd;
+}
+.navbar-toggler-icon{
+  color: #0000F0;
+}
