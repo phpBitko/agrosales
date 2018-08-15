@@ -16,11 +16,14 @@
     "webpack-notifier": "^1.5.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "babel-loader": "^7.1.2",
     "bootstrap": "^4.1.1",
     "bootstrap-datepicker": "^1.8.0",
     "bootstrap-select": "^1.13.1",
-    "font-awesome": "^4.7.0",
     "getmdl-select": "^2.0.1",
     "jquery-inputmask": "^1.0.1",
     "jquery-ui": "^1.12.1",
