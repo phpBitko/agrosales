@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdvertisementController extends Controller
 {
     /**
-     * @Route("/",  defaults={"page": 1}, name="advertisement_index", methods={"GET","HEAD"})
+     * @Route("/",  defaults={"page": 1}, name="advertisement_index", methods={"GET"})
      * @Route("/page/{page}", requirements={"page": "[1-9]\d*"}, name="advertisement_index_paginated")
      *
      */

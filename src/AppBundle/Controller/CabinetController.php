@@ -17,17 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CabinetController
- * @Route('/cabinet')
+ * @Route("/cabinet")
  */
 
 class CabinetController extends Controller
 {
     /**
-     * @Route('/', name=cabinet_index, methods={"GET"})
+     * @Route("/", name="cabinet_index", methods={"GET"})
      */
     public function indexAction(Request $request)
-    {
 
+    {
+        return $this->render('AppBundle:cabinet:index.html.twig');
     }
 
 }
