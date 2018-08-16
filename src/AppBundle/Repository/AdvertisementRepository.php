@@ -17,18 +17,19 @@ class AdvertisementRepository extends EntityRepository
 {
     public function findFirstTen()
     {
-        $qb=$this->createQueryBuilder('q')
+        $qb = $this->createQueryBuilder('q')
             ->orderBy('q.addDate', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
-            dump($qb);
+        dump($qb);
         return $qb;
 
     }
+
     public function queryLatest()
     {
-        $qb=$this->createQueryBuilder('q')
+        $qb = $this->createQueryBuilder('q')
             ->orderBy('q.addDate', 'DESC')
             ->getQuery();
         dump($qb);
@@ -36,14 +37,15 @@ class AdvertisementRepository extends EntityRepository
         return $qb;
 
     }
-    public function findLatest($page=1)
-{
-    $adapter = new DoctrineORMAdapter($this->queryLatest());
-    $paginator = new Pagerfanta($adapter);
-    $paginator ->setMaxPerPage(Advertisement::NUM_ITEMS);
-    $paginator->setCurrentPage($page);
-    return $paginator;
 
-}
+    public function findLatest($page = 1)
+    {
+        $adapter = new DoctrineORMAdapter($this->queryLatest());
+        $paginator = new Pagerfanta($adapter);
+        $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
+        $paginator->setCurrentPage($page);
+        return $paginator;
+
+    }
 
 }

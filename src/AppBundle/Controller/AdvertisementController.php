@@ -9,15 +9,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-
 class AdvertisementController extends Controller
 {
     /**
-     * @Route("/",  defaults={"page": 1}, name="advertisement_index")
+     * @Route("/",  defaults={"page": 1}, name="advertisement_index", methods={"GET","HEAD"})
      * @Route("/page/{page}", requirements={"page": "[1-9]\d*"}, name="advertisement_index_paginated")
-     * @Route("/api/posts/{id}", methods={"GET","HEAD"})
+     *
      */
-    public function indexAction(Request $request,$page=1)
+    public function indexAction(Request $request, $page = 1)
     {
         $em = $this->getDoctrine()->getManager();
         //$advertisement = $em->getRepository('AppBundle:Advertisement')->findAll( );
@@ -27,6 +26,6 @@ class AdvertisementController extends Controller
 
         dump($advertisement3);
         // replace this example code with whatever you need
-        return $this->render('AppBundle:advertisement:index.html.twig',array('advertisement'=>$advertisement3));
+        return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));
     }
 }

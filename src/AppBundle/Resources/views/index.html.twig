@@ -43,107 +43,13 @@
                         </div>
                     </li>-->
                 </ul>
-                <div >
+                <div>
                     <a class="main-menu" href="#"><span class="btn-input fas fa-sign-in-alt pr-2 "></span>Увійти</a>
                 </div>
             </div>
-
-
         </div>
 
     </nav>
-    <div class="container">
-        <div class="row">
-            <div class="ogoloshenny col-10" >
-    {% for item in advertisement %}
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img class="img-fluid" src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:{{ item.price }}</p>
-                        <p>Площа:{{ item.area }}</p>
-                        <p>Дата:{{ item.addDate|date("H:m, d.m.Y") }}</p>
-                    </div>
-                </div>
-        {% endfor %}
-                <div class="navigation text-center">
-                    {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated', omitFirstPage: false}) }}
-                </div>
-                <!--
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>-->
-
-            </div>
-            <div class="poster-setting col-2">
-                <div class="ogol-text">
-                    <p>Заголовок</p>
-                    <p>Ціна:</p>
-                    <p>Площа:</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
 {% endblock %}
 
