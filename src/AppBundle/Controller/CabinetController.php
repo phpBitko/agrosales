@@ -12,7 +12,8 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Form\AddAdvertisementType;
+use AppBundle\Form\AdvertisementType;
+use AppBundle\Entity\Advertisement;
 
 
 
@@ -29,10 +30,11 @@ class CabinetController extends Controller
     public function indexAction(Request $request)
 
     {
-        $addAdvertisement= new AddAdvertisementType();
-        $form=$this->createForm('AppBundle\Form\AddAdvertisementType',$addAdvertisement);
+        $advertisement= new Advertisement();
+        $formAdvertisement =$this->createForm(AdvertisementType::class,$advertisement);
+        dump($formAdvertisement );
 
-        return $this->render('AppBundle:cabinet:index.html.twig',array('form'=>$form->createView()));
+        return $this->render('AppBundle:cabinet:index.html.twig',array('form'=>$formAdvertisement->createView()));
     }
 
 }

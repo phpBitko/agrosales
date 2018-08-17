@@ -251,5 +251,390 @@ class Advertisement
         $this->addDate = $addDate;
     }
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextHead()
+    {
+        return $this->textHead;
+    }
+
+    /**
+     * @param string $textHead
+     */
+    public function setTextHead($textHead)
+    {
+        $this->textHead = $textHead;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return geometry
+     */
+    public function getGeom()
+    {
+        return $this->geom;
+    }
+
+    /**
+     * @param geometry $geom
+     */
+    public function setGeom($geom)
+    {
+        $this->geom = $geom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextAbout()
+    {
+        return $this->textAbout;
+    }
+
+    /**
+     * @param string $textAbout
+     */
+    public function setTextAbout($textAbout)
+    {
+        $this->textAbout = $textAbout;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isElectricity()
+    {
+        return $this->isElectricity;
+    }
+
+    /**
+     * @param bool $isElectricity
+     */
+    public function setIsElectricity($isElectricity)
+    {
+        $this->isElectricity = $isElectricity;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGas()
+    {
+        return $this->isGas;
+    }
+
+    /**
+     * @param bool $isGas
+     */
+    public function setIsGas($isGas)
+    {
+        $this->isGas = $isGas;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWaterSupply()
+    {
+        return $this->isWaterSupply;
+    }
+
+    /**
+     * @param bool $isWaterSupply
+     */
+    public function setIsWaterSupply($isWaterSupply)
+    {
+        $this->isWaterSupply = $isWaterSupply;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRoad()
+    {
+        return $this->isRoad;
+    }
+
+    /**
+     * @param bool $isRoad
+     */
+    public function setIsRoad($isRoad)
+    {
+        $this->isRoad = $isRoad;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchive()
+    {
+        return $this->isArchive;
+    }
+
+    /**
+     * @param bool $isArchive
+     */
+    public function setIsArchive($isArchive)
+    {
+        $this->isArchive = $isArchive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSewerage()
+    {
+        return $this->isSewerage;
+    }
+
+    /**
+     * @param bool $isSewerage
+     */
+    public function setIsSewerage($isSewerage)
+    {
+        $this->isSewerage = $isSewerage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeclarantPhoneNum()
+    {
+        return $this->declarantPhoneNum;
+    }
+
+    /**
+     * @param string $declarantPhoneNum
+     */
+    public function setDeclarantPhoneNum($declarantPhoneNum)
+    {
+        $this->declarantPhoneNum = $declarantPhoneNum;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAreaUnit()
+    {
+        return $this->areaUnit;
+    }
+
+    /**
+     * @param int $areaUnit
+     */
+    public function setAreaUnit($areaUnit)
+    {
+        $this->areaUnit = $areaUnit;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCoordB()
+    {
+        return $this->coordB;
+    }
+
+    /**
+     * @param float $coordB
+     */
+    public function setCoordB($coordB)
+    {
+        $this->coordB = $coordB;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdDirDistrict()
+    {
+        return $this->idDirDistrict;
+    }
+
+    /**
+     * @param int $idDirDistrict
+     */
+    public function setIdDirDistrict($idDirDistrict)
+    {
+        $this->idDirDistrict = $idDirDistrict;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirDistrict()
+    {
+        return $this->dirDistrict;
+    }
+
+    /**
+     * @param mixed $dirDistrict
+     */
+    public function setDirDistrict($dirDistrict)
+    {
+        $this->dirDistrict = $dirDistrict;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdDirRegion()
+    {
+        return $this->idDirRegion;
+    }
+
+    /**
+     * @param int $idDirRegion
+     */
+    public function setIdDirRegion($idDirRegion)
+    {
+        $this->idDirRegion = $idDirRegion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirRegion()
+    {
+        return $this->dirRegion;
+    }
+
+    /**
+     * @param mixed $dirRegion
+     */
+    public function setDirRegion($dirRegion)
+    {
+        $this->dirRegion = $dirRegion;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * @param int $idUser
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdPurpose()
+    {
+        return $this->idPurpose;
+    }
+
+    /**
+     * @param int $idPurpose
+     */
+    public function setIdPurpose($idPurpose)
+    {
+        $this->idPurpose = $idPurpose;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirPurpose()
+    {
+        return $this->dirPurpose;
+    }
+
+    /**
+     * @param mixed $dirPurpose
+     */
+    public function setDirPurpose($dirPurpose)
+    {
+        $this->dirPurpose = $dirPurpose;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @param \DateTime $updateDate
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCoordL()
+    {
+        return $this->coordL;
+    }
+
+    /**
+     * @param float $coordL
+     */
+    public function setCoordL($coordL)
+    {
+        $this->coordL = $coordL;
+    }
+
+
 
 }
