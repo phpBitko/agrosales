@@ -21,10 +21,18 @@ class AdvertisementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-       $builder
-           ->add('textHead',TextType::class)
-           ->add('textAbout',TextareaType::class)
-           ->add('save',SubmitType::class);
+        $builder
+            ->add('textHead', TextType::class, [
+                'label' => 'Назва',
+                'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'font-weight-bold']
+            ])
+            ->add('textAbout', TextareaType::class,[
+                'label' => 'Опис',
+                'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'font-weight-bold']
+            ])
+            ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

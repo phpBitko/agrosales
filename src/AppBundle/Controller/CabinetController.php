@@ -25,16 +25,27 @@ use AppBundle\Entity\Advertisement;
 class CabinetController extends Controller
 {
     /**
-     * @Route("/", name="cabinet_index", methods={"GET"})
+     * @Route("/", name="cabinet_index", methods={"POST","GET"})
      */
     public function indexAction(Request $request)
 
     {
-        $advertisement= new Advertisement();
-        $formAdvertisement =$this->createForm(AdvertisementType::class,$advertisement);
-        dump($formAdvertisement );
+        $advertisement = new Advertisement();
+        $formAdvertisement = $this->createForm(AdvertisementType::class, $advertisement);
+        //заповнюєв надини форму
+        $formAdvertisement->handleRequest($request);
+        if ($formAdvertisement->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advertisement);
+            $em->flush();
+            return $this->render('AppBundle:cabinet:index.html.twig', array('form' => $formAdvertisement->createView()));
+        }
+        dump($formAdvertisement);
 
-        return $this->render('AppBundle:cabinet:index.html.twig',array('form'=>$formAdvertisement->createView()));
+        return $this->render('AppBundle:cabinet:index.html.twig', array(
+            'form' => $formAdvertisement->createView(),
+            'advertisement' => $advertisement
+        ));
     }
 
 }

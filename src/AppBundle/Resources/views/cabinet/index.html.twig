@@ -9,8 +9,15 @@
     <script src="{{ asset('build/advertisement.js') }}"></script>
 {% endblock %}
 {% block body %}
-    Hello! Cabinet
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    <div class="container">
+        <div class="row">
+            Hello! Cabinet
+            {{ form_start(form, {'method': 'POST', 'attr':{'id': 'form_'}}) }}
+            {{ form_row(form.textHead) }}
+            {{ form_row(form.textAbout) }}
+
+            {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success'}}) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

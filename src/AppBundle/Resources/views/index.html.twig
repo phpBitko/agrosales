@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="color-white nav-item active">
-                        <a class="nav-link main-menu" href="#">Оголошення<span class="sr-only">(current)</span></a>
+                        <a class="nav-link main-menu" href="{{ path('advertisement_index') }}">Оголошення<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link main-menu" href="#">Карта</a>
@@ -47,7 +47,7 @@
                     </li>-->
                 </ul>
                 <div>
-                    <a class="main-menu" href="#"><span class="btn-input fas fa-sign-in-alt pr-2 "></span>Увійти</a>
+                    <a class="main-menu" href="{{ path('fos_user_security_login') }}"><span class="btn-input fas fa-sign-in-alt pr-2 "></span>Увійти</a>
                 </div>
             </div>
         </div>

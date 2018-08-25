@@ -11,6 +11,8 @@ Encore
     // will create web/build/app.js and web/build/app.css
     .addEntry('advertisement', './assets/js/advertisement/globalAdvertisement.js')
     .addEntry('cabinet', './assets/js/cabinet/globalCabinet.js')
+    .addEntry('login', './assets/js/fos/globalLogin.js')
+
     .createSharedEntry('vendor',[
         'jquery',
         'jquery-ui',

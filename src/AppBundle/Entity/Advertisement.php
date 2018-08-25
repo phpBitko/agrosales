@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Advertisement
 {
-    const NUM_ITEMS=9;
+    const NUM_ITEMS = 9;
 
     /**
      * @var integer
@@ -145,6 +145,25 @@ class Advertisement
      * @ORM\JoinColumn(name="id_dir_district", referencedColumnName="id")
      */
     private $dirDistrict;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_user", type="integer", nullable=true)
+     */
+    private $idUser;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="advertisement")
+     * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     */
+    private $dirUser;
+
+
+
     /**
      * @var integer
      *
@@ -158,14 +177,6 @@ class Advertisement
      * @ORM\JoinColumn(name="id_dir_region", referencedColumnName="id")
      */
     private $dirRegion;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_user", type="integer", nullable=true)
-     */
-    private $idUser;
-
 
     /**
      * @var integer

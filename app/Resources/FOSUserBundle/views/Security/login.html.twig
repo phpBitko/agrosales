@@ -1,0 +1,50 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/login.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/advertisement.js') }}"></script>
+{% endblock %}
+
+{% block fos_user_content %}
+
+
+    <div class="container">
+        <div class="row">
+
+            <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal col-sm-8">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                {% endif %}
+                <fieldset class="mt-2">
+                    <div class="form-group form-inline">
+                        <label for="username" class="col-sm-2 control-label">{{ 'Логін'|trans }}</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }} "
+                               class="form-control"/>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="password" class="col-sm-2 control-label">{{ 'Пароль'|trans |trans }}</label>
+                        <input type="password" id="password" name="_password" class="form-control "/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2">
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                            <label for="remember_me">{{ 'Запам\'ятати мене'|trans }}</label>
+                        </div>
+                    </div>
+                    <button type="submit" id="_submit" class="btn btn-success">
+                        {{ 'Увійти'|trans }}
+                    </button>
+                    <button type="button" id="btn_register" class="btn btn-success">
+                        <a href="#" class="fa fa-user-plus"
+                           aria-hidden="true"></a> {{ 'Зареєструватись'|trans }}
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock fos_user_content %}
