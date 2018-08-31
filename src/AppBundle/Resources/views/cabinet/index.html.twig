@@ -11,13 +11,76 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            Hello! Cabinet
-            {{ form_start(form, {'method': 'POST', 'attr':{'id': 'form_'}}) }}
-            {{ form_row(form.textHead) }}
-            {{ form_row(form.textAbout) }}
+
+
+            {{ form_start(form, {'method': 'POST', 'attr':{'id': 'form_', 'class':'col-sm-8'}}) }}
+            <div class="form-group form-inline">
+                {{ form_label(form.textHead) }}
+                {{ form_widget(form.textHead) }}
+            </div>
+            {{ form_label(form.textAbout) }}
+            {{ form_widget(form.textAbout) }}
+            <div class="form-group form-inline">
+                {{ form_label(form.price) }}
+                {{ form_widget(form.price) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_label(form.declarantPhoneNum) }}
+                {{ form_widget(form.declarantPhoneNum) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_label(form.area) }}
+                {{ form_widget(form.area) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_label(form.areaUnit) }}
+                {{ form_widget(form.areaUnit) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_label(form.dirPurpose) }}
+                {{ form_widget(form.dirPurpose) }}
+            </div>
+
+
+            <div class="form-group form-inline">
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_widget(form.isElectricity) }}
+                {{ form_label(form.isElectricity) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_widget(form.isSewerage) }}
+                {{ form_label(form.isSewerage) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_widget(form.isWaterSupply) }}
+                {{ form_label(form.isWaterSupply) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_widget(form.isRoad) }}
+                {{ form_label(form.isRoad) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_widget(form.isGas) }}
+                {{ form_label(form.isGas) }}
+            </div>
+            <div class="form-group form-inline">
+                {{ form_label(form.photos) }}
+                {{ form_widget(form.photos) }}
+            </div>
+            <label for="fos_user_registration_form_cert_img" id="false_file"
+                   class=" btn btn-success custom-file-upload">
+                <i class="fas fa-cloud-upload-alt"></i> Вибрати файл
+            </label>
+            <span id="selected_filename">файл не вибрано...</span>
+
 
             {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success'}}) }}
+
             {{ form_end(form) }}
+
         </div>
-    </div>
+    </div>input type="file"
 {% endblock %}

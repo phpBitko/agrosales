@@ -20,14 +20,51 @@ class User extends BaseUser
     protected $id;
     /**
      *
-     *@ORM\OneToMany(targetEntity="Advertisement", mappedBy="user", cascade={"persist"})
+     *@ORM\OneToMany(targetEntity="Advertisement", mappedBy="users", cascade={"persist"})
      */
-    private $advertisement;
+    private $advertisements;
+
 
     public function __construct()
     {
         parent::__construct();
-        $this->advertisement = new ArrayCollection();
+        $this->advertisements = new ArrayCollection();
         // your own logic
+    }
+
+    /**
+     * Add advertisement.
+     *
+     * @param \AppBundle\Entity\Advertisement $advertisement
+     *
+     * @return User
+     */
+    public function addAdvertisement(\AppBundle\Entity\Advertisement $advertisement)
+    {
+        $this->advertisements[] = $advertisement;
+
+        return $this;
+    }
+
+    /**
+     * Remove advertisement.
+     *
+     * @param \AppBundle\Entity\Advertisement $advertisement
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeAdvertisement(\AppBundle\Entity\Advertisement $advertisement)
+    {
+        return $this->advertisements->removeElement($advertisement);
+    }
+
+    /**
+     * Get advertisements.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAdvertisements()
+    {
+        return $this->advertisements;
     }
 }

@@ -22,8 +22,6 @@ class AdvertisementController extends Controller
         //$advertisement = $em->getRepository('AppBundle:Advertisement')->findAll( );
         //$advertisement2 = $em->getRepository('AppBundle:Advertisement')->findFirstTen();
         $advertisement3 = $em->getRepository('AppBundle:Advertisement')->findLatest($page);
-
-
         dump($advertisement3);
         // replace this example code with whatever you need
         return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));

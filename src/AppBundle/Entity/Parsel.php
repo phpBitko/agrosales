@@ -32,4 +32,62 @@ Class Parsel
     private $area;
 
 
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set address.
+     *
+     * @param string|null $address
+     *
+     * @return Parsel
+     */
+    public function setAddress($address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address.
+     *
+     * @return string|null
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set area.
+     *
+     * @param int $area
+     *
+     * @return Parsel
+     */
+    public function setArea($area)
+    {
+        $this->area = $area;
+
+        return $this;
+    }
+
+    /**
+     * Get area.
+     *
+     * @return int
+     */
+    public function getArea()
+    {
+        return $this->area;
+    }
 }

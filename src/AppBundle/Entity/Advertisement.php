@@ -157,11 +157,48 @@ class Advertisement
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="advertisement")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="advertisements")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
-    private $dirUser;
+    private $users;
 
+    /**
+     * @return int
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param int $users
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+    }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement")
+     */
+    private $photos;
+
+    /**
+     * @return mixed
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * @param mixed $photos
+     */
+    public function setPhotos($photos)
+    {
+        $this->photos = $photos;
+    }
 
 
     /**
@@ -648,4 +685,97 @@ class Advertisement
 
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get isElectricity.
+     *
+     * @return bool|null
+     */
+    public function getIsElectricity()
+    {
+        return $this->isElectricity;
+    }
+
+    /**
+     * Get isGas.
+     *
+     * @return bool|null
+     */
+    public function getIsGas()
+    {
+        return $this->isGas;
+    }
+
+    /**
+     * Get isWaterSupply.
+     *
+     * @return bool|null
+     */
+    public function getIsWaterSupply()
+    {
+        return $this->isWaterSupply;
+    }
+
+    /**
+     * Get isRoad.
+     *
+     * @return bool|null
+     */
+    public function getIsRoad()
+    {
+        return $this->isRoad;
+    }
+
+    /**
+     * Get isArchive.
+     *
+     * @return bool|null
+     */
+    public function getIsArchive()
+    {
+        return $this->isArchive;
+    }
+
+    /**
+     * Get isSewerage.
+     *
+     * @return bool|null
+     */
+    public function getIsSewerage()
+    {
+        return $this->isSewerage;
+    }
+
+    /**
+     * Add photo.
+     *
+     * @param \AppBundle\Entity\Photos $photo
+     *
+     * @return Advertisement
+     */
+    public function addPhoto(\AppBundle\Entity\Photos $photo)
+    {
+        $this->photos[] = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Remove photo.
+     *
+     * @param \AppBundle\Entity\Photos $photo
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePhoto(\AppBundle\Entity\Photos $photo)
+    {
+        return $this->photos->removeElement($photo);
+    }
 }

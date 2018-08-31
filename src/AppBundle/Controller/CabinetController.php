@@ -9,6 +9,8 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\AppBundle;
+use AppBundle\Entity\DirPurpose;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,12 +18,10 @@ use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
 
 
-
 /**
  * Class CabinetController
  * @Route("/cabinet")
  */
-
 class CabinetController extends Controller
 {
     /**
@@ -31,20 +31,35 @@ class CabinetController extends Controller
 
     {
         $advertisement = new Advertisement();
-        $formAdvertisement = $this->createForm(AdvertisementType::class, $advertisement);
+        $em = $this->getDoctrine()->getManager();
+        $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
+        $formAdvertisement = $this->createForm(AdvertisementType::class, $advertisement, array(
+            'entity_manager' => $em,
+
+        ));
+
         //заповнюєв надини форму
         $formAdvertisement->handleRequest($request);
         if ($formAdvertisement->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $advertisement->setUsers($this->getUser());
+            $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+            dump($formAdvertisement);
+            dump($advertisement);
             $em->persist($advertisement);
             $em->flush();
-            return $this->render('AppBundle:cabinet:index.html.twig', array('form' => $formAdvertisement->createView()));
+            return $this->render('AppBundle:cabinet:index.html.twig', array(
+                'form' => $formAdvertisement->createView(),
+                'purpose' => $purpose
+            ));
         }
-        dump($formAdvertisement);
+
+        dump($advertisement);
 
         return $this->render('AppBundle:cabinet:index.html.twig', array(
             'form' => $formAdvertisement->createView(),
-            'advertisement' => $advertisement
+            'advertisement' => $advertisement,
+            'purpose' => $purpose
+
         ));
     }
 

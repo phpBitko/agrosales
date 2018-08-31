@@ -33,6 +33,28 @@ class DirPurpose
      * @ORM\Column(name="text", type="string", length=255, nullable=true)
      */
     private $text;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string",length=10,nullable=true)
+     */
+    private $code;
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
 
     /**
      * @return int

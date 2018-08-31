@@ -47,12 +47,19 @@ class Photos
      * @ORM\Column(name="id_advertisement", type="integer")
      */
     private $idAdvertisement;
+    /**
+     * @ORM\ManyToOne(targetEntity="Advertisement", inversedBy="photos")
+     * @ORM\JoinColumn(name="id_advertisement", nullable=false, referencedColumnName="id")
+     */
+    private $advertisement;
+
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_archive", type="boolean", nullable=true)
      */
+
     private $isArchive = false;
 
     /**
@@ -132,4 +139,14 @@ class Photos
         $this->id = $id;
     }
 
+
+    /**
+     * Get isArchive.
+     *
+     * @return bool|null
+     */
+    public function getIsArchive()
+    {
+        return $this->isArchive;
+    }
 }

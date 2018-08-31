@@ -159,4 +159,470 @@ class DirRegion
      * @ORM\Column(name="info", type="string", length=50, nullable=true)
      */
     private $info;
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set gid.
+     *
+     * @param int|null $gid
+     *
+     * @return DirRegion
+     */
+    public function setGid($gid = null)
+    {
+        $this->gid = $gid;
+
+        return $this;
+    }
+
+    /**
+     * Get gid.
+     *
+     * @return int|null
+     */
+    public function getGid()
+    {
+        return $this->gid;
+    }
+
+    /**
+     * Set koatuu.
+     *
+     * @param string|null $koatuu
+     *
+     * @return DirRegion
+     */
+    public function setKoatuu($koatuu = null)
+    {
+        $this->koatuu = $koatuu;
+
+        return $this;
+    }
+
+    /**
+     * Get koatuu.
+     *
+     * @return string|null
+     */
+    public function getKoatuu()
+    {
+        return $this->koatuu;
+    }
+
+    /**
+     * Set natoobl.
+     *
+     * @param string|null $natoobl
+     *
+     * @return DirRegion
+     */
+    public function setNatoobl($natoobl = null)
+    {
+        $this->natoobl = $natoobl;
+
+        return $this;
+    }
+
+    /**
+     * Get natoobl.
+     *
+     * @return string|null
+     */
+    public function getNatoobl()
+    {
+        return $this->natoobl;
+    }
+
+    /**
+     * Set patoobl.
+     *
+     * @param float|null $patoobl
+     *
+     * @return DirRegion
+     */
+    public function setPatoobl($patoobl = null)
+    {
+        $this->patoobl = $patoobl;
+
+        return $this;
+    }
+
+    /**
+     * Get patoobl.
+     *
+     * @return float|null
+     */
+    public function getPatoobl()
+    {
+        return $this->patoobl;
+    }
+
+    /**
+     * Set vpor.
+     *
+     * @param string|null $vpor
+     *
+     * @return DirRegion
+     */
+    public function setVpor($vpor = null)
+    {
+        $this->vpor = $vpor;
+
+        return $this;
+    }
+
+    /**
+     * Get vpor.
+     *
+     * @return string|null
+     */
+    public function getVpor()
+    {
+        return $this->vpor;
+    }
+
+    /**
+     * Set vposs.
+     *
+     * @param string|null $vposs
+     *
+     * @return DirRegion
+     */
+    public function setVposs($vposs = null)
+    {
+        $this->vposs = $vposs;
+
+        return $this;
+    }
+
+    /**
+     * Get vposs.
+     *
+     * @return string|null
+     */
+    public function getVposs()
+    {
+        return $this->vposs;
+    }
+
+    /**
+     * Set mpd.
+     *
+     * @param string|null $mpd
+     *
+     * @return DirRegion
+     */
+    public function setMpd($mpd = null)
+    {
+        $this->mpd = $mpd;
+
+        return $this;
+    }
+
+    /**
+     * Get mpd.
+     *
+     * @return string|null
+     */
+    public function getMpd()
+    {
+        return $this->mpd;
+    }
+
+    /**
+     * Set datep.
+     *
+     * @param string|null $datep
+     *
+     * @return DirRegion
+     */
+    public function setDatep($datep = null)
+    {
+        $this->datep = $datep;
+
+        return $this;
+    }
+
+    /**
+     * Get datep.
+     *
+     * @return string|null
+     */
+    public function getDatep()
+    {
+        return $this->datep;
+    }
+
+    /**
+     * Set theGeom.
+     *
+     * @param geometry|null $theGeom
+     *
+     * @return DirRegion
+     */
+    public function setTheGeom($theGeom = null)
+    {
+        $this->theGeom = $theGeom;
+
+        return $this;
+    }
+
+    /**
+     * Get theGeom.
+     *
+     * @return geometry|null
+     */
+    public function getTheGeom()
+    {
+        return $this->theGeom;
+    }
+
+    /**
+     * Set coordsysGeom.
+     *
+     * @param int|null $coordsysGeom
+     *
+     * @return DirRegion
+     */
+    public function setCoordsysGeom($coordsysGeom = null)
+    {
+        $this->coordsysGeom = $coordsysGeom;
+
+        return $this;
+    }
+
+    /**
+     * Get coordsysGeom.
+     *
+     * @return int|null
+     */
+    public function getCoordsysGeom()
+    {
+        return $this->coordsysGeom;
+    }
+
+    /**
+     * Set theGeom42Bl.
+     *
+     * @param geometry|null $theGeom42Bl
+     *
+     * @return DirRegion
+     */
+    public function setTheGeom42Bl($theGeom42Bl = null)
+    {
+        $this->theGeom42Bl = $theGeom42Bl;
+
+        return $this;
+    }
+
+    /**
+     * Get theGeom42Bl.
+     *
+     * @return geometry|null
+     */
+    public function getTheGeom42Bl()
+    {
+        return $this->theGeom42Bl;
+    }
+
+    /**
+     * Set theGeom4326.
+     *
+     * @param geometry|null $theGeom4326
+     *
+     * @return DirRegion
+     */
+    public function setTheGeom4326($theGeom4326 = null)
+    {
+        $this->theGeom4326 = $theGeom4326;
+
+        return $this;
+    }
+
+    /**
+     * Get theGeom4326.
+     *
+     * @return geometry|null
+     */
+    public function getTheGeom4326()
+    {
+        return $this->theGeom4326;
+    }
+
+    /**
+     * Set theGeom900913.
+     *
+     * @param geometry|null $theGeom900913
+     *
+     * @return DirRegion
+     */
+    public function setTheGeom900913($theGeom900913 = null)
+    {
+        $this->theGeom900913 = $theGeom900913;
+
+        return $this;
+    }
+
+    /**
+     * Get theGeom900913.
+     *
+     * @return geometry|null
+     */
+    public function getTheGeom900913()
+    {
+        return $this->theGeom900913;
+    }
+
+    /**
+     * Set koatuuT.
+     *
+     * @param string|null $koatuuT
+     *
+     * @return DirRegion
+     */
+    public function setKoatuuT($koatuuT = null)
+    {
+        $this->koatuuT = $koatuuT;
+
+        return $this;
+    }
+
+    /**
+     * Get koatuuT.
+     *
+     * @return string|null
+     */
+    public function getKoatuuT()
+    {
+        return $this->koatuuT;
+    }
+
+    /**
+     * Set xMin.
+     *
+     * @param float|null $xMin
+     *
+     * @return DirRegion
+     */
+    public function setXMin($xMin = null)
+    {
+        $this->xMin = $xMin;
+
+        return $this;
+    }
+
+    /**
+     * Get xMin.
+     *
+     * @return float|null
+     */
+    public function getXMin()
+    {
+        return $this->xMin;
+    }
+
+    /**
+     * Set yMin.
+     *
+     * @param float|null $yMin
+     *
+     * @return DirRegion
+     */
+    public function setYMin($yMin = null)
+    {
+        $this->yMin = $yMin;
+
+        return $this;
+    }
+
+    /**
+     * Get yMin.
+     *
+     * @return float|null
+     */
+    public function getYMin()
+    {
+        return $this->yMin;
+    }
+
+    /**
+     * Set xMax.
+     *
+     * @param float|null $xMax
+     *
+     * @return DirRegion
+     */
+    public function setXMax($xMax = null)
+    {
+        $this->xMax = $xMax;
+
+        return $this;
+    }
+
+    /**
+     * Get xMax.
+     *
+     * @return float|null
+     */
+    public function getXMax()
+    {
+        return $this->xMax;
+    }
+
+    /**
+     * Set yMax.
+     *
+     * @param float|null $yMax
+     *
+     * @return DirRegion
+     */
+    public function setYMax($yMax = null)
+    {
+        $this->yMax = $yMax;
+
+        return $this;
+    }
+
+    /**
+     * Get yMax.
+     *
+     * @return float|null
+     */
+    public function getYMax()
+    {
+        return $this->yMax;
+    }
+
+    /**
+     * Set info.
+     *
+     * @param string|null $info
+     *
+     * @return DirRegion
+     */
+    public function setInfo($info = null)
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    /**
+     * Get info.
+     *
+     * @return string|null
+     */
+    public function getInfo()
+    {
+        return $this->info;
+    }
 }
