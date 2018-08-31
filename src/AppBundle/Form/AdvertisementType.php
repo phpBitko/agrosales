@@ -111,7 +111,6 @@ class AdvertisementType extends AbstractType
             ->add('photos', FileType::class, [
                 'label' => 'Виберіть фото',
                 'attr' => [
-                    'class' => 'fas fa-cloud-upload-alt',
                     'accept' => 'image/*,image/jpeg',
                     'multiple'=> true
                 ],

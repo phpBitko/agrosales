@@ -41,7 +41,6 @@
                 {{ form_widget(form.dirPurpose) }}
             </div>
 
-
             <div class="form-group form-inline">
                 {{ form_label(form.address) }}
                 {{ form_widget(form.address) }}
@@ -58,6 +57,8 @@
                 {{ form_widget(form.isWaterSupply) }}
                 {{ form_label(form.isWaterSupply) }}
             </div>
+
+
             <div class="form-group form-inline">
                 {{ form_widget(form.isRoad) }}
                 {{ form_label(form.isRoad) }}
@@ -66,15 +67,12 @@
                 {{ form_widget(form.isGas) }}
                 {{ form_label(form.isGas) }}
             </div>
+
             <div class="form-group form-inline">
                 {{ form_label(form.photos) }}
                 {{ form_widget(form.photos) }}
+
             </div>
-            <label for="fos_user_registration_form_cert_img" id="false_file"
-                   class=" btn btn-success custom-file-upload">
-                <i class="fas fa-cloud-upload-alt"></i> Вибрати файл
-            </label>
-            <span id="selected_filename">файл не вибрано...</span>
 
 
             {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success'}}) }}
@@ -82,5 +80,5 @@
             {{ form_end(form) }}
 
         </div>
-    </div>input type="file"
+    </div>
 {% endblock %}

@@ -40,11 +40,12 @@ class CabinetController extends Controller
 
         //заповнюєв надини форму
         $formAdvertisement->handleRequest($request);
-        if ($formAdvertisement->isValid()) {
+        dump($formAdvertisement);
+        if ($formAdvertisement->isValid()&& $formAdvertisement->isSubmitted()) {
+
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
-            dump($formAdvertisement);
-            dump($advertisement);
+
             $em->persist($advertisement);
             $em->flush();
             return $this->render('AppBundle:cabinet:index.html.twig', array(
@@ -53,7 +54,7 @@ class CabinetController extends Controller
             ));
         }
 
-        dump($advertisement);
+
 
         return $this->render('AppBundle:cabinet:index.html.twig', array(
             'form' => $formAdvertisement->createView(),

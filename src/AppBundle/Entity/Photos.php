@@ -33,6 +33,29 @@ class Photos
      * @ORM\Column(name="photo_path", type="string", length=2000, nullable=true)
      */
     private $photoPath;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="photo_name_new",type="string",length=2000,nullable=true)
+     */
+    private $photoNameNew;
+
+    /**
+     * @return mixed
+     */
+    public function getPhotoNameNew()
+    {
+        return $this->photoNameNew;
+    }
+
+    /**
+     * @param mixed $photoNameNew
+     */
+    public function setPhotoNameNew($photoNameNew)
+    {
+        $this->photoNameNew = $photoNameNew;
+    }
+
 
     /**
      * @var string
