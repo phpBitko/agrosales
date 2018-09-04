@@ -22,47 +22,54 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 
 class AdvertisementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $em = $options['entity_manager'];;
+        $em = $options['entity_manager'];
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
         $builder
             ->add('textHead', TextType::class, [
                 'label' => 'Назва',
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('textAbout', TextareaType::class, [
                 'label' => 'Опис',
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Вартість',
                 'currency' => 'UAH',
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('declarantPhoneNum', TelType::class, [
                 'label' => 'Телефон',
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('area', NumberType::class, [
                 'label' => 'Площа',
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('areaUnit', ChoiceType::class, [
                 'label' => 'Одиниця площі',
                 'choices' => array('га' => '1', 'соток' => '2', 'м2' => '3'),
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('dirPurpose', ChoiceType::class, [
                 'label' => 'Цільове призначення',
@@ -70,12 +77,14 @@ class AdvertisementType extends AbstractType
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'choices' => $purpose,
                 'choice_label' => 'text',
-                'placeholder' => 'вкажіть цільове призначення'
+                'placeholder' => 'вкажіть цільове призначення',
+                'required' => false
             ])
             ->add('address', TextType::class, [
                 'label' => 'Адреса',
                 'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold']
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
             ])
             ->add('isElectricity', CheckboxType::class, [
                 'label' => 'Електрика',
@@ -108,16 +117,34 @@ class AdvertisementType extends AbstractType
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
+            ->add('isGas', CheckboxType::class, [
+                'label' => 'Газ',
+                'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'font-weight-bold'],
+                'required' => false
+            ])
+//            ->add('imageFile', VichImageType::class, [
+//                'label' => 'файл..',
+//
+//            ])
             ->add('photos', FileType::class, [
                 'label' => 'Виберіть фото',
-                'attr' => [
-                    'accept' => 'image/*,image/jpeg',
-                    'multiple'=> true
-                ],
+                'attr' => ['accept' => 'image/*'],
                 'label_attr' => ['class' => 'font-weight-bold '],
-                'data_class' => null
+                'multiple' => true,
+                'required' => false
 
             ])
+//            ->add('photos', FileType::class, [
+//                'label' => 'Виберіть фото',
+//                'attr' => [
+//                    'accept' => 'image/*,image/jpeg',
+//                ],
+//                'multiple'=> true,
+//                'data_class'=>null,
+//                'label_attr' => ['class' => 'font-weight-bold ']
+//            ])
+//
             ->add('save', SubmitType::class);
     }
 

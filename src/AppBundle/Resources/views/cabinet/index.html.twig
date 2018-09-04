@@ -58,6 +58,12 @@
                 {{ form_label(form.isWaterSupply) }}
             </div>
 
+            {#<div class="form-group form-inline">#}
+                {#{{ form_label(form.imageFile) }}#}
+                {#{{ form_widget(form.imageFile) }}#}
+
+            {#</div>#}
+
 
             <div class="form-group form-inline">
                 {{ form_widget(form.isRoad) }}
@@ -67,12 +73,18 @@
                 {{ form_widget(form.isGas) }}
                 {{ form_label(form.isGas) }}
             </div>
-
             <div class="form-group form-inline">
-                {{ form_label(form.photos) }}
                 {{ form_widget(form.photos) }}
-
+                {{ form_label(form.photos) }}
             </div>
+
+
+
+            {#<div class="form-group form-inline">#}
+                {#{{ form_label(form.photos) }}#}
+                {#{{ form_widget(form.photos) }}#}
+
+            {#</div>#}
 
 
             {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success'}}) }}

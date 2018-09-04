@@ -16,6 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
+use AppBundle\Entity\Photos;
+use Symfony\Component\HttpFoundation\File\File;
+
+use Vich\UploaderBundle\Templating\Helper as helper;
 
 
 /**
@@ -35,16 +39,38 @@ class CabinetController extends Controller
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
         $formAdvertisement = $this->createForm(AdvertisementType::class, $advertisement, array(
             'entity_manager' => $em,
-
         ));
 
-        //заповнюєв надини форму
+        //заповнюєм форму
         $formAdvertisement->handleRequest($request);
-        dump($formAdvertisement);
-        if ($formAdvertisement->isValid()&& $formAdvertisement->isSubmitted()) {
 
+
+        if ($formAdvertisement->isValid() && $formAdvertisement->isSubmitted()) {
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+            $files = $advertisement->getPhotos();
+            $photosAll = array();
+            foreach ($files as $file) {
+
+//                if ($file->getClientMimeType() != 'image/jpeg') {
+//                    throw new InValidFormException('photos', 'Фото повинно бути у форматі jpeg', 400);
+//                }
+                $photoOne = new Photos();
+
+                $fileName = $photoOne->getPhotoName() . uniqid() . '.' . $file->guessExtension();
+                //$fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                $photoOne->setPhotoName($fileName);
+
+                array_push($photosAll, $photoOne);
+                dump($photosAll);
+
+                // Move the file to the directory where brochures are stored
+                $photoOne->setAdvertisement($advertisement);
+                dump($photoOne);
+                $advertisement->setPhotos($photosAll);
+                dump($advertisement);
+            }
 
             $em->persist($advertisement);
             $em->flush();
@@ -53,9 +79,6 @@ class CabinetController extends Controller
                 'purpose' => $purpose
             ));
         }
-
-
-
         return $this->render('AppBundle:cabinet:index.html.twig', array(
             'form' => $formAdvertisement->createView(),
             'advertisement' => $advertisement,

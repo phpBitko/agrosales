@@ -64,17 +64,25 @@ class Photos
      */
     private $photoName;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_advertisement", type="integer")
-     */
-    private $idAdvertisement;
+
     /**
      * @ORM\ManyToOne(targetEntity="Advertisement", inversedBy="photos")
-     * @ORM\JoinColumn(name="id_advertisement", nullable=false, referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_advertisement", nullable=true, referencedColumnName="id")
      */
     private $advertisement;
+    /**
+     * @return \Advertisement
+     */
+    public function getAdvertisement() {
+        return $this->advertisement;
+    }
+
+    /**
+     * @param \Advertisement $advertisement
+     */
+    public function setAdvertisement($advertisement) {
+        $this->advertisement = $advertisement;
+    }
 
 
     /**
@@ -107,19 +115,19 @@ class Photos
         $this->photoPath = $photoPath;
     }
 
-    /**
-     * @return \Advertisement
-     */
-    public function getIdAdvertisement() {
-        return $this->idAdvertisement;
-    }
-
-    /**
-     * @param \Advertisement $idAdvertisement
-     */
-    public function setIdAdvertisement($idAdvertisement) {
-        $this->idAdvertisement = $idAdvertisement;
-    }
+//    /**
+//     * @return \Advertisement
+//     */
+//    public function getIdAdvertisement() {
+//        return $this->idAdvertisement;
+//    }
+//
+//    /**
+//     * @param \Advertisement $idAdvertisement
+//     */
+//    public function setIdAdvertisement($idAdvertisement) {
+//        $this->idAdvertisement = $idAdvertisement;
+//    }
 
     /**
      * @return string
@@ -134,19 +142,7 @@ class Photos
     public function setPhotoName($photoName) {
         $this->photoName = $photoName;
     }
-    /**
-     * @return \Advertisement
-     */
-    public function getAdvertisement() {
-        return $this->advertisement;
-    }
 
-    /**
-     * @param \Advertisement $advertisement
-     */
-    public function setAdvertisement($advertisement) {
-        $this->advertisement = $advertisement;
-    }
 
     /**
      * @return int

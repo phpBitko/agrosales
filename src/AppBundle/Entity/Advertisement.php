@@ -8,6 +8,10 @@
 
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+//Використовуєтся для бандла FileUploader
+use Symfony\Component\HttpFoundation\File\File;
+
 
 /**
  * Advertisement
@@ -36,7 +40,103 @@ class Advertisement
      * @ORM\Column(name="text_head", type="string", length=500, nullable=false)
      *
      */
+
     private $textHead;
+
+//    /**
+//     * @ORM\Column(type="string", length=255, nullable=true)
+//     * @var string
+//     */
+//    private $imageName;
+//
+//    /**
+//     * @Vich\UploadableField(mapping="advertisement_images", fileNameProperty="imageName")
+//     * @var File
+//     */
+//    private $imageFile;
+//
+//    /**
+//     * @ORM\Column(type="datetime", nullable=true)
+//     * @var \DateTime
+//     */
+//    private $updatedAt;
+//    /**
+//     * @ORM\Column(type="integer", nullable=true)
+//     *
+//     * @var integer
+//     */
+//    private $imageSize;
+//
+//    /**
+//     * @return int
+//     */
+//    public function getImageSize()
+//    {
+//        return $this->imageSize;
+//    }
+//
+//    /**
+//     * @param int $imageSize
+//     */
+//    public function setImageSize($imageSize)
+//    {
+//        $this->imageSize = $imageSize;
+//    }
+//
+//    /**
+//     * @return \DateTime
+//     */
+//    public function getUpdatedAt()
+//    {
+//        return $this->updatedAt;
+//    }
+//
+//    /**
+//     * @param \DateTime $updatedAt
+//     */
+//    public function setUpdatedAt($updatedAt)
+//    {
+//        $this->updatedAt = $updatedAt;
+//    }
+//
+//
+//    /**
+//     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+//     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+//     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+//     * must be able to accept an instance of 'File' as the bundle will inject one here
+//     * during Doctrine hydration.
+//     *
+//     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+//     */
+//    public function setImageFile(?File $image = null)
+//    {
+//        $this->imageFile = $image;
+//
+//        if (null !== $image) {
+//            // It is required that at least one field changes if you are using doctrine
+//            // otherwise the event listeners won't be called and the file is lost
+//            $this->updatedAt = new \DateTimeImmutable();
+//        }
+//    }
+//
+//    public function getImageFile()
+//    {
+//        return $this->imageFile;
+//    }
+//
+//    public function setImageName($imageName)
+//    {
+//        $this->imageName = $imageName;
+//    }
+//
+//    public function getImageName()
+//    {
+//        return $this->imageName;
+//    }
+
+
+
 
     /**
      * @var string
@@ -180,7 +280,7 @@ class Advertisement
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement")
+     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement", cascade={"persist"})
      */
     private $photos;
 
@@ -690,7 +790,7 @@ class Advertisement
      */
     public function __construct()
     {
-        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     /**
@@ -760,7 +860,7 @@ class Advertisement
      *
      * @return Advertisement
      */
-    public function addPhoto(\AppBundle\Entity\Photos $photo)
+    public function addPhoto( $photo)
     {
         $this->photos[] = $photo;
 
@@ -778,4 +878,5 @@ class Advertisement
     {
         return $this->photos->removeElement($photo);
     }
+
 }
