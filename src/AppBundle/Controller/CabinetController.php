@@ -18,7 +18,8 @@ use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Photos;
 use Symfony\Component\HttpFoundation\File\File;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Templating\Helper as helper;
 
 
@@ -50,25 +51,18 @@ class CabinetController extends Controller
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
             $files = $advertisement->getPhotos();
             $photosAll = array();
+            $advertisement->setPhotos(new ArrayCollection());
             foreach ($files as $file) {
 
 //                if ($file->getClientMimeType() != 'image/jpeg') {
 //                    throw new InValidFormException('photos', 'Фото повинно бути у форматі jpeg', 400);
 //                }
                 $photoOne = new Photos();
-
                 $fileName = $photoOne->getPhotoName() . uniqid() . '.' . $file->guessExtension();
                 //$fileName = md5(uniqid()).'.'.$file->guessExtension();
-
                 $photoOne->setPhotoName($fileName);
 
-                array_push($photosAll, $photoOne);
-                dump($photosAll);
-
-                // Move the file to the directory where brochures are stored
-                $photoOne->setAdvertisement($advertisement);
-                dump($photoOne);
-                $advertisement->setPhotos($photosAll);
+                $advertisement->addPhoto($photoOne);
                 dump($advertisement);
             }
 

@@ -321,6 +321,7 @@ class Advertisement
      * @ORM\Column(name="id_purpose", type="integer", nullable=true)
      */
     private $idPurpose;
+
     /**
      *
      * @ORM\ManyToOne(targetEntity="DirPurpose", inversedBy="advertisement")
@@ -853,30 +854,24 @@ class Advertisement
         return $this->isSewerage;
     }
 
+
+
+
     /**
-     * Add photo.
-     *
-     * @param \AppBundle\Entity\Photos $photo
-     *
      * @return Advertisement
      */
-    public function addPhoto( $photo)
+    public function addPhoto($photo)
     {
+        if ($this->photos->contains($photo)) {
+            return;
+        }
         $this->photos[] = $photo;
+        $photo->setAdvertisement($this);
 
         return $this;
     }
 
-    /**
-     * Remove photo.
-     *
-     * @param \AppBundle\Entity\Photos $photo
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removePhoto(\AppBundle\Entity\Photos $photo)
-    {
-        return $this->photos->removeElement($photo);
-    }
+
+
 
 }
