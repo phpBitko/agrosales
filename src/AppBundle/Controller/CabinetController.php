@@ -17,9 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Photos;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
+
 use Vich\UploaderBundle\Templating\Helper as helper;
 
 
@@ -50,24 +51,28 @@ class CabinetController extends Controller
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
             $files = $advertisement->getPhotos();
-            $photosAll = array();
+
             $advertisement->setPhotos(new ArrayCollection());
+            $em->persist($advertisement);
             foreach ($files as $file) {
 
 //                if ($file->getClientMimeType() != 'image/jpeg') {
 //                    throw new InValidFormException('photos', 'Фото повинно бути у форматі jpeg', 400);
 //                }
                 $photoOne = new Photos();
-                $fileName = $photoOne->getPhotoName() . uniqid() . '.' . $file->guessExtension();
+                $fileName = uniqid() . "_" . $advertisement->getId() . '.' . $file->guessExtension();
                 //$fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $photoOne->setPhotoName($fileName);
-
+                $photoOne->setPhotoName($file->getClientOriginalName());
+                $photoOne->setPhotoNameNew($fileName);
                 $advertisement->addPhoto($photoOne);
-                dump($advertisement);
+                $dateFolder = new \DateTime();
+                $date = $dateFolder->format('Y-m-d');
+                $file->move($this->getParameter('photos_directory') . $date, $photoOne->getPhotoNameNew());
+                dump($date);
             }
 
-            $em->persist($advertisement);
             $em->flush();
+
             return $this->render('AppBundle:cabinet:index.html.twig', array(
                 'form' => $formAdvertisement->createView(),
                 'purpose' => $purpose

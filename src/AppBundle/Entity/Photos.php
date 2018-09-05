@@ -63,6 +63,31 @@ class Photos
      * @ORM\Column(name="photo_name", type="string", length=2000, nullable=true)
      */
     private $photoName;
+    /**
+     * @var  \DateTime
+     *
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $addDate;
+
+    /**
+     * @return mixed
+     */
+    public function getAddDate()
+    {
+        return $this->addDate;
+    }
+
+    /**
+     * @param mixed $addDate
+     */
+    public function setAddDate($addDate)
+    {
+        $this->addDate = $addDate;
+    }
+
+
+
 
 
     /**
@@ -167,5 +192,9 @@ class Photos
     public function getIsArchive()
     {
         return $this->isArchive;
+    }
+    public function __construct()
+    {
+        $this->addDate= new \DateTime;
     }
 }
