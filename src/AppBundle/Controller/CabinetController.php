@@ -46,7 +46,6 @@ class CabinetController extends Controller
         //заповнюєм форму
         $formAdvertisement->handleRequest($request);
 
-
         if ($formAdvertisement->isValid() && $formAdvertisement->isSubmitted()) {
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
@@ -60,15 +59,15 @@ class CabinetController extends Controller
 //                    throw new InValidFormException('photos', 'Фото повинно бути у форматі jpeg', 400);
 //                }
                 $photoOne = new Photos();
-                $fileName = uniqid() . "_" . $advertisement->getId() . '.' . $file->guessExtension();
-                //$fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $photoOne->setPhotoName($file->getClientOriginalName());
+                $fileName = uniqid() . '.' . $file->guessExtension();
+
+                $photoOne->setPhotoNameOriginal($file->getClientOriginalName());
                 $photoOne->setPhotoNameNew($fileName);
                 $advertisement->addPhoto($photoOne);
-                $dateFolder = new \DateTime();
-                $date = $dateFolder->format('Y-m-d');
-                $file->move($this->getParameter('photos_directory') . $date, $photoOne->getPhotoNameNew());
-                dump($date);
+                $date = $photoOne->getAddDate();
+                $dateFolder = $date->format('Y-m-d');
+                $file->move($this->getParameter('photos_directory') . $dateFolder .'/'.$advertisement->getId() , $photoOne->getPhotoNameNew());
+
             }
 
             $em->flush();

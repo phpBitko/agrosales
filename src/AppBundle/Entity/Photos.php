@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,9 +61,27 @@ class Photos
     /**
      * @var string
      *
-     * @ORM\Column(name="photo_name", type="string", length=2000, nullable=true)
+     * @ORM\Column(name="photo_name_original", type="string", length=2000, nullable=true)
      */
-    private $photoName;
+    private $photoNameOriginal;
+
+    /**
+     * @return string
+     */
+    public function getPhotoNameOriginal()
+    {
+        return $this->photoNameOriginal;
+    }
+
+    /**
+     * @param string $photoNameOriginal
+     */
+    public function setPhotoNameOriginal($photoNameOriginal)
+    {
+        $this->photoNameOriginal = $photoNameOriginal;
+    }
+
+
     /**
      * @var  \DateTime
      *
@@ -87,25 +106,25 @@ class Photos
     }
 
 
-
-
-
     /**
      * @ORM\ManyToOne(targetEntity="Advertisement", inversedBy="photos")
      * @ORM\JoinColumn(name="id_advertisement", nullable=true, referencedColumnName="id")
      */
     private $advertisement;
+
     /**
-     * @return \Advertisement
+     * @return Advertisement
      */
-    public function getAdvertisement() {
+    public function getAdvertisement()
+    {
         return $this->advertisement;
     }
 
     /**
-     * @param \Advertisement $advertisement
+     * @param Advertisement $advertisement
      */
-    public function setAdvertisement($advertisement) {
+    public function setAdvertisement($advertisement)
+    {
         $this->advertisement = $advertisement;
     }
 
@@ -121,7 +140,8 @@ class Photos
     /**
      * @param bool $isArchive
      */
-    public function setIsArchive($isArchive) {
+    public function setIsArchive($isArchive)
+    {
         $this->isArchive = $isArchive;
     }
 
@@ -129,14 +149,16 @@ class Photos
     /**
      * @return string
      */
-    public function getPhotoPath() {
+    public function getPhotoPath()
+    {
         return $this->photoPath;
     }
 
     /**
      * @param string $photoPath
      */
-    public function setPhotoPath($photoPath) {
+    public function setPhotoPath($photoPath)
+    {
         $this->photoPath = $photoPath;
     }
 
@@ -154,32 +176,20 @@ class Photos
 //        $this->idAdvertisement = $idAdvertisement;
 //    }
 
-    /**
-     * @return string
-     */
-    public function getPhotoName() {
-        return $this->photoName;
-    }
-
-    /**
-     * @param string $photoName
-     */
-    public function setPhotoName($photoName) {
-        $this->photoName = $photoName;
-    }
-
 
     /**
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param int $id
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
@@ -193,8 +203,9 @@ class Photos
     {
         return $this->isArchive;
     }
+
     public function __construct()
     {
-        $this->addDate= new \DateTime;
+        $this->addDate = new \DateTime;
     }
 }

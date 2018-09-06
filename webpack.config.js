@@ -12,6 +12,7 @@ Encore
     .addEntry('advertisement', './assets/js/advertisement/globalAdvertisement.js')
     .addEntry('cabinet', './assets/js/cabinet/globalCabinet.js')
     .addEntry('login', './assets/js/fos/globalLogin.js')
+    .addEntry('map', './assets/js/map/globalMap.js')
 
     .createSharedEntry('vendor',[
         'jquery',

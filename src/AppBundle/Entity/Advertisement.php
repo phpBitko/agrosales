@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 //Використовуєтся для бандла FileUploader
@@ -134,8 +135,6 @@ class Advertisement
 //    {
 //        return $this->imageName;
 //    }
-
-
 
 
     /**
@@ -298,6 +297,22 @@ class Advertisement
     public function setPhotos($photos)
     {
         $this->photos = $photos;
+    }
+
+    public function addPhoto($photo)
+    {
+        if ($this->photos->contains($photo)) {
+            return;
+        }
+        $this->photos[] = $photo;
+        $photo->setAdvertisement($this);
+
+        return $this;
+    }
+    public function removePhotos($photo)
+    {
+        $this->photos->removeElement($photo);
+
     }
 
 
@@ -785,13 +800,13 @@ class Advertisement
     }
 
 
-
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+        $this->addDate = new \DateTime();
     }
 
     /**
@@ -855,22 +870,9 @@ class Advertisement
     }
 
 
-
-
     /**
      * @return Advertisement
      */
-    public function addPhoto($photo)
-    {
-        if ($this->photos->contains($photo)) {
-            return;
-        }
-        $this->photos[] = $photo;
-        $photo->setAdvertisement($this);
-
-        return $this;
-    }
-
 
 
 
