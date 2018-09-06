@@ -6,3 +6,4 @@ bootbox = require('bootbox');
 // require ('@fortawesome/fontawesome-free-regular');
 
 require('../../css/map/map.scss');
+require('../../js/map/olMap');
