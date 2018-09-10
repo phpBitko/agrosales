@@ -1,12 +1,9 @@
 @import '../generalSettings';
 
 .map {
-  height: 100%;
+  height: calc(100% - 62px);
   width: 100%;
   position: fixed;
-  top: 62px;
+  top:62px;
 }
 
-.map-main {
-
-}
