@@ -1,4 +1,7 @@
 $(function () {
+
+
+
 var map = new ol.Map({
     target: 'map',
     layers: [
@@ -11,4 +14,6 @@ var map = new ol.Map({
         zoom: 4
     })
 });
+
+
 });
