@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'AppBundle::index.html.twig' %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css"
           type="text/css">
@@ -12,8 +12,11 @@
     <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
 {% endblock %}
 {% block body %}
+    <div class="map-main">
+        <div id="map" class="map"></div>
+    </div>
 
-            <div id="map" class="map"></div>
 
-
+{% endblock %}
+{% block footer %}
 {% endblock %}

@@ -1,5 +1,12 @@
 @import '../generalSettings';
+
 .map {
-  height: 600px;
+  height: 100%;
   width: 100%;
+  position: fixed;
+  top: 62px;
+}
+
+.map-main {
+
 }
