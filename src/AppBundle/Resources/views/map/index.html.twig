@@ -16,7 +16,85 @@
 
 {% block body %}
 
-            <div id="map" class="map"></div>
+    <div id="map" class="map"></div>
+    <div class="choose-layer d-flex align-items-center flex-column">
+
+        <div class="choose-head">
+            <img src="{{ asset('bundles/app/img/layers_.png') }}">
+            Базові шари
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <ul class="d-flex flex-column choose-layer-group">
+            <li id="osmBase" class="active  choose-layer-item" data-val="osm">
+                <span>{{ 'Open Street map'|trans|raw }}</span></li>
+            <li id="orto10000base" class=" choose-layer-item" data-val="kiev2006">
+                <span>{{ 'Космічний знімок'|trans|raw }}</span></li>
+            <li id="viewMap" class=" choose-layer-item" data-val="pub">
+                <span>{{ 'Google map'|trans|raw }}</span></li>
+            <li id="bingMap" class=" choose-layer-item" data-val="bing">
+                <span>{{ 'Bing map'|trans|raw }}</span></li>
+        </ul>
+
+    </div>
+    <div class="zoom-layer">
+        <div class="zoom-layer-border d-flex flex-column align-items-center">
+            <button id="zoom-in" class="my-zoom-in" type="button" title="Збільшити"></button>
+            <button id="zoom-full" class="my-zoom-full" type="button" title="Збільшити"></button>
+            <button id="zoom-out" class="my-zoom-out" type="button" title="Зменшити"></button>
+        </div>
+    </div>
+    <div class="control-panel">
+        <div class="zoom-layer-border d-flex flex-column align-items-center">
+            <button id="control-panel-layer" class="cp-layer" type="button" title="Шари"></button>
+            <button id="control-panel-ruler" class="cp-ruler" type="button" title="Лінійка"></button>
+            <button id="control-panel-filter" class="cp-filter" type="button" title="Фільтр"></button>
+            <button id="control-panel-print" class="cp-print" type="button" title="Друк"></button>
+            <button id="control-panel-placeholder" class="cp-placeholder" type="button"
+                    title="Місце положення"></button>
+        </div>
+    </div>
+
+    {#<div class=" choose_layer  mdl-shadow--4dp mdl-color--blue-grey-900 mdl-color-text--blue-grey-50 is-visible"#}
+    {#aria-hidden="false">#}
+    {#<div class="layersAll">#}
+
+    {#<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">#}
+    {#<div class="level_menu">#}
+    {#<div class="choose_head">#}
+    {#<button type="button" class="close" aria-label="Close">#}
+    {#<span aria-hidden="true">&times;</span>#}
+    {#</button>#}
+    {#<i class="material-icons align-middle">layers</i> {{ 'Базові шари'|trans }}#}
+    {#</div>#}
+    {#<ul class="list-group list-group-flush">#}
+    {#<li id="viewMap" class="list-group-item active" data-val="pub">#}
+    {#<span>{{ 'Оглядова карта України'|trans|raw }}</span></li>#}
+    {#<li id='orto10000base' class="list-group-item" data-val="kiev2006">#}
+    {#<span>{{ 'Ортофотоплани'|trans|raw }}, 2006</span></li>#}
+    {#<li id='tileLayer' class="list-group-item" data-val="tileLayer">#}
+    {#<span>{{ 'Супутниковий знімок'|trans|raw }}</span></li>#}
+    {#<li id='topoUA' class="list-group-item" data-val="topoUA">#}
+    {#<span>{{ 'Топографічна карта України'|trans }}</span></li>#}
+    {#<li id='osmBase' class="list-group-item" data-val="osm"><span>Open Street Map</span></li>#}
+    {#<li id='osmCycle' class="list-group-item" data-val="OpenCycleMap">#}
+    {#<span>Open Street Cycle Map</span></li>#}
+    {#<li id='googleSatelit' class="list-group-item" data-val="google"><span>Google Map</span>#}
+    {#</li>#}
+    {#<li id='googleHybrid' class="list-group-item" data-val="googlehybrid"><span>Google Hybrid</span>#}
+    {#</li>#}
+    {#<li id='emptyLayerR' class="list-group-item" data-val="emptyRelief">#}
+    {#<span>{{ 'Порожній шар (рельєф)'|trans }}</span></li>#}
+    {#<li id='emptyLayer' class="list-group-item" data-val="emptyLayer">#}
+    {#<span>{{ 'Порожній шар'|trans }}</span></li>#}
+    {#</ul>#}
+
+    {#</div>#}
+    {#</nav>#}
+    {#</div>#}
+    {#</div>#}
 
 {% endblock %}
 

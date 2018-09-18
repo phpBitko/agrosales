@@ -4,6 +4,169 @@
   height: calc(100% - 62px);
   width: 100%;
   position: fixed;
-  top:62px;
+  top: 62px;
 }
 
+.choose-layer {
+  width: 200px;
+  position: fixed;
+  padding: 1px 0px;
+  background-color: #ffffff;
+  top: 70px;
+  right: -351px;
+  z-index: 10;
+  font-size: 16px;
+  transition: .2s ease-out;
+  -webkit-transition: .2s ease-out;
+}
+.choose-layer-move {
+  right: 51px;
+}
+.choose-head {
+  width: 198px;
+  height: 35px;
+  background-color: #014656;
+  color: #f9f7f6;
+  padding: 3px 0 0 5px;
+}
+
+.choose-head img {
+  padding-right: 5px;
+}
+.choose-head button {
+  padding-right: 10px;
+  font-size: 21px;
+
+}
+
+.choose-layer-group {
+  margin: 0;
+  padding: 0;
+  padding-top: 1px;
+  width: 200px;
+}
+
+.choose-layer .active {
+  background-color: #dffff9;
+  border-bottom: 1px solid #00a2ad;
+}
+
+.choose-layer-item {
+  display: block;
+  width: 200px;
+  background-color: #f9f7f6;
+  border-bottom: 1px solid #d8d7d7;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  padding: 6px 15px;
+}
+
+.choose-layer-item:last-child {
+  border-bottom: none;
+}
+
+.choose-layer-item:hover {
+  cursor: pointer;
+}
+
+.choose-layer .active {
+  background-color: #dffff9;
+  border: 1px solid #00a2ad;
+  width: 200px;
+}
+
+//------------------------------------------------------zoom panel
+.zoom-layer {
+  width: 39px;
+  position: fixed;
+  padding: 1px 1px;
+  background-color: #ffffff;
+  top: 320px;
+  right: 10px;
+  z-index: 10;
+
+}
+
+.zoom-layer-border {
+  border: 1px solid #00a2ad;
+
+}
+
+.my-zoom-in {
+  width: 35px;
+  height: 35px;
+  background: #f2efe9 url("../../../src/AppBundle/Resources/public/img/plus.png") no-repeat center;
+  border: none;
+  border-bottom: 1px solid #d8d7d7;
+}
+
+.my-zoom-full {
+  width: 35px;
+  height: 35px;
+  background: #f2efe9 url("../../../src/AppBundle/Resources/public/img/web.png") no-repeat center;
+  border: none;
+  border-bottom: 1px solid #d8d7d7;
+}
+
+.my-zoom-out {
+  width: 35px;
+  height: 35px;
+  background: #f2efe9 url("../../../src/AppBundle/Resources/public/img/minus.png") no-repeat center;
+  border: none;
+}
+
+.my-zoom-in:hover, .my-zoom-full:hover, .my-zoom-out:hover {
+  background-color: #dffff9;
+  cursor: pointer;
+
+}
+
+//---------------------------------------------------------control panel
+
+.control-panel {
+  width: 39px;
+  position: fixed;
+  padding: 1px 1px;
+  background-color: #ffffff;
+  top: 70px;
+  right: 10px;
+  z-index: 10;
+
+}
+.control-panel .active {
+  background-color: #dffff9;
+
+}
+
+.cp-layer, .cp-ruler, .cp-filter, .cp-print, .cp-placeholder {
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-bottom: 1px solid #d8d7d7;
+}
+
+.cp-layer:hover, .cp-ruler:hover, .cp-filter:hover, .cp-print:hover, .cp-placeholder:hover {
+  background-color: #dffff9;
+  cursor: pointer;
+
+}
+
+.cp-layer {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/layers_2.png") no-repeat center;
+}
+
+.cp-ruler {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/ruler.png") no-repeat center;
+}
+
+.cp-filter {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/filter-outline.png") no-repeat center;
+}
+
+.cp-print {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/printer.png") no-repeat center;
+}
+
+.cp-placeholder {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/placeholder.png") no-repeat center;
+}
