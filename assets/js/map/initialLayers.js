@@ -20,9 +20,10 @@ $(function () {
         code: 'EPSG:4326',
         units: 'm'
     });
-    // var projection900913 = new ol.proj.Projection({
-    //     code: 'EPSG:900913',
-    // });
+    var projection900913 = new Projection({
+         code: 'EPSG:900913',
+         units: 'm'
+    });
     var raster = new TileLayer({
         source: new BingMaps({
             imagerySet: 'Aerial',
@@ -43,19 +44,17 @@ $(function () {
     });
     var kiev2006LayerSource = new XYZ({
         url: 'http://map.land.gov.ua/map/ortho10k_all/{z}/{x}/{-y}.jpg',
-        crossOrigin: 'null'
-
     });
 
     var kiev2006Layer = new TileLayer({
         source: kiev2006LayerSource,
         name: 'kiev2006',
-        visible: true,
+        visible: 0,
         isBaseLayer: true,
     });
 
     var kievPublichkaSource = new TileWMS({
-        url: 'http://map.land.gov.ua/geowebcache3/service/wms',
+        url: 'http://map.land.gov.ua/geowebcache/service/wms',
         params: {
             'LAYERS': 'kadastr',
             'ALIAS': 'Кадастровий поділ',
@@ -65,26 +64,26 @@ $(function () {
             'FORMAT': 'image/png',
             'WIDTH': 256,
             'HEIGHT': 256,
-            'CRS': 'EPSG:900913',
             serverType: 'geoserver',
-            projection: projection4326,
+            projection: projection900913,
         }
 
     });
 
     // Земельні ділянки
     var kievPublichka = new TileLayer({
-        sourse: kievPublichkaSource,
+        source: kievPublichkaSource,
         name: 'parcelSidebar',
-        visible: true
+        visible: 0
     });
 
 //------------------------------- створення об'єкта Map
     var map = new Map({
         target: 'map',
         layers: [
+            kiev2006Layer,
+            osmLayer,
             kievPublichka,
-            osmLayer
         ],
         view: new View({
             center: centerUkraine,
