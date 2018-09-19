@@ -37,8 +37,10 @@
         "white-october/pagerfanta-bundle": "^1.2"
     },
     "require-dev": {
+        "sebastian/phpcpd": "^4.1",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "phpmd/phpmd" : "@stable"
     },
     "scripts": {
         "symfony-scripts": [
