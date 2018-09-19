@@ -14,8 +14,8 @@ import {defaults as defaultControls} from 'ol/control.js';
 $(function () {
 
     var projection900913 = new Projection({
-         code: 'EPSG:900913',
-         units: 'm'
+        code: 'EPSG:900913',
+        units: 'm'
     });
 
     var centerUkraine = fromLonLat([31.182233, 48.382778]);
@@ -29,6 +29,7 @@ $(function () {
         name: 'bing'
 
     });
+
 
     //
     var osmLayer = new TileLayer({
@@ -58,16 +59,17 @@ $(function () {
             'FORMAT': 'image/png',
             'WIDTH': 256,
             'HEIGHT': 256,
+            'CRS': 'EPSG:900913',
             serverType: 'geoserver',
             projection: projection900913,
-        }
+        },
 
     });
 
     // Земельні ділянки
     var kievPublichka = new TileLayer({
         source: kievPublichkaSource,
-        name: 'parcelSidebar',
+        name: 'pub',
         visible: 0
     });
 
@@ -75,9 +77,10 @@ $(function () {
     var map = new Map({
         target: 'map',
         layers: [
-            kiev2006Layer,
             osmLayer,
-            kievPublichka,
+            raster,
+            kiev2006Layer,
+            kievPublichka
         ],
         view: new View({
             center: centerUkraine,
@@ -114,6 +117,7 @@ $(function () {
             //alert(l.get('name'))
 
             if (($.inArray(l.get('name'), artbaz)) > -1) {
+
                 if (l.get('name') !== selected) {
                     l.setVisible(false);
                 } else {
@@ -132,9 +136,18 @@ $(function () {
     $('.zoom-button').on('click', function () {
         var view = map.getView();
         var zoom = view.getZoom();
-        var zoomChange = ($(this).attr('id') == 'zoom-in')?+1:-1;
+        var zoomChange = ($(this).attr('id') == 'zoom-in') ? +1 : -1;
         view.animate({
             zoom: zoom + zoomChange,
+            duration: 200
+        })
+    });
+
+    $('#zoom-full').on('click', function () {
+        var view = map.getView();
+        view.animate({
+            center: centerUkraine,
+            zoom: 7,
             duration: 200
         })
     });
@@ -142,17 +155,27 @@ $(function () {
     $('#control-panel-layer').on('click', function () {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
-            $('.choose-layer').removeClass('choose-layer-move');
+            $('.choose-layer').removeClass('choose-layer-move-in');
+            $('.choose-layer').addClass('choose-layer-move-out');
+
         } else {
             $(this).addClass('active');
-            $('.choose-layer').addClass('choose-layer-move');
+            $('.choose-layer').addClass('choose-layer-move-in');
+            $('.choose-layer').removeClass('choose-layer-move-out');
         }
+
     });
 
     $('.choose-head .close').on('click', function () {
-        $('.choose-layer').removeClass('choose-layer-move');
+        $('.choose-layer').removeClass('choose-layer-move-in');
+        $('.choose-layer').addClass('choose-layer-move-out');
+
         $('#control-panel-layer').removeClass('active');
+
     });
 
+    $('[data-toggle="tooltip"]').tooltip({
+        delay: {show: 700, hide: 100},
+    });
 
 });

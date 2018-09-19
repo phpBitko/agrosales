@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Advertisement;
 //use Doctrine\DBAL\Types\TextType;
+use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -135,6 +136,20 @@ class AdvertisementType extends AbstractType
                 'required' => false
 
             ])
+            ->add('coordB', TextType::class, [
+                'label' => 'Широта',
+                'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'font-weight-bold '],
+                'required' => false
+            ])
+            ->add('coordL', TextType::class, [
+                'label' => 'Довгота',
+                'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'font-weight-bold '],
+                'required' => false
+            ])
+
+
 //            ->add('photos', FileType::class, [
 //                'label' => 'Виберіть фото',
 //                'attr' => [

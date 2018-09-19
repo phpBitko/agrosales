@@ -1,5 +1,18 @@
 @import '../generalSettings';
 
+//-------------------------------------------- change standart properties tooltips
+.tooltip-inner {
+  background-color: #ffffff;
+  border: 1px solid #014656;
+  color: #014656;
+  border-radius: 0.15rem;
+}
+
+.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
+  border-left-color: #00a2ad;
+}
+
+//--------------------------------------------------- Layers panel
 .map {
   height: calc(100% - 62px);
   width: 100%;
@@ -16,12 +29,62 @@
   right: -351px;
   z-index: 10;
   font-size: 16px;
-  transition: .2s ease-out;
-  -webkit-transition: .2s ease-out;
+
+  //transition: .2s ease-out;
+  //-webkit-transition: .2s ease-out;
 }
-.choose-layer-move {
+
+.choose-layer-move-in {
+  animation-name: example-in;
+  animation-duration: .4s;
   right: 51px;
 }
+
+.choose-layer-move-out {
+  right: -351px;
+  animation-name: example-out;
+  animation-duration: .4s;
+
+}
+
+@keyframes example-in {
+  0% {
+    right: -351px;
+    opacity: 0
+  }
+  25% {
+    right: -200px;
+    opacity: 0
+  }
+  50% {
+    right: 0px;
+    opacity: 0
+  }
+  100% {
+    right: 51px;
+    opacity: 1
+  }
+}
+
+@keyframes example-out {
+  0% {
+    right: 51px;
+    opacity: 1
+  }
+  50% {
+    right: 0px;
+    opacity: 0
+  }
+  75% {
+    right: -100px;
+    opacity: 0
+  }
+  100% {
+    right: -351px;
+    opacity: 0
+  }
+}
+
 .choose-head {
   width: 198px;
   height: 35px;
@@ -33,6 +96,7 @@
 .choose-head img {
   padding-right: 5px;
 }
+
 .choose-head button {
   padding-right: 10px;
   font-size: 21px;
@@ -92,6 +156,11 @@
 
 }
 
+.zoom-layer button {
+  transition: .4s ease;
+  -webkit-transition: .4s ease;
+}
+
 .my-zoom-in {
   width: 35px;
   height: 35px;
@@ -118,7 +187,10 @@
 .my-zoom-in:hover, .my-zoom-full:hover, .my-zoom-out:hover {
   background-color: #dffff9;
   cursor: pointer;
+}
 
+.my-zoom-in:focus, .my-zoom-full:focus, .my-zoom-out:focus, .close:focus {
+  outline: none;
 }
 
 //---------------------------------------------------------control panel
@@ -131,8 +203,13 @@
   top: 70px;
   right: 10px;
   z-index: 10;
-
 }
+
+.control-panel button {
+  transition: .4s ease;
+  -webkit-transition: .4s ease;
+}
+
 .control-panel .active {
   background-color: #dffff9;
 
@@ -148,6 +225,11 @@
 .cp-layer:hover, .cp-ruler:hover, .cp-filter:hover, .cp-print:hover, .cp-placeholder:hover {
   background-color: #dffff9;
   cursor: pointer;
+
+}
+
+.cp-layer:focus, .cp-ruler:focus, .cp-filter:focus, .cp-print:focus, .cp-placeholder:focus {
+  outline: none;
 
 }
 

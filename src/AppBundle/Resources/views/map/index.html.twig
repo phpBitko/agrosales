@@ -32,8 +32,8 @@
                 <span>{{ 'Open Street map'|trans|raw }}</span></li>
             <li id="orto10000base" class=" choose-layer-item" data-val="kiev2006">
                 <span>{{ 'Космічний знімок'|trans|raw }}</span></li>
-            <li id="viewMap" class=" choose-layer-item" data-val="pub">
-                <span>{{ 'Google map'|trans|raw }}</span></li>
+            <li id="pubMap" class=" choose-layer-item" data-val="pub">
+                <span>{{ 'Публічна карта'|trans|raw }}</span></li>
             <li id="bingMap" class=" choose-layer-item" data-val="bing">
                 <span>{{ 'Bing map'|trans|raw }}</span></li>
         </ul>
@@ -41,18 +41,18 @@
     </div>
     <div class="zoom-layer">
         <div class="zoom-layer-border d-flex flex-column align-items-center">
-            <button id="zoom-in" class="zoom-button my-zoom-in" type="button" title="Збільшити"></button>
-            <button id="zoom-full" class="my-zoom-full" type="button" title="Збільшити"></button>
-            <button id="zoom-out" class="zoom-button my-zoom-out" type="button" title="Зменшити"></button>
+            <button id="zoom-in" class="zoom-button my-zoom-in" type="button" data-toggle="tooltip" data-placement="left" title="Збільшити"></button>
+            <button id="zoom-full" class="my-zoom-full" type="button" data-toggle="tooltip" data-placement="left" title="Загальний вигляд"></button>
+            <button id="zoom-out" class=" zoom-button my-zoom-out" type="button" data-toggle="tooltip" data-placement="left" title="Зменшити"></button>
         </div>
     </div>
     <div class="control-panel">
         <div class="zoom-layer-border d-flex flex-column align-items-center">
-            <button id="control-panel-layer" class="cp-layer" type="button" title="Шари"></button>
-            <button id="control-panel-ruler" class="cp-ruler" type="button" title="Лінійка"></button>
-            <button id="control-panel-filter" class="cp-filter" type="button" title="Фільтр"></button>
-            <button id="control-panel-print" class="cp-print" type="button" title="Друк"></button>
-            <button id="control-panel-placeholder" class="cp-placeholder" type="button"
+            <button id="control-panel-layer" class="cp-layer" type="button" data-placement="left" data-toggle="tooltip" title="Шари"></button>
+            <button id="control-panel-ruler" class="cp-ruler" type="button" data-placement="left" data-toggle="tooltip" title="Лінійка"></button>
+            <button id="control-panel-filter" class="cp-filter" type="button" data-placement="left" data-toggle="tooltip" title="Фільтр"></button>
+            <button id="control-panel-print" class="cp-print" type="button" data-placement="left" data-toggle="tooltip" title="Друк"></button>
+            <button id="control-panel-placeholder" class="cp-placeholder" type="button" data-toggle="tooltip" data-placement="left"
                     title="Місце положення"></button>
         </div>
     </div>
