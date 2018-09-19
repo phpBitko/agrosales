@@ -12,18 +12,14 @@ import {defaults as defaultControls} from 'ol/control.js';
 
 
 $(function () {
-    // var projection4326 = new ol.proj.Projection({
-    //     code: 'EPSG:4326',
-    //     units: 'm'
-    // });
-    var projection4326 = new Projection({
-        code: 'EPSG:4326',
-        units: 'm'
-    });
+
     var projection900913 = new Projection({
          code: 'EPSG:900913',
          units: 'm'
     });
+
+    var centerUkraine = fromLonLat([31.182233, 48.382778]);
+
     var raster = new TileLayer({
         source: new BingMaps({
             imagerySet: 'Aerial',
@@ -34,14 +30,12 @@ $(function () {
 
     });
 
-
-    var centerUkraine = fromLonLat([31.182233, 48.382778]);
-
     //
     var osmLayer = new TileLayer({
         source: new OSM(),
         name: 'osm'
     });
+
     var kiev2006LayerSource = new XYZ({
         url: 'http://map.land.gov.ua/map/ortho10k_all/{z}/{x}/{-y}.jpg',
     });
@@ -120,7 +114,6 @@ $(function () {
             //alert(l.get('name'))
 
             if (($.inArray(l.get('name'), artbaz)) > -1) {
-
                 if (l.get('name') !== selected) {
                     l.setVisible(false);
                 } else {
@@ -136,46 +129,29 @@ $(function () {
     });
 
     //----------------------------------------- alternative zoom
-    $('#zoom-in').on('click', function () {
+    $('.zoom-button').on('click', function () {
         var view = map.getView();
         var zoom = view.getZoom();
+        var zoomChange = ($(this).attr('id') == 'zoom-in')?+1:-1;
         view.animate({
-            zoom: zoom + 1,
+            zoom: zoom + zoomChange,
             duration: 200
         })
     });
-    $('#zoom-full').on('click', function () {
-        var view = map.getView();
-        var zoom = view.getZoom();
-        view.animate({
-            center: centerUkraine,
-            zoom: 7,
-            duration: 200
-        })
-    });
-    $('#zoom-out').on('click', function () {
-        var view = map.getView();
-        var zoom = view.getZoom();
-        view.animate({
-            zoom: zoom - 1,
-            duration: 200
-        })
-    });
+
     $('#control-panel-layer').on('click', function () {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
             $('.choose-layer').removeClass('choose-layer-move');
-
         } else {
             $(this).addClass('active');
             $('.choose-layer').addClass('choose-layer-move');
         }
-
     });
+
     $('.choose-head .close').on('click', function () {
         $('.choose-layer').removeClass('choose-layer-move');
         $('#control-panel-layer').removeClass('active');
-
     });
 
 
