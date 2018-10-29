@@ -28,20 +28,20 @@ class AdvertisementController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));
     }
+
     /**
      * @Route("/getAllAdvertisement", name="get_all_advertisement", options={"expose"=true}, methods={"POST"})
-     *
      *
      */
     public function getAllAdvertisementAction()
     {
-        $response = new JsonResponse();
-        $em = $this->getDoctrine()->getManager();
-        $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->selectPoint();
-        //$advertisementPoints = $em->getRepository('AppBundle:Advertisement')->findByNotNull('geom', 0);
-        $response->setData(array('success' => true, 'data' => $advertisementPoints));
-
-        return $response;
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->selectPoint();
+            return $this->json(array('data' => $advertisementPoints), Response::HTTP_OK);
+        }catch (\Exception $exception){
+            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 
