@@ -502,8 +502,8 @@ $(function () {
     var stylesPoints = new Style({
         image: new CircleStyle({
             radius: 5,
-            fill: new Fill({color: '#666666'}),
-            stroke: new Stroke({color: '#bada55', width: 1})
+            fill: new Fill({color: '#bada55'}),
+            stroke: new Stroke({color: '#0000F0', width: 1})
         })
     });
 //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
