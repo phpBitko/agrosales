@@ -29,3 +29,7 @@ $fa-font-path: "~font-awesome/fonts";
 .navbar-toggler-icon{
   color: #0000F0;
 }
+
+.modal-header{
+  flex-direction: row-reverse;
+}
