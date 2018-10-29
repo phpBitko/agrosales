@@ -12,6 +12,9 @@
     <script src="{{ asset('build/vendor.js') }}"></script>
     <script src="{{ asset('build/map.js') }}"></script>
 
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
 {% endblock %}
 
 {% block body %}
@@ -50,12 +53,15 @@
         <div class="zoom-layer-border d-flex flex-column align-items-center">
             <button id="control-panel-layer" class="cp-layer" type="button" data-placement="left" data-toggle="tooltip" title="Шари"></button>
             <button id="control-panel-ruler" class="cp-ruler" type="button" data-placement="left" data-toggle="tooltip" title="Лінійка"></button>
+            <button id="control-panel-area" class="cp-area" type="button" data-placement="left" data-toggle="tooltip" title="Площа"></button>
             <button id="control-panel-filter" class="cp-filter" type="button" data-placement="left" data-toggle="tooltip" title="Фільтр"></button>
             <button id="control-panel-print" class="cp-print" type="button" data-placement="left" data-toggle="tooltip" title="Друк"></button>
             <button id="control-panel-placeholder" class="cp-placeholder" type="button" data-toggle="tooltip" data-placement="left"
                     title="Місце положення"></button>
         </div>
     </div>
+    <div class="mouse-position-panel" id="mouse-position"></div>
+
 
     {#<div class=" choose_layer  mdl-shadow--4dp mdl-color--blue-grey-900 mdl-color-text--blue-grey-50 is-visible"#}
     {#aria-hidden="false">#}

@@ -7,6 +7,8 @@ use AppBundle\Entity\Advertisement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class AdvertisementController extends Controller
@@ -26,4 +28,22 @@ class AdvertisementController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));
     }
+    /**
+     * @Route("/getAllAdvertisement", name="get_all_advertisement", options={"expose"=true}, methods={"POST"})
+     *
+     *
+     */
+    public function getAllAdvertisementAction()
+    {
+        $response = new JsonResponse();
+        $em = $this->getDoctrine()->getManager();
+        $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->selectPoint();
+        //$advertisementPoints = $em->getRepository('AppBundle:Advertisement')->findByNotNull('geom', 0);
+        $response->setData(array('success' => true, 'data' => $advertisementPoints));
+
+        return $response;
+    }
+
+
+
 }

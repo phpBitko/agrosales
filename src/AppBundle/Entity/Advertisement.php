@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 //Використовуєтся для бандла FileUploader
 use Symfony\Component\HttpFoundation\File\File;
+use Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText;
 
 
 /**
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\File\File;
  * @ORM\Table(name="advertisement")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AdvertisementRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Advertisement
 {
@@ -725,6 +727,13 @@ class Advertisement
     public function getIdUser()
     {
         return $this->idUser;
+    }
+    /**
+     *  @ORM\PreFlush
+     */
+    public function doStuffOnPostPersist()
+    {
+        $this->setGeom('point('.$this->getCoordB() . ' ' . $this->getCoordL().')');
     }
 
     /**

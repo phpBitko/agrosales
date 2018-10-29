@@ -52,6 +52,8 @@ class CabinetController extends Controller
             $files = $advertisement->getPhotos();
 
             $advertisement->setPhotos(new ArrayCollection());
+
+            //$advertisement->setGeom('point('.$advertisement->getCoordB() . ' ' . $advertisement->getCoordL().')');
             $em->persist($advertisement);
             foreach ($files as $file) {
 

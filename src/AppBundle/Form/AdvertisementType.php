@@ -136,13 +136,13 @@ class AdvertisementType extends AbstractType
                 'required' => false
 
             ])
-            ->add('coordB', TextType::class, [
+            ->add('coordB', NumberType::class, [
                 'label' => 'Широта',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold '],
                 'required' => false
             ])
-            ->add('coordL', TextType::class, [
+            ->add('coordL', NumberType::class, [
                 'label' => 'Довгота',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold '],

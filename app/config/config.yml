@@ -70,6 +70,17 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            string_functions:
+                ST_AsText: Jsor\Doctrine\PostGIS\Functions\ST_AsText
+                ST_Intersect: Jsor\Doctrine\PostGIS\Functions\ST_Intersects
+                ST_Area: Jsor\Doctrine\PostGIS\Functions\ST_Area
+                ST_AsEWKT: Jsor\Doctrine\PostGIS\Functions\ST_AsEWKT
+                ST_GeometryFromText: Jsor\Doctrine\PostGIS\Functions\ST_GeometryFromText
+                ST_GeomFromText: Jsor\Doctrine\PostGIS\Functions\ST_GeomFromText
+                ST_GeomFromEWKT: Jsor\Doctrine\PostGIS\Functions\ST_GeomFromEWKT
+                ST_XMax: Jsor\Doctrine\PostGIS\Functions\ST_XMax
+                ST_YMax: Jsor\Doctrine\PostGIS\Functions\ST_YMax
 
 # Swiftmailer Configuration
 swiftmailer:
