@@ -24,6 +24,7 @@ import {defaults as defaultControls} from 'ol/control.js';
 import {createStringXY} from 'ol/coordinate.js';
 import Feature from 'ol/Feature.js';
 import WKT from 'ol/format/WKT.js';
+import Icon from 'ol/style/Icon';
 
 $(function () {
 
@@ -506,10 +507,20 @@ $(function () {
             stroke: new Stroke({color: '#0000F0', width: 1})
         })
     });
+
+
+    var svg = $('#icon_advertisement');
+    var styleAdvert = new  Style({
+        image: new Icon({
+            src: 'data:image/svg+xml;utf8,' + svg[0].outerHTML ,
+            //imgSize: [30,30]
+            // anchorXUnits: 2000
+        })
+    });
+    
 //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
         $.each(data.data, function (i, value) {
-
             features = format.readFeature(value.geom, {
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
@@ -529,7 +540,7 @@ $(function () {
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('body').preloader('remove');
+                console.log(jqXHR.responseJSON);
                 $('html, body').css("cursor", "auto");
                 if (jqXHR.responseJSON) {
                     bootbox.alert({
@@ -551,7 +562,7 @@ $(function () {
 
     var vectorPoints = new VectorLayer({
         source: vectorSourcePoints,
-        style: stylesPoints
+        style: styleAdvert
     });
     map.addLayer(vectorPoints);
 
