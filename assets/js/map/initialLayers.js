@@ -27,7 +27,7 @@ import WKT from 'ol/format/WKT.js';
 import Icon from 'ol/style/Icon';
 
 $(function () {
-
+    $('body').preloader();
 
     var projection900913 = new Projection({
         code: 'EPSG:900913',
@@ -512,12 +512,10 @@ $(function () {
     var svg = $('#icon_advertisement');
     var styleAdvert = new  Style({
         image: new Icon({
-            src: 'data:image/svg+xml;utf8,' + svg[0].outerHTML ,
-            //imgSize: [30,30]
-            // anchorXUnits: 2000
+            src: 'data:image/svg+xml;utf8,' + svg[0].outerHTML,
         })
     });
-    
+
 //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
         $.each(data.data, function (i, value) {
@@ -535,12 +533,12 @@ $(function () {
             url: Routing.generate('get_all_advertisement'),
             dataType: 'json',
             method: 'POST',
-            async: true,
             success: function (data) {
+                $('body').preloader('remove');
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.responseJSON);
+                $('body').preloader('remove');
                 $('html, body').css("cursor", "auto");
                 if (jqXHR.responseJSON) {
                     bootbox.alert({
