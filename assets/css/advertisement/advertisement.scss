@@ -1,7 +1,7 @@
 @import '../generalSettings';
 
 .ogoloshenny {
-  border: solid 1px #5eb5e0;
+//  border: solid 1px #5eb5e0;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -14,11 +14,11 @@
 }
 .poster-setting {
   width: 300px;
-  border: solid 1px #5eb5e0;
+  //border: solid 1px #5eb5e0;
 }
 .btn-input {
   font-size: 1.5rem;
-  vertical-align: -19%
+  //vertical-align: bottom;
 }
 .color--white {
   color: #c8e8f7;

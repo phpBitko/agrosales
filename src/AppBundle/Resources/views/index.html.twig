@@ -26,26 +26,32 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item
-                            {% if app.request.attributes.get("_route") == 'advertisement_index' %}
+
+                        ">
+                            <a class="nav-link main-menu
+{% if app.request.attributes.get("_route") == 'advertisement_index' %}
                                 active
                             {% endif %}
-                        ">
-                            <a class="nav-link main-menu" href="{{ path('advertisement_index') }}">Оголошення<span
+" href="{{ path('advertisement_index') }}">Оголошення<span
                                         class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item
-                             {% if app.request.attributes.get("_route") == 'map_index' %}
+
+                        ">
+                            <a class="nav-link main-menu
+ {% if app.request.attributes.get("_route") == 'map_index' %}
                                  active
                              {% endif %}
-                        ">
-                            <a class="nav-link main-menu" href="{{ path('map_index') }}">Карта</a>
+" href="{{ path('map_index') }}">Карта</a>
                         </li>
                         <li class="nav-item
-                            {% if app.request.attributes.get("_route") == 'cabinet_index' %}
+
+                    ">
+                            <a class="nav-link main-menu
+ {% if app.request.attributes.get("_route") == 'cabinet_index' %}
                                  active
                              {% endif %}
-                    ">
-                            <a class="nav-link main-menu" href="{{ path('cabinet_index') }}">Кабінет</a>
+" href="{{ path('cabinet_index') }}">Кабінет</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu" href="#">Контакти</a>
@@ -62,12 +68,30 @@
                             </div>
                         </li>-->
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <a class="nav-link main-menu" href="{{ path('fos_user_security_login') }}"><span
-                                        class="btn-input fas fa-sign-in-alt pr-2"></span>Увійти</a>
-                        </li>
-                    </ul>
+
+
+                    {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <ul class="nav nav-tabs order-lg-first border-0">
+                            <li class="nav-item d-flex">
+                                <a href="{{ path('fos_user_security_logout') }}" class="nav-link
+                        "><i class="fa fa-sign-out-alt"></i>
+                                    Вийти</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item
+
+                                ">
+                                <a class="nav-link main-menu
+ {% if app.request.attributes.get("_route") == 'fos_user_security_login' %}
+                                        active
+                                    {% endif %}
+" href="{{ path('fos_user_security_login') }}">
+                                    <span class="btn-input fas fa-sign-in-alt pr-2"></span>Увійти</a>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
 

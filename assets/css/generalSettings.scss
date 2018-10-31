@@ -55,14 +55,15 @@ $base-color: #17928c;
     &:hover{
       background-color: lighten($base-color, 5%);
     }
-    &.active{
+    a.active{
       border-bottom: 4px solid #e08113;
     }
   }
-  .navbar-right{
-    a{
-      padding: 1rem;
-    }
+  .navbar-nav{
+    height: 60px;
+  }
+  .btn-input{
+    vertical-align: bottom;
   }
 }
 
@@ -90,6 +91,14 @@ $base-color: #17928c;
     }
   }
 }
+html,
 body{
   height: 100% !important;
+}
+.agrosales{
+  min-height: 100%;
+}
+
+.btn-input {
+  font-size: 1.5rem;
 }
