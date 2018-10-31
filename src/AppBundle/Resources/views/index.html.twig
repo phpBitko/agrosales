@@ -1,5 +1,6 @@
 {% extends '::base.html.twig' %}
 {% block stylesheets %}
+    {{ parent() }}
 {% endblock %}
 
 {% block javascripts %}
@@ -8,60 +9,117 @@
 
 
 {% block header %}
-    <nav id = 'navbar_head' class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand logo-link" href="#">
-                <img class="logo" src=" {{ asset('bundles/app/img/logo.png') }}">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="header">
+        <nav id='navbar_head' class="navbar navbar-expand-lg shadow">
+            <div class="container">
+                <a class="navbar-brand logo-link " href="#">
+                    <img class="logo" src=" {{ asset('bundles/app/img/logo.png') }}">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon color--white">
                     <i class="fas fa-align-justify"></i>
                 </span>
 
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="color-white nav-item active">
-                        <a class="nav-link main-menu" href="{{ path('advertisement_index') }}">Оголошення<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link main-menu" href="{{ path('map_index') }}">Карта</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link main-menu" href="{{ path('cabinet_index') }}">Кабінет</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link main-menu" href="#">Контакти</a>
-                    </li>
-                    <!--<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle main-menu" href="#" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Випадаючий список
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>-->
-                </ul>
-                <div>
-                    <a class="main-menu" href="{{ path('fos_user_security_login') }}"><span class="btn-input fas fa-sign-in-alt pr-2"></span>Увійти</a>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item
+                            {% if app.request.attributes.get("_route") == 'advertisement_index' %}
+                                active
+                            {% endif %}
+                        ">
+                            <a class="nav-link main-menu" href="{{ path('advertisement_index') }}">Оголошення<span
+                                        class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item
+                             {% if app.request.attributes.get("_route") == 'map_index' %}
+                                 active
+                             {% endif %}
+                        ">
+                            <a class="nav-link main-menu" href="{{ path('map_index') }}">Карта</a>
+                        </li>
+                        <li class="nav-item
+                            {% if app.request.attributes.get("_route") == 'cabinet_index' %}
+                                 active
+                             {% endif %}
+                    ">
+                            <a class="nav-link main-menu" href="{{ path('cabinet_index') }}">Кабінет</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link main-menu" href="#">Контакти</a>
+                        </li>
+                        <!--<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle main-menu" href="#" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Випадаючий список
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>-->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a class="nav-link main-menu" href="{{ path('fos_user_security_login') }}"><span
+                                        class="btn-input fas fa-sign-in-alt pr-2"></span>Увійти</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-    </nav>
+        </nav>
+    </div>
 
 {% endblock %}
 
 {% block footer %}
+    <footer class="footer ">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-2 col-md-4">
+                    © 2018. Всі права захищено.
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="footer-title-block">Розділи</div>
+                    <nav>
+                        <ul class="list-unstyled">
 
-    <div>
-        <div class="copyright_content">
-            <p>&copy; 2018 All Rights Reserved by 3B</p>
+                            <li class="list-unstyled">
+                                <a href="{{ path('advertisement_index') }}">{{ 'Головна' }}</a>
+                            </li>
+                            <li class="">
+                                <a href="{{ path('map_index') }}">{{ 'На карту' }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('cabinet_index') }}">{{ 'Кабінет' }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">{{ 'Контакти' }}</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="footer-title-block">Обліковий запис</div>
+                    <nav>
+                        <ul class="list-unstyled">
+
+                            <li class="list-unstyled">
+                                {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Вийти' }}</a>
+                                {% else %}
+                                    <a href="{{ path('fos_user_security_login') }}">{{ 'Увійти' }}</a>
+                                {% endif %}
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class=""></div>
+    </footer>
 {% endblock %}

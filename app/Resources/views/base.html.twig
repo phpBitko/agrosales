@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
     <meta charset="UTF-8"/>
 
     <title>{% block title %}Welcome!{% endblock %}</title>
 
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+    {% endblock %}
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
@@ -16,9 +17,10 @@
         {% block header %}
         {% endblock %}
 
-        {% block body %}
-        {% endblock %}
-
+        <div class="body_content flex-grow-1">
+            {% block body %}
+            {% endblock %}
+        </div>
         {% block footer %}
         {% endblock %}
 

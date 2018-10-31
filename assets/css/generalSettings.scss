@@ -4,6 +4,8 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
 
+$base-color: #17928c;
+
 .agrosales {
 
 }
@@ -11,18 +13,16 @@ $fa-font-path: "~font-awesome/fonts";
   color: #0000F0;
 }
 .navbar {
-  background-color: #17928c;
+  background-color: $base-color;
 }
 .logo-link {
-  width: 100px;
+  width: 110px;
 }
 
 .logo {
-  width: 71%;
+  width: 100%;
 }
-.main-menu {
-  color: #c8e8f7;
-}
+
 .main-menu:hover {
   color: #edf8fd;
 }
@@ -32,4 +32,64 @@ $fa-font-path: "~font-awesome/fonts";
 
 .modal-header{
   flex-direction: row-reverse;
+}
+.navbar-brand {
+  //padding: 0;
+  border-right: 1px solid #76abab;
+
+  margin-right: 0;
+  &:focus{
+    border: 1px solid $base-color  !important;
+  }
+  padding: 0.6rem  1rem  0.6rem   0.6rem;
+  //padding-right: 1rem;
+}
+
+#navbarSupportedContent{
+  .main-menu{
+    padding: 1rem  1rem 0.9rem 1rem;
+    color: white;
+    font-size: 1.1rem;
+  }
+  .nav-item{
+    &:hover{
+      background-color: lighten($base-color, 5%);
+    }
+    &.active{
+      border-bottom: 4px solid #e08113;
+    }
+  }
+  .navbar-right{
+    a{
+      padding: 1rem;
+    }
+  }
+}
+
+.navbar{
+  padding: 0;
+}
+
+.footer {
+  background: #fff;
+  border-top: 1px solid rgba(0,40,100,.12);
+  font-size: .875rem;
+  padding: 1.25rem 0;
+  color: #9aa0ac;
+  .footer-title-block {
+    font-size: 16px;
+    border-bottom: 1px solid #a5a5a5;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+  }
+  a {
+    color: #9aa0ac;
+    font-weight: 400!important;
+    &:hover{
+      color: #5b5e65;
+    }
+  }
+}
+body{
+  height: 100% !important;
 }
