@@ -11,40 +11,48 @@
 {% endblock %}
 
 {% block fos_user_content %}
-
-
-    <div class="container">
-        <div class="row">
-
-            <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal col-sm-8">
-                {% if csrf_token %}
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-                {% endif %}
-                <fieldset class="mt-2">
-                    <div class="form-group form-inline">
-                        <label for="username" class="col-sm-2 control-label">{{ 'Логін'|trans }}</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }} "
-                               class="form-control"/>
+    <div class="body_content">
+        <div class="container ">
+            <div class="row">
+                <div class="width_100 d-flex justify-content-center">
+                    <div class="well card ">
+                        <form action="{{ path("fos_user_security_check") }}" method="post">
+                            {% if csrf_token %}
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                            {% endif %}
+                            <fieldset>
+                                <legend><i class="fa fa-lock"></i> {{ 'Авторизуватись'|trans }}</legend>
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+                                <div class="form-group">
+                                    <label for="username">{{ 'Логін'|trans }}</label>
+                                    <input type="text" id="username" name="_username" value="{{ last_username }}"
+                                           class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">{{ 'Пароль'|trans |trans }}</label>
+                                    <input type="password" id="password" name="_password" class="form-control"/>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember_me" name="_remember_me"
+                                           value="on"/>
+                                    <label class="form-check-label" for="remember_me">
+                                        {{ 'Запам\'ятати мене'|trans }}
+                                    </label>
+                                </div>
+                                <button type="submit" id="_submit" class="btn btn-success">
+                                    <i class="fa fa-sign-in-alt"></i> {{ 'Увійти'|trans }}
+                                </button>
+                                <button type="button" id="btn_register" class="btn btn-success">
+                                    <a href="#" class="fa fa-user-plus"
+                                       aria-hidden="true"></a> {{ 'Зареєструватись'|trans }}
+                                </button>
+                            </fieldset>
+                        </form>
                     </div>
-                    <div class="form-group form-inline">
-                        <label for="password" class="col-sm-2 control-label">{{ 'Пароль'|trans |trans }}</label>
-                        <input type="password" id="password" name="_password" class="form-control "/>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2">
-                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
-                            <label for="remember_me">{{ 'Запам\'ятати мене'|trans }}</label>
-                        </div>
-                    </div>
-                    <button type="submit" id="_submit" class="btn btn-success">
-                        {{ 'Увійти'|trans }}
-                    </button>
-                    <button type="button" id="btn_register" class="btn btn-success">
-                        <a href="#" class="fa fa-user-plus"
-                           aria-hidden="true"></a> {{ 'Зареєструватись'|trans }}
-                    </button>
-                </fieldset>
-            </form>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock fos_user_content %}

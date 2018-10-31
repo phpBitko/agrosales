@@ -4,7 +4,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
 
-$base-color: #17928c;
+$base-color: #3c8dbc;
 
 .agrosales {
 
@@ -30,6 +30,9 @@ $base-color: #17928c;
   color: #0000F0;
 }
 
+.body_content .container{
+  padding-top: 1rem;
+}
 .modal-header{
   flex-direction: row-reverse;
 }
@@ -94,11 +97,18 @@ $base-color: #17928c;
 html,
 body{
   height: 100% !important;
+  background-color: #f8f8f8!important;
 }
 .agrosales{
   min-height: 100%;
 }
-
+.body_content .container{
+  background-color: white;
+}
 .btn-input {
   font-size: 1.5rem;
+}
+
+.width_100{
+  width: 100% !important;
 }

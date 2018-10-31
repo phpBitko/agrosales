@@ -12,7 +12,7 @@
     <div class="header">
         <nav id='navbar_head' class="navbar navbar-expand-lg shadow">
             <div class="container">
-                <a class="navbar-brand logo-link " href="#">
+                <a class="navbar-brand logo-link " href="{{ path('advertisement_index') }}">
                     <img class="logo" src=" {{ asset('bundles/app/img/logo.png') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -25,33 +25,26 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item
-
-                        ">
+                        <li class="nav-item">
                             <a class="nav-link main-menu
-{% if app.request.attributes.get("_route") == 'advertisement_index' %}
+                            {% if app.request.attributes.get("_route") == 'advertisement_index' %}
                                 active
                             {% endif %}
-" href="{{ path('advertisement_index') }}">Оголошення<span
-                                        class="sr-only">(current)</span></a>
+                            " href="{{ path('advertisement_index') }}">Оголошення<span  class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item
-
-                        ">
+                        <li class="nav-item">
                             <a class="nav-link main-menu
- {% if app.request.attributes.get("_route") == 'map_index' %}
+                            {% if app.request.attributes.get("_route") == 'map_index' %}
                                  active
-                             {% endif %}
-" href="{{ path('map_index') }}">Карта</a>
+                            {% endif %}
+                            " href="{{ path('map_index') }}">Карта</a>
                         </li>
-                        <li class="nav-item
-
-                    ">
+                        <li class="nav-item">
                             <a class="nav-link main-menu
- {% if app.request.attributes.get("_route") == 'cabinet_index' %}
+                            {% if app.request.attributes.get("_route") == 'cabinet_index' %}
                                  active
-                             {% endif %}
-" href="{{ path('cabinet_index') }}">Кабінет</a>
+                            {% endif %}
+                            " href="{{ path('cabinet_index') }}">Кабінет</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu" href="#">Контакти</a>
@@ -71,24 +64,21 @@
 
 
                     {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <ul class="nav nav-tabs order-lg-first border-0">
-                            <li class="nav-item d-flex">
-                                <a href="{{ path('fos_user_security_logout') }}" class="nav-link
-                        "><i class="fa fa-sign-out-alt"></i>
-                                    Вийти</a>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">
+                                    <i class="btn-input fa fa-sign-out-alt pr-2"></i>Вийти</a>
                             </li>
                         </ul>
                     {% else %}
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item
-
-                                ">
+                            <li class="nav-item">
                                 <a class="nav-link main-menu
- {% if app.request.attributes.get("_route") == 'fos_user_security_login' %}
+                                    {% if app.request.attributes.get("_route") == 'fos_user_security_login' %}
                                         active
                                     {% endif %}
-" href="{{ path('fos_user_security_login') }}">
-                                    <span class="btn-input fas fa-sign-in-alt pr-2"></span>Увійти</a>
+                                    " href="{{ path('fos_user_security_login') }}">
+                                    <i class="btn-input far fa-user pr-2"></i>Увійти</a>
                             </li>
                         </ul>
                     {% endif %}
