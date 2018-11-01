@@ -728,12 +728,15 @@ class Advertisement
     {
         return $this->idUser;
     }
+
     /**
-     *  @ORM\PreFlush
+     * @ORM\PreFlush
      */
     public function doStuffOnPostPersist()
     {
-        $this->setGeom('point('.$this->getCoordB() . ' ' . $this->getCoordL().')');
+        if (!empty($this->getCoordB()) && !empty($this->getCoordL())){
+            $this->setGeom('point(' . $this->getCoordB() . ' ' . $this->getCoordL() . ')');
+        }
     }
 
     /**

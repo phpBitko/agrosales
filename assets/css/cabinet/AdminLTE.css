@@ -1233,13 +1233,13 @@ a:focus {
  * ---------------
  */
 .form-control {
-  border-radius: 0;
+  border-radius: 0 !important;
   box-shadow: none;
   border-color: #d2d6de;
 }
 .form-control:focus {
-  border-color: #3c8dbc;
-  box-shadow: none;
+  border-color: #3c8dbc !important;
+  box-shadow: none !important;
 }
 .form-control::-moz-placeholder,
 .form-control:-ms-input-placeholder,
@@ -1248,10 +1248,15 @@ a:focus {
   opacity: 1;
 }
 .form-control:not(select) {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  //-webkit-appearance: none;
+  //-moz-appearance: none;
+  //appearance: none;
 }
+
+input[type=checkbox].form-control{
+
+}
+
 .form-group.has-success label {
   color: #00a65a;
 }

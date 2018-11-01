@@ -4,8 +4,12 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
 
+$text-color: #626161;
 $base-color: #3c8dbc;
 
+body {
+  color: $text-color !important;
+}
 .agrosales {
 
 }
@@ -111,4 +115,13 @@ body{
 
 .width_100{
   width: 100% !important;
+}
+
+.flash-success{
+  width: 100%;
+  text-align: center;
+  background-color: #00d800;
+  color: white;
+  padding: 1rem;
+  font-size: 1.2rem;
 }

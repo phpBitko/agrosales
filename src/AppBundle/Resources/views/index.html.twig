@@ -41,7 +41,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu
-                            {% if app.request.attributes.get("_route") == 'cabinet_index' %}
+                            {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
                                  active
                             {% endif %}
                             " href="{{ path('cabinet_index') }}">Кабінет</a>

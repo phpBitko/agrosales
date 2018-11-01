@@ -66,7 +66,7 @@ class AdvertisementType extends AbstractType
                 'required' => false
             ])
             ->add('areaUnit', ChoiceType::class, [
-                'label' => 'Одиниця площі',
+                'label' => 'Одиниця виміру площі',
                 'choices' => array('га' => '1', 'соток' => '2', 'м2' => '3'),
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
@@ -81,46 +81,42 @@ class AdvertisementType extends AbstractType
                 'placeholder' => 'вкажіть цільове призначення',
                 'required' => false
             ])
+
             ->add('address', TextType::class, [
                 'label' => 'Адреса',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
+
             ->add('isElectricity', CheckboxType::class, [
                 'label' => 'Електрика',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => ''],
                 'required' => false,
                 'label_attr' => ['class' => 'font-weight-bold'],
 
             ])
             ->add('isWaterSupply', CheckboxType::class, [
                 'label' => 'Водозабезпечення',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => ''],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
             ->add('isRoad', CheckboxType::class, [
                 'label' => 'Дорога з твердим покриттям',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => ''],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
             ->add('isSewerage', CheckboxType::class, [
                 'label' => 'Каналізація',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => ''],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
             ->add('isGas', CheckboxType::class, [
                 'label' => 'Газ',
-                'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'font-weight-bold'],
-                'required' => false
-            ])
-            ->add('isGas', CheckboxType::class, [
-                'label' => 'Газ',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => ''],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
