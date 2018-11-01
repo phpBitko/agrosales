@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 //Використовуєтся для бандла FileUploader
 use Symfony\Component\HttpFoundation\File\File;
 use Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText;
@@ -41,6 +42,7 @@ class Advertisement
      * @var string
      *
      * @ORM\Column(name="text_head", type="string", length=500, nullable=false)
+     * @Assert\NotBlank()
      *
      */
 

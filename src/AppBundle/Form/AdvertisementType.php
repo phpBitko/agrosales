@@ -35,7 +35,7 @@ class AdvertisementType extends AbstractType
 
         $builder
             ->add('textHead', TextType::class, [
-                'label' => 'Назва',
+                'label' => 'Назва*',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
