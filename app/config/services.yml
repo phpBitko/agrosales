@@ -37,3 +37,8 @@ services:
             tags:
                 - { name: doctrine.event_subscriber, connection: default }
 
+    app.service.auxiliary_function:
+            class:     AppBundle\Service\AuxiliaryFunction
+            arguments:
+                - "@doctrine.orm.entity_manager"
+            public: true
