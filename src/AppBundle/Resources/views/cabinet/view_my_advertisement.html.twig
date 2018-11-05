@@ -22,52 +22,169 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table class="my_advertisement_table table table-bordered table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th class="w-5 text-center align-middle">№ з/п</th>
-                                            <th class="w-20 text-center align-middle">Фото</th>
-                                            <th class="w-25 text-center align-middle">Заголовок</th>
-                                            <th class="w-30 text-center align-middle">Текст об'яви</th>
-                                            <th class="w-10 text-center align-middle">Ціна</th>
-                                            <th class="w-10 text-center align-middle">Площа</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for advertisement in advertisements %}
-                                            {% set counter = ( counter | default(0) ) + 1 %}
-                                        <tr class="advertisement_one">
-                                            <th class="font-light text-center align-middle" scope="row">{{ counter }}</th>
-                                            <th class="text-center align-middle" scope="row">
-                                                {% set photo = advertisement.photos|first %}
-                                                {% if photo %}
-                                                    <img src="{{ asset('/bundles/app/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
-                                                {% else %}
-                                                    <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
-                                                {% endif %}
-                                            </th>
+                                    <ul class="nav nav-tabs" id="tab-my-advertisement" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="active-tab" data-toggle="tab" href="#active-tab-content"
+                                               role="tab" aria-controls="home" aria-selected="true">Активні ({{ advertisements.myAdvertisementActive|length }})</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending-tab-content"
+                                               role="tab" aria-controls="profile" aria-selected="false">На розгляді ({{ advertisements.myAdvertisementPending|length }})</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="deactivated-tab" data-toggle="tab" href="#deactivated-tab-content"
+                                               role="tab" aria-controls="contact" aria-selected="false">Деактивовані ({{ advertisements.myAdvertisementDeactivated|length }})</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="tab-my-advertisement-content">
+                                        <div class="tab-pane fade show active" id="active-tab-content" role="tabpanel"
+                                             aria-labelledby="home-tab">
+                                            <div class="box-body">
+                                                <table class="my_advertisement_table table ">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="w-5 text-center align-middle">№ з/п</th>
+                                                        <th class="w-5 text-center align-middle">Додано</th>
+                                                        <th class="w-15 text-center align-middle">Фото</th>
+                                                        <th class="w-25 text-center align-middle">Заголовок</th>
+                                                        <th class="w-30 text-center align-middle">Текст об'яви</th>
+                                                        <th class="w-10 text-center align-middle">Ціна</th>
+                                                        <th class="w-10 text-center align-middle">Площа</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for advertisement in advertisements.myAdvertisementActive %}
+                                                        {% set counter = ( counter | default(0) ) + 1 %}
+                                                        <tr class="advertisement_one">
+                                                            <th class="text-center align-middle" scope="row">{{ counter }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.addDate|date('d.m.Y') }}</th>
+                                                            <th class="text-center align-middle" scope="row">
+                                                                {% set photo = advertisement.photos|first %}
+                                                                {% if photo %}
+                                                                    <img src="{{ asset('/bundles/app/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+                                                                {% else %}
+                                                                    <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
+                                                                {% endif %}
+                                                            </th>
 
-                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.textHead|isEmpty }}</th>
-                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.textAbout|isEmpty }}</th>
-                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.price|isEmpty }}</th>
-                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.area|isEmpty }}</th>
+                                                            <th class="font-light text-left text-left align-middle"
+                                                                scope="row">{{ advertisement.textHead|isEmpty }}<br>
+                                                                <button class="btn btn-success btn-sm">Переглянути</button>
+                                                                <button class="btn btn-primary btn-sm">Редагувати</button>
+                                                                <button class="btn btn-danger btn-sm">Деактивувати</button>
 
+                                                            </th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.price|isEmpty }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.area|isEmpty }}</th>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="pending-tab-content" role="pending-tab-content"
+                                             aria-labelledby="profile-tab">
+                                            <div class="box-body">
+                                                <table class="my_advertisement_table table ">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="w-5 text-center align-middle">№ з/п</th>
+                                                        <th class="w-5 text-center align-middle">Додано</th>
+                                                        <th class="w-15 text-center align-middle">Фото</th>
+                                                        <th class="w-25 text-center align-middle">Заголовок</th>
+                                                        <th class="w-30 text-center align-middle">Текст об'яви</th>
+                                                        <th class="w-10 text-center align-middle">Ціна</th>
+                                                        <th class="w-10 text-center align-middle">Площа</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for advertisement in advertisements.myAdvertisementPending %}
+                                                        {% set counter = ( counter | default(0) ) + 1 %}
+                                                        <tr class="advertisement_one">
+                                                            <th class="text-center align-middle" scope="row">{{ counter }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.addDate|date('d.m.Y') }}</th>
+                                                            <th class="text-center align-middle" scope="row">
+                                                                {% set photo = advertisement.photos|first %}
+                                                                {% if photo %}
+                                                                    <img src="{{ asset('/bundles/app/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+                                                                {% else %}
+                                                                    <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
+                                                                {% endif %}
+                                                            </th>
 
-                                        </tr>
+                                                            <th class="font-light text-left text-left align-middle"
+                                                                scope="row">{{ advertisement.textHead|isEmpty }}<br>
+                                                                <button class="btn btn-success btn-sm">Переглянути</button>
+                                                            </th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.price|isEmpty }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.area|isEmpty }}</th>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="deactivated-tab-content" role="eactivated-tab-content"
+                                             aria-labelledby="contact-tab">
+                                            <div class="box-body">
+                                                <table class="my_advertisement_table table ">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="w-5 text-center align-middle">№ з/п</th>
+                                                        <th class="w-5 text-center align-middle">Додано</th>
+                                                        <th class="w-15 text-center align-middle">Фото</th>
+                                                        <th class="w-25 text-center align-middle">Заголовок</th>
+                                                        <th class="w-30 text-center align-middle">Текст об'яви</th>
+                                                        <th class="w-10 text-center align-middle">Ціна</th>
+                                                        <th class="w-10 text-center align-middle">Площа</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for advertisement in advertisements.myAdvertisementDeactivated %}
+                                                        {% set counter = ( counter | default(0) ) + 1 %}
+                                                        <tr class="advertisement_one">
+                                                            <th class="text-center align-middle" scope="row">{{ counter }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.addDate|date('d.m.Y') }}</th>
+                                                            <th class="text-center align-middle" scope="row">
+                                                                {% set photo = advertisement.photos|first %}
+                                                                {% if photo %}
+                                                                    <img src="{{ asset('/bundles/app/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+                                                                {% else %}
+                                                                    <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
+                                                                {% endif %}
+                                                            </th>
 
-                                        {% endfor %}
+                                                            <th class="font-light text-left text-left align-middle"
+                                                                scope="row">{{ advertisement.textHead|isEmpty }}<br>
+                                                                <button class="btn btn-success btn-sm">Переглянути</button>
+                                                                <button class="btn btn-primary btn-sm">Редагувати</button>
+                                                                <button class="btn btn-danger btn-sm">Активувати</button>
 
-                                        </tbody>
-                                        {#<tfoot>
-                                        <tr>
-                                            <th>Rendering engine</th>
-                                            <th>Browser</th>
-                                            <th>Platform(s)</th>
-                                            <th>Engine version</th>
-                                            <th>CSS grade</th>
-                                        </tr>
-                                        </tfoot>#}
-                                    </table>
+                                                            </th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.price|isEmpty }}</th>
+                                                            <th class="font-light text-center align-middle"
+                                                                scope="row">{{ advertisement.area|isEmpty }}</th>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- /.box-body -->
                             </div>

@@ -7,6 +7,11 @@ $fa-font-path: "~font-awesome/fonts";
 $text-color: #626161;
 $base-color: #3c8dbc;
 
+@font-face {
+  font-family: 'MyriadPro';
+  src: url('../fonts/MyriadPro-Regular.otf');
+}
+
 @media (min-width: 1200px) {
   .container {
     max-width: 1400px;
@@ -14,6 +19,7 @@ $base-color: #3c8dbc;
 }
 
 body {
+  font-family: MyriadPro;
   color: $text-color !important;
 }
 

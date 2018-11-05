@@ -4,10 +4,6 @@
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
 
-@font-face {
-  font-family: 'MyriadPro';
-  src: url('fonts/MyriadPro-Regular.otf');
-}
 
 //---------------------------------блок оголошень
 .advertisement {
@@ -33,12 +29,13 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         left: 255px;
         color: #adb5bd;
         transition: 0.3s;
+        &:hover {
+          color: #cb132d;
+          cursor: pointer;
+        }
       }
 
-      .advertisement-selected:hover {
-        color: #cb132d;
-        cursor: pointer;
-      }
+
       .advertisement-one-photo-count {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -68,7 +65,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
   }
   .advertisement-one:hover {
     border: solid 1px white;
-    box-shadow: 0px 4px 6px -2px #000000;
+    box-shadow: 0px 4px 6px -2px #c3c3c3;
   }
 
   //--------------------------------блок текстова частина
