@@ -2,17 +2,11 @@
 @import '../generalSettings';
 
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
-$text-color: #414042; //---------колір основного тексту
+//$text-color: #414042; //---------колір основного тексту
 
 @font-face {
   font-family: 'MyriadPro';
   src: url('fonts/MyriadPro-Regular.otf');
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1400px;
-  }
 }
 
 //---------------------------------блок оголошень
@@ -91,8 +85,8 @@ $text-color: #414042; //---------колір основного тексту
       color: $base-color;
     }
     a.advertisement-text-title:hover {
-      color: #0d7fce;
-      //сolor: lighten( $base-color, 20% );
+      //color: #0d7fce;
+      сolor: lighten( $base-color, 20% );
       cursor: pointer;
       text-decoration: none;
     }
