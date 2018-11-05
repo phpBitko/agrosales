@@ -1,5 +1,6 @@
 {% extends 'AppBundle::index.html.twig' %}
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
 {% endblock %}
 
@@ -13,97 +14,64 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="ogoloshenny col-10">
-                {% for item in advertisement %}
-                    <div class="ogol-one">
-                        <div class="ogol-img">
-                            <img class="img-fluid" src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                        </div>
-
-                        <div class="ogol-text">
-                            <p>Заголовок</p>
-                            <p>Ціна:{{ item.price }}</p>
-                            <p>Площа:{{ item.area }}</p>
-                            <p>Дата:{{ item.addDate|date("H:m, d.m.Y") }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-                <div class="navigation text-center">
-                    {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated', omitFirstPage: false}) }}
-                </div>
-                <!--
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>
-                <div class="ogol-one">
-                    <div class="ogol-img">
-                        <img src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}">
-                    </div>
-                    <div class="ogol-text">
-                        <p>Заголовок</p>
-                        <p>Ціна:</p>
-                        <p>Площа:</p>
-                    </div>
-                </div>-->
-
-            </div>
-            <div class="poster-setting col-2">
+            <div class="poster-setting col-3">
                 <div class="ogol-text">
                     <p>Заголовок</p>
                     <p>Ціна:</p>
                     <p>Площа:</p>
                 </div>
             </div>
+            <div class="advertisement col-9">
+                {% for item in advertisement %}
+                    <div class="advertisement-one">
+                        <div class="advertisement-img">
+                            <a href=""><img class="img-fluid"
+                                            src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}"></a>
+                            <div class="advertisement-one-photo-count">4 фото</div>
+                            <i class="far fa-heart advertisement-selected"></i>
+                            <div class="advertisement-one-top"><span>В топі</span></div>
+                        </div>
+                        <div class="advertisement-text">
+                            <a class="advertisement-text-title">
+                                {{ item.textHead|isEmpty }}
+                            </a>
+                            <div class="advertisement-text-square"><i
+                                        class="fas fa-vector-square"></i>{{ (item.area*100)|number_format(0,',',' ') }}
+                                соток
+                            </div>
+                            <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $<span
+                                        class="advertisement-text-square"> |
+                                    {% if item.price is null %}
+                                        {{ item.price }}
+                                    {% else %}
+                                        {{ (item.price/item.area/100)|number_format(0,',',' ') }}
+                                    {% endif %}
+                                    $ /сотка </span></div>
+                            <div class="advertisement-text-content">
+                                {% if item.textAbout|length >58 %}
+                                    {{ item.textAbout|slice(0,58) }}
+                                {% else %}
+                                    {{ item.textAbout|isEmpty }}
+                                {% endif %}
+                                . . .
+                            </div>
+
+                            <div class="advertisement-text-date"><i class="far fa-clock"></i>
+                                <div>{{ item.addDate|date("d.m.Y") }}</div>
+                            </div>
+                            <a class="advertisement-text-position" href="">Осокорки<i class="fas fa-map-marker-alt"></i></a>
+
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="navigation text-center">
+                    {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated', omitFirstPage: false}) }}
+                </div>
+            </div>
+
         </div>
     </div>
 {% endblock %}
-{%  block footer %}
+{% block footer %}
     {{ parent() }}
 {% endblock %}

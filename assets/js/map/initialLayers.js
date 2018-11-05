@@ -26,6 +26,7 @@ import Feature from 'ol/Feature.js';
 import WKT from 'ol/format/WKT.js';
 import Icon from 'ol/style/Icon';
 
+
 $(function () {
     $('body').preloader();
 
@@ -500,13 +501,14 @@ $(function () {
     var format = new WKT();
     var vectorSourcePoints = new VectorSource;
     //-------------------------------------------- style icons for point
-    var stylesPoints = new Style({
-        image: new CircleStyle({
-            radius: 5,
-            fill: new Fill({color: '#bada55'}),
-            stroke: new Stroke({color: '#0000F0', width: 1})
-        })
-    });
+    // var stylesPoints = new Style({
+    //     image: new CircleStyle({
+    //         radius: 5,
+    //         fill: new Fill({color: '#bada55'}),
+    //         stroke: new Stroke({color: '#0000F0', width: 1})
+    //     })
+    // });
+
 
 
     var svg = $('#icon_advertisement');

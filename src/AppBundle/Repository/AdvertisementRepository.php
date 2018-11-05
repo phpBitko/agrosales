@@ -24,9 +24,7 @@ class AdvertisementRepository extends EntityRepository
             ->setParameter('select', 'null')
             ->getQuery()
             ->getResult();
-
         return $qb;
-
     }
 
     /**

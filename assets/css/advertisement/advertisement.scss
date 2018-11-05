@@ -1,25 +1,174 @@
 @import '../generalSettings';
 
-.ogoloshenny {
-//  border: solid 1px #5eb5e0;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+$icon-color: #adb5bd; //---------колір іконок в оголошенні
+$text-color: #414042; //---------колір основного тексту
+
+@font-face {
+  font-family: 'MyriadPro';
+  src: url('fonts/MyriadPro-Regular.otf');
 }
-.ogol-one {
-  width: 282px;
-  border: solid 1px #5eb5e0;
-  margin: 10px;
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+//---------------------------------блок оголошень
+.advertisement {
+  //  border: solid 1px #5eb5e0;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  // ------------------------------окреме оголошення
+  .advertisement-one {
+    width: 282px;
+    border: solid 1px #d9d9d9;
+    margin: 20px 0;
+    transition: 0.1s;
+
+    //----------------------------блок img
+    .advertisement-img {
+      position: relative;
+
+      .advertisement-selected {
+        position: absolute;
+        top: 7px;
+        left: 255px;
+        color: #adb5bd;
+        transition: 0.3s;
+      }
+
+      .advertisement-selected:hover {
+        color: #cb132d;
+        cursor: pointer;
+      }
+      .advertisement-one-photo-count {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding-left: 4px;
+        position: absolute;
+        top: 155px;
+        left: 0px;
+        background: rgba(173, 181, 189, 0.43);
+        width: 61px;
+        color: white;
+      }
+      .advertisement-one-top {
+        position: absolute;
+        top: 22px;
+        left: -4px;
+        color: white;
+        background-color: #ffca03;
+        transition: 0.3s;
+        width: 100px;
+        font-size: 1.3rem;
+        padding: 0 0 2px 10px;
+        vertical-align: top;
+      }
+    }
+  }
+  .advertisement-one:hover {
+    border: solid 1px white;
+    box-shadow: 0px 4px 6px -2px #000000;
+  }
+
+  //--------------------------------блок текстова частина
+  .advertisement-text {
+    padding: 7px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-family: MyriadPro;
+    line-height: 1.5rem;
+
+    a.advertisement-text-title {
+      color: $base-color;
+    }
+    a.advertisement-text-title:hover {
+      color: #0d7fce;
+      //сolor: lighten( $base-color, 20% );
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .advertisement-text-square {
+      margin-top: 10px;
+      color: $text-color;
+      font-size: 1.1rem;
+      width: 100%;
+      i {
+        margin-right: 10px;
+        font-size: 1.4rem;
+        color: $icon-color;
+      }
+
+    }
+    .advertisement-text-price {
+      width: 100%;
+      margin-top: 13px;
+      color: #ff7f00;
+      font-size: 1.4rem;
+      align-self: center;
+    }
+
+    .advertisement-text-content {
+      width: 100%;
+      margin: 10px 0;
+      font-size: 1rem;
+      color: $text-color;
+    }
+    .advertisement-text-date, .advertisement-text-position {
+      width: 120px;
+    }
+    .advertisement-text-date {
+      display: flex;
+      color: #5c5c5c;
+      font-size: 1rem;
+      align-self: center;
+
+      i {
+        font-size: 1.5rem;
+        align-self: end;
+        color: $icon-color;
+        margin-right: 7px;
+      }
+    }
+
+    .advertisement-text-position {
+      text-align: right;
+      color: $icon-color;
+      font-size: 1rem;
+
+      i {
+        font-size: 1.5rem;
+        align-self: end;
+        margin-left: 6px;
+      }
+    }
+    .advertisement-text-position:hover {
+      cursor: pointer;
+      color: $text-color;
+      text-decoration: none;
+    }
+  }
 
 }
+
 .poster-setting {
   width: 300px;
   //border: solid 1px #5eb5e0;
 }
+
 .btn-input {
   font-size: 1.5rem;
   //vertical-align: bottom;
 }
+
 .color--white {
   color: #c8e8f7;
 }
