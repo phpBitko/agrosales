@@ -4,10 +4,6 @@
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
 
-@font-face {
-  font-family: 'MyriadPro';
-  src: url('fonts/MyriadPro-Regular.otf');
-}
 
 //---------------------------------блок оголошень
 .advertisement {
@@ -126,6 +122,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       color: #5c5c5c;
       font-size: 1rem;
       align-self: center;
+
       i {
         font-size: 1.5rem;
         align-self: end;
@@ -138,6 +135,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       text-align: right;
       color: $icon-color;
       font-size: 1rem;
+
       i {
         font-size: 1.5rem;
         align-self: end;

@@ -168,6 +168,24 @@ class Advertisement
 
     /**
      * @var boolean
+     * @ORM\Column(name="is_active", type="boolean", nullable=true)
+     */
+    private $isActive = false;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_pending", type="boolean", nullable=true)
+     */
+    private $isPending = true;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_rejected", type="boolean", nullable=true)
+     */
+    private $isRejected = false;
+
+    /**
+     * @var boolean
      * @ORM\Column(name="is_electricity", type="boolean", nullable=true)
      */
     private $isElectricity = false;
@@ -319,6 +337,53 @@ class Advertisement
 
     }
 
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending(): bool
+    {
+        return $this->isPending;
+    }
+
+    /**
+     * @param bool $isPending
+     */
+    public function setIsPending(bool $isPending): void
+    {
+        $this->isPending = $isPending;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRejected(): bool
+    {
+        return $this->isRejected;
+    }
+
+    /**
+     * @param bool $isRejected
+     */
+    public function setIsRejected(bool $isRejected): void
+    {
+        $this->isRejected = $isRejected;
+    }
 
     /**
      * @var integer

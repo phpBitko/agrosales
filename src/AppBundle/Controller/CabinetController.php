@@ -33,55 +33,8 @@ class CabinetController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $advertisement = new Advertisement();
-        $em = $this->getDoctrine()->getManager();
-        $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
-        $formAdvertisement = $this->createForm(AdvertisementType::class, $advertisement, array(
-            'entity_manager' => $em,
-        ));
 
-        //заповнюєм форму
-        $formAdvertisement->handleRequest($request);
-
-        if ($formAdvertisement->isValid() && $formAdvertisement->isSubmitted()) {
-            $advertisement->setUsers($this->getUser());
-            $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
-            $files = $advertisement->getPhotos();
-
-            $advertisement->setPhotos(new ArrayCollection());
-
-            //$advertisement->setGeom('point('.$advertisement->getCoordB() . ' ' . $advertisement->getCoordL().')');
-            $em->persist($advertisement);
-            foreach ($files as $file) {
-
-//                if ($file->getClientMimeType() != 'image/jpeg') {
-//                    throw new InValidFormException('photos', 'Фото повинно бути у форматі jpeg', 400);
-//                }
-                $photoOne = new Photos();
-                $fileName = uniqid() . '.' . $file->guessExtension();
-
-                $photoOne->setPhotoNameOriginal($file->getClientOriginalName());
-                $photoOne->setPhotoNameNew($fileName);
-                $advertisement->addPhoto($photoOne);
-                $date = $photoOne->getAddDate();
-                $dateFolder = $date->format('Y-m-d');
-                $file->move($this->getParameter('photos_directory') . $dateFolder .'/'.$advertisement->getId() , $photoOne->getPhotoNameNew());
-
-            }
-
-            $em->flush();
-
-            return $this->render('AppBundle:cabinet:index.html.twig', array(
-                'form' => $formAdvertisement->createView(),
-                'purpose' => $purpose
-            ));
-        }
-        return $this->render('AppBundle:cabinet:index.html.twig', array(
-            'form' => $formAdvertisement->createView(),
-            'advertisement' => $advertisement,
-            'purpose' => $purpose
-
-        ));
+        return $this->redirectToRoute('cabinet_get_my_advertisement');
     }
 
 
@@ -137,7 +90,9 @@ class CabinetController extends Controller
      */
     public function getMyAdvertisementAction(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $myAdvertisement = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId()));
+        $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>true), array('addDate'=>'DESC'));
+        $myAdvertisement ['myAdvertisementPending'] = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId(), 'isPending'=>true), array('addDate'=>'DESC'));
+        $myAdvertisement ['myAdvertisementDeactivated'] = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>false, 'isPending'=>false), array('addDate'=>'DESC'));
         return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements'=>$myAdvertisement));
     }
 

@@ -2,11 +2,24 @@
 @import 'AdminLTE.css';
 @import "skin-blue.min.css";
 
-.advertisement_one{
-  img{
+.advertisement_one {
+  img {
     max-height: 150px;
   }
+
+  th {
+    padding: 0.4rem;
+  }
 }
-.my_advertisement_table{
+
+#tab-my-advertisement{
+  .nav-link {
+    color: $text-color;
+    &.active {
+      color: $base-color;
+    }
+  }
+}
+.my_advertisement_table {
 
 }
