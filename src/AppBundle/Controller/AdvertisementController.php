@@ -38,18 +38,12 @@ class AdvertisementController extends Controller
     public function getAllAdvertisementAction()
     {
         try {
-
             $em = $this->getDoctrine()->getManager();
             $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->selectPoint();
-
             return $this->json(array('data' => $advertisementPoints), Response::HTTP_OK);
-        } catch (\Exception $exception) {
-
-
-           // return $this->json(array('error' => "вибачте"));
+        }catch (\Exception $exception){
+            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return $this->json(array('error' => "ffffffff"));
     }
 
 

@@ -22,6 +22,10 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
     border: solid 1px #d9d9d9;
     margin: 20px 0;
     transition: 0.1s;
+    &:hover {
+      border: solid 1px white;
+      box-shadow: 0px 4px 6px -2px #000000;
+    }
 
     //----------------------------блок img
     .advertisement-img {
@@ -33,12 +37,12 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         left: 255px;
         color: #adb5bd;
         transition: 0.3s;
+        &:hover {
+          color: #cb132d;
+          cursor: pointer;
+        }
       }
 
-      .advertisement-selected:hover {
-        color: #cb132d;
-        cursor: pointer;
-      }
       .advertisement-one-photo-count {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -63,12 +67,9 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         font-size: 1.3rem;
         padding: 0 0 2px 10px;
         vertical-align: top;
+
       }
     }
-  }
-  .advertisement-one:hover {
-    border: solid 1px white;
-    box-shadow: 0px 4px 6px -2px #000000;
   }
 
   //--------------------------------блок текстова частина
@@ -83,12 +84,12 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
     a.advertisement-text-title {
       color: $base-color;
-    }
-    a.advertisement-text-title:hover {
-      //color: #0d7fce;
-      сolor: lighten( $base-color, 20% );
-      cursor: pointer;
-      text-decoration: none;
+      &:hover{
+        color: #0d7fce;
+        //сolor: lighten( $base-color, 20% );
+        cursor: pointer;
+        text-decoration: none;
+      }
     }
 
     .advertisement-text-square {
@@ -125,7 +126,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       color: #5c5c5c;
       font-size: 1rem;
       align-self: center;
-
       i {
         font-size: 1.5rem;
         align-self: end;
@@ -138,7 +138,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       text-align: right;
       color: $icon-color;
       font-size: 1rem;
-
       i {
         font-size: 1.5rem;
         align-self: end;
