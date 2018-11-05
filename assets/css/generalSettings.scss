@@ -7,6 +7,12 @@ $fa-font-path: "~font-awesome/fonts";
 $text-color: #626161;
 $base-color: #3c8dbc;
 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
 body {
   color: $text-color !important;
 }
