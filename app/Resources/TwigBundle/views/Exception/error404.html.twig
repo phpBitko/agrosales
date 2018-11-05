@@ -1,5 +1,6 @@
 {% extends 'AppBundle::index.html.twig' %}
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
 {% endblock %}
 
@@ -21,9 +22,8 @@
 
                 <div class="error-content">
                     <h3><i class="fas fa-exclamation-triangle text-yellow"></i> Такої сторінки не існує.</h3>
-
                     <p>
-                      Ми не змогли знайти сторінку яку Ви шукали, але ви можете перейти на
+                      Ми не змогли знайти сторінку яку Ви шукали, але Ви можете перейти на
                         <a href="{{ path('advertisement_index') }}">Головну сторінку</a>
                     </p>
                 </div>
