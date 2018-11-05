@@ -23,7 +23,6 @@ class AdvertisementController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $auxiliaryFunctionService = $this->get('app.service.auxiliary_function');
-        dump($auxiliaryFunctionService);
         //$advertisement = $em->getRepository('AppBundle:Advertisement')->findAll( );
         //$advertisement2 = $em->getRepository('AppBundle:Advertisement')->findFirstTen();
         $advertisement3 = $em->getRepository('AppBundle:Advertisement')->findLatest($page);

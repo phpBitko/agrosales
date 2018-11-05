@@ -39,13 +39,16 @@
                             {% endif %}
                             " href="{{ path('map_index') }}">Карта</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link main-menu
-                            {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
-                                 active
-                            {% endif %}
-                            " href="{{ path('cabinet_index') }}">Кабінет</a>
-                        </li>
+
+                        {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="nav-item">
+                                <a class="nav-link main-menu
+                                {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
+                                     active
+                                {% endif %}
+                                " href="{{ path('cabinet_index') }}">Кабінет</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link main-menu" href="#">Контакти</a>
                         </li>
@@ -137,3 +140,4 @@
         </div>
     </footer>
 {% endblock %}
+

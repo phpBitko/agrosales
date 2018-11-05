@@ -35,12 +35,11 @@
             </span>
                     </a>
                     <ul class="treeview-menu" style="display: block">
-                        <li><a href="../../index.html"><i class="far fa-circle
-                          {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
+                        <li class="
+                            {% if app.request.attributes.get("_route") == 'cabinet_get_my_advertisement' %}
                                  active
                             {% endif %}
-
-                        "></i> Переглянути оголошення</a></li>
+                            "><a href="{{ path('cabinet_get_my_advertisement') }}"><i class="far fa-circle"></i> Переглянути оголошення</a></li>
                         <li class="
                             {% if app.request.attributes.get("_route") == 'cabinet_create_advertisement' %}
                                  active
@@ -49,10 +48,6 @@
                     </ul>
                 </li>
             </ul>
-
-
-
-
         </section>
         <!-- /.sidebar -->
     </aside>

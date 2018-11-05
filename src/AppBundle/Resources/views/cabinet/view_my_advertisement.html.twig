@@ -1,0 +1,84 @@
+{% extends 'AppBundle:cabinet:index.html.twig' %}
+
+
+{% block body %}
+    <div class="wrapper">
+        {% block main_sidebar %}
+            {{ parent() }}
+        {% endblock %}
+        {% block content_wrapper %}
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        Переглянути мої оголошення
+                    </h1>
+                </section>
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h3 class="box-title">Оголошення</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table class="my_advertisement_table table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th class="w-5 text-center align-middle">№ з/п</th>
+                                            <th class="w-20 text-center align-middle">Фото</th>
+                                            <th class="w-25 text-center align-middle">Заголовок</th>
+                                            <th class="w-30 text-center align-middle">Текст об'яви</th>
+                                            <th class="w-10 text-center align-middle">Ціна</th>
+                                            <th class="w-10 text-center align-middle">Площа</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for advertisement in advertisements %}
+                                            {% set counter = ( counter | default(0) ) + 1 %}
+                                        <tr class="advertisement_one">
+                                            <th class="font-light text-center align-middle" scope="row">{{ counter }}</th>
+                                            <th class="text-center align-middle" scope="row">
+                                                {% set photo = advertisement.photos|first %}
+                                                {% if photo %}
+                                                    <img src="{{ asset('/bundles/app/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+                                                {% else %}
+                                                    <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
+                                                {% endif %}
+                                            </th>
+
+                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.textHead|isEmpty }}</th>
+                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.price|isEmpty }}</th>
+                                            <th class="font-light text-center align-middle" scope="row">{{ advertisement.area|isEmpty }}</th>
+
+
+                                        </tr>
+
+                                        {% endfor %}
+
+                                        </tbody>
+                                        {#<tfoot>
+                                        <tr>
+                                            <th>Rendering engine</th>
+                                            <th>Browser</th>
+                                            <th>Platform(s)</th>
+                                            <th>Engine version</th>
+                                            <th>CSS grade</th>
+                                        </tr>
+                                        </tfoot>#}
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
+            </div>
+        {% endblock %}
+    </div>
+
+{% endblock %}

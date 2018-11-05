@@ -21,8 +21,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
 
-use Vich\UploaderBundle\Templating\Helper as helper;
-
 
 /**
  * Class CabinetController
@@ -34,7 +32,6 @@ class CabinetController extends Controller
      * @Route("/", name="cabinet_index", methods={"POST","GET"})
      */
     public function indexAction(Request $request)
-
     {
         $advertisement = new Advertisement();
         $em = $this->getDoctrine()->getManager();
@@ -91,7 +88,7 @@ class CabinetController extends Controller
     /**
      * @Route("/createAdvertisement", name="cabinet_create_advertisement", methods={"POST","GET"})
      */
-    public function createAdvertisement(Request $request){
+    public function createAdvertisementAction(Request $request){
         $advertisement = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
@@ -101,7 +98,6 @@ class CabinetController extends Controller
 
         //заповнюєм форму
         $formAdvertisement->handleRequest($request);
-
         if ($formAdvertisement->isValid()) {
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
@@ -133,9 +129,16 @@ class CabinetController extends Controller
             'form' => $formAdvertisement->createView(),
             'advertisement' => $advertisement,
             'purpose' => $purpose
-
         ));
+    }
 
+    /**
+     * @Route("/getMyAdvertisement", name="cabinet_get_my_advertisement", methods={"GET"})
+     */
+    public function getMyAdvertisementAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $myAdvertisement = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId()));
+        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements'=>$myAdvertisement));
     }
 
 }

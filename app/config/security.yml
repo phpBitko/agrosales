@@ -39,6 +39,7 @@ security:
             ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     access_control:
+            - { path: ^/cabinet, role: IS_AUTHENTICATED_FULLY  }
             - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

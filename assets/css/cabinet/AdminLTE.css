@@ -2421,8 +2421,8 @@ input[type=checkbox].form-control{
 .nav > li > a:hover,
 .nav > li > a:active,
 .nav > li > a:focus {
-  color: #444;
-  background: #f7f7f7;
+  //color: #444;
+  //background: #f7f7f7;
 }
 /* NAV PILLS */
 .nav-pills > li > a {
