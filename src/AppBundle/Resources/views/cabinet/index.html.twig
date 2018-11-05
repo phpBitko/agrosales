@@ -1,5 +1,6 @@
 {% extends 'AppBundle::index.html.twig' %}
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('build/cabinet.css') }}">
 {% endblock %}
 {% block javascripts %}

@@ -28,7 +28,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link main-menu
-                            {% if app.request.attributes.get("_route") == 'advertisement_index' %}
+                            {% if app.request.attributes.get("_route")|slice(0, 13) == 'advertisement' %}
                                 active
                             {% endif %}
                             " href="{{ path('advertisement_index') }}">Оголошення<span  class="sr-only">(current)</span></a>
