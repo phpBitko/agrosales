@@ -43,7 +43,6 @@ class AdvertisementRepository extends EntityRepository
         }
         $query = $qb->getQuery();
         $result = $query->getArrayResult();
-        dump($result);
         return $result;
     }
 
@@ -54,7 +53,6 @@ class AdvertisementRepository extends EntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
-        dump($qb);
         return $qb;
 
     }
@@ -64,7 +62,6 @@ class AdvertisementRepository extends EntityRepository
         $qb = $this->createQueryBuilder('q')
             ->orderBy('q.addDate', 'DESC')
             ->getQuery();
-        dump($qb);
 
         return $qb;
 

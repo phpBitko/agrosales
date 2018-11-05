@@ -1,0 +1,36 @@
+.text-yellow {
+  color: #f39c12 !important;
+}
+
+.error-page > .headline {
+  float: left;
+  font-size: 100px;
+  font-weight: 300;
+}
+
+.error-page {
+  width: 600px;
+  margin: 20px auto 0 auto;
+  min-height: 150px;
+  padding: 1rem;
+}
+
+.error-page > .error-content {
+  margin-left: 190px;
+  display: block;
+}
+
+.content-wrapper {
+  min-height: 100%;
+  background-color: #ecf0f5;
+  z-index: 800;
+}
+
+.content-wrapper{
+  -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  /* margin-left: 230px; */
+  z-index: 820;
+}
