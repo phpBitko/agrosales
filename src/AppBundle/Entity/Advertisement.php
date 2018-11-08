@@ -399,20 +399,13 @@ class Advertisement
      */
     private $dirRegion;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_purpose", type="integer", nullable=true)
-     */
-    private $idPurpose;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="DirPurpose", inversedBy="advertisement")
-     * @ORM\JoinColumn(name="id_purpose", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_dir_purpose", referencedColumnName="id")
      */
     private $dirPurpose;
-
 
     /**
      * @var \DateTime
@@ -806,28 +799,13 @@ class Advertisement
         }
     }
 
-    /**
-     * @param int $idUser
-     */
-    public function setIdUser($idUser)
-    {
-        $this->idUser = $idUser;
-    }
 
     /**
-     * @return int
+     * @param int $idDirPurpose
      */
-    public function getIdPurpose()
+    public function setDirIdPurpose($idDirPurpose)
     {
-        return $this->idPurpose;
-    }
-
-    /**
-     * @param int $idPurpose
-     */
-    public function setIdPurpose($idPurpose)
-    {
-        $this->idPurpose = $idPurpose;
+        $this->idDirPurpose = $idDirPurpose;
     }
 
     /**
