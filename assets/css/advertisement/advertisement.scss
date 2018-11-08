@@ -1,5 +1,6 @@
 @import '../error/error';
 @import '../generalSettings';
+@import 'details';
 
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
@@ -20,7 +21,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
     transition: 0.1s;
     &:hover {
       border: solid 1px white;
-      box-shadow: 0px 4px 6px -2px #000000;
+      box-shadow: 0px 4px 6px -2px #bfb8b8;
     }
 
     //----------------------------блок img
@@ -80,7 +81,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
     a.advertisement-text-title {
       color: $base-color;
-      &:hover{
+      &:hover {
         color: #0d7fce;
         //сolor: lighten( $base-color, 20% );
         cursor: pointer;

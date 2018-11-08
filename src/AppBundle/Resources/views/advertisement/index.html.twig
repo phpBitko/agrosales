@@ -25,14 +25,18 @@
                 {% for item in advertisement %}
                     <div class="advertisement-one">
                         <div class="advertisement-img">
-                            <a href=""><img class="img-fluid"
-                                            src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}"></a>
+                           <a href=""><img class="img-fluid"
+                            src="{{ asset('bundles/app/img/picture/parcel300.jpg') }}"></a>
+                            {#<a href=""><img class="img-fluid"#}
+                                            {#src="{{ asset('/bundles/app/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}"></a>#}
+
                             <div class="advertisement-one-photo-count">4 фото</div>
-                            <i class="far fa-heart advertisement-selected"></i>
+                            <i class="far fa-star advertisement-selected"></i>
                             <div class="advertisement-one-top"><span>В топі</span></div>
                         </div>
                         <div class="advertisement-text">
-                            <a class="advertisement-text-title">
+                            <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
+                               class="advertisement-text-title">
                                 {{ item.textHead|isEmpty }}
                             </a>
                             <div class="advertisement-text-square"><i
@@ -49,11 +53,11 @@
                                     $ /сотка </span></div>
                             <div class="advertisement-text-content">
                                 {% if item.textAbout|length >58 %}
-                                    {{ item.textAbout|slice(0,58) }}
+                                    {{ item.textAbout|slice(0,58) }}. . .
                                 {% else %}
                                     {{ item.textAbout|isEmpty }}
                                 {% endif %}
-                                . . .
+
                             </div>
 
                             <div class="advertisement-text-date"><i class="far fa-clock"></i>

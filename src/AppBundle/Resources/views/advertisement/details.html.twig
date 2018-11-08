@@ -1,0 +1,136 @@
+{% extends 'AppBundle::index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/advertisement.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="details-picture col-6">
+                <img class="img-fluid" data-toggle="tooltip" title="текст подсказки"
+                     src="{{ asset('bundles/app/img/picture/parcel3_300.jpg') }}">
+                <div class="details-panel">
+                    <i class="far fa-clock"></i>
+                    <span>{{ advertisement.addDate|date("d.m.Y H:i") }}</span>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Осокорки</span>
+                    <i class="fas fa-eye"></i>
+                    <span>13</span>
+                    {#<i class="fas fa-print"></i>#}
+                </div>
+            </div>
+            <div class="details-map col-4">
+                <img class="img-fluid" src="{{ asset('bundles/app/img/picture/map.jpg') }}">
+                <div>{{ advertisement.dirRegion.natoobl }} область <i class="fas fa-long-arrow-alt-right"></i>
+                    {{ advertisement.dirDistrict.natoray }} район <i class="fas fa-long-arrow-alt-right"></i></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-6">
+                <div class="details-title">{{ advertisement.textHead|isEmpty }}</div>
+                <div class="details-main">
+                    <div class="details-main-caption">
+                        <div>Площа:</div>
+                        <div>Ціна:</div>
+                        <div>Цільове призначення:</div>
+
+                    </div>
+                    <div class="details-main-values">
+                        <div>{{ (advertisement.area*100)|number_format(0,',',' ') }} соток</div>
+                        <div><span class="details-main-price">{{ advertisement.price|number_format(0,',',' ') }}
+                                $</span>
+                            |
+                            {% if advertisement.price is null %}
+                                {{ advertisement.price }}
+                            {% else %}
+                                {{ (advertisement.price/advertisement.area/100)|number_format(0,',',' ') }}
+                            {% endif %}
+                            $ /сотка
+                        </div>
+                        <div>{{ advertisement.dirPurpose.text }}</div>
+                    </div>
+                </div>
+                <div class="details-provision">
+                    <div class="details-road {% if advertisement.isRoad|default(false) == true %} on {% else %} off {% endif %}">
+                        {% if advertisement.isRoad|default(false) == true %}
+                            <img src="{{ asset('bundles/app/img/ico/road_on.png') }}" alt="road">
+                        {% else %}
+                            <img src="{{ asset('bundles/app/img/ico/road_off.png') }}" alt="road">
+                        {% endif %}
+                    </div>
+                    <div class="details-water {% if advertisement.isWaterSupply|default(false) == true %} on {% else %} off {% endif %}">
+                        {% if advertisement.isWaterSupply|default(false) == true %}
+                            <img src="{{ asset('bundles/app/img/ico/water_on.png') }}" alt="">
+                        {% else %}
+                            <img src="{{ asset('bundles/app/img/ico/water_off.png') }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="details-gas {% if advertisement.isGas|default(false) == true %} on {% else %} off {% endif %}">
+                        {% if advertisement.isGas|default(false) == true %}
+                            <img src="{{ asset('bundles/app/img/ico/valve_on.png') }}" alt="">
+                        {% else %}
+                            <img src="{{ asset('bundles/app/img/ico/valve_off.png') }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="details-sewerage {% if advertisement.isSewerage|default(false) == true %} on {% else %} off {% endif %}">
+                        {% if advertisement.isSewerage|default(false) == true %}
+                            <img src="{{ asset('bundles/app/img/ico/waste_on.png') }}" alt="">
+                        {% else %}
+                            <img src="{{ asset('bundles/app/img/ico/waste_off.png') }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="details-electricity {% if advertisement.isElectricity|default(false) == true %} on {% else %} off {% endif %}">
+                        {% if advertisement.isElectricity|default(false) == true %}
+                            <img src="{{ asset('bundles/app/img/ico/idea_on.png') }}" alt="">
+                        {% else %}
+                            <img src="{{ asset('bundles/app/img/ico/idea_off.png') }}" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="details-text-about">{{ advertisement.textAbout|isEmpty|nl2br }}</div>
+                <div class="details-services">
+                    <div>
+                        <a href=""><i class="fas fa-bullhorn"></i>
+                            <span>Рекламувати</span></a>
+                    </div>
+                    <div>
+                        <a href=""><i class="fas fa-share-alt"></i>
+                            <span>Поширити</span></a>
+                    </div>
+                    <div>
+                        <a href=""><i class="fas fa-book-open"></i>
+                            <span>Поскаржитись</span></a>
+                    </div>
+                </div>
+                <div class="details-communication">Написати автору</div>
+                <div class="details-communication-text">Текст повідомлення</div>
+            </div>
+            <div class="col-4">
+                <div class="details-author">
+                    <div class="details-author-photo">
+                        <i class="far fa-user-circle"></i>
+                    </div>
+                    <div class="details-author-phones">
+                        <div> Vetal33</div>
+                        <div> 063-742-8874</div>
+                        <div> 063-742-8874</div>
+                    </div>
+                    <div class="details-author-additional">
+                        <a class="details-author-advertisement" href=""><i class="fas fa-list-ul"></i> Інші об'яви</a>
+                        <a class="details-author-writing" href=""><i class="far fa-envelope"></i> Написати листа</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
