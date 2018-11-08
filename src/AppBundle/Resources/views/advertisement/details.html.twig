@@ -30,19 +30,15 @@
             <div class="details-map col-4">
                 <img class="img-fluid" src="{{ asset('bundles/app/img/picture/map.jpg') }}">
                 <div>
-                    {% if advertisement.dirRegion.natoobl is null %}
-                    {% else %}
+                    {% if advertisement.dirRegion %}
                         {{ advertisement.dirRegion.natoobl }} область
                     {% endif %}
-
-                    {% if advertisement.dirDistrict.natoray is null %}
-                    {% else %}
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                        {{ advertisement.dirDistrict.natoray }} район <i class="fas fa-long-arrow-alt-right"></i>
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    {% if advertisement.dirRegion %}
+                        {{ advertisement.dirDistrict.natoray }} район
                     {% endif %}
-
+                    <i class="fas fa-long-arrow-alt-right"></i>
                 </div>
-
             </div>
         </div>
         <div class="row">
@@ -68,7 +64,11 @@
                             {% endif %}
                             $ /сотка
                         </div>
-                        <div>{{ advertisement.dirPurpose.text }}</div>
+                        <div>
+                            {% if advertisement.dirPurpose %}
+                                {{ advertisement.dirPurpose.text }}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="details-provision">
@@ -139,11 +139,11 @@
                     <div class="details-author-additional">
                         <a class="details-author-advertisement" href=""><i class="fas fa-list-ul"></i> Інші об'яви</a>
                         <a class="details-author-writing" href=""><i class="far fa-envelope"></i> Написати листа</div>
-                </div>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
     </div>
 {% endblock %}
 
