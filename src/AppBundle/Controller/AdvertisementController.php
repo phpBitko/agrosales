@@ -50,7 +50,7 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * @Route("/details/{id}",requirements={"id": "[1-9]\d*"},name="advertisement_details", methods={"GET"})
+     * @Route("/advertisement/details/{id}",requirements={"id": "[1-9]\d*"},name="advertisement_details", methods={"GET"})
      *
      */
     public function advertisementDetailsAction(Request $request,$id)

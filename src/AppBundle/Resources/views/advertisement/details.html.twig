@@ -21,15 +21,28 @@
                     <span>{{ advertisement.addDate|date("d.m.Y H:i") }}</span>
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Осокорки</span>
-                    <i class="fas fa-eye"></i>
-                    <span>13</span>
+
+                    <label for="" data-toggle="tooltip" title="кількість переглягів"><i
+                                class="fas fa-eye"></i><span>13</span></label>
                     {#<i class="fas fa-print"></i>#}
                 </div>
             </div>
             <div class="details-map col-4">
                 <img class="img-fluid" src="{{ asset('bundles/app/img/picture/map.jpg') }}">
-                <div>{{ advertisement.dirRegion.natoobl }} область <i class="fas fa-long-arrow-alt-right"></i>
-                    {{ advertisement.dirDistrict.natoray }} район <i class="fas fa-long-arrow-alt-right"></i></div>
+                <div>
+                    {% if advertisement.dirRegion.natoobl is null %}
+                    {% else %}
+                        {{ advertisement.dirRegion.natoobl }} область
+                    {% endif %}
+
+                    {% if advertisement.dirDistrict.natoray is null %}
+                    {% else %}
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                        {{ advertisement.dirDistrict.natoray }} район <i class="fas fa-long-arrow-alt-right"></i>
+                    {% endif %}
+
+                </div>
+
             </div>
         </div>
         <div class="row">
@@ -126,11 +139,11 @@
                     <div class="details-author-additional">
                         <a class="details-author-advertisement" href=""><i class="fas fa-list-ul"></i> Інші об'яви</a>
                         <a class="details-author-writing" href=""><i class="far fa-envelope"></i> Написати листа</div>
-                    </div>
-
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}
 
