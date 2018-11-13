@@ -6,14 +6,14 @@ use AppBundle\AppBundle;
 use AppBundle\Entity\Advertisement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 /**
  * Class AdvertisementController
- *
+ * @Route("/advertisement")
  */
-
 class AdvertisementController extends Controller
 {
     /**
@@ -23,13 +23,26 @@ class AdvertisementController extends Controller
      */
     public function indexAction(Request $request, $page = 1)
     {
+       /* $file = __DIR__.'\..\Resources\public\18.json';
+        dump(__DIR__.'\..\Resources\public\test.json');
+        $stream = fopen($file, 'r');
+        dump($stream);
+        $listener = new \JsonStreamingParser\Listener\InMemoryListener();;
+        try {
+            $parser = new \JsonStreamingParser\Parser($stream, $listener);
+            $parser->parse();
+            fclose($stream);
+        } catch (Exception $e) {
+            fclose($stream);
+            throw $e;
+        }
+
+        dump($listener->getJson());*/
+
         $em = $this->getDoctrine()->getManager();
 
         $auxiliaryFunctionService = $this->get('app.service.auxiliary_function');
-        //$advertisement = $em->getRepository('AppBundle:Advertisement')->findAll( );
-        //$advertisement2 = $em->getRepository('AppBundle:Advertisement')->findFirstTen();
         $advertisement3 = $em->getRepository('AppBundle:Advertisement')->findLatest($page);
-
         // replace this example code with whatever you need
         return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));
     }
@@ -50,25 +63,19 @@ class AdvertisementController extends Controller
     }
 
     /**
-     * @Route("/advertisement/details/{id}",requirements={"id": "[1-9]\d*"},name="advertisement_details", methods={"GET"})
+     * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", methods={"GET"})
      *
      */
-    public function advertisementDetailsAction(Request $request,$id)
+    public function advertisementDetailsAction(Request $request, $id)
     {
-        try {
-            $em=$this->getDoctrine()->getManager();
-            $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->findOneBy(array('id'=>$id));
-            dump($advertisementDetails);
-            return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
-//            if ($advertisementDetails->isActive()== true) {
-//                return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
-//            } else {
-//                return $this->redirectToRoute('get_all_advertisement');
-//            }
-        }catch (\Exception $exception){
+        $em = $this->getDoctrine()->getManager();
+        $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->findOneBy(array('id' => $id));
 
+        if (empty($advertisementDetails)) {
+            throw new NotFoundHttpException();
         }
 
+        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
     }
 
 

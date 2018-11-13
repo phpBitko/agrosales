@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Photos;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
@@ -55,11 +56,11 @@ class CabinetController extends Controller
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
             $files = $advertisement->getPhotos();
-
             $advertisement->setPhotos(new ArrayCollection());
 
             //$advertisement->setGeom('point('.$advertisement->getCoordB() . ' ' . $advertisement->getCoordL().')');
             $em->persist($advertisement);
+          //  dump($files);
             foreach ($files as $file) {
                 $photoOne = new Photos();
                 $fileName = uniqid() . '.' . $file->guessExtension();
@@ -73,10 +74,7 @@ class CabinetController extends Controller
             $em->flush();
             $this->addFlash('success', 'Дані успішно збережені.');
 
-            return $this->render('AppBundle:cabinet:create_new_advertisement.html.twig', array(
-                'form' => $formAdvertisement->createView(),
-                'purpose' => $purpose
-            ));
+            return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
         }
         return $this->render('AppBundle:cabinet:create_new_advertisement.html.twig', array(
             'form' => $formAdvertisement->createView(),
@@ -85,15 +83,49 @@ class CabinetController extends Controller
         ));
     }
 
+
     /**
-     * @Route("/getMyAdvertisement", name="cabinet_get_my_advertisement", methods={"GET"})
+     * @param string $selected
+     * @return Response
+     *
+     * @Route("/getMyAdvertisement/{selected}", name="cabinet_get_my_advertisement", methods={"GET"})
+     *
      */
-    public function getMyAdvertisementAction(Request $request){
+    public function getMyAdvertisementAction(Request $request, $selected = 'active-tab'){
         $em = $this->getDoctrine()->getManager();
-        $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>true), array('addDate'=>'DESC'));
-        $myAdvertisement ['myAdvertisementPending'] = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId(), 'isPending'=>true), array('addDate'=>'DESC'));
-        $myAdvertisement ['myAdvertisementDeactivated'] = $em->getRepository('AppBundle:Advertisement')->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>false, 'isPending'=>false), array('addDate'=>'DESC'));
-        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements'=>$myAdvertisement));
+        $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')
+            ->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>true), array('addDate'=>'DESC'));
+        $myAdvertisement ['myAdvertisementPending'] = $em->getRepository('AppBundle:Advertisement')
+            ->findBy(array('idUser'=>$this->getUser()->getId(), 'isPending'=>true), array('addDate'=>'DESC'));
+        $myAdvertisement ['myAdvertisementDeactivated'] = $em->getRepository('AppBundle:Advertisement')
+            ->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>false, 'isPending'=>false), array('addDate'=>'DESC'));
+
+        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements'=>$myAdvertisement, 'selected' => $selected));
+    }
+
+    /**
+     * @Route("/getPosition", name="cabinet_get_position", methods={"POST"}, options={"expose"=true})
+     *
+     */
+    public function  getPositionAction(Request $request){
+        try {
+            $geom = $request->get('geom');
+            $em = $this->getDoctrine()->getManager();
+            $region = $em->getRepository('AppBundle:DirRegion')->getPositionByGeom($geom);
+            if($region === false){
+                throw new \Exception('Ділянка повинна знаходитись в межах України!');
+            }
+            $data['region'] = $region->getNatoobl();
+            $district = $em->getRepository('AppBundle:DirDistrict')->getPositionByGeom($geom);
+            if(!empty($district)){
+                $data['district'] = $district->getNatoray();
+            }
+
+            return $this->json(['address' => $data], Response::HTTP_OK);
+        }catch (\Exception $exception){
+
+            return $this->json(['error'=>$exception->getMessage()], Response::HTTP_NOT_FOUND);
+        }
     }
 
 }

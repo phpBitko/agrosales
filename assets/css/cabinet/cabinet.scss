@@ -10,6 +10,9 @@
   th {
     padding: 0.4rem;
   }
+  .btn{
+    width: 102px;
+  }
 }
 
 #tab-my-advertisement{
@@ -20,6 +23,44 @@
     }
   }
 }
-.my_advertisement_table {
 
+#map-create-container{
+  height: 600px;
+}
+
+#form_new_advertisement{
+  .form-group{
+    margin-bottom: 0.5rem;
+    label{
+      margin-bottom: 0;
+    }
+  }
+}
+
+#advertisement-map-marker {
+  font-size: 30px;
+  //display: none;
+  color:darken($base-color, 15%);
+}
+#map-create-container{
+  border: 1px solid lighten($text-color, 40%);
+}
+
+#add-photo-button{
+  margin-top: 1rem;
+  color:white;
+}
+#advertisement_prototype_photos{
+  img{
+    width: 100px;
+    border-radius: 4px;
+    margin: 0.5rem auto;
+  }
+  .add-photo{
+    margin: 0.5rem auto;
+  }
+  .remove-file{
+    font-size: 0.6rem;
+    margin-right: 0.5rem;
+  }
 }

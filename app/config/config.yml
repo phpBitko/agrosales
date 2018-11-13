@@ -77,15 +77,30 @@ doctrine:
         auto_mapping: true
         dql:
             string_functions:
-                ST_AsText: Jsor\Doctrine\PostGIS\Functions\ST_AsText
-                ST_Intersect: Jsor\Doctrine\PostGIS\Functions\ST_Intersects
-                ST_Area: Jsor\Doctrine\PostGIS\Functions\ST_Area
-                ST_AsEWKT: Jsor\Doctrine\PostGIS\Functions\ST_AsEWKT
-                ST_GeometryFromText: Jsor\Doctrine\PostGIS\Functions\ST_GeometryFromText
-                ST_GeomFromText: Jsor\Doctrine\PostGIS\Functions\ST_GeomFromText
-                ST_GeomFromEWKT: Jsor\Doctrine\PostGIS\Functions\ST_GeomFromEWKT
-                ST_XMax: Jsor\Doctrine\PostGIS\Functions\ST_XMax
-                ST_YMax: Jsor\Doctrine\PostGIS\Functions\ST_YMax
+                            ST_AsText: Jsor\Doctrine\PostGIS\Functions\ST_AsText
+                            ST_Intersects: Jsor\Doctrine\PostGIS\Functions\ST_Intersects
+                            ST_Intersection: Jsor\Doctrine\PostGIS\Functions\ST_Intersection
+                            ST_Area: Jsor\Doctrine\PostGIS\Functions\ST_Area
+                            ST_AsEWKT: Jsor\Doctrine\PostGIS\Functions\ST_AsEWKT
+                            ST_GeometryFromText: Jsor\Doctrine\PostGIS\Functions\ST_GeometryFromText
+                            ST_GeomFromText: Jsor\Doctrine\PostGIS\Functions\ST_GeomFromText
+                            ST_GeomFromEWKT: Jsor\Doctrine\PostGIS\Functions\ST_GeomFromEWKT
+                            ST_XMax: Jsor\Doctrine\PostGIS\Functions\ST_XMax
+                            ST_YMax: Jsor\Doctrine\PostGIS\Functions\ST_YMax
+                            ST_XMin: Jsor\Doctrine\PostGIS\Functions\ST_XMin
+                            ST_YMin: Jsor\Doctrine\PostGIS\Functions\ST_YMin
+                            ST_Transform: Jsor\Doctrine\PostGIS\Functions\ST_Transform
+                            ST_SetSRID: Jsor\Doctrine\PostGIS\Functions\ST_SetSRID
+                            ST_Point: Jsor\Doctrine\PostGIS\Functions\ST_Point
+                            ST_X: Jsor\Doctrine\PostGIS\Functions\ST_X
+                            ST_Y: Jsor\Doctrine\PostGIS\Functions\ST_Y
+                            ST_Buffer: Jsor\Doctrine\PostGIS\Functions\ST_Buffer
+                            ST_MakePoint: Jsor\Doctrine\PostGIS\Functions\ST_MakePoint
+                            ST_Distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
+                            ST_Within: Jsor\Doctrine\PostGIS\Functions\ST_Within
+                            ST_Multi: Jsor\Doctrine\PostGIS\Functions\ST_Multi
+                            ST_IsValid: Jsor\Doctrine\PostGIS\Functions\ST_IsValid
+                            INT: GromadaBundle\Query\CastAsInteger
 
 # Swiftmailer Configuration
 swiftmailer:

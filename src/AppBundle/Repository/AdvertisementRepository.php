@@ -76,12 +76,6 @@ class AdvertisementRepository extends EntityRepository
         return $paginator;
 
     }
-//    public function findPoints()
-//    {
-//        $qb=$this->createQueryBuilder('q')
-//        ->select()
-//    }
-
 
     /**
      * Перевіряє, чи знаходиться задана геометрія ($geom) повністю всередині полігону з переданим ID ($id)

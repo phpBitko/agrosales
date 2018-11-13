@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OblNew
  *
- * @ORM\Table(name="dir_region", indexes={@ORM\Index(name="obl_new_koatuu_t", columns={"koatuu_t"}), @ORM\Index(name="obl_new_the_geom_4284", columns={"the_geom_42_bl"}), @ORM\Index(name="obl_new_koatuu", columns={"koatuu"}), @ORM\Index(name="obl_new_the_geom_900913", columns={"the_geom_900913"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\OblNewRepository")
+ * @ORM\Table(name="dir_region", indexes={@ORM\Index(name="obl_new_koatuu_t", columns={"koatuu_t"}), @ORM\Index(name="obl_new_koatuu", columns={"koatuu"})})
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DirRegionRepository")
  */
 class DirRegion
 {

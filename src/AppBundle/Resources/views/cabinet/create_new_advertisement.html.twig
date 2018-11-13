@@ -13,23 +13,17 @@
                         Cтворити нове оголошення
                     </h1>
                 </section>
-                <section class="content">
-                    <div class="col-md-10 offset-md-1 ">
+                <section class="content flex-column d-flex flex-lg-row">
+                    <div class="col-lg-6">
                         <!-- general form elements -->
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Оголошення</h3>
                             </div>
-                            {% for label, messages in app.flashes %}
-                                {% for message in messages %}
-                                    <div class="flash-{{ label }}">
-                                        {{ message }}
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
+
                             <!-- /.box-header -->
                             <!-- form start -->
-                            {{ form_start(form, {'method': 'POST', 'attr':{'id': 'form_'}}) }}
+                            {{ form_start(form, {'method': 'POST', 'attr':{'id': 'form_new_advertisement'}}) }}
                             {{ form_errors(form) }}
                             <div class="box-body">
                                 <div class="form-group">
@@ -54,27 +48,23 @@
                                     {{ form_label(form.area) }}
                                     {{ form_widget(form.area) }}
                                 </div>
+
                                 <div class="form-group">
                                     {{ form_label(form.areaUnit) }}
                                     {{ form_widget(form.areaUnit) }}
                                 </div>
+
                                 <div class="form-group">
                                     {{ form_label(form.dirPurpose) }}
                                     {{ form_widget(form.dirPurpose) }}
                                 </div>
-
-
                                 <div class="form-group">
                                     {{ form_label(form.address) }}
                                     {{ form_widget(form.address) }}
                                 </div>
-
-
                                 <div class="checkbox">
-
                                     {{ form_widget(form.isElectricity) }}
                                     {{ form_label(form.isElectricity) }}
-
                                 </div>
                                 <div class="checkbox">
                                     {{ form_widget(form.isSewerage) }}
@@ -94,10 +84,24 @@
                                 </div>
 
                                 <div class="form-group">
-                                    {{ form_widget(form.photos) }}
-                                    {{ form_label(form.photos) }}
+                                    <div id="advertisement_prototype_photos" data-prototype="<div>{{ form_widget(form.photos.vars.prototype)|e }}</div>">
+                                       {# {% for photo in form.photos %}
+                                            <div>
+                                            <button type='button' class='btn btn-danger btn-sm remove-file'><i class='fa fa-times' aria-hidden='true'></i></button>
+
+                                                {{ form_widget(photo) }}
+                                               #}{# {{  dump(photo) }}#}{#
+                                            </div>
+                                        {% endfor %}#}
+
+                                    </div>
+                                    <div style="display:none">
+                                        {{ form_widget(form.photos) }}
+                                    </div>
+                                    <button id="add-photo-button" type='button' class='btn btn-warning btn-sm'><i class='fas fa-plus'></i> Зображення</button>
                                 </div>
-                                <div class="form-group">
+                               {# <button type='button' class='btn btn-danger btn-xs' onclick='removeFile($(this));'><i class='fa fa-times' aria-hidden='true'></i></button>#}
+                               {# <div class="form-group">
                                     {{ form_label(form.coordB) }}
                                     {{ form_widget(form.coordB) }}
 
@@ -106,23 +110,39 @@
                                     {{ form_label(form.coordL) }}
                                     {{ form_widget(form.coordL) }}
 
-                                </div>
+                                </div>#}
                                 <small>* - поля, обов'язкові для заповнення</small>
                             </div>
                             <!-- /.box-body -->
 
                             <div class="box-footer">
-                                {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success'}}) }}
+                                {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success btn-lg btn-block'}}) }}
                             </div>
                             {{ form_end(form) }}
                         </div>
+                        <i id="advertisement-map-marker" class="fas fa-map-pin"></i>
                     </div>
+
+
                     <!-- /.box -->
 
                     <!-- Form Element sizes -->
 
 
                     <!-- /input-group -->
+
+                    <div class="col-lg-6">
+                        <!-- general form elements -->
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Місцерозташування земельної ділянки</h3>
+                            </div>
+                            <div id="map-create-container"></div>
+
+                        </div>
+
+
+                    </div>
 
                 </section>
             </div>

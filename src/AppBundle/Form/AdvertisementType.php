@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Advertisement;
 //use Doctrine\DBAL\Types\TextType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,9 +22,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\File;
+//use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class AdvertisementType extends AbstractType
@@ -67,10 +71,10 @@ class AdvertisementType extends AbstractType
             ])
             ->add('areaUnit', ChoiceType::class, [
                 'label' => 'Одиниця виміру площі',
-                'choices' => array('га' => '1', 'соток' => '2', 'м2' => '3'),
+                'choices' => ['га' => '1', 'соток' => '2', 'м2' => '3'],
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
-                'required' => false
+                'required' => true
             ])
             ->add('dirPurpose', ChoiceType::class, [
                 'label' => 'Цільове призначення',
@@ -81,14 +85,12 @@ class AdvertisementType extends AbstractType
                 'placeholder' => 'вкажіть цільове призначення',
                 'required' => false
             ])
-
             ->add('address', TextType::class, [
                 'label' => 'Адреса',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
-
             ->add('isElectricity', CheckboxType::class, [
                 'label' => 'Електрика',
                 'attr' => ['class' => ''],
@@ -120,30 +122,40 @@ class AdvertisementType extends AbstractType
                 'label_attr' => ['class' => 'font-weight-bold'],
                 'required' => false
             ])
-//            ->add('imageFile', VichImageType::class, [
-//                'label' => 'файл..',
-//
-//            ])
-            ->add('photos', FileType::class, [
-                'label' => 'Виберіть фото',
-                'attr' => ['accept' => 'image/*'],
-                'label_attr' => ['class' => 'font-weight-bold '],
-                'multiple' => true,
+            ->add('geom', HiddenType::class, [
+                'label' => false,
                 'required' => false
-
             ])
-            ->add('coordB', NumberType::class, [
+            ->add('photos', CollectionType::class, [
+              //  'label' => 'Виберіть фото',
+                'entry_type'   		=> FileType::class,
+                'prototype'			=> true,
+                'allow_add'			=> true,
+                'allow_delete'		=> true,
+                'by_reference' 		=> false,
+                'required'			=> false,
+                'label'			=> false,
+
+               // 'label_attr' => ['class' => 'font-weight-bold '],
+                //'multiple' => true,
+             //   'entry_type' => FileType::class,
+             //   'entry_options' => array('label' => false),
+               // 'allow_add' => true
+            ])
+          /*  ->add('coordB', NumberType::class, [
                 'label' => 'Широта',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold '],
-                'required' => false
+                'required' => false,
+                'attr'=>array('disabled'=>'disabled')
             ])
             ->add('coordL', NumberType::class, [
                 'label' => 'Довгота',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold '],
-                'required' => false
-            ])
+                'required' => false,
+                'attr'=>array('disabled'=>'disabled')
+            ])*/
 
 
 //            ->add('photos', FileType::class, [

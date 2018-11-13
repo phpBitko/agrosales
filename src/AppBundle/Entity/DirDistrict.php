@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  *
  * @ORM\Table(name="dir_district")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DirDistrictRepository")
  */
 class DirDistrict
 {
