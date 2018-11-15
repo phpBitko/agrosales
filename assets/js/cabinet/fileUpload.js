@@ -14,8 +14,7 @@ $(function () {
         // Once the file is added
         count++;
     }
-    if( $('#advertisement_prototype_photos input').length == 0){
-        console.log('asdasd');
+    if($('#advertisement_prototype_photos').length > 0 && $('#advertisement_prototype_photos input').length == 0){
         createAddFile(count);
     }
 
