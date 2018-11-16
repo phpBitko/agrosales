@@ -27,7 +27,7 @@ $(function () {
     function addAdvertLayers(data) {
         $.each(data.data, function (i, value) {
             features = format.readFeature(value.geom, {
-                dataProjection: 'EPSG:4326',
+                dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857'
             });
             features.set('id', value.id);

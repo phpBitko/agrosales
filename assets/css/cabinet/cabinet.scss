@@ -64,3 +64,26 @@
     margin-right: 0.5rem;
   }
 }
+
+.map_search_block{
+  height: 30px;
+  position: absolute;
+  z-index: 1;
+  top:57px;
+  #text_search_cad_num{
+    height: 27px;
+    padding-bottom: 0.15rem;
+  }
+
+  #btn_search_cad_num{
+    background-color: #3c8dbc;
+    border-radius: 0;
+    color: white;
+    padding: 0.275rem 0.5rem;
+    font-size: 0.7rem;
+    &:focus{
+      box-shadow: none;
+    }
+  }
+
+}

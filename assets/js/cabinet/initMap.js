@@ -1,3 +1,4 @@
+require('jquery-inputmask');
 import OSM from "ol/source/OSM";
 import TileLayer from "ol/layer/Tile";
 import View from "ol/View";
@@ -11,7 +12,7 @@ import Point from 'ol/geom/Point.js';
 import TileWMS from "ol/source/TileWMS";
 
 $(function () {
-
+    $("#text_search_cad_num").mask("9999999999:99:999:9999");
 
     var osmLayer = new TileLayer({
         source: new OSM(),
@@ -53,7 +54,8 @@ $(function () {
         ],
         view: new View({
             center: centerUkraine,
-            zoom: 8
+            zoom: 8,
+            maxZoom: 16,
         }),
         controls: defaultControls({
             attribution: false,
@@ -67,7 +69,7 @@ $(function () {
     });
 
 
-    if($('#advertisement_geom').val() !== ''){
+    if($('#advertisement_geom').val() !== undefined && $('#advertisement_geom').val() !== ''){
         var wkt = new WKT();
         var features = wkt.readFeature($('#advertisement_geom').val());
         advertMarker.setPosition(features.getGeometry().getCoordinates());
@@ -81,12 +83,76 @@ $(function () {
         /*$('#advertisement_coordB').val(Math.round(coord[0] * 100000) / 100000);
         $('#advertisement_coordL').val(Math.round(coord[1] * 100000) / 100000);*/
         var geom = new WKT().writeGeometry(new Point(event.coordinate));
+        getAddress(geom);
+        $('#advertisement_geom').val(geom);
+    });
+    mapCabinet.addOverlay(advertMarker);
 
+
+    /*Пошук по кадастрововму номеру*/
+    var coatuuRegExp = new RegExp('^([0-9]{10}:[0-9]{2}:[0-9]{3}:[0-9]{4})$');
+    $('#btn_search_cad_num').on('click', function () {
+        if (mapCabinet !== undefined) {
+            var view = mapCabinet.getView();
+            var searchval = $('#text_search_cad_num').val();
+
+            if (coatuuRegExp.test(searchval)) {
+                $('.for-preloader').preloader();
+                $.ajax({
+                    url: 'http://map.land.gov.ua/kadastrova-karta/find-Parcel',
+                    type: 'GET',
+                    data: {
+                        'cadnum': searchval
+                    },
+                    success: function (data) {
+                        if (data.data[0].st_xmin == null) {
+                            $('.for-preloader').preloader('remove');
+                            if (advertMarker !== undefined) {
+                                $('#advert-map-marker').hide();
+                                bootbox.alert('Нічого не знайдено!');
+                            }
+                        } else {
+                            var box = [data.data[0].st_xmin, data.data[0].st_ymin, data.data[0].st_xmax, data.data[0].st_ymax];
+                            view.fit(box, mapCabinet.getSize());
+                            view.setZoom(18);
+                           /* if (advertMarker === undefined) {
+                                advertMarker = new ol.Overlay({
+                                    element: document.getElementById('advert-map-marker'),
+                                    positioning: 'center-center',
+                                });
+                            }*/
+                            var coord = mapCabinet.getView().getCenter()
+                            advertMarker.setPosition(coord);
+                            $('#advert-map-marker').show();
+                            var geom = new WKT().writeGeometry(new Point(coord));
+                            $('#advertisement_geom').val(geom);
+                            getAddress(geom);
+                        }
+
+                    },
+                    error: function () {
+                        $('for-preloader').preloader('remove');
+                        $('html, body').css("cursor", "auto");
+                        if (searchMarker !== undefined) {
+                            //map.removeOverlay(searchMarker);
+                            $('#advert-map-marker').hide();
+                        }
+                    }
+                });
+            } else {
+                bootbox.alert('Кадастровий номер не вірний!')
+            }
+        }
+    });
+
+
+    function getAddress(geom) {
         $.ajax({
             url: Routing.generate('cabinet_get_position'),
             type: 'POST',
             data: {geom: geom},
             error: function (jqXHR, textStatus, errorThrown) {
+                $('.for-preloader').preloader('remove');
                 $('#map-create-container').preloader('remove');
                 if (jqXHR.responseJSON) {
                     bootbox.alert({
@@ -101,16 +167,10 @@ $(function () {
                 }
             },
             success: function (data) {
-                $('#map-create-container').preloader('remove');
-                $('#advertisement_address').val(data.address.region + ' область, ' + data.address.district + ' район')
-                //console.log(data)
-                //console.log(data.region)
+                $('.for-preloader').preloader('remove');
+                $('#advertisement_address').val(data.address.region + ' область, ' + data.address.district + ' район');
             }
         });
+    }
 
-
-
-        $('#advertisement_geom').val(geom);
-    });
-    mapCabinet.addOverlay(advertMarker);
 });
