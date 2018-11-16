@@ -1,29 +1,131 @@
-@import '../error/error';
-@import '../generalSettings';
+$base-color: #3c8dbc;
+$text-color: #626161;
 
-.details-picture {
-  .details-panel {
-    margin-top: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #777777;
+//-------------------------------------------- change standart properties tooltips
+.tooltip-inner {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #777777;
+  color: #3c3c3c;
+  border-radius: 0.15rem;
+}
 
+.tooltip-arrow {
+  color: #777777;
+}
+
+.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
+  border-top-color: #777777;
+}
+
+.detail-column {
+  padding: 0 0 0 10px;
+  a {
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    background-color: white;
+    line-height: 1;
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      background-color: darken(white, 10%);
+    }
+    &:active {
+      background-color: darken(white, 30%) !important;
+    }
+    i {
+      width: 100%;
+    }
+
+  }
+  a:last-child {
+    margin-top: 10px;
+  }
+}
+
+.details-picture-miniature {
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  .details-picture-miniature-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  .img-miniature {
+    margin-top: 10px;
+    padding: 0.15rem;
+    border: 1px solid white;
+    border-radius: 0.15rem;
+    transition: 0.2s;
+    &:hover {
+      cursor: pointer;
+      border: 1px solid $base-color;
+    }
+
+  }
+  .active {
+    border: 1px solid $base-color;
+
+  }
+}
+
+.carousel-item {
+  //transition-duration: .6s!important;
+  //transition-property: opacity!important;
+
+  //transition: 0.5s;
+}
+
+#carouselExampleControls {
+  .carousel-inner {
+    width: 100%;
+    max-height: 400px;
+    img {
+      margin: 0 auto;
+      max-height: 400px;
+      width: auto;
+    }
+  }
+  .carousel-item {
+    width: 100%;
+    max-height: 400px;
+  }
+  .carousel-control-change {
+    vertical-align: middle;
+    color: $base-color;
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: $base-color;
+    }
     i {
       font-size: 1.5rem;
-      color: #adb5bd;
-      vertical-align: top;
-      margin: 0 4px 0 10px;
-    }
-    i:last-child{
-      text-align: right;
-    }
-    span {
-      vertical-align: baseline;
-    }
-    i:not(:first-child) {
-      margin-left: 35px;
+
     }
   }
 }
+
+.details-panel {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #777777;
+  i {
+    font-size: 1.5rem;
+    color: #adb5bd;
+    vertical-align: top;
+    margin: 0 4px 0 10px;
+  }
+  i:last-child {
+    text-align: right;
+  }
+  span {
+    vertical-align: baseline;
+  }
+  i:not(:first-child) {
+    margin-left: 35px;
+  }
+}
+
 .details-map {
   div {
     margin-top: 10px;
@@ -83,20 +185,19 @@
     margin-right: 20px;
     padding: 10px;
     text-align: center;
+    border: 2px solid #f1f1f1;
   }
-  .on {
+  .active {
     border: 2px solid #7bd74a;
   }
-  .off {
-    border: 2px solid #f1f1f1;
-
-  }
 }
+
 .details-text-about {
   margin-top: 25px;
   padding-bottom: 25px;
   border-bottom: 1px solid #777777;
 }
+
 .details-services {
   margin-top: 17px;
   flex-wrap: wrap;
@@ -105,7 +206,7 @@
   a {
     color: $text-color;
     &:hover {
-      color: darken($text-color,10%);
+      color: darken($text-color, 10%);
       text-decoration: none;
     }
     i {
@@ -115,8 +216,8 @@
       margin: 0 4px 0 10px;
     }
   }
-
 }
+
 .details-communication {
   width: 100%;
   margin-top: 35px;
@@ -124,12 +225,14 @@
   background-color: #f1f1f1;
 
 }
+
 .details-communication-text {
   margin: 35px 0;
   border: 1px solid #777777;
   border-radius: 4px;
   padding: 25px 5px;
 }
+
 .details-author {
   display: flex;
   width: 100%;
@@ -138,10 +241,10 @@
   i {
     font-size: 2.8rem;
   }
-  .details-author-photo{
+  .details-author-photo {
     width: 15%;
   }
-  .details-author-phones{
+  .details-author-phones {
     margin-left: 15px;
     width: 35%;
     div {
@@ -171,7 +274,6 @@
         color: white;
         margin-right: 5px;
       }
-
     }
     a:not(:first-child) {
       margin-top: 10px;

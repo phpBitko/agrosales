@@ -2,6 +2,7 @@
 @import '../generalSettings';
 @import 'details';
 
+
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
 
@@ -27,6 +28,14 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
     //----------------------------блок img
     .advertisement-img {
       position: relative;
+      height: 187px;
+      overflow: hidden;
+      img {
+        height: 100%;
+        width: auto;
+        margin: 0 auto;
+        display: block;
+      }
 
       .advertisement-selected {
         position: absolute;

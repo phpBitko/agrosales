@@ -6,14 +6,16 @@ use AppBundle\AppBundle;
 use AppBundle\Entity\Advertisement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 /**
  * Class AdvertisementController
  * @Route("/advertisement")
  */
+
 class AdvertisementController extends Controller
 {
     /**
@@ -44,6 +46,7 @@ class AdvertisementController extends Controller
         $auxiliaryFunctionService = $this->get('app.service.auxiliary_function');
         $advertisement3 = $em->getRepository('AppBundle:Advertisement')->findLatest($page);
         // replace this example code with whatever you need
+        dump($advertisement3);
         return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));
     }
 
@@ -66,16 +69,27 @@ class AdvertisementController extends Controller
      * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", methods={"GET"})
      *
      */
-    public function advertisementDetailsAction(Request $request, $id)
+    public function advertisementDetailsAction(Request $request,$id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->findOneBy(array('id' => $id));
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->findOneBy(array('id' => $id));
+            dump($advertisementDetails);
 
-        if (empty($advertisementDetails)) {
-            throw new NotFoundHttpException();
+            if ($advertisementDetails == null) {
+                throw new NotFoundHttpException();
+            }
+            return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
+//            if ($advertisementDetails->isActive()== true) {
+//                return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
+//            } else {
+//                return $this->redirectToRoute('get_all_advertisement');
+//            }
+        } catch (\Exception $exception) {
+            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
+
         }
 
-        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
     }
 
 
