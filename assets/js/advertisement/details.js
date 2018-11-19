@@ -30,8 +30,11 @@ $(function () {
         $('.detail-column').append('<a class="arrow-down btn btn-secondary btn-sm"><i class="fas fa-angle-down"></i></a>');
     }
 
-    var containerTop = $('.details-picture-miniature-container').offset().top;
-    var widthFirstChild = $('.details-picture-miniature-container').find('img:first-child').height();//----висота першої картинки
+    if ($('.details-picture-miniature-container').length > 0) {
+        var containerTop = $('.details-picture-miniature-container').offset().top;
+        var widthFirstChild = $('.details-picture-miniature-container').find('img:first-child').height();//----висота першої картинки
+
+    }
 
     // console.log("початкова висота - ", containerTop);
     // console.log("висота блока - ", widthFirstChild);
@@ -43,18 +46,18 @@ $(function () {
                 $('.details-picture-miniature-container').animate({
                     top: "-=80"
                 }, 200)
-                console.log("поточна висота - ", $('.details-picture-miniature-container').offset().top);
+                //console.log("поточна висота - ", $('.details-picture-miniature-container').offset().top);
             }
 
         } else {
             if ($('.details-picture-miniature-container').offset().top < containerTop) {
 
-                console.log("поточка висота - ", $('.details-picture-miniature-container').offset().top);
-                if ((( $('.details-picture-miniature-container').offset().top - containerTop) > (-1*widthFirstChild)) && ( $('.details-picture-miniature-container').offset().top - containerTop) < 10) {
+                //console.log("поточка висота - ", $('.details-picture-miniature-container').offset().top);
+                if ((($('.details-picture-miniature-container').offset().top - containerTop) > (-1 * widthFirstChild)) && ($('.details-picture-miniature-container').offset().top - containerTop) < 10) {
                     $('.details-picture-miniature-container').animate({
                         top: 0
                     }, 200)
-                    console.log("зайшло - ");
+                    //console.log("зайшло - ");
                 } else {
                     $('.details-picture-miniature-container').animate({
                         top: "+=80"
@@ -62,6 +65,24 @@ $(function () {
                 }
             }
         }
-    })
+    });
+
+    //---------------------------------------------прилипання блоку автор оголошення при прокрутці
+    //console.log($('.details-author').position());
+    // console.log($('.details-author').offset().top);
+    if ($('.details-author').length > 0) {
+        var topPosition = $('.details-author').offset().top;
+        $(window).scroll(function () {
+            var top = $(document).scrollTop();
+            if (top > topPosition) {
+                $('.details-author').addClass('fixed');
+            }
+            else {
+                $('.details-author').removeClass('fixed');
+            }
+        });
+    }
+
 
 });
+

@@ -3,10 +3,17 @@ $text-color: #626161;
 
 //-------------------------------------------- change standart properties tooltips
 .tooltip-inner {
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid #777777;
-  color: #3c3c3c;
+  background: #eff8ff;
+  border: 1px solid #aad4f5;
+  color: #2368a2;
   border-radius: 0.15rem;
+  opacity: 1 !important;
+  filter: alpha(opacity=100);
+}
+
+.tooltip.in {
+  opacity: 1 !important;
+  filter: alpha(opacity=100);
 }
 
 .tooltip-arrow {
@@ -15,6 +22,7 @@ $text-color: #626161;
 
 .bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
   border-top-color: #777777;
+  opacity: 1 !important;
 }
 
 .detail-column {
@@ -127,13 +135,15 @@ $text-color: #626161;
 }
 
 .details-map {
-  div {
-    margin-top: 10px;
-    font-size: 1rem;
-  }
+  height: 400px;
   i {
     vertical-align: text-bottom;
   }
+}
+
+.details-map-region {
+  margin-top: 10px;
+  font-size: 1rem;
 }
 
 .details-title {
@@ -233,50 +243,64 @@ $text-color: #626161;
   padding: 25px 5px;
 }
 
-.details-author {
-  display: flex;
+.details-author-container {
   width: 100%;
-  background-color: #f1f1f1;
-  padding: 10px 10px;
-  i {
-    font-size: 2.8rem;
-  }
-  .details-author-photo {
-    width: 15%;
-  }
-  .details-author-phones {
-    margin-left: 15px;
-    width: 35%;
-    div {
-      width: 100%;
+  .details-author {
+    transition: 0.2s;
+    display: flex;
+    width: 400px;
+    background-color: #f1f1f1;
+    padding: 10px 10px;
+    i {
+      font-size: 2.8rem;
     }
-    div:first-child {
-      font-size: 1.3rem;
+    .details-author-photo {
+      width: 15%;
     }
-  }
-  .details-author-additional {
-    width: 50%;
-    a {
-      display: block;
-      width: 90%;
-      background-color: #adb5bd;
-      padding: 7px 10px;
-      color: white;
-      margin: 0 auto;
-      transition: 0.2s;
-      &:hover {
-        cursor: pointer;
-        text-decoration: none;
-        color: $text-color;
+    .details-author-phones {
+      margin-left: 15px;
+      width: 35%;
+      div {
+        width: 100%;
       }
-      i {
-        font-size: 1rem;
+      div:first-child {
+        font-size: 1.3rem;
+      }
+    }
+    .details-author-additional {
+      width: 50%;
+      a {
+        display: block;
+        width: 90%;
+        background-color: #adb5bd;
+        padding: 7px 10px;
         color: white;
-        margin-right: 5px;
+        margin: 0 auto;
+        transition: 0.2s;
+        &:hover {
+          cursor: pointer;
+          text-decoration: none;
+          color: $text-color;
+        }
+        i {
+          font-size: 1rem;
+          color: white;
+          margin-right: 5px;
+        }
+      }
+      a:not(:first-child) {
+        margin-top: 10px;
       }
     }
-    a:not(:first-child) {
-      margin-top: 10px;
-    }
   }
+
+}
+
+.fixed {
+  position: fixed;
+  top: 10px;
+  z-index: 100;
+}
+#details-geom {
+  visibility: hidden;
 }

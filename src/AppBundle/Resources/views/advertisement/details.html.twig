@@ -1,6 +1,7 @@
 {% extends 'AppBundle::index.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" type="text/css">
     <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
 
 {% endblock %}
@@ -88,20 +89,21 @@
                     {#<i class="fas fa-print"></i>#}
                 </div>
             </div>
-            <div class="details-map col-4">
-                <img class="img-fluid" src="{{ asset('bundles/app/img/picture/map.jpg') }}">
-                <div>
-                    {% if advertisement.dirRegion %}
-                        {{ advertisement.dirRegion.natoobl }} область
-                    {% endif %}
 
-                    {% if advertisement.dirRegion %}
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                        {{ advertisement.dirDistrict.natoray }} район
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    {% endif %}
+            <div id="details-map-container" class="details-map col-4">
 
-                </div>
+            </div>
+            <div class="details-map-region">
+                {% if advertisement.dirRegion %}
+                    {{ advertisement.dirRegion.natoobl }} область
+                {% endif %}
+
+                {% if advertisement.dirRegion %}
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    {{ advertisement.dirDistrict.natoray }} район
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                {% endif %}
+
             </div>
         </div>
         <div class="row">
@@ -206,25 +208,38 @@
                 <div class="details-communication-text">Текст повідомлення</div>
             </div>
             <div class="col-4">
-                <div class="details-author">
-                    <div class="details-author-photo">
-                        <i class="far fa-user-circle"></i>
+                <div class="details-author-container">
+                    <div class="details-author">
+                        <div class="details-author-photo">
+                            <i class="far fa-user-circle"></i>
+                        </div>
+                        <div class="details-author-phones">
+                            <div> Vetal33</div>
+                            <div> 063-742-8874</div>
+                            <div> 063-742-8874</div>
+                        </div>
+                        <div class="details-author-additional">
+                            <a class="details-author-advertisement" href="">
+                                <i class="fas fa-list-ul"></i> Інші об'яви
+                            </a>
+                            <a class="details-author-writing" href="">
+                                <i class="far fa-envelope"></i> Написати листа
+                            </a>
+                        </div>
                     </div>
-                    <div class="details-author-phones">
-                        <div> Vetal33</div>
-                        <div> 063-742-8874</div>
-                        <div> 063-742-8874</div>
-                    </div>
-                    <div class="details-author-additional">
-                        <a class="details-author-advertisement" href="">
-                            <i class="fas fa-list-ul"></i> Інші об'яви
-                        </a>
-                        <a class="details-author-writing" href="">
-                            <i class="far fa-envelope"></i> Написати листа
-                        </a>
-                    </div>
-
                 </div>
+                <div id="details-geom" >{{ advertisement.geom }}</div>
+
+                <svg style="display: none" id='icon_advertisement' style="z-index: 10" version="1.1" id="Layer_1"
+                     xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 30 30"
+                     enable-background="new 0 0 30 30" xml:space="preserve">
+                    <path fill="#156BB1"
+                     d="M22.906,10.438c0,4.367-6.281,14.312-7.906,17.031c-1.719-2.75-7.906-12.665-7.906-17.031S10.634,2.531,15,2.531S22.906,6.071,22.906,10.438z"/>
+                    <circle fill="#FFFFFF" cx="15" cy="10.677" r="3.291"/>
+                </svg>
+
+
             </div>
         </div>
     </div>
