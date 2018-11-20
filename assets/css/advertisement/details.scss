@@ -54,6 +54,7 @@ $text-color: #626161;
   height: 400px;
   overflow: hidden;
   position: relative;
+
   .details-picture-miniature-container {
     position: absolute;
     top: 0px;
@@ -70,7 +71,6 @@ $text-color: #626161;
       cursor: pointer;
       border: 1px solid $base-color;
     }
-
   }
   .active {
     border: 1px solid $base-color;
@@ -78,26 +78,25 @@ $text-color: #626161;
   }
 }
 
-.carousel-item {
-  //transition-duration: .6s!important;
-  //transition-property: opacity!important;
-
-  //transition: 0.5s;
-}
-
 #carouselExampleControls {
   .carousel-inner {
     width: 100%;
     max-height: 400px;
-    img {
-      margin: 0 auto;
-      max-height: 400px;
-      width: auto;
-    }
+
   }
   .carousel-item {
     width: 100%;
-    max-height: 400px;
+    height: 400px;
+    position: relative;
+
+    img {
+      max-height: 400px;
+      width: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
   }
   .carousel-control-change {
     vertical-align: middle;
@@ -108,7 +107,6 @@ $text-color: #626161;
     }
     i {
       font-size: 1.5rem;
-
     }
   }
 }
@@ -136,6 +134,29 @@ $text-color: #626161;
 
 .details-map {
   height: 400px;
+  position: relative;
+
+  .details-map-navigation {
+    position: absolute;
+    top: 356px;
+    left: 21px;
+    height: 37px;
+    z-index: 100;
+    border: 1px solid #00a2ad;
+    #details-map-full {
+
+      width: 35px;
+      height: 35px;
+      background: #f2efe9 url("../../../src/AppBundle/Resources/public/img/magnifying-glass.png") no-repeat center;
+      border: none;
+      border-bottom: 1px solid #d8d7d7;
+      &:hover {
+        background-color: #dffff9;
+        cursor: pointer;
+      }
+    }
+  }
+
   i {
     vertical-align: text-bottom;
   }
@@ -293,7 +314,6 @@ $text-color: #626161;
       }
     }
   }
-
 }
 
 .fixed {
