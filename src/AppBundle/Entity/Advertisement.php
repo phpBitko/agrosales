@@ -168,6 +168,31 @@ class Advertisement
 
     /**
      * @var boolean
+     * @ORM\Column(name="is_in_the_top",type="boolean", nullable=true)
+     *
+     */
+    private $isInTheTop = false;
+
+    /**
+     * @return bool
+     */
+    public function isInTheTop(): bool
+    {
+        return $this->isInTheTop;
+    }
+
+    /**
+     * @param bool $isInTheTop
+     */
+    public function setIsInTheTop(bool $isInTheTop): void
+    {
+        $this->isInTheTop = $isInTheTop;
+    }
+
+
+
+    /**
+     * @var boolean
      * @ORM\Column(name="is_active", type="boolean", nullable=true)
      */
     private $isActive = false;
@@ -331,6 +356,7 @@ class Advertisement
 
         return $this;
     }
+
     public function removePhotos($photo)
     {
         $this->photos->removeElement($photo);
@@ -794,7 +820,7 @@ class Advertisement
      */
     public function doStuffOnPostPersist()
     {
-        if (!empty($this->getCoordB()) && !empty($this->getCoordL())){
+        if (!empty($this->getCoordB()) && !empty($this->getCoordL())) {
             $this->setGeom('point(' . $this->getCoordB() . ' ' . $this->getCoordL() . ')');
         }
     }
@@ -930,7 +956,6 @@ class Advertisement
     /**
      * @return Advertisement
      */
-
 
 
 }

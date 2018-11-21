@@ -60,9 +60,10 @@ class AdvertisementRepository extends EntityRepository
     public function queryLatest()
     {
         $qb = $this->createQueryBuilder('q')
-            ->orderBy('q.addDate', 'DESC')
+            ->where('q.isActive = true')
+            ->orderBy('q.isInTheTop', 'DESC')
+            ->addOrderBy('q.addDate', 'DESC')
             ->getQuery();
-
         return $qb;
 
     }
