@@ -33,7 +33,6 @@ $(function () {
         });
     }
 
-
     var point;
 
     if ($('#details-geom').text() !== undefined && $('#details-geom').text() !== '') {
@@ -43,8 +42,10 @@ $(function () {
         point = (features.getGeometry());
         vectorSourcePoints.addFeature(features);
     }
+    var coordinates = point.getCoordinates();
 
     var centerUkraine = fromLonLat([31.182233, 48.382778]);//------------------координати центру України
+    console.log(centerUkraine);
 
     var view = new View({
         center: centerUkraine,
@@ -54,7 +55,6 @@ $(function () {
     if (point != null) {
         view.fit(point, {minResolution: 5});
     }
-
 
     var osmLayer = new TileLayer({
         source: new OSM(),
@@ -103,5 +103,17 @@ $(function () {
         style: styleAdvert
     });
     mapDetail.addLayer(vectorPoints);
+
+    console.log(coordinates);
+    $('#details-map-full').on('click', function () {
+        view.fit(point, {minResolution: 5});
+        //view = mapDetail.getView();
+       /* view.animate({
+            center: [0, 0],
+            zoom: 5,
+            duration: 200
+        })*/
+    });
+
 
 })

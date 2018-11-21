@@ -2,10 +2,8 @@
 @import '../generalSettings';
 @import 'details';
 
-
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
-
 
 //---------------------------------блок оголошень
 .advertisement {
@@ -38,14 +36,19 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       }
 
       .advertisement-selected {
+        padding: 1px;
         position: absolute;
         top: 7px;
         left: 255px;
         color: #adb5bd;
-        transition: 0.3s;
+        transition: 0.2s;
         &:hover {
           color: #cb132d;
           cursor: pointer;
+        }
+        &:active {
+          color: #870215;
+
         }
       }
 
@@ -87,7 +90,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
     font-size: 1.1rem;
     font-family: MyriadPro;
     line-height: 1.5rem;
-    border-top:1px solid #d9d9d9;
+    border-top: 1px solid #d9d9d9;
 
     a.advertisement-text-title {
       color: $base-color;

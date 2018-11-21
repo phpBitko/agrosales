@@ -216,7 +216,8 @@ $text-color: #626161;
     margin-right: 20px;
     padding: 10px;
     text-align: center;
-    border: 2px solid #f1f1f1;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
   }
   .active {
     border: 2px solid #7bd74a;
@@ -272,7 +273,10 @@ $text-color: #626161;
     width: 400px;
     background-color: #f1f1f1;
     padding: 10px 10px;
-    i {
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.05);
+  i {
       font-size: 2.8rem;
     }
     .details-author-photo {
