@@ -89,6 +89,8 @@ class Photos
      */
     private $addDate;
 
+
+
     /**
      * @return mixed
      */

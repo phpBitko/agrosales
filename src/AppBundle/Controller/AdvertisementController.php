@@ -71,25 +71,13 @@ class AdvertisementController extends Controller
      */
     public function advertisementDetailsAction(Request $request,$id)
     {
-        try {
+
             $em = $this->getDoctrine()->getManager();
             $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->findOneBy(array('id' => $id));
-            dump($advertisementDetails);
-
             if ($advertisementDetails == null) {
                 throw new NotFoundHttpException();
             }
             return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
-//            if ($advertisementDetails->isActive()== true) {
-//                return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
-//            } else {
-//                return $this->redirectToRoute('get_all_advertisement');
-//            }
-        } catch (\Exception $exception) {
-            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
-
-        }
-
     }
 
 

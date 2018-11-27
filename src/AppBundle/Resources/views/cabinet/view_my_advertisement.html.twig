@@ -22,8 +22,11 @@
                                 </div>
                                 {% for label, messages in app.flashes %}
                                     {% for message in messages %}
-                                        <div class="flash-{{ label }}">
-                                            {{ message }}
+                                        <div class="pad margin no-print">
+                                            <div class="callout callout-success flash-{{ label }}" style="margin-bottom: 0!important;">
+                                               {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                                                {{ message }}
+                                            </div>
                                         </div>
                                     {% endfor %}
                                 {% endfor %}
@@ -31,7 +34,7 @@
                                 <div class="box-body">
                                     <ul class="nav nav-tabs" id="tab-my-advertisement" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link {{ (selected== 'active-tab') ? 'active' }}" id="active-tab" data-toggle="tab" href="#active-tab-content"
+                                            <a class="nav-link {{ (selected == 'active-tab') ? 'active' }}" id="active-tab" data-toggle="tab" href="#active-tab-content"
                                                role="tab" aria-controls="home" aria-selected="{{ (selected== 'active-tab') ? 'true' : 'false' }}">
                                                 Активні ({{ advertisements.myAdvertisementActive|length }})
                                             </a>

@@ -174,42 +174,6 @@ class Advertisement
     private $isInTheTop = false;
 
     /**
-     * @return bool
-     */
-    public function isInTheTop(): bool
-    {
-        return $this->isInTheTop;
-    }
-
-    /**
-     * @param bool $isInTheTop
-     */
-    public function setIsInTheTop(bool $isInTheTop): void
-    {
-        $this->isInTheTop = $isInTheTop;
-    }
-
-
-
-    /**
-     * @var boolean
-     * @ORM\Column(name="is_active", type="boolean", nullable=true)
-     */
-    private $isActive = false;
-
-    /**
-     * @var boolean
-     * @ORM\Column(name="is_pending", type="boolean", nullable=true)
-     */
-    private $isPending = true;
-
-    /**
-     * @var boolean
-     * @ORM\Column(name="is_rejected", type="boolean", nullable=true)
-     */
-    private $isRejected = false;
-
-    /**
      * @var boolean
      * @ORM\Column(name="is_electricity", type="boolean", nullable=true)
      */
@@ -285,12 +249,21 @@ class Advertisement
      * @ORM\Column(name="id_dir_district", type="integer", nullable=true)
      */
     private $idDirDistrict;
+
     /**
      *
-     * @ORM\ManyToOne(targetEntity="DirDistrict", inversedBy="advertisement")
+     * @ORM\ManyToOne(targetEntity="DirDistrict")
      * @ORM\JoinColumn(name="id_dir_district", referencedColumnName="id")
      */
     private $dirDistrict;
+
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="DirStatus")
+     * @ORM\JoinColumn(name="id_dir_status", referencedColumnName="id")
+     */
+    private $dirStatus;
 
     /**
      * @var integer
@@ -299,7 +272,6 @@ class Advertisement
      */
     private $idUser;
 
-
     /**
      * @var integer
      *
@@ -307,6 +279,58 @@ class Advertisement
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
     private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement", cascade={"persist"})
+     */
+    private $photos;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="DirRegion")
+     * @ORM\JoinColumn(name="id_dir_region", referencedColumnName="id", nullable=true)
+     */
+    private $dirRegion;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="DirPurpose")
+     * @ORM\JoinColumn(name="id_dir_purpose", referencedColumnName="id")
+     */
+    private $dirPurpose;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="add_date", type="datetime", nullable=true)
+     */
+    private $addDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="update_date", type="datetime", nullable=true)
+     */
+    private $updateDate;
+
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="coord_l", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $coordL;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+        $this->addDate = new \DateTime();
+    }
+
 
     /**
      * @return int
@@ -324,11 +348,38 @@ class Advertisement
         $this->users = $users;
     }
 
+    /**
+     * @return bool
+     */
+    public function isInTheTop(): bool
+    {
+        return $this->isInTheTop;
+    }
 
     /**
-     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement", cascade={"persist"})
+     * @param bool $isInTheTop
      */
-    private $photos;
+    public function setIsInTheTop(bool $isInTheTop): void
+    {
+        $this->isInTheTop = $isInTheTop;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getDirStatus()
+    {
+        return $this->dirStatus;
+    }
+
+    /**
+     * @param mixed $dirStatus
+     */
+    public function setDirStatus($dirStatus): void
+    {
+        $this->dirStatus = $dirStatus;
+    }
 
     /**
      * @return mixed
@@ -410,50 +461,6 @@ class Advertisement
     {
         $this->isRejected = $isRejected;
     }
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_dir_region", type="integer", nullable=true)
-     */
-    private $idDirRegion;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="DirRegion", inversedBy="advertisement")
-     * @ORM\JoinColumn(name="id_dir_region", referencedColumnName="id")
-     */
-    private $dirRegion;
-
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="DirPurpose", inversedBy="advertisement")
-     * @ORM\JoinColumn(name="id_dir_purpose", referencedColumnName="id")
-     */
-    private $dirPurpose;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="add_date", type="datetime", nullable=true)
-     */
-    private $addDate;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="update_date", type="datetime", nullable=true)
-     */
-    private $updateDate;
-
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="coord_l", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $coordL;
 
     /**
      * @return float
@@ -883,14 +890,7 @@ class Advertisement
     }
 
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->photos = new ArrayCollection();
-        $this->addDate = new \DateTime();
-    }
+
 
     /**
      * Get isElectricity.
@@ -951,11 +951,4 @@ class Advertisement
     {
         return $this->isSewerage;
     }
-
-
-    /**
-     * @return Advertisement
-     */
-
-
 }

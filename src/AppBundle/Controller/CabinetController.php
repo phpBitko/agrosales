@@ -55,6 +55,7 @@ class CabinetController extends Controller
         if ($formAdvertisement->isValid()) {
             $advertisement->setUsers($this->getUser());
             $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+            $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
             $files = $advertisement->getPhotos();
             $advertisement->setPhotos(new ArrayCollection());
 
@@ -94,11 +95,11 @@ class CabinetController extends Controller
     public function getMyAdvertisementAction(Request $request, $selected = 'active-tab'){
         $em = $this->getDoctrine()->getManager();
         $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>true), array('addDate'=>'DESC'));
+            ->findBy(array('idUser'=>$this->getUser()->getId(), 'dirStatus'=>1), array('addDate'=>'DESC'));
         $myAdvertisement ['myAdvertisementPending'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser'=>$this->getUser()->getId(), 'isPending'=>true), array('addDate'=>'DESC'));
+            ->findBy(array('idUser'=>$this->getUser()->getId(), 'dirStatus'=>[2, 3]), array('addDate'=>'DESC'));
         $myAdvertisement ['myAdvertisementDeactivated'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser'=>$this->getUser()->getId(), 'isActive'=>false, 'isPending'=>false), array('addDate'=>'DESC'));
+            ->findBy(array('idUser'=>$this->getUser()->getId(), 'dirStatus'=> 4), array('addDate'=>'DESC'));
 
         return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements'=>$myAdvertisement, 'selected' => $selected));
     }
