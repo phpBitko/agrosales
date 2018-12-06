@@ -1,0 +1,82 @@
+{% extends 'AppBundle::index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/main.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/main.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="title">
+        <div class="cover">
+            <div class="title-content col-10">
+                <h1>Сайт продажу земельних ділянок</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis eligendi enim excepturi
+                    neque obcaecati, officia perferendis porro vitae voluptas. Culpa earum eos ipsum magni minus
+                    nesciunt perspiciatis, quasi sint!
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-11 blocks-button">
+                <a class="block-map" href="{{ path('map_index') }}">
+                    <img src="{{ asset('bundles/app/img/map.jpg') }}" alt="map">
+                    <div>Перейти на карту</div>
+                </a>
+                <a class="block-advertisement" href="{{ path('cabinet_create_advertisement') }}">
+                    <img src="{{ asset('bundles/app/img/advertisement.jpg') }}" alt="map">
+                    <div>Додати оголошення</div>
+                </a>
+                <a class="block-search" href="{{ path('advertisement_index') }}">
+                    <img src="{{ asset('bundles/app/img/search.jpg') }}" alt="map">
+                    <div>Пошук ділянки</div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-11 blocks-button-else">
+                <a class="block-map" href="{{ path('map_index') }}">
+                    <div class="block-cover">
+                        <img src="{{ asset('bundles/app/img/location_blue.png') }}" alt="map">
+                    </div>
+
+                    <div>Перейти на карту</div>
+                </a>
+                <a class="block-advertisement" href="{{ path('cabinet_create_advertisement') }}">
+                    <div class="block-cover">
+                        <img src="{{ asset('bundles/app/img/map-of-roads.png') }}" alt="map">
+                    </div>
+                    <div>Додати оголошення</div>
+                </a>
+                <a class="block-search" href="{{ path('advertisement_index') }}">
+                    <div class="block-cover">
+                        <img src="{{ asset('bundles/app/img/planet-earth.png') }}" alt="map">
+                    </div>
+                    <div>Пошук ділянки</div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="last-advertisement col-11">
+                Останні оголошення
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

@@ -27,6 +27,31 @@ class AdvertisementRepository extends EntityRepository
         return $qb;
     }
 
+    /*public function detailsAdvertisement($id) {
+        $qb = $this->createQueryBuilder('q')
+            ->select('q.price', 'q.area','q.isActive',
+                'q.isGas','q.isRoad','q.isSewerage','q.isWaterSupply',
+                'q.isElectricity','purpose.text as text', 'photo1.id')
+            ->leftJoin('q.dirPurpose','purpose')
+            ->leftJoin('q.photos','photo1')
+            ->where('q.id = :ID')
+            ->setParameter('ID', $id)
+            ->getQuery()
+            ->getResult();
+        dump($qb);
+        return $qb;
+    }*/
+
+    public function detailsAdvertisement2($id) {
+        $qb = $this->createQueryBuilder('q')
+            ->where('q.id = :ID')
+            ->setParameter('ID', $id)
+            ->getQuery()
+            ->getResult();
+        dump($qb);
+        return $qb;
+    }
+
     /**
      * @param int $param
      * @param int $all 1 - all fields, 0 - id,geom fields
@@ -61,7 +86,7 @@ class AdvertisementRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('q')
             ->where('q.dirStatus = 1')
-            ->orderBy('q.isInTheTop', 'DESC')
+            ->orderBy('q.isTop', 'DESC')
             ->addOrderBy('q.addDate', 'DESC')
             ->getQuery();
         return $qb;

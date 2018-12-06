@@ -6,8 +6,8 @@ app:
 homepage:
     path: /
     defaults:
-        _controller: AppBundle:Advertisement:index
-        template:    AppBundle:advertisement:index.html.twig
+        _controller: AppBundle:Main:index
+        template:    AppBundle:main:index.html.twig
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

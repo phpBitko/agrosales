@@ -13,7 +13,7 @@
     <div class="header">
         <nav id='navbar_head' class="navbar navbar-expand-lg shadow">
             <div class="container">
-                <a class="navbar-brand logo-link " href="{{ path('advertisement_index') }}">
+                <a class="navbar-brand logo-link " href="{{ path('main_index') }}">
                     <img class="logo" src=" {{ asset('bundles/app/img/logo.png') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -28,10 +28,17 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link main-menu
-                            {% if app.request.attributes.get("_route")|slice(0, 13) == 'advertisement' or app.request.attributes.get("_route")|slice(0, 8) == 'homepage'%}
+                            {% if app.request.attributes.get("_route")|slice(0, 4) == 'main' or app.request.attributes.get("_route")|slice(0, 8) == 'homepage'%}
                                 active
                             {% endif %}
-                            " href="{{ path('advertisement_index') }}">Оголошення<span  class="sr-only">(current)</span></a>
+                            " href="{{ path('main_index') }}">Головна<span  class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link main-menu
+                            {% if app.request.attributes.get("_route")|slice(0, 13) == 'advertisement' %}
+                                active
+                            {% endif %}
+                            " href="{{ path('advertisement_index') }}">Оголошення</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu
