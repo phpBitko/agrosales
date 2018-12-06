@@ -1,31 +1,13 @@
 import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
-
-import Overlay from 'ol/Overlay.js';
-import {Vector as VectorLayer} from 'ol/layer.js';
-import {Vector as VectorSource} from 'ol/source.js';
-//import VectorSource2 fro m 'ol/source/Vector.js';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
-import Draw from 'ol/interaction/Draw.js';
-import {getArea, getLength} from 'ol/sphere.js';
-import {unByKey} from 'ol/Observable.js';
-
-import {LineString, Polygon} from 'ol/geom.js';
-
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS.js';
 import Projection from 'ol/proj/Projection.js';
 import BingMaps from 'ol/source/BingMaps';
 import XYZ from 'ol/source/XYZ.js';
 import {fromLonLat} from 'ol/proj.js';
-
 import {defaults as defaultControls} from 'ol/control.js';
-import {createStringXY} from 'ol/coordinate.js';
-import Feature from 'ol/Feature.js';
-
-
-import Icon from 'ol/style/Icon';
 
 
 $(function () {
@@ -47,7 +29,6 @@ $(function () {
         visible: false,
         name: 'bing'
     });
-
 
     //--------------------------------------------------створюєм новий шар OSM
     var osmLayer = new TileLayer({
@@ -84,7 +65,6 @@ $(function () {
             projection: projection900913,
         },
     });
-
     var kievPublichka = new TileLayer({
         source: kievPublichkaSource,
         name: 'pub',
@@ -111,13 +91,5 @@ $(function () {
             zoom: false,
         })
     });
-
-
-
-
-
-
-
-
 
 });

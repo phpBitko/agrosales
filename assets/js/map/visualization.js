@@ -1,7 +1,7 @@
-$(function () {
+$(document).ready(function()  {
     //-------------------------------------------- ініціалізуєм bootstrap tooltip і змінюєм налаштування
     $('[data-toggle="tooltip"]').tooltip({
-        delay: {show: 700, hide: 100},
+        delay: {show: 100, hide: 100},
     });
 
     $('.choose-layer li').on('click', function () {
@@ -17,6 +17,7 @@ $(function () {
 
                 if (l.get('name') !== selected) {
                     l.setVisible(false);
+
                 } else {
                     //     if (l.get('name') == 'OpenCycleMap' || l.get('name') == 'osm') {
                     //         $('.osm-copyright').show();
@@ -49,4 +50,15 @@ $(function () {
 
         $('#control-panel-layer').removeClass('active');
     });
+
+    //-----------------------------------звернення до об'єтка якого не було в DOM
+
+    $('body').on('click', '.map-details-info .close', function () {
+        $('.map-details-info').addClass('hidden');
+
+    });
+    $('.carousel').carousel({
+        interval: false,
+    });
+
 })
