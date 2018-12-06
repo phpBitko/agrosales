@@ -1,0 +1,211 @@
+{% extends 'AppBundle::index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/advertisement.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="poster-setting col-3">
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">Навігація по розділам</li>
+                    <li class="treeview menu-open">
+                        <a href="#">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>По ціні</span>
+                            <span class="pull-right-container">
+                                    <i class="fas fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu" style="display: block">
+                            <form>
+                                <span>від</span>
+                                <div class="input-group mb-3 col-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+
+                                </div>
+                                <div class="input-group mb-3 col-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+
+                                </div>
+                                <div class="form-group">
+                                    <input id="customRange1" type="range" class="custom-range" value=""
+                                           data-slider-min="10"
+                                           data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
+                                </div>
+                            </form>
+
+                        </ul>
+                    </li>
+                </ul>
+
+
+                <div class="ogol-text">
+                    <p>Заголовок</p>
+                    <p>Ціна:</p>
+                    <p>Площа:</p>
+                </div>
+            </div>
+            <div class="advertisement col-9">
+
+                <div class="advertisement-control-panel">
+                    <a href="{{ path('advertisement_index') }}">
+                        <i class="fas fa-th"></i>
+                    </a>
+                    <a href="{{ path('advertisement_list') }}">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+
+
+                {% for item in advertisement %}
+                    <div class="advertisement-one-list">
+                        <div class="advertisement-img">
+                            <a href="" alt="">
+                                {% set photo = item.photos|first %}
+                                {% if photo %}
+                                    <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
+                                        ~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+
+                                {% else %}
+                                    <img src="{{ asset('bundles/app/img/empty.jpg') }}">
+                                {% endif %}
+                            </a>
+                            {% if photo %}
+                                <div class="advertisement-one-photo-count">{{ item.photos|length }} фото</div>
+                            {% endif %}
+                            <i class="far fa-star advertisement-selected"></i>
+                            {% if item.isTop|default(false) == true %}
+                                <div class="advertisement-one-top"><span>В топі</span></div>
+                            {% endif %}
+                        </div>
+                        <div class="advertisement-text-list">
+                            <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
+                               class="advertisement-text-title">
+                                {% if item.textHead|length >70 %}
+                                    {{ item.textHead|isEmpty|slice(0,66) }}. . .
+                                {% else %}
+                                    {{ item.textHead|isEmpty }}
+                                {% endif %}
+                            </a>
+                            <div class="advertisement-text-content">
+                                {% if item.textAbout|length >135 %}
+                                    {{ item.textAbout|slice(0,130) }}. . .
+                                {% else %}
+                                    {{ item.textAbout|isEmpty }}
+                                {% endif %}
+
+                            </div>
+                            <div class="details-provision">
+                                <div class="details-road {% if item.isRoad|default(false) == true %} active {% endif %}"
+                                     data-toggle="tooltip" title="{% if item.isRoad|default(false) == true %} Присутній
+                          {% else %} Відсутній {% endif %}під'їзд з твердим покриттям ">
+                                    {% if item.isRoad|default(false) == true %}
+                                        <img src="{{ asset('bundles/app/img/ico/road_on.png') }}" alt="road">
+                                    {% else %}
+                                        <img src="{{ asset('bundles/app/img/ico/road_off.png') }}" alt="road">
+                                    {% endif %}
+                                </div>
+                                <div class="details-water {% if item.isWaterSupply|default(false) == true %} active {% endif %}"
+                                     data-toggle="tooltip" title="{% if item.isWaterSupply|default(false) == true %} Присутнє
+                          {% else %} Відсутнє {% endif %}водопостачання ">
+                                    {% if item.isWaterSupply|default(false) == true %}
+                                        <img src="{{ asset('bundles/app/img/ico/water_on.png') }}" alt="">
+                                    {% else %}
+                                        <img src="{{ asset('bundles/app/img/ico/water_off.png') }}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="details-gas {% if item.isGas|default(false) == true %} active {% endif %}"
+                                     data-toggle="tooltip" title="{% if item.isGas|default(false) == true %} Присутнє
+                          {% else %} Відсутнє {% endif %}газопостачання ">
+                                    {% if item.isGas|default(false) == true %}
+                                        <img src="{{ asset('bundles/app/img/ico/valve_on.png') }}" alt="">
+                                    {% else %}
+                                        <img src="{{ asset('bundles/app/img/ico/valve_off.png') }}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="details-sewerage {% if item.isSewerage|default(false) == true %} active {% endif %}"
+                                     data-toggle="tooltip" title="{% if item.isSewerage|default(false) == true %} Присутня
+                          {% else %} Відсутня {% endif %}централізована каналізація ">
+                                    {% if item.isSewerage|default(false) == true %}
+                                        <img src="{{ asset('bundles/app/img/ico/waste_on.png') }}" alt="">
+                                    {% else %}
+                                        <img src="{{ asset('bundles/app/img/ico/waste_off.png') }}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="details-electricity {% if item.isElectricity|default(false) == true %} active {% endif %}"
+                                     data-toggle="tooltip" title="{% if item.isElectricity|default(false) == true %} Присутнє
+                          {% else %} Відсутнє {% endif %}елекрозабезпечення ">
+                                    {% if item.isElectricity|default(false) == true %}
+                                        <img src="{{ asset('bundles/app/img/ico/idea_on.png') }}" alt="">
+                                    {% else %}
+                                        <img src="{{ asset('bundles/app/img/ico/idea_off.png') }}" alt="">
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="advertisement-text-date">
+                                {{ item.addDate|date("d.m.Y") }}
+                            </div>
+
+                        </div>
+                        <div class="advertisement-properties">
+                            <div class="advertisement-properties-text">
+                                <div>Площа:</div>
+                                <div>Ціна:</div>
+                                <div>Ціна за сотку:</div>
+
+                            </div>
+                            <div class="advertisement-properties-value">
+                                <div class="advertisement-text-square">{{ (item.area*100)|number_format(0,',',' ') }}
+                                    соток
+                                </div>
+                                <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $</div>
+                                <div class="advertisement-text-square">
+                                    {% if item.price == 0 or item.area == 0 %}
+                                        {{ item.price }}
+                                    {% else %}
+                                        {{ (item.price/item.area/100)|number_format(0,',',' ') }}
+                                    {% endif %}
+                                    $ /сотка
+                                </div>
+                            </div>
+                            <div class="advertisement-properties-button-container">
+
+                                <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
+                                   class="advertisement-properties-button" tabindex="-1" role="button"
+                                   aria-disabled="true">Перейти</a>
+                                <a href="#" class="advertisement-text-position" href=""><i
+                                            class="fas fa-map-marker-alt"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+                <div class="navigation text-center">
+                    {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated_list', omitFirstPage: false}) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

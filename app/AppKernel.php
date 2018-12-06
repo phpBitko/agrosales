@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
 
         ];
 

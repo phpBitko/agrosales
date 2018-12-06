@@ -15,6 +15,45 @@
     <div class="container">
         <div class="row">
             <div class="poster-setting col-3">
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">Навігація по розділам</li>
+                    <li class="treeview menu-open">
+                        <a href="#">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>По ціні</span>
+                            <span class="pull-right-container">
+                                    <i class="fas fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu" style="display: block">
+                            <form>
+                                <span>від</span>
+                                <div class="input-group mb-3 col-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+
+                                </div>
+                                <div class="input-group mb-3 col-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+
+                                </div>
+                                <div class="form-group">
+                                    <input id="customRange1" type="range" class="custom-range" value=""
+                                           data-slider-min="10"
+                                           data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
+                                </div>
+                            </form>
+
+                        </ul>
+                    </li>
+                </ul>
+
+
                 <div class="ogol-text">
                     <p>Заголовок</p>
                     <p>Ціна:</p>
@@ -22,6 +61,17 @@
                 </div>
             </div>
             <div class="advertisement col-9">
+
+                <div class="advertisement-control-panel">
+                    <a href="{{ path('advertisement_index') }}">
+                        <i class="fas fa-th"></i>
+                    </a>
+                    <a href="{{ path('advertisement_list') }}">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+
+
                 {% for item in advertisement %}
                     <div class="advertisement-one">
                         <div class="advertisement-img">
@@ -39,7 +89,7 @@
                                 <div class="advertisement-one-photo-count">{{ item.photos|length }} фото</div>
                             {% endif %}
                             <i class="far fa-star advertisement-selected"></i>
-                            {% if item.isInTheTop|default(false) == true %}
+                            {% if item.isTop|default(false) == true %}
                                 <div class="advertisement-one-top"><span>В топі</span></div>
                             {% endif %}
                         </div>
@@ -54,7 +104,7 @@
                             </div>
                             <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $<span
                                         class="advertisement-text-square"> |
-                                    {% if item.price is null %}
+                                    {% if item.price == 0 or item.area == 0 %}
                                         {{ item.price }}
                                     {% else %}
                                         {{ (item.price/item.area/100)|number_format(0,',',' ') }}
@@ -77,6 +127,8 @@
                         </div>
                     </div>
                 {% endfor %}
+                
+
                 <div class="navigation text-center">
                     {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated', omitFirstPage: false}) }}
                 </div>

@@ -1,5 +1,9 @@
 @import '../generalSettings';
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 //-------------------------------------------- change standart properties tooltips
 .tooltip-inner {
   background-color: #ffffff;
@@ -95,6 +99,7 @@
 
 .choose-head img {
   padding-right: 5px;
+  width: auto !important;
 }
 
 .choose-head button {
@@ -252,24 +257,27 @@
 .cp-placeholder {
   background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/placeholder.png") no-repeat center;
 }
+
 .cp-area {
   background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/polygon.png") no-repeat center;
 }
-//---------------------------------------------------------mouse-position-panel
 
+//---------------------------------------------------------mouse-position-panel
+$mouse-position-height: 28px;
 .mouse-position-panel {
-  width: 159px;
-  height: 35px;
+  width: 165px;
+  height: $mouse-position-height;
   position: fixed;
   padding: 5px 9px;
-  background-color: #f9f7f6;
-  top: calc(100vh - 35px);
+  //background-color: #f9f7f6;
+  background: rgba(249, 247, 246, 0.7);
+  text-align: center;
+  top: calc(100vh - 28px);
   right: calc(100vw - 177px);
   z-index: 10;
-
 }
-//------------------------------------------------------- for measure
 
+//------------------------------------------------------- for measure
 #map .tooltip {
   position: relative;
   background: rgba(0, 0, 0, 0.5);
@@ -279,18 +287,22 @@
   opacity: 0.7;
   white-space: nowrap;
 }
+
 .hidden {
   display: none;
 }
+
 .tooltip-measure {
   opacity: 1;
   font-weight: bold;
 }
+
 .tooltip-static {
   background-color: #f4820b !important;
   color: black;
   border: 1px solid white;
 }
+
 .tooltip-measure:before,
 .tooltip-static:before {
   border-top: 6px solid rgba(0, 0, 0, 0.5);
@@ -302,9 +314,146 @@
   margin-left: -7px;
   left: 50%;
 }
+
 .tooltip-static:before {
   border-top-color: #f4820b;
 }
-.modal-header{
+
+.modal-header {
   flex-direction: row-reverse;
+}
+
+.map-details-info {
+  background-color: white;
+  padding: 3px;
+  width: 300px;
+  position: fixed;
+  top: 81px;
+  right: calc(100vw - 316px);
+  z-index: 10;
+  .map-details-head {
+    width: 100%;
+    height: 31px;
+    color: #f9f7f6;
+    background-color: #014656;
+    padding: 3px 9px 2px 7px;
+    margin-bottom: 2px;
+    i {
+      color: #dffff9;
+
+    }
+    img {
+      width: auto;
+      margin-right: 5px;
+    }
+  }
+  img {
+    width: 100%;
+  }
+
+  $height-slider: 192px; //-------------------висота слайдера
+  #carouselMapControls {
+    .carousel-inner {
+      width: 100%;
+      max-height: $height-slider;
+    }
+    .carousel-item {
+      width: 100%;
+      height: $height-slider;
+      position: relative;
+
+      img {
+        max-height: $height-slider;
+        width: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .carousel-control-change {
+      vertical-align: middle;
+      color: $base-color;
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: $base-color;
+      }
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .map-provision {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    div {
+      //width: 32px;
+      background-color: #f1f1f1;
+      margin-right: 0;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #e1e1e1;
+      border-radius: 3px;
+    }
+    .active {
+      border: 2px solid #7bd74a;
+    }
+  }
+  .map-line {
+    border-top: 1px solid #8c8b8b;
+    border-bottom: 1px solid #fff;
+  }
+  .map-main {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #f1f1f1;
+    width: 100%;
+    margin-top: 20px;
+    .map-main-caption {
+      padding: 20px 0 20px 15px;
+      width: 40%;
+      color: lighten($text-color, 10%);
+      div:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+    .map-main-values {
+      padding: 20px 0 20px 15px;
+      width: 60%;
+      color: $text-color;
+      div:first-child {
+        margin-bottom: 5px;
+      }
+      div:last-child {
+        margin-top: 5px;
+      }
+      .map-main-price {
+        vertical-align: middle;
+        color: #ff7f00;
+        font-size: 1.4rem;
+      }
+    }
+  }
+  .map-link {
+    display: block;
+    background-color: $base-color;
+    width: 100%;
+    color: white;
+    padding: 5px 0;
+    text-decoration: none;
+    text-align: center;
+    img {
+      width: auto;
+      text-align: right;
+      margin-right: 15px;
+    }
+
+  }
+  &:hover {
+    cursor: pointer;
+  }
+
 }

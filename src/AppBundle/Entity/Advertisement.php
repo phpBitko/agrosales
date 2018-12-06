@@ -168,10 +168,27 @@ class Advertisement
 
     /**
      * @var boolean
-     * @ORM\Column(name="is_in_the_top",type="boolean", nullable=true)
+     * @ORM\Column(name="is_top",type="boolean", nullable=false)
      *
      */
-    private $isInTheTop = false;
+    private $isTop = false;
+
+    /**
+     * @return bool
+     */
+    public function isTop(): bool
+    {
+        return $this->isTop;
+    }
+
+    /**
+     * @param bool $isTop
+     */
+    public function setIsTop(bool $isTop): void
+    {
+        $this->isTop = $isTop;
+    }
+
 
     /**
      * @var boolean

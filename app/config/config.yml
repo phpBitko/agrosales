@@ -43,6 +43,8 @@ assetic:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+            - LexikFormFilterBundle:Form:form_div_layout.html.twig
 
 # Doctrine Configuration
 doctrine:
@@ -118,3 +120,8 @@ fos_user:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
 
+lexik_form_filter:
+    listeners:
+        doctrine_orm: true
+        doctrine_dbal: false
+        doctrine_mongodb: false
