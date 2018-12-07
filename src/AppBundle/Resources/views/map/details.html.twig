@@ -2,9 +2,15 @@
 
     <img src="{{ asset('bundles/app/img/information.png') }}">
     Інформація про ділянку
+
+    <button type="button" class="move-left hidden" aria-label="move">
+        <span class="fas fa-angle-double-left"></span>
+    </button>
     <button type="button" class="close" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+
+
 </div>
 {#-------------------------bootstrap caruseusel#}
 <div id="carouselMapControls" class="carousel carousel-fade" data-ride="carousel">
@@ -128,6 +134,6 @@
 </div>
 <a href="{{ path('advertisement_details',{'id' : advertisementDetails.id}) }}"
    class="map-link" role="button" aria-disabled="true">
-   {# <img src="{{ asset('bundles/app/img/pros-and-cons.png') }}">#}
+    {# <img src="{{ asset('bundles/app/img/pros-and-cons.png') }}">#}
     Детально...
 </a>

@@ -57,6 +57,10 @@ $(document).ready(function()  {
         $('.map-details-info').addClass('hidden');
 
     });
+    $('body').on('click', '.map-details-info .move-left', function () {
+        $('.map-details-info').removeAttr("style");
+        $('.move-left').addClass('hidden');
+     });
     $('.carousel').carousel({
         interval: false,
     });

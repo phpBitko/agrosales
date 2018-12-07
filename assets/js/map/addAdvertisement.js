@@ -5,7 +5,7 @@ import {Style} from "ol/style";
 import {Vector as VectorLayer} from "ol/layer";
 // import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
 
-$(document).ready(function() {
+$(document).ready(function () {
 
 
     //-------------------------------------------for points from advertisement
@@ -30,62 +30,77 @@ $(document).ready(function() {
                 dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857'
             });
+
             features.set('id', value.id);
             vectorSourcePoints.addFeature(features);
         });
     }
 
 
+    /*
+        $('body').load(function () {
+            $('body').preloader('remove');
+        });
+    */
+
+
+    $('.map-details-info').draggable({
+        stop: function() {
+            $('.move-left').removeClass('hidden');
+        }
+
+    });
 
 
     //-----------------------------------заповнює значеннями форму
 
     function addMapDetails(data) {
-           $('.map-details-info').html(data.table.details);
-           if($('.map-details-info').hasClass('hidden')){
-               $('.map-details-info').removeClass('hidden')
-           }
-
-
-/*        var item = data.data[0];
-        if (item.area) {
-            $('.map-main-area').html(item.area + ' соток');
-        } else {
-            $('.map-main-area').html('площа не вказана')
-        }
-        if (item.price) {
-            $('.map-main-price').html(item.price + '$');
-        } else {
-            $('.map-main-price').html('')
-        }
-        if (item.area != 0 && item.price != 0) {
-            var value = (Math.round((item.price / item.area) * 100) / 100);
-            $('.map-main-price-to-area').html('| ' + value + '$/сотку');
-
-        } else {
-            $('.map-main-price-to-area').html('')
+        // $('body').preloader('remove');
+        $('.map-details-info').html(data.table.details);
+        if ($('.map-details-info').hasClass('hidden')) {
+            $('.map-details-info').removeClass('hidden')
         }
 
-        var itemFirst = $('.details-road').children().first();
-        var itemLast = $('.details-road').children().last();
+
+        /*        var item = data.data[0];
+                if (item.area) {
+                    $('.map-main-area').html(item.area + ' соток');
+                } else {
+                    $('.map-main-area').html('площа не вказана')
+                }
+                if (item.price) {
+                    $('.map-main-price').html(item.price + '$');
+                } else {
+                    $('.map-main-price').html('')
+                }
+                if (item.area != 0 && item.price != 0) {
+                    var value = (Math.round((item.price / item.area) * 100) / 100);
+                    $('.map-main-price-to-area').html('| ' + value + '$/сотку');
+
+                } else {
+                    $('.map-main-price-to-area').html('')
+                }
+
+                var itemFirst = $('.details-road').children().first();
+                var itemLast = $('.details-road').children().last();
 
 
-        if (item.isRoad == false) {
+                if (item.isRoad == false) {
 
-            if (itemLast.hasClass('hidden')) {
-                itemLast.removeClass('hidden');
-                itemFirst.addClass('hidden');
-                $('.details-road').removeClass('active')
-            }
-        } else {
+                    if (itemLast.hasClass('hidden')) {
+                        itemLast.removeClass('hidden');
+                        itemFirst.addClass('hidden');
+                        $('.details-road').removeClass('active')
+                    }
+                } else {
 
-            if (itemFirst.hasClass('hidden')) {
-                itemFirst.removeClass('hidden');
-                itemLast.addClass('hidden');
-                $('.details-road').addClass('active')
-            }
+                    if (itemFirst.hasClass('hidden')) {
+                        itemFirst.removeClass('hidden');
+                        itemLast.addClass('hidden');
+                        $('.details-road').addClass('active')
+                    }
 
-        }*/
+                }*/
 
     }
 
@@ -120,12 +135,14 @@ $(document).ready(function() {
     //--------------------------------------------при клікі на карті вираховує чи є іконка і віддає id
 
     mapSales.on('click', function (evt) {
+
         var feature = mapSales.forEachFeatureAtPixel(evt.pixel,
             function (feature) {
                 return feature;
             });
         console.log(evt.pixel);
         if (feature) {
+            //$('body').preloader();
             var idAdvertisement = feature.getProperties();
             getDetailsAdvertisement(idAdvertisement.id);
         }

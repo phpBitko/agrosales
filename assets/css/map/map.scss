@@ -322,15 +322,20 @@ $mouse-position-height: 28px;
 .modal-header {
   flex-direction: row-reverse;
 }
+.start-position {
+  top: 81px;
+  right: calc(100vw - 316px);
+}
 
 .map-details-info {
   background-color: white;
   padding: 3px;
   width: 300px;
   position: fixed;
-  top: 81px;
-  right: calc(100vw - 316px);
   z-index: 10;
+  &:hover {
+    cursor:default !important;
+  }
   .map-details-head {
     width: 100%;
     height: 31px;
@@ -338,9 +343,19 @@ $mouse-position-height: 28px;
     background-color: #014656;
     padding: 3px 9px 2px 7px;
     margin-bottom: 2px;
+    .move-left {
+      border: none;
+      background: none;
+      color: #000;
+      text-shadow: 0 1px 0 #fff;
+      opacity: .5;
+      &:hover {
+        cursor: pointer;
+        opacity: .7;
+      }
+    }
     i {
       color: #dffff9;
-
     }
     img {
       width: auto;
@@ -351,7 +366,7 @@ $mouse-position-height: 28px;
     width: 100%;
   }
 
-  $height-slider: 192px; //-------------------висота слайдера
+  $height-slider: 187px; //-------------------висота слайдера
   #carouselMapControls {
     .carousel-inner {
       width: 100%;
@@ -364,7 +379,7 @@ $mouse-position-height: 28px;
 
       img {
         max-height: $height-slider;
-        width: auto;
+        max-width: 282px;
         position: absolute;
         top: 50%;
         left: 50%;
