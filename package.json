@@ -31,6 +31,7 @@
     "ol-webpack": "openlayers/ol-webpack",
     "popper.js": "^1.14.3",
     "postcss-loader": "^2.1.5",
+    "slick-carousel": "^1.8.1",
     "webpack": "^3.10.0",
     "yarn-upgrade-all": "^0.3.0"
   }

@@ -16,16 +16,30 @@ use Pagerfanta\Pagerfanta;
 
 class AdvertisementRepository extends EntityRepository
 {
+/*        public function selectPoint()
+        {
+            $qb = $this->createQueryBuilder('q')
+                ->select('q.id', 'q.geom')
+                ->where('q.geom != :select')
+                ->setParameter('select', 'null')
+                ->getQuery()
+                ->getResult();
+            return $qb;
+        }*/
+//------------------------------- вибираємо оголошення які мають статус активні - (1)
     public function selectPoint()
     {
         $qb = $this->createQueryBuilder('q')
             ->select('q.id', 'q.geom')
+            ->leftJoin('q.dirStatus', 'status')
             ->where('q.geom != :select')
+            ->andWhere('status.id = 1')
             ->setParameter('select', 'null')
             ->getQuery()
             ->getResult();
         return $qb;
     }
+
 
     /*public function detailsAdvertisement($id) {
         $qb = $this->createQueryBuilder('q')
@@ -42,7 +56,8 @@ class AdvertisementRepository extends EntityRepository
         return $qb;
     }*/
 
-    public function detailsAdvertisement2($id) {
+    public function detailsAdvertisement2($id)
+    {
         $qb = $this->createQueryBuilder('q')
             ->where('q.id = :ID')
             ->setParameter('ID', $id)
@@ -71,15 +86,25 @@ class AdvertisementRepository extends EntityRepository
         return $result;
     }
 
-    public function findFirstTen()
+    /*    public function findFirstTen()
+        {
+            $qb = $this->createQueryBuilder('q')
+                ->orderBy('q.addDate', 'DESC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+            return $qb;
+
+        }*/
+
+    public function findLatestTitle()
     {
         $qb = $this->createQueryBuilder('q')
             ->orderBy('q.addDate', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(8)
             ->getQuery()
             ->getResult();
         return $qb;
-
     }
 
     public function queryLatest()

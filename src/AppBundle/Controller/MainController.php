@@ -29,7 +29,13 @@ class MainController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('AppBundle:main:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $advertisement = $em->getRepository('AppBundle:Advertisement')->findLatestTitle();
+        // replace this example code with whatever you need
+        dump($advertisement);
+        return $this->render('AppBundle:main:index.html.twig', array('advertisement' => $advertisement));
+
     }
 
 

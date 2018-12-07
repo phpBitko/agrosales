@@ -3,6 +3,7 @@
 @import '../cabinet/AdminLTE.css';
 @import 'details';
 
+
 $icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
 
@@ -31,13 +32,29 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
   // ------------------------------окреме оголошення
   .advertisement-one {
+    position: relative;
     width: 282px;
     border: solid 1px #d9d9d9;
     margin: 20px 0;
     transition: 0.1s;
+
     &:hover {
       border: solid 1px white;
       box-shadow: 0px 4px 6px -2px #bfb8b8;
+    }
+    .advertisement-one-top {
+      position: absolute;
+      top: 22px;
+      left: -2px;
+      color: white;
+      background-color: #ffca03;
+      transition: 0.3s;
+      width: 100px;
+      font-size: 1.3rem;
+      padding: 0 0 2px 10px;
+      vertical-align: top;
+      z-index: 10;
+
     }
 
     //----------------------------блок img
@@ -46,10 +63,12 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       height: 187px;
       overflow: hidden;
       img {
-        height: 100%;
-        width: auto;
-        margin: 0 auto;
-        display: block;
+        max-height: 187px;
+        max-width: 282px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
       }
 
       .advertisement-selected {
@@ -82,23 +101,12 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         width: 61px;
         color: white;
       }
-      .advertisement-one-top {
-        position: absolute;
-        top: 22px;
-        left: -4px;
-        color: white;
-        background-color: #ffca03;
-        transition: 0.3s;
-        width: 100px;
-        font-size: 1.3rem;
-        padding: 0 0 2px 10px;
-        vertical-align: top;
 
-      }
     }
   }
   // ------------------------------окреме оголошення list
   .advertisement-one-list {
+    position: relative;
     width: 100%;
     border: solid 1px #d9d9d9;
     margin: 20px 0;
@@ -109,6 +117,19 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       border: solid 1px white;
       box-shadow: 0px 1px 6px 0px #bfb8b8;
     }
+    .advertisement-one-top {
+      position: absolute;
+      top: 22px;
+      left: -3px;
+      color: white;
+      background-color: #ffca03;
+      transition: 0.3s;
+      width: 78px;
+      font-size: 1.2rem;
+      padding: 0 0 2px 10px;
+      vertical-align: top;
+      z-index: 10;
+    }
 
     //----------------------------блок img
     .advertisement-img {
@@ -118,10 +139,13 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       width: 223px;
       padding: 10px;
       img {
-        height: 100%;
-        width: auto;
-        margin: 0 auto;
-        display: block;
+        max-height: 142px;
+        max-width: 213px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        margin-left: 6px;
       }
 
       .advertisement-selected {
@@ -154,19 +178,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         width: 61px;
         color: white;
       }
-      .advertisement-one-top {
-        position: absolute;
-        top: 22px;
-        left: -4px;
-        color: white;
-        background-color: #ffca03;
-        transition: 0.3s;
-        width: 78px;
-        font-size: 1.2rem;
-        padding: 0 0 2px 10px;
-        vertical-align: top;
-      }
-
     }
     //--------------------------------блок текстова частина
     .advertisement-text-list {

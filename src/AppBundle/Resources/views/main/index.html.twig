@@ -67,8 +67,51 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-11 last-advertisement-title">Останні оголошення</div>
             <div class="last-advertisement col-11">
-                Останні оголошення
+
+                {% for item in advertisement %}
+                    <div class="advertisement-one">
+                        <div class="advertisement-img">
+                            <a href="" alt="">
+                                {% set photo = item.photos|first %}
+                                {% if photo %}
+                                    <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
+                                        ~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+
+                                {% else %}
+                                    <img src="{{ asset('bundles/app/img/empty.jpg') }}">
+                                {% endif %}
+                            </a>
+                            {# {% if photo %}
+                                 <div class="advertisement-one-photo-count">{{ item.photos|length }} фото</div>
+                             {% endif %}#}
+                            {# <i class="far fa-star advertisement-selected"></i>
+                             {% if item.isTop|default(false) == true %}
+                                 <div class="advertisement-one-top"><span>В топі</span></div>
+                             {% endif %}#}
+                        </div>
+                        <div class="advertisement-text">
+                            <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
+                               class="advertisement-text-title">
+                                {% if item.textHead|length >40 %}
+                                    {{ item.textHead|slice(0,38) }}. . .
+                                {% else %}
+                                    {{ item.textHead|isEmpty }}
+                                {% endif %}
+                            </a>
+                            <div>
+                                <div class="advertisement-text-square">{{ (item.area*100)|number_format(0,',',' ') }}
+                                    соток
+                                </div>
+                                <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $</div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+
             </div>
 
         </div>

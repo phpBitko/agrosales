@@ -1,4 +1,7 @@
 @import '../generalSettings';
+@import '~slick-carousel/slick/slick';
+@import '~slick-carousel/slick/slick-theme.css';
+
 
 .title {
   position: relative;
@@ -48,7 +51,7 @@
     &:hover {
       box-shadow: 0px 4px 6px -2px #bfb8b8;
       cursor: pointer;
-      color: #ff7f00!important;
+      color: #ff7f00 !important;
       text-decoration: none;
     }
     div {
@@ -62,6 +65,7 @@
   }
 
 }
+
 .blocks-button-else {
   margin: 0 auto;
   display: flex;
@@ -81,7 +85,7 @@
     &:hover {
       box-shadow: 0px 4px 6px -2px #bfb8b8;
       cursor: pointer;
-      color: #ff7f00!important;
+      color: #ff7f00 !important;
       text-decoration: none;
     }
     .block-cover {
@@ -104,10 +108,82 @@
 
 }
 
-
-
 .last-advertisement {
   margin: 0 auto;
-  margin-top: 35px;
+  margin-top: 15px;
+  display: flex;
+
+  // ------------------------------окреме оголошення
+  .advertisement-one {
+    width: 282px!important;
+    border: solid 1px #d9d9d9;
+    margin: 20px 0;
+    transition: 0.1s;
+    &:hover {
+      border: solid 1px white;
+      box-shadow: 0px 4px 6px -2px #bfb8b8;
+    }
+
+    //----------------------------блок img
+    .advertisement-img {
+      position: relative;
+      height: 187px;
+      overflow: hidden;
+      img {
+        max-height: 187px;
+        max-width: 282px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+      }
+
+    }
+  }
+  //--------------------------------блок текстова частина
+  .advertisement-text {
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    border-top: 1px solid #d9d9d9;
+
+    a.advertisement-text-title {
+      color: $base-color;
+      display: block;
+      width: 70%;
+      &:hover {
+        color: #0d7fce;
+        cursor: pointer;
+        text-decoration: none;
+      }
+    }
+
+    .advertisement-text-square {
+      color: $text-color;
+      font-size: 1rem;
+      width: 100%;
+    }
+    .advertisement-text-price {
+      width: 100%;
+      color: #ff7f00;
+      font-size: 1.2rem;
+      align-self: center;
+    }
+
+    .advertisement-text-content {
+      width: 100%;
+      margin: 10px 0;
+      font-size: 1rem;
+      color: $text-color;
+    }
+
+  }
+
+}
+.last-advertisement-title {
+  margin: 0 auto;
+  margin-top: 25px;
 }
 

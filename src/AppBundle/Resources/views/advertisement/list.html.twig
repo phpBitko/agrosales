@@ -73,6 +73,9 @@
 
                 {% for item in advertisement %}
                     <div class="advertisement-one-list">
+                        {% if item.isTop|default(false) == true %}
+                            <div class="advertisement-one-top"><span>В топі</span></div>
+                        {% endif %}
                         <div class="advertisement-img">
                             <a href="" alt="">
                                 {% set photo = item.photos|first %}
@@ -88,9 +91,7 @@
                                 <div class="advertisement-one-photo-count">{{ item.photos|length }} фото</div>
                             {% endif %}
                             <i class="far fa-star advertisement-selected"></i>
-                            {% if item.isTop|default(false) == true %}
-                                <div class="advertisement-one-top"><span>В топі</span></div>
-                            {% endif %}
+
                         </div>
                         <div class="advertisement-text-list">
                             <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
