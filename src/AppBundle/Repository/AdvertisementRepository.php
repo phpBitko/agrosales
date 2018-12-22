@@ -16,16 +16,16 @@ use Pagerfanta\Pagerfanta;
 
 class AdvertisementRepository extends EntityRepository
 {
-/*        public function selectPoint()
-        {
-            $qb = $this->createQueryBuilder('q')
-                ->select('q.id', 'q.geom')
-                ->where('q.geom != :select')
-                ->setParameter('select', 'null')
-                ->getQuery()
-                ->getResult();
-            return $qb;
-        }*/
+    /*        public function selectPoint()
+            {
+                $qb = $this->createQueryBuilder('q')
+                    ->select('q.id', 'q.geom')
+                    ->where('q.geom != :select')
+                    ->setParameter('select', 'null')
+                    ->getQuery()
+                    ->getResult();
+                return $qb;
+            }*/
 //------------------------------- вибираємо оголошення які мають статус активні - (1)
     public function selectPoint()
     {
@@ -115,12 +115,30 @@ class AdvertisementRepository extends EntityRepository
             ->addOrderBy('q.addDate', 'DESC')
             ->getQuery();
         return $qb;
+    }
+    public function queryLatestFilter()
+    {
+        $qb = $this->createQueryBuilder('q')
+            ->where('q.dirStatus = 1')
+            ->orderBy('q.isTop', 'DESC')
+            ->addOrderBy('q.addDate', 'DESC');
 
+        return $qb;
     }
 
     public function findLatest($page = 1)
     {
         $adapter = new DoctrineORMAdapter($this->queryLatest());
+        $paginator = new Pagerfanta($adapter);
+        $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
+        $paginator->setCurrentPage($page);
+        return $paginator;
+
+    }
+
+    public function findLatestFilter($query, $page = 1)
+    {
+        $adapter = new DoctrineORMAdapter($query);
         $paginator = new Pagerfanta($adapter);
         $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
         $paginator->setCurrentPage($page);

@@ -1,10 +1,10 @@
 @import '../error/error';
 @import '../generalSettings';
 @import '../cabinet/AdminLTE.css';
+@import 'filter';
 @import 'details';
 
-
-$icon-color: #adb5bd; //---------колір іконок в оголошенні
+//$icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
 
 //---------------------------------блок оголошень
@@ -13,7 +13,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-
   .advertisement-control-panel {
     display: flex;
     justify-content: flex-end;
@@ -24,12 +23,10 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       color: #adb5bd;
       font-size: 1.8rem;
       &:hover {
-        color:#626161;
+        color: #626161;
       }
     }
-
   }
-
   // ------------------------------окреме оголошення
   .advertisement-one {
     position: relative;
@@ -40,7 +37,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
     &:hover {
       border: solid 1px white;
-      box-shadow: 0px 4px 6px -2px #bfb8b8;
+      box-shadow: 0px 1px 6px 0px #bfb8b8;
     }
     .advertisement-one-top {
       position: absolute;
@@ -54,9 +51,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       padding: 0 0 2px 10px;
       vertical-align: top;
       z-index: 10;
-
     }
-
     //----------------------------блок img
     .advertisement-img {
       position: relative;
@@ -68,9 +63,8 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
       }
-
       .advertisement-selected {
         padding: 1px;
         position: absolute;
@@ -87,7 +81,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
         }
       }
-
       .advertisement-one-photo-count {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -101,7 +94,10 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         width: 61px;
         color: white;
       }
-
+    }
+    .advertisement-geom {
+      visibility: hidden;
+      height: 0;
     }
   }
   // ------------------------------окреме оголошення list
@@ -130,7 +126,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       vertical-align: top;
       z-index: 10;
     }
-
     //----------------------------блок img
     .advertisement-img {
       position: relative;
@@ -144,10 +139,9 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
         margin-left: 6px;
       }
-
       .advertisement-selected {
         padding: 1px;
         position: absolute;
@@ -161,10 +155,8 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         }
         &:active {
           color: #870215;
-
         }
       }
-
       .advertisement-one-photo-count {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -186,30 +178,27 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       flex-wrap: wrap;
       justify-content: space-between;
       width: 50%;
-
-
       a.advertisement-text-title {
         color: $base-color;
+        word-break: break-all;
         &:hover {
           color: #0d7fce;
           cursor: pointer;
           text-decoration: none;
         }
       }
-
       .advertisement-text-content {
         width: 100%;
         margin: 10px 0;
         font-size: 1rem;
         color: $text-color;
+        word-break: break-all;
       }
-
       .details-provision {
         margin-top: 0px;
         display: flex;
         width: 70%;
         align-items: center;
-
         div {
           //width: 32px;
           background-color: #f1f1f1;
@@ -220,14 +209,12 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
           border-radius: 3px;
           img {
             width: 25px;
-
           }
         }
         .active {
           border: 2px solid #7bd74a;
         }
       }
-
       .advertisement-text-date, .advertisement-text-position {
         width: 120px;
       }
@@ -237,7 +224,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         align-self: flex-end;
         text-align: right;
       }
-
     }
     .advertisement-properties {
       display: flex;
@@ -250,7 +236,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         justify-content: flex-end;
         align-items: flex-end;
         padding-bottom: 2px;
-
         .advertisement-properties-button {
           color: $base-color;
           text-align: center;
@@ -268,7 +253,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
           }
         }
-
         .advertisement-text-position {
           display: block;
           height: 35px;
@@ -293,7 +277,6 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
           }
         }
       }
-
       .advertisement-properties-text {
         width: 55%;
         color: #7c7a7a;
@@ -311,19 +294,15 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
         div:last-child {
           margin-top: 3px;
         }
-
         .advertisement-text-square {
           color: $text-color;
           font-size: 1.1rem;
-
         }
         .advertisement-text-price {
           color: #ff7f00;
           font-size: 1.4rem;
         }
-
       }
-
     }
   }
 
@@ -340,6 +319,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
     a.advertisement-text-title {
       color: $base-color;
+      word-break: break-all;
       &:hover {
         color: #0d7fce;
         //сolor: lighten( $base-color, 20% );
@@ -373,6 +353,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
       margin: 10px 0;
       font-size: 1rem;
       color: $text-color;
+      word-break: break-all;
     }
     .advertisement-text-date, .advertisement-text-position {
       width: 120px;
@@ -411,10 +392,10 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
 }
 
-.poster-setting {
+/*.poster-setting {
   width: 300px;
   //border: solid 1px #5eb5e0;
-}
+}*/
 
 .btn-input {
   font-size: 1.5rem;

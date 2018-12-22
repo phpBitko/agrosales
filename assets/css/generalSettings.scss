@@ -4,8 +4,10 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
 
+
 $text-color: #626161;
 $base-color: #3c8dbc;
+$icon-color: #adb5bd; //---------колір іконок в оголошенні
 
 @font-face {
   font-family: 'MyriadPro';
@@ -88,13 +90,6 @@ body {
     vertical-align: bottom;
   }
 }
-
-
-
-
-
-
-
 .navbar{
   padding: 0;
 }
@@ -188,3 +183,10 @@ body{
 .preloader{
   z-index: 1000;
 }
+.home {
+  width: 24px;
+}
+
+
+
+

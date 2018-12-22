@@ -61,8 +61,20 @@ $(document).ready(function()  {
         $('.map-details-info').removeAttr("style");
         $('.move-left').addClass('hidden');
      });
+
     $('.carousel').carousel({
         interval: false,
     });
+/*
+
+    $('.map-provision').load(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            delay: {show: 100, hide: 100},
+        });
+
+    });*/
+
+
+
 
 })

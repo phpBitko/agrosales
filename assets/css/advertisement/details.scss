@@ -133,8 +133,11 @@ $text-color: #626161;
 }
 
 .details-map {
-  height: 400px;
+
   position: relative;
+  #details-map-container {
+    height: 400px;
+  }
 
   .details-map-navigation {
     position: absolute;
@@ -144,7 +147,6 @@ $text-color: #626161;
     z-index: 100;
     border: 1px solid #00a2ad;
     #details-map-full {
-
       width: 35px;
       height: 35px;
       background: #f2efe9 url("../../../src/AppBundle/Resources/public/img/magnifying-glass.png") no-repeat center;
@@ -160,11 +162,10 @@ $text-color: #626161;
   i {
     vertical-align: text-bottom;
   }
-}
-
-.details-map-region {
-  margin-top: 10px;
-  font-size: 1rem;
+  .details-map-region {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
 }
 
 .details-title {

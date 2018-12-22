@@ -332,7 +332,7 @@ $mouse-position-height: 28px;
   padding: 3px;
   width: 300px;
   position: fixed;
-  z-index: 10;
+  z-index: 11;
   &:hover {
     cursor:default !important;
   }
@@ -452,7 +452,63 @@ $mouse-position-height: 28px;
       }
     }
   }
-  .map-link {
+  .map-properties-button-container {
+    margin-top: 7px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 2px;
+
+    .advertisement-properties-button {
+      color: $base-color;
+      text-align: center;
+      width: 82%;
+      display: block;
+      height: 35px;
+      border-radius: 0.2rem 0rem 0rem 0.2rem;
+      border: 1px solid $base-color;
+      transition: 0.1s;
+      padding-top: 5px;
+      &:hover {
+        background-color: #aad4f5;
+        text-decoration: none;
+        color: white;
+
+      }
+    }
+
+    .advertisement-text-position {
+      display: block;
+      height: 35px;
+      width: 49px;
+      text-align: center;
+      color: $icon-color;
+      font-size: 1rem;
+      padding-top: 4px;
+      border-radius: 0rem 0.2rem 0.2rem 0rem;
+      border-right: 1px solid $icon-color;
+      border-top: 1px solid $icon-color;
+      border-bottom: 1px solid $icon-color;
+      i {
+        font-size: 1.5rem;
+        align-self: end;
+        margin-left: 6px;
+      }
+      &:hover {
+        cursor: pointer;
+        color: $text-color;
+        text-decoration: none;
+      }
+    }
+  }
+  #map-properties-geom {
+    visibility: hidden;
+    height: 0;
+  }
+
+
+  /*.map-link {
     display: block;
     background-color: $base-color;
     width: 100%;
@@ -469,6 +525,6 @@ $mouse-position-height: 28px;
   }
   &:hover {
     cursor: pointer;
-  }
+  }*/
 
 }

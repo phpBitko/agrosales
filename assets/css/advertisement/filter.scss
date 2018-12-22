@@ -1,0 +1,122 @@
+.advertisement-filter {
+  i {
+    color: #adb5bd;
+    margin-right: 4px;
+  }
+  .sidebar-menu {
+    background-color: #f1f1f1;
+    li.header {
+      color: $text-color;
+      font-size: 1rem !important;
+    }
+    li {
+
+      a {
+        color: $text-color;
+        span {
+
+        }
+        &:hover {
+          text-decoration: none;
+          color: $base-color;
+
+        }
+      }
+      &:hover {
+        background-color: darken(#f1f1f1, 5%);
+      }
+      .filter-price, .filter-area {
+        div {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          input {
+            display: block;
+            width: 45%;
+            color: $text-color;
+            &:focus {
+              border: 1px solid $base-color;;
+            }
+          }
+        }
+      }
+      .filter-purpose {
+        width: 100%;
+      }
+      .filter-provision {
+        label {
+          -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer */
+          -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+          -webkit-user-select: none; /* Chrome, Safari, and Opera */
+          -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+        }
+        position: relative;
+        input[type=checkbox] {
+          position: absolute;
+          opacity: 0;
+        }
+        input[type=checkbox]:checked + label div {
+          border: 2px solid #7bd74a;
+          padding: 7px;
+        }
+        input[type=checkbox]:checked+label .sprite-road {
+          background-position: 0 -32px;
+        }
+        input[type=checkbox]:checked+label .sprite-water {
+          background-position: -96px 0;
+        }
+        input[type=checkbox]:checked+label .sprite-walve {
+          background-position: -64px -32px;
+        }
+        input[type=checkbox]:checked+label .sprite-waste {
+          background-position: -32px -64px;
+        }
+        input[type=checkbox]:checked+label .sprite-idea {
+          background-position: -32px 0;
+        }
+        div {
+          background-color: #f1f1f1;
+          margin: 0 5px;
+          padding: 8px;
+          text-align: center;
+          border: 1px solid #e1e1e1;
+          border-radius: 3px;
+          .sprite {
+            width: 32px;
+            height: 32px;
+            background-image: url("../../../src/AppBundle/Resources/public/img/ico/spritesheets.png");
+            background-repeat: no-repeat;
+            display: block;
+            margin-right: 0;
+          }
+          .sprite-road {
+            background-position: -64px 0;
+          }
+          .sprite-water {
+            background-position: -64px -64px;
+          }
+          .sprite-walve {
+            background-position: -32px -32px;
+          }
+          .sprite-waste {
+            background-position: 0 -64px;
+          }
+          .sprite-idea {
+            background-position: 0 0;
+          }
+          &:hover {
+            cursor: pointer;
+            border: 1px solid #7bd74a;
+          }
+
+        }
+
+      }
+      ul {
+        padding-bottom: 15px;
+      }
+    }
+  }
+
+}

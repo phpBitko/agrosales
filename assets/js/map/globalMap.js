@@ -15,3 +15,4 @@ require('../../js/map/initialLayers');
 require('../../js/map/initialToolbar');
 require('../../js/map/addAdvertisement');
 require('../../js/map/visualization');
+require('../../js/map/zoomToPoint');

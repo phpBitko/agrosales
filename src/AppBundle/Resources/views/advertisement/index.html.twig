@@ -14,54 +14,125 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="poster-setting col-3">
+
+            <div class="advertisement-filter col-3">
+                {{ form_start(form,{'method': 'GET'}) }}
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">Навігація по розділам</li>
+                    <li class="header"><i class="fas fa-filter"></i>Фільтр</li>
                     <li class="treeview menu-open">
                         <a href="#">
                             <i class="fas fa-clipboard-list"></i>
-                            <span>По ціні</span>
+                            <span>Ціна</span>
                             <span class="pull-right-container">
-                                    <i class="fas fa-angle-left pull-right"></i>
+                                <i class="fas fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu" style="display: block">
-                            <form>
-                                <span>від</span>
-                                <div class="input-group mb-3 col-5">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">$</span>
-                                    </div>
-                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <ul class="treeview-menu filter-price" style="display: block">
+                            {{ form_widget(form.price) }}
+                            {# <span>від</span>
+                             <div class="input-group mb-3 col-5">
+                                 <div class="input-group-prepend">
+                                     <span class="input-group-text">$</span>
+                                 </div>
+                                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
 
-                                </div>
-                                <div class="input-group mb-3 col-5">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">$</span>
-                                    </div>
-                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                             </div>
+                             <div class="input-group mb-3 col-5">
+                                 <div class="input-group-prepend">
+                                     <span class="input-group-text">$</span>
+                                 </div>
+                                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
 
-                                </div>
-                                <div class="form-group">
-                                    <input id="customRange1" type="range" class="custom-range" value=""
-                                           data-slider-min="10"
-                                           data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
-                                </div>
-                            </form>
+                             </div>
+                             <div class="form-group">
+                                 <input id="customRange1" type="range" class="custom-range" value=""
+                                        data-slider-min="10"
+                                        data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
+                             </div>#}
+                        </ul>
+                    </li>
+                    <li class="treeview menu-open">
+                        <a href="#">
+                            <i class="fas fa-vector-square"></i>
+                            <span>Площа</span>
+                            <span class="pull-right-container">
+                                      <i class="fas fa-angle-left pull-right"></i>
+                              </span>
+                        </a>
+                        <ul class="treeview-menu filter-area" style="display: block">
+                            {{ form_widget(form.area) }}
+                        </ul>
+                    </li>
+                    <li class="treeview menu-open">
+                        <a href="#">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>Дата розміщення</span>
+                            <span class="pull-right-container">
+                                      <i class="fas fa-angle-left pull-right"></i>
+                              </span>
+                        </a>
+                        <ul class="treeview-menu filter-date" style="display: block">
+                            {#{{ form_widget(form.addDate) }}#}
+                        </ul>
+                    </li>
+                    <li class="treeview menu-open">
+                        <a href="#">
+                            <i class="fab fa-elementor"></i>
+                            <span>Цільове призначення</span>
+                            <span class="pull-right-container">
+                                      <i class="fas fa-angle-left pull-right"></i>
+                              </span>
+                        </a>
+                        <ul class="treeview-menu filter-purpose" style="display: block">
+                            {#   {{ form_widget(form.dirPurpose) }}#}
+                        </ul>
+                    </li>
+                    <li class="treeview menu-open">
+                        <a href="#">
+                            <i class="fas fa-random"></i>
+                            <span>Облаштування</span>
+                            <span class="pull-right-container">
+                                <i class="fas fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu filter-provision" style="display: block">
+
+                            {{ form_widget(form.isRoad) }}
+                            <label for="item_filter_isRoad">
+                                <div><i class="sprite sprite-road"></i></div>
+                            </label>
+                            {{ form_widget(form.isWaterSupply) }}
+                            <label for="item_filter_isWaterSupply">
+                                <div><i class="sprite sprite-water"></i></div>
+                            </label>
+                            {{ form_widget(form.isGas) }}
+                            <label for="item_filter_isGas">
+                                <div><i class="sprite sprite-walve"></i></div>
+                            </label>
+                            {{ form_widget(form.isSewerage) }}
+                            <label for="item_filter_isSewerage">
+                                <div><i class="sprite sprite-waste"></i></div>
+                            </label>
+                            {{ form_widget(form.isElectricity) }}
+                            <label for="item_filter_isElectricity">
+                                <div><i class="sprite sprite-idea"></i></div>
+                            </label>
 
                         </ul>
                     </li>
+                    <li>
+                        <div class="input-group mb-3 col-5">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                    </li>
+                    <li><input type="submit" name="submit-filter" value="filter"/></li>
                 </ul>
-
-
-                <div class="ogol-text">
-                    <p>Заголовок</p>
-                    <p>Ціна:</p>
-                    <p>Площа:</p>
-                </div>
+                {{ form_end(form) }}
             </div>
             <div class="advertisement col-9">
-
                 <div class="advertisement-control-panel">
                     <a href="{{ path('advertisement_index') }}">
                         <i class="fas fa-th"></i>
@@ -70,7 +141,6 @@
                         <i class="fas fa-bars"></i>
                     </a>
                 </div>
-
                 {% for item in advertisement %}
                     <div class="advertisement-one">
                         {% if item.isTop|default(false) == true %}
@@ -82,7 +152,6 @@
                                 {% if photo %}
                                     <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
                                         ~photo.advertisement.id~'/'~photo.photoNameNew) }}">
-
                                 {% else %}
                                     <img src="{{ asset('bundles/app/img/empty.jpg') }}">
                                 {% endif %}
@@ -91,53 +160,49 @@
                                 <div class="advertisement-one-photo-count">{{ item.photos|length }} фото</div>
                             {% endif %}
                             <i class="far fa-star advertisement-selected"></i>
-
                         </div>
                         <div class="advertisement-text">
                             <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
                                class="advertisement-text-title">
-                                {% if item.textHead|length >30 %}
-                                    {{ item.textHead|slice(0,28) }}. . .
+                                {% if item.textHead|length >28 %}
+                                    {{ item.textHead|slice(0,25) }}. . .
                                 {% else %}
                                     {{ item.textHead|isEmpty }}
                                 {% endif %}
                             </a>
-                            <div class="advertisement-text-square"><i
-                                        class="fas fa-vector-square"></i>{{ (item.area*100)|number_format(0,',',' ') }}
-                                соток
+                            <div class="advertisement-text-square">
+                                <i class="fas fa-vector-square"></i>
+                                {{ (item.area*100)|number_format(0,',',' ') }} соток
                             </div>
-                            <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $<span
-                                        class="advertisement-text-square"> |
-                                    {% if item.price == 0 or item.area == 0 %}
-                                        {{ item.price }}
-                                    {% else %}
-                                        {{ (item.price/item.area/100)|number_format(0,',',' ') }}
-                                    {% endif %}
-                                    $ /сотка </span></div>
+                            <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $
+                                <span class="advertisement-text-square"> |
+                                    {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }}
+                                    $ /сотка
+                                </span>
+                            </div>
                             <div class="advertisement-text-content">
                                 {% if item.textAbout|length >58 %}
                                     {{ item.textAbout|slice(0,58) }}. . .
                                 {% else %}
                                     {{ item.textAbout|isEmpty }}
                                 {% endif %}
-
                             </div>
-
                             <div class="advertisement-text-date"><i class="far fa-clock"></i>
-                                <div>{{ item.addDate|date("d.m.Y") }}</div>
+                                <div>{{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}</div>
                             </div>
                             <a class="advertisement-text-position" href="">Осокорки<i class="fas fa-map-marker-alt"></i></a>
 
                         </div>
+                        <div class="advertisement-geom">{{ item.geom }}</div>
                     </div>
                 {% endfor %}
-                
 
-                <div class="navigation text-center">
+            </div>
+            <div class="row col-12 justify-content-center">
+                <div class="navigation  text-center">
                     {{ pagerfanta(advertisement, 'twitter_bootstrap4_translated', { routeName: 'advertisement_index_paginated', omitFirstPage: false}) }}
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}
