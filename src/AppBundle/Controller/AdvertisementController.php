@@ -19,6 +19,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class AdvertisementController extends Controller
 {
+
+    /*Закоментовані строчки треба відразу удаляти. Вони якщо що вже є в GIT (Для вього проекту)
+     * Іменування роутів. назва_контроллера_назва_екшена тобто  * @Route("/list/page/{page}", іменується advertisement_list_page
+     * сам екшен тоді буде listPageAction. Це ще приклад поганий, але сисл такий. Назву контроллера в екшені не треба писать, якщо це просто назва а не смислова нагрузка.
+     * * @Route("/getAllAdvertisement", name="get_all_advertisement", а мало б бути advertisement_get_all_advertisement
+     * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", тут екшен тоді має називатиcь detailsAction а не advertisementDetailsAction
+     *
+     *Добавити DOC блоки (Для вього проекту)
+     *dump() поудаляти (Для вього проекту)
+     *
+     *
+     * */
+
+
+    /*Не вказаний метод для @Route("/page/{page}". за замовчуванням наче GET, але краще в явному вигляді*/
     /**
      * @Route("/",  defaults={"page": 1}, name="advertisement_index", methods={"GET"})
      * @Route("/page/{page}", requirements={"page": "[1-9]\d*"}, name="advertisement_index_paginated")
@@ -44,6 +59,8 @@ class AdvertisementController extends Controller
         $adv = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
+
+        //Якщо не використовується, удаляєм
         $auxiliaryFunctionService = $this->get('app.service.auxiliary_function');
         $advertisement = $em->getRepository('AppBundle:Advertisement');
 
@@ -82,6 +99,8 @@ class AdvertisementController extends Controller
         //return $this->render('AppBundle:advertisement:index.html.twig', array('advertisement' => $advertisement3));
     }
 
+
+    /*Перенести в indexAction*/
     /**
      * @Route("/list",  defaults={"page": 1}, name="advertisement_list", methods={"GET"})
      * @Route("/list/page/{page}", requirements={"page": "[1-9]\d*"}, name="advertisement_index_paginated_list")
@@ -104,7 +123,16 @@ class AdvertisementController extends Controller
     {
         try {
             $em = $this->getDoctrine()->getManager();
+
+            /*Назва функції не інформативна. Там вибираються тільки активні, не всі Оголошення. а не Point, а Advertisement. Назва має говорити про тип обєкту який повертається
+             зазвичай get використовуэться коли вибіраєш шась. тобто так наприклад - getActiveAdvertisement.
+            Але функцію кораще зробити більш універсальну. Якщо тобі треба буде взяти не активні, або ті що на розгляді, то прийдеться ще раз таку функцію писати.
+            тому робиму функцію, в якій передаємо параметр 1-2-3 і функція тоді буде називатись getAdvertisementByStatus або навіть getAdvertisementByIdStatus, а за замовчуванням потсавити 1(активні)
+            */
+
             $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->selectPoint();
+
+            //Треба перевірити що сюди($advertisementPoints) вернулось, якщо пусто то буде помилка
 
             return $this->json(array('data' => $advertisementPoints), Response::HTTP_OK);
         } catch (\Exception $exception) {

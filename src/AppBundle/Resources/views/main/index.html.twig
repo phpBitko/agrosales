@@ -68,6 +68,7 @@
                         <div class="advertisement-text">
                             <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
                                class="advertisement-text-title">
+                                {#Добавити пробіли після і перед знаками порівняння (наприклад >) це стосується скрізь по тексту #}
                                 {% if item.textHead|length >40 %}
                                     {{ item.textHead|slice(0,38) }}. . .
                                 {% else %}
@@ -76,6 +77,7 @@
                             </a>
                             <div>
                                 <div class="advertisement-text-square">
+                                    {# не зрозуміло для чого так коли є поле area_unit. І мабуть краще в одному форматі виводити для перегляду#}
                                     {% set entire =(item.area*100)|split('.') %}
                                     {% if entire[0]|length>4 %}
                                         {{ ((item.area*100)/10000)|number_format(4,',',' ') }}

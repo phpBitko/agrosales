@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
-
+//Добавити DOC блоки
 class AdvertisementRepository extends EntityRepository
 {
     /*        public function selectPoint()
@@ -29,6 +29,10 @@ class AdvertisementRepository extends EntityRepository
 //------------------------------- вибираємо оголошення які мають статус активні - (1)
     public function selectPoint()
     {
+        /*
+         *
+        ->setParameter('select', 'null') можна не писать. отак можна ->where('q.geom != null). setParameter пишеться коли передаєш перемінну, зазвичай коли дані із форми
+        */
         $qb = $this->createQueryBuilder('q')
             ->select('q.id', 'q.geom')
             ->leftJoin('q.dirStatus', 'status')
@@ -56,6 +60,7 @@ class AdvertisementRepository extends EntityRepository
         return $qb;
     }*/
 
+    //Ця функція використовується? якщо да, то странне імя, якщо ні то грохнуть треба
     public function detailsAdvertisement2($id)
     {
         $qb = $this->createQueryBuilder('q')
@@ -116,6 +121,7 @@ class AdvertisementRepository extends EntityRepository
             ->getQuery();
         return $qb;
     }
+
     public function queryLatestFilter()
     {
         $qb = $this->createQueryBuilder('q')

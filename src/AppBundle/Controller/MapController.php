@@ -39,7 +39,11 @@ class MapController extends Controller
     {
         try {
             $id = $request->get('id');
+
             $em = $this->getDoctrine()->getManager();
+
+            //треба перевірити $id бо може прийти що попало. мабуть на > 0
+
             $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->find($id);
             if ($advertisementDetails === null) {
                 return $this->json(array('error'=>'Оголошення не знайдено!'),Response::HTTP_NOT_FOUND);
