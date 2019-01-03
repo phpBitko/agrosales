@@ -33,7 +33,7 @@ body {
 }
 .logo-link {
   width: 110px;
-  padding: 0.4rem 1rem 0.3rem 0.6rem!important;
+  padding: 0.3rem 1rem 0.3rem 0.6rem!important;
 }
 
 .logo {
@@ -114,6 +114,7 @@ body {
     }
   }
 }
+
 html,
 body{
   height: 100% !important;
@@ -188,5 +189,9 @@ body{
 }
 
 
-
+.my-button{
+  &:hover{
+    cursor: pointer;
+  }
+}
 

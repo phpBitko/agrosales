@@ -298,7 +298,7 @@ class Advertisement
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Photos", mappedBy="advertisement", cascade={"persist"}, orphanRemoval=true)
      */
     private $photos;
 
@@ -398,8 +398,9 @@ class Advertisement
         $this->dirStatus = $dirStatus;
     }
 
+
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getPhotos()
     {
@@ -414,69 +415,18 @@ class Advertisement
         $this->photos = $photos;
     }
 
-    public function addPhoto($photo)
+
+    public function addPhoto(Photos $photo)
     {
-        if ($this->photos->contains($photo)) {
-            return;
-        }
-        $this->photos[] = $photo;
         $photo->setAdvertisement($this);
+        $this->photos[] = $photo;
 
         return $this;
     }
 
-    public function removePhotos($photo)
+    public function removePhoto(Photos $photo)
     {
         $this->photos->removeElement($photo);
-
-    }
-
-    /**
-     * @return bool
-     */
-    public function isActive(): bool
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * @param bool $isActive
-     */
-    public function setIsActive(bool $isActive): void
-    {
-        $this->isActive = $isActive;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPending(): bool
-    {
-        return $this->isPending;
-    }
-
-    /**
-     * @param bool $isPending
-     */
-    public function setIsPending(bool $isPending): void
-    {
-        $this->isPending = $isPending;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRejected(): bool
-    {
-        return $this->isRejected;
-    }
-
-    /**
-     * @param bool $isRejected
-     */
-    public function setIsRejected(bool $isRejected): void
-    {
-        $this->isRejected = $isRejected;
     }
 
     /**

@@ -23,7 +23,6 @@ class MainController extends Controller
 {
     /**
      *
-     *
      * @Route("/",name="main_index", methods={"GET"})
      *
      */
@@ -33,7 +32,6 @@ class MainController extends Controller
 
         $advertisement = $em->getRepository('AppBundle:Advertisement')->findLatestTitle();
         // replace this example code with whatever you need
-        dump($advertisement);
         return $this->render('AppBundle:main:index.html.twig', array('advertisement' => $advertisement));
 
     }

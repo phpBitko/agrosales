@@ -10,7 +10,7 @@
             <div class="content-wrapper">
                 <section class="content-header">
                     <h1>
-                        Cтворити нове оголошення
+                        Редагувати оголошення
                     </h1>
                 </section>
                 <section class="content flex-column d-flex flex-lg-row">
@@ -18,9 +18,20 @@
                         <!-- general form elements -->
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Оголошення</h3>
+                                <h3 class="box-title">Редагувати оголошення</h3>
                             </div>
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="pad margin no-print">
+                                        <div class="callout callout-success flash-{{ label }}" style="margin-bottom: 0!important;">
+                                            {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
                             <input id="count-photos" type="hidden" value="{{ form.photos|length }}">
+
                             <!-- /.box-header -->
                             <!-- form start -->
                             {{ form_start(form, {'method': 'POST', 'attr':{'id': 'form_new_advertisement'}}) }}
@@ -85,32 +96,55 @@
 
                                 <div class="form-group">
                                     <div id="advertisement_prototype_photos" data-prototype="<div>{{ form_widget(form.photos.vars.prototype)|e }}</div>">
-                                       {# {% for photo in form.photos %}
-                                            <div>
-                                            <button type='button' class='btn btn-danger btn-sm remove-file'><i class='fa fa-times' aria-hidden='true'></i></button>
+                                        {# {% for photo in form.photos %}
+                                             <div>
+                                             <button type='button' class='btn btn-danger btn-sm remove-file'><i class='fa fa-times' aria-hidden='true'></i></button>
 
-                                                {{ form_widget(photo) }}
-                                               #}{# {{  dump(photo) }}#}{#
+                                                 {{ form_widget(photo) }}
+                                                #}{# {{  dump(photo) }}#}{#
+                                             </div>
+                                         {% endfor %}#}
+
+                                        {% set pos = 0 %}
+                                        {% for photo in form.photos %}
+                                            <div class="pl-2 mb-2">
+                                                <div  id="remove-file-{{ pos }}" >
+                                                    <button type="button" class="btn btn-danger btn-sm remove-file">
+                                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+
+                                                {#{{ form_widget(photo) }}#}
+
+                                                <div style="display:none">
+                                                    {{ form_widget(photo) }}
+                                                </div>
+                                                <div class="my-button pr-2" id="myFileUploadButton{{ pos }}">{{ photo.vars.value.photoNameOriginal }}</div>
+                                                <span>
+                                                    <img class="thumb" title="{{ photo.vars.value.photoNameOriginal }}" src="{{ asset('/advertisement/'~ photo.vars.value.addDate|date('Y-m-d')~'/'~ photo.vars.value.advertisement.id~'/'~ photo.vars.value.photoNameNew) }}">
+                                                </span>
                                             </div>
-                                        {% endfor %}#}
+                                            {% set pos = pos + 1 %}
+                                        {% endfor %}
 
                                     </div>
+
                                     <div style="display:none">
                                         {{ form_widget(form.photos) }}
                                     </div>
                                     <button id="add-photo-button" type='button' class='btn btn-warning btn-sm'><i class='fas fa-plus'></i> Зображення</button>
                                 </div>
-                               {# <button type='button' class='btn btn-danger btn-xs' onclick='removeFile($(this));'><i class='fa fa-times' aria-hidden='true'></i></button>#}
-                               {# <div class="form-group">
-                                    {{ form_label(form.coordB) }}
-                                    {{ form_widget(form.coordB) }}
+                                {# <button type='button' class='btn btn-danger btn-xs' onclick='removeFile($(this));'><i class='fa fa-times' aria-hidden='true'></i></button>#}
+                                {# <div class="form-group">
+                                     {{ form_label(form.coordB) }}
+                                     {{ form_widget(form.coordB) }}
 
-                                </div>
-                                <div class="form-group">
-                                    {{ form_label(form.coordL) }}
-                                    {{ form_widget(form.coordL) }}
+                                 </div>
+                                 <div class="form-group">
+                                     {{ form_label(form.coordL) }}
+                                     {{ form_widget(form.coordL) }}
 
-                                </div>#}
+                                 </div>#}
                                 <small>* - поля, обов'язкові для заповнення</small>
                             </div>
                             <!-- /.box-body -->

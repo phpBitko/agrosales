@@ -128,7 +128,7 @@ class AdvertisementType extends AbstractType
             ])
             ->add('photos', CollectionType::class, [
               //  'label' => 'Виберіть фото',
-                'entry_type'   		=> FileType::class,
+                'entry_type'   		=> PhotosType::class,
                 'prototype'			=> true,
                 'allow_add'			=> true,
                 'allow_delete'		=> true,

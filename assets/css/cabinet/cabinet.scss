@@ -63,7 +63,24 @@
     font-size: 0.6rem;
     margin-right: 0.5rem;
   }
+
+  >div{
+    display: flex;
+    align-items: center;
+    button{
+      height: 22px;
+    }
+  }
+  span{
+    margin: auto 10rem auto auto;
+  }
+
+  .mb-2{
+    background-color: #f7fcff;
+  }
+
 }
+
 
 .map_search_block{
   height: 30px;

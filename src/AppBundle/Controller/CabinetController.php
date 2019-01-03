@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use AppBundle\AppBundle;
 use AppBundle\Entity\DirPurpose;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
@@ -29,6 +30,7 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class CabinetController extends Controller
 {
+
     /**
      * @Route("/", name="cabinet_index", methods={"POST","GET"})
      */
@@ -43,6 +45,7 @@ class CabinetController extends Controller
      * @Route("/createAdvertisement", name="cabinet_create_advertisement", methods={"POST","GET"})
      */
     public function createAdvertisementAction(Request $request){
+
         $advertisement = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
@@ -50,32 +53,25 @@ class CabinetController extends Controller
             'entity_manager' => $em,
         ));
 
-        //заповнюєм форму
-        $formAdvertisement->handleRequest($request);
-        if ($formAdvertisement->isValid()) {
-            $advertisement->setUsers($this->getUser());
-            $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
-            $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
-            $files = $advertisement->getPhotos();
-            $advertisement->setPhotos(new ArrayCollection());
+        //Обробляємо форму
 
-            //$advertisement->setGeom('point('.$advertisement->getCoordB() . ' ' . $advertisement->getCoordL().')');
-            $em->persist($advertisement);
-          //  dump($files);
-            foreach ($files as $file) {
-                $photoOne = new Photos();
-                $fileName = uniqid() . '.' . $file->guessExtension();
-                $photoOne->setPhotoNameOriginal($file->getClientOriginalName());
-                $photoOne->setPhotoNameNew($fileName);
-                $advertisement->addPhoto($photoOne);
-                $date = $photoOne->getAddDate();
-                $dateFolder = $date->format('Y-m-d');
-                $file->move($this->getParameter('photos_directory') . $dateFolder .'/'.$advertisement->getId() , $photoOne->getPhotoNameNew());
+        if ($request->isMethod('POST')){
+            $formAdvertisement->handleRequest($request);
+
+            if ($formAdvertisement->isValid()) {
+                $advertisement->setUsers($this->getUser());
+                $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+
+                //Учтановлюємо статус на розгляді
+                $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
+
+                $em->persist($advertisement);
+
+                $em->flush();
+                $this->addFlash('success', 'Дані успішно збережені.');
+
+                return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
             }
-            $em->flush();
-            $this->addFlash('success', 'Дані успішно збережені.');
-
-            return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
         }
         return $this->render('AppBundle:cabinet:create_new_advertisement.html.twig', array(
             'form' => $formAdvertisement->createView(),
@@ -84,12 +80,55 @@ class CabinetController extends Controller
         ));
     }
 
+    /**
+     * @Route("/updateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_update_advertisement_id", methods={"POST","GET"})
+     */
+    public function updateAdvertisementAction(Request $request, $id){
+
+        $em = $this->getDoctrine()->getManager();
+        $advertisement = $em->getRepository('AppBundle:Advertisement')->find($id);
+
+        if($advertisement->getUsers() !==  $this->getUser() ){
+            throw $this->createAccessDeniedException();
+        }
+
+        $formAdvertisement = $this->createForm(AdvertisementType::class, $advertisement, array(
+            'entity_manager' => $em,
+        ));
+
+        if ($request->isMethod('POST'))
+        {
+            $formAdvertisement->handleRequest($request);
+            // Check form data is valid
+            if ($formAdvertisement->isValid()){
+                $advertisement->setUsers($this->getUser());
+                $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+
+                //Учтановлюємо статус на розгляді
+                $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
+                // Save data to database
+                $em->persist($advertisement);
+                $em->flush();
+
+                // Inform user
+                $this->addFlash('success', 'Дані успішно збережені.');
+
+                // Redirect to view page
+                return $this->redirectToRoute('cabinet_update_advertisement_id', array('id'=>$id));
+            }
+        }
+
+        return $this->render('AppBundle:cabinet:update_advertisement.html.twig', array(
+            'form' => $formAdvertisement->createView(),
+        ));
+    }
+
 
     /**
      * @param string $selected
      * @return Response
      *
-     * @Route("/getMyAdvertisement/{selected}", name="cabinet_get_my_advertisement", methods={"GET"})
+     * @Route("/getMyAdvertisement/{selected}", requirements={"selected": "active-tab|pending-tab|"}, name="cabinet_get_my_advertisement", methods={"GET"})
      *
      */
     public function getMyAdvertisementAction(Request $request, $selected = 'active-tab'){
