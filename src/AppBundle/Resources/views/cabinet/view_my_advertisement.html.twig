@@ -35,17 +35,17 @@
                                     <ul class="nav nav-tabs" id="tab-my-advertisement" role="tablist">
                                         <li class="nav-item">
                                             <a class="nav-link {{ (selected == 'active-tab') ? 'active' }}" id="active-tab" data-toggle="tab" href="#active-tab-content"
-                                               role="tab" aria-controls="home" aria-selected="{{ (selected== 'active-tab') ? 'true' : 'false' }}">
+                                               role="tab" aria-controls="home" aria-selected="{{ (selected == 'active-tab') ? 'true' : 'false' }}">
                                                 Активні ({{ advertisements.myAdvertisementActive|length }})
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link {{ (selected== 'pending-tab') ? 'active' }}" id="pending-tab" data-toggle="tab" href="#pending-tab-content"
-                                               role="tab" aria-controls="profile" aria-selected="{{ (selected== 'pending-tab') ? 'true' : 'false' }}">На розгляді ({{ advertisements.myAdvertisementPending|length }})</a>
+                                               role="tab" aria-controls="profile" aria-selected="{{ (selected == 'pending-tab') ? 'true' : 'false' }}">На розгляді ({{ advertisements.myAdvertisementPending|length }})</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link {{ (selected== 'deactivated-tab') ? 'active' }}" id="deactivated-tab" data-toggle="tab" href="#deactivated-tab-content"
-                                               role="tab" aria-controls="contact" aria-selected="{{ (selected== 'deactivated-tab') ? 'true' : 'false' }}">Деактивовані ({{ advertisements.myAdvertisementDeactivated|length }})</a>
+                                               role="tab" aria-controls="contact" aria-selected="{{ (selected == 'deactivated-tab') ? 'true' : 'false' }}">Деактивовані ({{ advertisements.myAdvertisementDeactivated|length }})</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="tab-my-advertisement-content">

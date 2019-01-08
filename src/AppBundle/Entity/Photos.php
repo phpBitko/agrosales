@@ -112,9 +112,6 @@ class Photos
         $this->addDate = $addDate;
     }
 
-
-
-
     /**
      * @return Advertisement
      */
@@ -122,7 +119,6 @@ class Photos
     {
         return $this->advertisement;
     }
-
 
     /**
      * @param Advertisement $advertisement
@@ -247,8 +243,6 @@ class Photos
         );
     }
 
-
-
     /**
      * @ORM\PreRemove()
      */
@@ -274,7 +268,7 @@ class Photos
     public function getUploadDir()
     {
         // Upload directory
-        return 'resources/public/picture/move/';
+        return 'Resources/public/picture/move/';
         // This means /web/uploads/documents/
     }
 

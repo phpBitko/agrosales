@@ -8,33 +8,26 @@
 
 namespace AppBundle\Controller;
 
-
-use AppBundle\AppBundle;
-use AppBundle\Entity\DirPurpose;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
+use AppBundle\Exception\WarningException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
-use AppBundle\Entity\Photos;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\File;
+use AppBundle\Service\Geometry;
 
 
 /**
  * Class CabinetController
  * @Route("/cabinet")
  */
-class CabinetController extends Controller
+class CabinetController extends SuperController
 {
 
     /**
      * @Route("/", name="cabinet_index", methods={"POST","GET"})
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
 
         return $this->redirectToRoute('cabinet_get_my_advertisement');
@@ -42,10 +35,14 @@ class CabinetController extends Controller
 
 
     /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     *
      * @Route("/createAdvertisement", name="cabinet_create_advertisement", methods={"POST","GET"})
+     *
      */
-    public function createAdvertisementAction(Request $request){
-
+    public function createAdvertisementAction(Request $request)
+    {
         $advertisement = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
@@ -54,15 +51,15 @@ class CabinetController extends Controller
         ));
 
         //Обробляємо форму
-
-        if ($request->isMethod('POST')){
+        if ($request->isMethod('POST')) {
             $formAdvertisement->handleRequest($request);
 
             if ($formAdvertisement->isValid()) {
                 $advertisement->setUsers($this->getUser());
+
                 $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
 
-                //Учтановлюємо статус на розгляді
+                //Уcтановлюємо статус на розгляді
                 $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
 
                 $em->persist($advertisement);
@@ -73,6 +70,7 @@ class CabinetController extends Controller
                 return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
             }
         }
+
         return $this->render('AppBundle:cabinet:create_new_advertisement.html.twig', array(
             'form' => $formAdvertisement->createView(),
             'advertisement' => $advertisement,
@@ -83,12 +81,13 @@ class CabinetController extends Controller
     /**
      * @Route("/updateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_update_advertisement_id", methods={"POST","GET"})
      */
-    public function updateAdvertisementAction(Request $request, $id){
+    public function updateAdvertisementAction(Request $request, $id)
+    {
 
         $em = $this->getDoctrine()->getManager();
         $advertisement = $em->getRepository('AppBundle:Advertisement')->find($id);
 
-        if($advertisement->getUsers() !==  $this->getUser() ){
+        if ($advertisement->getUsers() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -96,11 +95,10 @@ class CabinetController extends Controller
             'entity_manager' => $em,
         ));
 
-        if ($request->isMethod('POST'))
-        {
+        if ($request->isMethod('POST')) {
             $formAdvertisement->handleRequest($request);
             // Check form data is valid
-            if ($formAdvertisement->isValid()){
+            if ($formAdvertisement->isValid()) {
                 $advertisement->setUsers($this->getUser());
                 $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
 
@@ -114,7 +112,7 @@ class CabinetController extends Controller
                 $this->addFlash('success', 'Дані успішно збережені.');
 
                 // Redirect to view page
-                return $this->redirectToRoute('cabinet_update_advertisement_id', array('id'=>$id));
+                return $this->redirectToRoute('cabinet_update_advertisement_id', array('id' => $id));
             }
         }
 
@@ -125,46 +123,50 @@ class CabinetController extends Controller
 
 
     /**
+     * @param Request $request
      * @param string $selected
      * @return Response
      *
-     * @Route("/getMyAdvertisement/{selected}", requirements={"selected": "active-tab|pending-tab|"}, name="cabinet_get_my_advertisement", methods={"GET"})
-     *
+     * @Route("/getMyAdvertisement/{selected}", requirements={"selected": "active-tab|pending-tab|deactivated-tab"}, name="cabinet_get_my_advertisement", methods={"GET"})
      */
-    public function getMyAdvertisementAction(Request $request, $selected = 'active-tab'){
+    public function getMyAdvertisementAction(Request $request, $selected = 'active-tab')
+    {
         $em = $this->getDoctrine()->getManager();
+        //Активні
         $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser'=>$this->getUser()->getId(), 'dirStatus'=>1), array('addDate'=>'DESC'));
+            ->findBy(array('idUser' => $this->getUser()->getId(), 'dirStatus' => 1), array('addDate' => 'DESC'));
+        //Очікують, повернуті
         $myAdvertisement ['myAdvertisementPending'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser'=>$this->getUser()->getId(), 'dirStatus'=>[2, 3]), array('addDate'=>'DESC'));
+            ->findBy(array('idUser' => $this->getUser()->getId(), 'dirStatus' => [2, 3]), array('addDate' => 'DESC'));
+        //Деактивовані
         $myAdvertisement ['myAdvertisementDeactivated'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser'=>$this->getUser()->getId(), 'dirStatus'=> 4), array('addDate'=>'DESC'));
+            ->findBy(array('idUser' => $this->getUser()->getId(), 'dirStatus' => 4), array('addDate' => 'DESC'));
 
-        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements'=>$myAdvertisement, 'selected' => $selected));
+        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements' => $myAdvertisement, 'selected' => $selected));
     }
 
+
     /**
+     * @param Request $request
+     * @param Geometry $geometryServices
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
      * @Route("/getPosition", name="cabinet_get_position", methods={"POST"}, options={"expose"=true})
      *
      */
-    public function  getPositionAction(Request $request){
+    public function getPositionAction(Request $request, Geometry $geometryServices)
+    {
         try {
             $geom = $request->get('geom');
-            $em = $this->getDoctrine()->getManager();
-            $region = $em->getRepository('AppBundle:DirRegion')->getPositionByGeom($geom);
-            if($region === false){
-                throw new \Exception('Ділянка повинна знаходитись в межах України!');
-            }
-            $data['region'] = $region->getNatoobl();
-            $district = $em->getRepository('AppBundle:DirDistrict')->getPositionByGeom($geom);
-            if(!empty($district)){
-                $data['district'] = $district->getNatoray();
-            }
+
+            $data = $geometryServices->getPositionAddress($geom);
 
             return $this->json(['address' => $data], Response::HTTP_OK);
-        }catch (\Exception $exception){
 
-            return $this->json(['error'=>$exception->getMessage()], Response::HTTP_NOT_FOUND);
+        } catch (WarningException $exception) {
+            return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
+        } catch (\Exception $exception) {
+            return $this->json(['message' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 

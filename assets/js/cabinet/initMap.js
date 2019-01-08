@@ -79,9 +79,6 @@ $(function () {
         $('#map-create-container').preloader();
         advertMarker.setPosition(event.coordinate);
         $('#advertisement-map-marker').show();
-        //var coord = transform([event.coordinate[0], event.coordinate[1]], 'EPSG:900913', 'EPSG:4326');
-        /*$('#advertisement_coordB').val(Math.round(coord[0] * 100000) / 100000);
-        $('#advertisement_coordL').val(Math.round(coord[1] * 100000) / 100000);*/
         var geom = new WKT().writeGeometry(new Point(event.coordinate));
         getAddress(geom);
         $('#advertisement_geom').val(geom);
@@ -115,12 +112,6 @@ $(function () {
                             var box = [data.data[0].st_xmin, data.data[0].st_ymin, data.data[0].st_xmax, data.data[0].st_ymax];
                             view.fit(box, mapCabinet.getSize());
                             view.setZoom(18);
-                           /* if (advertMarker === undefined) {
-                                advertMarker = new ol.Overlay({
-                                    element: document.getElementById('advert-map-marker'),
-                                    positioning: 'center-center',
-                                });
-                            }*/
                             var coord = mapCabinet.getView().getCenter()
                             advertMarker.setPosition(coord);
                             $('#advert-map-marker').show();
@@ -146,6 +137,7 @@ $(function () {
     });
 
 
+    //Получаємо адресу (область і район)
     function getAddress(geom) {
         $.ajax({
             url: Routing.generate('cabinet_get_position'),
@@ -153,18 +145,7 @@ $(function () {
             data: {geom: geom},
             error: function (jqXHR, textStatus, errorThrown) {
                 $('.for-preloader').preloader('remove');
-                $('#map-create-container').preloader('remove');
-                if (jqXHR.responseJSON) {
-                    bootbox.alert({
-                        title: 'Виникла помилка!',
-                        message: jqXHR.responseJSON.error
-                    });
-                } else {
-                    bootbox.alert({
-                        title: 'Виникла помилка!',
-                        message: jqXHR.responseText
-                    });
-                }
+                bootboxAlertMessage(jqXHR);
             },
             success: function (data) {
                 $('.for-preloader').preloader('remove');

@@ -42,3 +42,9 @@ services:
             arguments:
                 - "@doctrine.orm.entity_manager"
             public: true
+
+    #app.service.geometry:
+    #            class:     AppBundle\Service\Geometry
+    #            arguments:
+    #                - "@doctrine.orm.entity_manager"
+    #            public: true

@@ -176,8 +176,18 @@ body{
 }
 
 .bootbox.bootbox-alert .modal-header {
-  background-color: #d9534f;
+  padding: 0.5rem 1rem;
+
   color: #fff;
+  &.errorBootboxHead{
+    background-color: #d9534f;
+  }
+  &.warningBootboxHead{
+    background-color: #ffbd28;
+  }
+  &.okBootboxHead{
+    background-color: #50bd53;
+  }
   //border-radius: 0;
 }
 

@@ -9,6 +9,9 @@ require('../lib/jQueryPreloader/src/css/preloader.css');
 
 require('../../js/cabinet/adminlte.js');
 
+bootboxMessage = require('../../js/functionLib/bootboxMessage');
+bootboxAlertMessage = require('../../js/functionLib/bootboxAlertMessage');
+
 require('../../css/cabinet/cabinet.scss');
 require('../../js/cabinet/fileUpload');
 require('../../js/cabinet/initMap');
