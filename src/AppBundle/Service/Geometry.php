@@ -5,33 +5,9 @@ namespace AppBundle\Service;
 use AppBundle\Exception\WarningException;
 use AppBundle\Entity\DirDistrict;
 use AppBundle\Entity\DirRegion;
-use Doctrine\ORM\EntityManagerInterface;
 
-
-class Geometry
+class Geometry extends BaseEmServices
 {
-
-    /**
-     * @var string
-     */
-    protected $errors;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-
-    /**
-     * Currency constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
 
     /**
      * @param $pointGeom
@@ -41,9 +17,19 @@ class Geometry
     public function getPositionAddress($pointGeom){
 
         $region = $this->getPositionRegion($pointGeom);
+
+        if ($region === null) {
+            throw new WarningException('Область не знайдено!');
+        }
+
         $data['region'] = $region->getNatoobl();
 
         $district = $this->getPositionDistrict($pointGeom);
+
+        if ($district === null) {
+            throw new WarningException('Район не знайдено!');
+        }
+
         $data['district'] = $district->getNatoray();
 
         return $data;
@@ -52,42 +38,24 @@ class Geometry
 
     /**
      * @param $pointGeom
-     * @return DirRegion
-     * @throws \Exception
+     * @return DirRegion|null
      */
-    public function getPositionRegion($pointGeom): DirRegion  {
-        $region = $this->entityManager->getRepository('AppBundle:DirRegion')->getPositionByGeom($pointGeom);
+    public function getPositionRegion($pointGeom): ?DirRegion  {
 
-        if ($region === false) {
-            throw new WarningException('Область не знайдено!');
-        }
+        $region = $this->entityManager->getRepository('AppBundle:DirRegion')->getPositionByGeom($pointGeom);
 
         return $region;
     }
 
+
     /**
      * @param $pointGeom
-     * @return DirDistrict
-     * @throws \Exception
+     * @return DirDistrict|null
      */
-    public function getPositionDistrict($pointGeom): DirDistrict  {
-        $district = $this->entityManager->getRepository('AppBundle:DirDistrict')->getPositionByGeom($pointGeom);
+    public function getPositionDistrict($pointGeom): ?DirDistrict  {
 
-        if ($district === false) {
-            throw new WarningException('Район не знайдено!');
-        }
+        $district = $this->entityManager->getRepository('AppBundle:DirDistrict')->getPositionByGeom($pointGeom);
 
         return $district;
     }
-
-
-    /**
-     * @return string
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-
 }

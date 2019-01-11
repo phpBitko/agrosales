@@ -23,6 +23,17 @@
                                 {% for label, messages in app.flashes %}
                                     {% for message in messages %}
                                         <div class="pad margin no-print">
+                                            <div class="callout callout-{{ label }} flash-{{ label }}"
+                                                 style="margin-bottom: 0!important;">
+                                                {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                                {% for label, messages in app.flashes %}
+                                    {% for message in messages %}
+                                        <div class="pad margin no-print">
                                             <div class="callout callout-success flash-{{ label }}" style="margin-bottom: 0!important;">
                                                {# <h4><i class="fa fa-info"></i> Note:</h4>#}
                                                 {{ message }}
@@ -84,7 +95,7 @@
                                                                 scope="row">{{ advertisement.textHead|isEmpty }}<br>
                                                                 <button class="btn btn-success btn-sm">Переглянути</button>
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
-                                                                <button class="btn btn-danger btn-sm">Деактивувати</button>
+                                                                <a href="{{ path('cabinet_deactivate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Деактивувати</a>
 
                                                             </th>
                                                             <th class="font-light text-center align-middle"
@@ -135,6 +146,7 @@
                                                                 scope="row">{{ advertisement.textHead|isEmpty }}<br>
                                                                 <button class="btn btn-success btn-sm">Переглянути</button>
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
+                                                                <a href="{{ path('cabinet_deactivate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Деактивувати</a>
                                                             </th>
                                                             <th class="font-light text-center align-middle"
                                                                 scope="row">{{ advertisement.textAbout|isEmpty }}</th>
@@ -183,8 +195,7 @@
                                                                 scope="row">{{ advertisement.textHead|isEmpty }}<br>
                                                                 <button class="btn btn-success btn-sm">Переглянути</button>
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
-                                                                <button class="btn btn-danger btn-sm">Активувати</button>
-
+                                                                <a href="{{ path('cabinet_activate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Активувати</a>
                                                             </th>
                                                             <th class="font-light text-center align-middle"
                                                                 scope="row">{{ advertisement.textAbout|isEmpty }}</th>

@@ -20,16 +20,37 @@
                             <div class="box-header with-border">
                                 <h3 class="box-title">Редагувати оголошення</h3>
                             </div>
-                            {% for label, messages in app.flashes %}
+
+
+                           {# {% for label, messages in app.flashes %}
                                 {% for message in messages %}
                                     <div class="pad margin no-print">
-                                        <div class="callout callout-success flash-{{ label }}" style="margin-bottom: 0!important;">
-                                            {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                                        <div class="callout callout-{{ label }} flash-{{ label }}"
+                                             style="margin-bottom: 0!important;">
+                                            #}{# <h4><i class="fa fa-info"></i> Note:</h4>#}{#
                                             {{ message }}
                                         </div>
                                     </div>
                                 {% endfor %}
+                            {% endfor %}#}
+
+                            {% for messages in app.flashes('success') %}
+                                <div class="pad margin no-print">
+                                    <div class="callout callout-success flash-success"
+                                         style="margin-bottom: 0!important;">
+                                        {{ messages }}
+                                    </div>
+                                </div>
                             {% endfor %}
+                            {% for messages in app.flashes('danger') %}
+                                <div class="pad margin no-print">
+                                    <div class="callout callout-danger flash-danger"
+                                         style="margin-bottom: 0!important;">
+                                        {{ messages }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
                             <input id="count-photos" type="hidden" value="{{ form.photos|length }}">
 
                             <!-- /.box-header -->
@@ -95,7 +116,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div id="advertisement_prototype_photos" data-prototype="<div>{{ form_widget(form.photos.vars.prototype)|e }}</div>">
+                                    <div id="advertisement_prototype_photos"
+                                         data-prototype="<div>{{ form_widget(form.photos.vars.prototype)|e }}</div>">
                                         {# {% for photo in form.photos %}
                                              <div>
                                              <button type='button' class='btn btn-danger btn-sm remove-file'><i class='fa fa-times' aria-hidden='true'></i></button>
@@ -107,8 +129,8 @@
 
                                         {% set pos = 0 %}
                                         {% for photo in form.photos %}
-                                            <div class="pl-2 mb-2">
-                                                <div  id="remove-file-{{ pos }}" >
+                                            <div class="p-2 mb-2">
+                                                <div id="remove-file-{{ pos }}">
                                                     <button type="button" class="btn btn-danger btn-sm remove-file">
                                                         <i class="fa fa-times" aria-hidden="true"></i>
                                                     </button>
@@ -119,10 +141,22 @@
                                                 <div style="display:none">
                                                     {{ form_widget(photo) }}
                                                 </div>
-                                                <div class="my-button pr-2" id="myFileUploadButton{{ pos }}">{{ photo.vars.value.photoNameOriginal }}</div>
-                                                <span>
-                                                    <img class="thumb" title="{{ photo.vars.value.photoNameOriginal }}" src="{{ asset('/advertisement/'~ photo.vars.value.addDate|date('Y-m-d')~'/'~ photo.vars.value.advertisement.id~'/'~ photo.vars.value.photoNameNew) }}">
-                                                </span>
+                                                <div class="my-button pr-2" id="myFileUploadButton{{ pos }}">
+                                                    {% if photo.vars.value is not null and photo.vars.value.id is not null %}
+                                                        {{ photo.vars.value.photoNameOriginal }}
+                                                    {% else %}
+                                                        Вибрати файл...
+                                                    {% endif %}
+                                                </div>
+
+                                                {% if photo.vars.value is not null and photo.vars.value.id is not null %}
+                                                    <span>
+                                                        <img class="thumb"
+                                                             title="{{ photo.vars.value.photoNameOriginal }}"
+                                                             src="{{ asset('/advertisement/'~ photo.vars.value.addDate|date('Y-m-d')~'/'~ photo.vars.value.advertisement.id~'/'~ photo.vars.value.photoNameNew) }}">
+                                                    </span>
+                                                {% endif %}
+
                                             </div>
                                             {% set pos = pos + 1 %}
                                         {% endfor %}
@@ -132,7 +166,9 @@
                                     <div style="display:none">
                                         {{ form_widget(form.photos) }}
                                     </div>
-                                    <button id="add-photo-button" type='button' class='btn btn-warning btn-sm'><i class='fas fa-plus'></i> Зображення</button>
+                                    <button id="add-photo-button" type='button' class='btn btn-warning btn-sm'><i
+                                                class='fas fa-plus'></i> Зображення
+                                    </button>
                                 </div>
                                 {# <button type='button' class='btn btn-danger btn-xs' onclick='removeFile($(this));'><i class='fa fa-times' aria-hidden='true'></i></button>#}
                                 {# <div class="form-group">
@@ -174,7 +210,8 @@
                             <div class="for-preloader">
                                 <div class="col-lg-5 map_search_block">
                                     <div class="input-group">
-                                        <input id="text_search_cad_num" type="text" data-provide="typeahead" class="form-control"
+                                        <input id="text_search_cad_num" type="text" data-provide="typeahead"
+                                               class="form-control"
                                                placeholder="Введіть кадастровий номер">
                                         <span class="input-group-btn">
                                           <button id="btn_search_cad_num" class="btn btn-default" type="button">
@@ -185,6 +222,11 @@
                                 </div>
                                 <div id="map-create-container">
                                 </div>
+                                {% for message in app.flashes('noticeMap') %}
+                                    <div class="alert alert-danger">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
                             </div>
 
                         </div>

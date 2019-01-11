@@ -38,6 +38,21 @@ $(function () {
         count++;
     }
 
+    $('.my-button').each(function () {
+       $(this).on('click', function () {
+           $(this).parent().find('input[type=file]').trigger('click');
+       });
+        $(this).parent().find('input[type=file]').on('change', function(evt) {
+            // Show its name
+            var fileName = $(this).prop('files')[0].name;
+            var fileId = $(this).attr('id');
+            var fileNumber = fileId.replace ( /[^\d.]/g, '' )
+
+            $("#myFileUploadButton" + fileNumber).html(fileName);
+            handleFileSelect(evt, fileNumber);
+        });
+    });
+
     if($('#advertisement_prototype_photos').length > 0 && $('#advertisement_prototype_photos input').length == 0){
         createAddFile(count);
     }
@@ -68,10 +83,9 @@ $(function () {
         reader.readAsDataURL(f);
     }
 
-
     $('body').on('click', '.remove-file', function (evt) {
-        console.log($(this).parent().parent());
         $(this).parent().parent().remove();
     });
+
 
 });

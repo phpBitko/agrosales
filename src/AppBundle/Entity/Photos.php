@@ -185,7 +185,6 @@ class Photos
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-
         // Replacing a file ? Check if we already have a file for this entity
         if (null !== $this->extension) {
             // Save file extension so we can remove it later
@@ -193,7 +192,7 @@ class Photos
 
             // Reset values
             $this->extension = null;
-            $this->photoNameOriginal = null;
+           // $this->photoNameOriginal = null;
         }
     }
 

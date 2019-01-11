@@ -9,6 +9,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Exception\WarningException;
+use AppBundle\Service\HandleForm;
+use Symfony\Component\EventDispatcher\Tests\Service;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
@@ -36,12 +38,12 @@ class CabinetController extends SuperController
 
     /**
      * @param Request $request
+     * @param Geometry $geometryServices
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      *
      * @Route("/createAdvertisement", name="cabinet_create_advertisement", methods={"POST","GET"})
-     *
      */
-    public function createAdvertisementAction(Request $request)
+    public function createAdvertisementAction(Request $request, Geometry $geometryServices)
     {
         $advertisement = new Advertisement();
         $em = $this->getDoctrine()->getManager();
@@ -50,25 +52,36 @@ class CabinetController extends SuperController
             'entity_manager' => $em,
         ));
 
-        //Обробляємо форму
         if ($request->isMethod('POST')) {
             $formAdvertisement->handleRequest($request);
-
+            // Check form data is valid
             if ($formAdvertisement->isValid()) {
-                $advertisement->setUsers($this->getUser());
 
-                $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+                $geomAdvertisement = $advertisement->getGeom();
+                $region = $geometryServices->getPositionRegion($geomAdvertisement);
 
-                //Уcтановлюємо статус на розгляді
-                $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
+                if  (null === $region) {
+                    $this->addFlash('noticeMap', 'Необхідно вибрати місце розташування ділянки в межах України.');
+                } else {
+                    $advertisement->setDirRegion($region);
+                    $advertisement->setUsers($this->getUser());
 
-                $em->persist($advertisement);
+                    $district = $geometryServices->getPositionDistrict($geomAdvertisement);
+                    $advertisement->setDirDistrict($district);
 
-                $em->flush();
-                $this->addFlash('success', 'Дані успішно збережені.');
+                    //Уcтановлюємо статус на розгляді
+                    $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
 
-                return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
+                    $em->persist($advertisement);
+
+                    $em->flush();
+                    $this->addFlash('success', 'Дані успішно збережені.');
+
+                    return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
+                }
             }
+
+            $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
         }
 
         return $this->render('AppBundle:cabinet:create_new_advertisement.html.twig', array(
@@ -78,14 +91,18 @@ class CabinetController extends SuperController
         ));
     }
 
-    /**
-     * @Route("/updateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_update_advertisement_id", methods={"POST","GET"})
-     */
-    public function updateAdvertisementAction(Request $request, $id)
-    {
 
+    /**
+     * @param Request $request
+     * @param Advertisement $advertisement
+     * @param Geometry $geometryServices
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     *
+     * @Route("/updateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_update_advertisement_id", methods={"POST", "GET"})
+     */
+    public function updateAdvertisementAction(Request $request, Advertisement $advertisement, Geometry $geometryServices)
+    {
         $em = $this->getDoctrine()->getManager();
-        $advertisement = $em->getRepository('AppBundle:Advertisement')->find($id);
 
         if ($advertisement->getUsers() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
@@ -97,23 +114,36 @@ class CabinetController extends SuperController
 
         if ($request->isMethod('POST')) {
             $formAdvertisement->handleRequest($request);
+
             // Check form data is valid
             if ($formAdvertisement->isValid()) {
-                $advertisement->setUsers($this->getUser());
-                $advertisement->setDirDistrict($em->getRepository('AppBundle:DirDistrict')->find(2));
+                $geomAdvertisement = $advertisement->getGeom();
+                $region = $geometryServices->getPositionRegion($geomAdvertisement);
 
-                //Учтановлюємо статус на розгляді
-                $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
-                // Save data to database
-                $em->persist($advertisement);
-                $em->flush();
+                if  (null === $region) {
+                    $this->addFlash('noticeMap', 'Необхідно вибрати місце розташування ділянки в межах України.');
+                } else {
+                    $advertisement->setDirRegion($region);
+                    $advertisement->setUsers($this->getUser());
 
-                // Inform user
-                $this->addFlash('success', 'Дані успішно збережені.');
+                    $district = $geometryServices->getPositionDistrict($geomAdvertisement);
+                    $advertisement->setDirDistrict($district);
 
-                // Redirect to view page
-                return $this->redirectToRoute('cabinet_update_advertisement_id', array('id' => $id));
+                    //Учтановлюємо статус на розгляді
+                    $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
+                    $advertisement->setUpdateDate(new \DateTime());
+                    // Save data to database
+                    $em->persist($advertisement);
+                    $em->flush();
+
+                    // Inform user
+                    $this->addFlash('success', 'Дані успішно збережені. Ваше оголошення буде розглянуто.');
+
+                    return $this->redirectToRoute('cabinet_update_advertisement_id', array('id' => $advertisement->getId()));
+                }
+
             }
+            $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
         }
 
         return $this->render('AppBundle:cabinet:update_advertisement.html.twig', array(
@@ -131,6 +161,7 @@ class CabinetController extends SuperController
      */
     public function getMyAdvertisementAction(Request $request, $selected = 'active-tab')
     {
+
         $em = $this->getDoctrine()->getManager();
         //Активні
         $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')
@@ -168,6 +199,51 @@ class CabinetController extends SuperController
         } catch (\Exception $exception) {
             return $this->json(['message' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
         }
+    }
+
+
+    /**
+     * @param Advertisement $advertisement
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/deactivateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_deactivate_advertisement", methods={"GET"}, options={"expose"=true})
+     *
+     */
+    public function deactivateAdvertisementAction(Advertisement $advertisement){
+
+        //Деактивувати можна тільки свої оголошення
+        if ($advertisement->getUsers() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        //dump($this->getRouting()->getCurrentInternalUri());
+
+        $em = $this->getDoctrine()->getManager();
+        $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(4));
+        $em->persist($advertisement);
+        $em->flush();
+        $this->addFlash('success', 'Оголошення деактивовано. Щоб активувати чи переглянути його, перейдіть в закладку "Деактивовані"!');
+        return $this->redirectToRoute('cabinet_get_my_advertisement');
+    }
+
+    /**
+     * @param Advertisement $advertisement
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/activateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_activate_advertisement", methods={"GET"})
+     *
+     */
+    public function activateAdvertisementAction(Advertisement $advertisement){
+        //Aктивувати можна тільки свої оголошення
+        if ($advertisement->getUsers() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
+        $em->persist($advertisement);
+        $em->flush();
+        $this->addFlash('success', 'Ваше оголошення буде розглянуто.');
+        return $this->redirectToRoute('cabinet_get_my_advertisement');
     }
 
 }

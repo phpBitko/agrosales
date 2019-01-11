@@ -167,12 +167,15 @@ body{
   width: 90% !important;
 }
 
-
-
 @media (max-width: 992px) {
   .navbar-nav{
     height: auto !important;
   }
+}
+
+
+.alert{
+  padding: 0.25rem 1rem;
 }
 
 .bootbox.bootbox-alert .modal-header {

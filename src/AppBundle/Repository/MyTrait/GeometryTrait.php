@@ -60,14 +60,14 @@ trait GeometryTrait
         if (empty($sridIn)) {
             throw new \Exception('Вхідна система координат не може бути пустою.');
         }
-        $delimeter1 = empty($sridOut)?'':'(';
-        $delimeter2 = empty($sridOut)?'':'),';
-        $useSpheroid = $useSpheroid ? ',true':'';
+        $delimeter1 = empty($sridOut) ? '' : '(';
+        $delimeter2 = empty($sridOut) ? '' : '),';
+        $useSpheroid = $useSpheroid ? ',true' : '';
         $stmt = $this->getEntityManager()
             ->getConnection()
-            ->prepare('select ST_Area'.$delimeter1. implode('(', $transform) .
-                '(ST_SetSRID(\''. $geom .'\'::geometry,'.$sridIn.$delimeter2
-                . implode('),', $sridOut) . ')'.$useSpheroid.') as area');
+            ->prepare('select ST_Area' . $delimeter1 . implode('(', $transform) .
+                '(ST_SetSRID(\'' . $geom . '\'::geometry,' . $sridIn . $delimeter2
+                . implode('),', $sridOut) . ')' . $useSpheroid . ') as area');
         $stmt->execute();
         $result = $stmt->fetchAll();
         return $result[0]['area'];
@@ -105,16 +105,17 @@ trait GeometryTrait
      * @param array $column
      * @return mixed
      */
-    public function findAllOnlyCustomColumn($column = [], $order = []){
-        foreach ($column as &$val){
-            $val = 'a.'.$val;
+    public function findAllOnlyCustomColumn($column = [], $order = [])
+    {
+        foreach ($column as &$val) {
+            $val = 'a.' . $val;
         }
         $qb = $this->createQueryBuilder('a');
-        if(!empty($column)){
+        if (!empty($column)) {
             $qb->select(implode(',', $column));
         }
-        if(!empty($order) && isset($order['column']) && isset($order['order'])){
-            $qb->orderBy('a.'.$order['column'], $order['order']);
+        if (!empty($order) && isset($order['column']) && isset($order['order'])) {
+            $qb->orderBy('a.' . $order['column'], $order['order']);
         }
 
 
@@ -125,12 +126,13 @@ trait GeometryTrait
     /**
      * Повертає extent зазначених об'єктів
      */
-    public function getExtentById($id) {
+    public function getExtentById($id)
+    {
         $conn = $this->getEntityManager()
             ->getConnection();
         $sql = 'SELECT ST_XMin(ST_Extent(geom)), ST_YMin(ST_Extent(geom)),
                 ST_XMax(ST_Extent(geom)), ST_YMax(ST_Extent(geom))
-                FROM '. $this->getEntityManager()->getClassMetadata($this->_entityName)->getTableName() .' where id='.$id;
+                FROM ' . $this->getEntityManager()->getClassMetadata($this->_entityName)->getTableName() . ' where id=' . $id;
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -146,19 +148,19 @@ trait GeometryTrait
      * @param $pointGeom
      * @return bool
      */
-    public function getPositionByGeom($pointGeom) {
+    public function getPositionByGeom($pointGeom)
+    {
         $qb = $this->createQueryBuilder('a')
             ->where('ST_Intersects(a.theGeom900913 , ST_GeomFromText(:GEOM,900913)) = true')
-            ->setParameter('GEOM',$pointGeom)
+            ->setParameter('GEOM', $pointGeom)
             ->getQuery();
 
         $id = $qb->getResult();
         if (!empty($id)) {
             return $id[0];
-        } else {
-            return false;
         }
 
+        return;
     }
 
 
