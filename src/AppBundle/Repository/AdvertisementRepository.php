@@ -86,14 +86,27 @@ class AdvertisementRepository extends EntityRepository
      */
     public function queryFindByStatus($status = null, $order = ['addDate' => 'DESC'])
     {
+        $qb = $this->qbFindByStatus($status, $order);
+
+        return $qb->getQuery();
+    }
+
+
+    /**
+     * @param null $status
+     * @param array $order
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function qbFindByStatus($status = null, $order = ['addDate' => 'DESC'])
+    {
         $qb = $this->createQueryBuilder('q');
         if (!empty($status)) {
             $qb->andWhere("q.dirStatus = :STATUS")
                 ->setParameter(':STATUS', $status);
         }
 
-        $qb = $qb->addOrderBy("q." . key($order), $order[key($order)])
-            ->getQuery();
+        $qb->addOrderBy("q." . key($order), $order[key($order)]);
+
         return $qb;
     }
 
