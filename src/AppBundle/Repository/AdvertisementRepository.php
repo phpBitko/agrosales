@@ -49,8 +49,8 @@ class AdvertisementRepository extends EntityRepository
      * Вибірає всі обєкти з параметрами (максимальна кількість записів, поле по якому сортуєм, статус)
      *
      * @param int $limit
-     * @param array $order
      * @param int $status table dir_status, default = all
+     * @param array $order
      *
      * @return mixed
      */
@@ -78,7 +78,13 @@ class AdvertisementRepository extends EntityRepository
     }
 
 
-    public function queryLatest($status = null, $order = ['addDate' => 'DESC'])
+    /**
+     *
+     * @param null $status
+     * @param array $order
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function queryFindByStatus($status = null, $order = ['addDate' => 'DESC'])
     {
         $qb = $this->createQueryBuilder('q');
         if (!empty($status)) {
@@ -91,27 +97,14 @@ class AdvertisementRepository extends EntityRepository
         return $qb;
     }
 
-    public function queryLatestFilter()
-    {
-        $qb = $this->createQueryBuilder('q')
-            ->where('q.dirStatus = 1')
-            ->orderBy('q.isTop', 'DESC')
-            ->addOrderBy('q.addDate', 'DESC');
 
-        return $qb;
-    }
-
-
-    public function findLatest($page = 1)
-    {
-        $adapter = new DoctrineORMAdapter($this->queryLatest(1));
-        $paginator = new Pagerfanta($adapter);
-        $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
-        $paginator->setCurrentPage($page);
-        return $paginator;
-    }
-
-    public function findLatestFilter($query, $page = 1)
+    /**
+     *
+     * @param $query
+     * @param int $page
+     * @return Pagerfanta
+     */
+    public function findForPagerfantaWithQuery($query, $page = 1)
     {
         $adapter = new DoctrineORMAdapter($query);
         $paginator = new Pagerfanta($adapter);

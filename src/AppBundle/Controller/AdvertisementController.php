@@ -78,15 +78,15 @@ class AdvertisementController extends Controller
             $form->submit($request->query->get($form->getName()));
 
             // initialize a query builder
-            $filterBuilder = $advertisement->queryLatestFilter();
+            $filterBuilder = $advertisement->queryFindByStatus(1);
 
             // build the query from the given form object
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $query = $filterBuilder->getQuery();
         } else {
-            $query = $advertisement->queryLatestFilter()->getQuery();
+            $query = $advertisement->queryFindByStatus(1);
         }
-        $repository = $advertisement->findLatestFilter($query, $page);
+        $repository = $advertisement->findForPagerfantaWithQuery($query, $page);
 
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
