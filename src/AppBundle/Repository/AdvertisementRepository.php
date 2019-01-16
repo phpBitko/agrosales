@@ -16,16 +16,7 @@ use Pagerfanta\Pagerfanta;
 //Добавити DOC блоки
 class AdvertisementRepository extends EntityRepository
 {
-    /*        public function selectPoint()
-            {
-                $qb = $this->createQueryBuilder('q')
-                    ->select('q.id', 'q.geom')
-                    ->where('q.geom != :select')
-                    ->setParameter('select', 'null')
-                    ->getQuery()
-                    ->getResult();
-                return $qb;
-            }*/
+
 //------------------------------- вибираємо оголошення які мають статус активні - (1)
     public function selectPoint()
     {
@@ -73,34 +64,30 @@ class AdvertisementRepository extends EntityRepository
     }
 
     /**
-     * @param int $param
+     * Вибирає всі активні об'єкти де вказане поле поле $param не Null
+     *
+     * @param string $field field by not null
      * @param int $all 1 - all fields, 0 - id,geom fields
      *
      * @return array
      */
-    public function findByNotNull($param, $all = 1)
+    public function findActiveByNotNull($field, $all = 1)
     {
         $qb = $this->createQueryBuilder('a');
+
         if ($all == 1) {
-            $qb->select('a')->where($qb->expr()->isNotNull('a.' . $param));
+            $qb->select('a')->where($qb->expr()->isNotNull('a.' . $field));
         } else {
-            $qb->select('a.id', 'a.geom')->where($qb->expr()->isNotNull('a.' . $param));
+            $qb->select('a.id', 'a.geom')->where($qb->expr()->isNotNull('a.' . $field));
         }
+
+        $qb->andWhere('a.dirStatus = 1');
+
         $query = $qb->getQuery();
-        $result = $query->getArrayResult();
+        $result = $query->getResult();
+
         return $result;
     }
-
-    /*    public function findFirstTen()
-        {
-            $qb = $this->createQueryBuilder('q')
-                ->orderBy('q.addDate', 'DESC')
-                ->setMaxResults(10)
-                ->getQuery()
-                ->getResult();
-            return $qb;
-
-        }*/
 
     public function findLatestTitle()
     {
@@ -131,6 +118,8 @@ class AdvertisementRepository extends EntityRepository
 
         return $qb;
     }
+
+
 
     public function findLatest($page = 1)
     {
