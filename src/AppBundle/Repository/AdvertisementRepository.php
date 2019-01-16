@@ -17,40 +17,6 @@ use Pagerfanta\Pagerfanta;
 class AdvertisementRepository extends EntityRepository
 {
 
-//------------------------------- вибираємо оголошення які мають статус активні - (1)
-    public function selectPoint()
-    {
-        /*
-         *
-        ->setParameter('select', 'null') можна не писать. отак можна ->where('q.geom != null). setParameter пишеться коли передаєш перемінну, зазвичай коли дані із форми
-        */
-        $qb = $this->createQueryBuilder('q')
-            ->select('q.id', 'q.geom')
-            ->leftJoin('q.dirStatus', 'status')
-            ->where('q.geom != :select')
-            ->andWhere('status.id = 1')
-            ->setParameter('select', 'null')
-            ->getQuery()
-            ->getResult();
-        return $qb;
-    }
-
-
-    /*public function detailsAdvertisement($id) {
-        $qb = $this->createQueryBuilder('q')
-            ->select('q.price', 'q.area','q.isActive',
-                'q.isGas','q.isRoad','q.isSewerage','q.isWaterSupply',
-                'q.isElectricity','purpose.text as text', 'photo1.id')
-            ->leftJoin('q.dirPurpose','purpose')
-            ->leftJoin('q.photos','photo1')
-            ->where('q.id = :ID')
-            ->setParameter('ID', $id)
-            ->getQuery()
-            ->getResult();
-        dump($qb);
-        return $qb;
-    }*/
-
     //Ця функція використовується? якщо да, то странне імя, якщо ні то грохнуть треба
     public function detailsAdvertisement2($id)
     {
@@ -68,10 +34,11 @@ class AdvertisementRepository extends EntityRepository
      *
      * @param string $field field by not null
      * @param int $all 1 - all fields, 0 - id,geom fields
+     * @param int $status table dir_status, default = active
      *
      * @return array
      */
-    public function findActiveByNotNull($field, $all = 1)
+    public function findAllByNotNull($field, $all = 1, $status = 1)
     {
         $qb = $this->createQueryBuilder('a');
 
@@ -81,7 +48,8 @@ class AdvertisementRepository extends EntityRepository
             $qb->select('a.id', 'a.geom')->where($qb->expr()->isNotNull('a.' . $field));
         }
 
-        $qb->andWhere('a.dirStatus = 1');
+        $qb->andWhere('a.dirStatus = :STATUS')
+            ->setParameter('STATUS', $status);
 
         $query = $qb->getQuery();
         $result = $query->getResult();

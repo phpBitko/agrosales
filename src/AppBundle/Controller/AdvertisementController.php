@@ -130,7 +130,7 @@ class AdvertisementController extends Controller
             тому робиму функцію, в якій передаємо параметр 1-2-3 і функція тоді буде називатись getAdvertisementByStatus або навіть getAdvertisementByIdStatus, а за замовчуванням потсавити 1(активні)
             */
 
-            $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->findActiveByNotNull('geom', 0);
+            $advertisementPoints = $em->getRepository('AppBundle:Advertisement')->findAllByNotNull('geom', 0);
 
             //Треба перевірити що сюди($advertisementPoints) вернулось, якщо пусто то буде помилка
 
