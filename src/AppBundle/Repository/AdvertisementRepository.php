@@ -17,18 +17,6 @@ use Pagerfanta\Pagerfanta;
 class AdvertisementRepository extends EntityRepository
 {
 
-    //Ця функція використовується? якщо да, то странне імя, якщо ні то грохнуть треба
-    public function detailsAdvertisement2($id)
-    {
-        $qb = $this->createQueryBuilder('q')
-            ->where('q.id = :ID')
-            ->setParameter('ID', $id)
-            ->getQuery()
-            ->getResult();
-        dump($qb);
-        return $qb;
-    }
-
     /**
      * Вибирає всі активні об'єкти де вказане поле поле $param не Null
      *
@@ -57,14 +45,28 @@ class AdvertisementRepository extends EntityRepository
         return $result;
     }
 
-    public function findLatestTitle()
+    /**
+     * Вибірає всі обєкти з параметрами (максимальна кількість записів, поле по якому сортуєм, статус)
+     *
+     * @param int $limit
+     * @param string $fieldOrder
+     * @param int $status table dir_status, default = active
+     *
+     * @return mixed
+     */
+    public function findLatest($limit = 0, $fieldOrder = 'addDate', $status = 1)
     {
         $qb = $this->createQueryBuilder('q')
-            ->orderBy('q.addDate', 'DESC')
-            ->setMaxResults(8)
-            ->getQuery()
-            ->getResult();
-        return $qb;
+            ->Where('q.dirStatus = :STATUS')
+            ->setParameter('STATUS', $status)
+            ->orderBy('q.' . $fieldOrder, 'DESC');
+        if ($limit != 0) {
+            $qb->setMaxResults($limit);
+        }
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return $result;
     }
 
     public function queryLatest()
@@ -88,16 +90,15 @@ class AdvertisementRepository extends EntityRepository
     }
 
 
+    /*    public function findLatest($page = 1)
+        {
+            $adapter = new DoctrineORMAdapter($this->queryLatest());
+            $paginator = new Pagerfanta($adapter);
+            $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
+            $paginator->setCurrentPage($page);
+            return $paginator;
 
-    public function findLatest($page = 1)
-    {
-        $adapter = new DoctrineORMAdapter($this->queryLatest());
-        $paginator = new Pagerfanta($adapter);
-        $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
-        $paginator->setCurrentPage($page);
-        return $paginator;
-
-    }
+        }*/
 
     public function findLatestFilter($query, $page = 1)
     {

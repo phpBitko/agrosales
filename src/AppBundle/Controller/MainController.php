@@ -21,17 +21,22 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MainController extends Controller
 {
+
+
     /**
-     *
+     * @param Request $request
      * @Route("/",name="main_index", methods={"GET"})
-     *
+     * @return Response
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $advertisement = $em->getRepository('AppBundle:Advertisement')->findLatestTitle();
-        // replace this example code with whatever you need
+        $advertisement = $em->getRepository('AppBundle:Advertisement')->findLatest(8);
+        if ($advertisement === null) {
+            throw new NotFoundHttpException();
+        }
+
         return $this->render('AppBundle:main:index.html.twig', array('advertisement' => $advertisement));
 
     }
