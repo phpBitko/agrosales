@@ -54,7 +54,7 @@ class AdvertisementRepository extends EntityRepository
      *
      * @return mixed
      */
-    public function findAllWithLimit($limit = null, $order = ['addDate'=>'DESC'], $status = null)
+    public function findAllWithLimit($limit = null, $status = null, $order = ['addDate' => 'DESC'])
     {
         $qb = $this->createQueryBuilder('q');
 
@@ -67,8 +67,9 @@ class AdvertisementRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        $qb->addOrderBy("q.".key($order), $order[key($order)])
-            ->getQuery();
+        foreach ($order as $field => $sort){
+            $qb->addOrderBy("q." . $field, $sort);
+        }
 
         $query = $qb->getQuery();
         $result = $query->getResult();
@@ -77,15 +78,15 @@ class AdvertisementRepository extends EntityRepository
     }
 
 
-
-    public function queryLatest($status = null, $order = ['addDate'=>'DESC'])
+    public function queryLatest($status = null, $order = ['addDate' => 'DESC'])
     {
         $qb = $this->createQueryBuilder('q');
-        if(!empty($status)) {
+        if (!empty($status)) {
             $qb->andWhere("q.dirStatus = :STATUS")
                 ->setParameter(':STATUS', $status);
         }
-        $qb = $qb->addOrderBy("q.".key($order), $order[key($order)])
+
+        $qb = $qb->addOrderBy("q." . key($order), $order[key($order)])
             ->getQuery();
         return $qb;
     }
@@ -99,7 +100,6 @@ class AdvertisementRepository extends EntityRepository
 
         return $qb;
     }
-
 
 
     public function findLatest($page = 1)
