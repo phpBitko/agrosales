@@ -49,32 +49,43 @@ class AdvertisementRepository extends EntityRepository
      * Вибірає всі обєкти з параметрами (максимальна кількість записів, поле по якому сортуєм, статус)
      *
      * @param int $limit
-     * @param string $fieldOrder
-     * @param int $status table dir_status, default = active
+     * @param array $order
+     * @param int $status table dir_status, default = all
      *
      * @return mixed
      */
-    public function findLatest($limit = 0, $fieldOrder = 'addDate', $status = 1)
+    public function findAllWithLimit($limit = null, $order = ['addDate'=>'DESC'], $status = null)
     {
-        $qb = $this->createQueryBuilder('q')
-            ->Where('q.dirStatus = :STATUS')
-            ->setParameter('STATUS', $status)
-            ->orderBy('q.' . $fieldOrder, 'DESC');
-        if ($limit != 0) {
+        $qb = $this->createQueryBuilder('q');
+
+        if (!empty($status)) {
+            $qb->andWhere('q.dirStatus = :STATUS')
+                ->setParameter('STATUS', $status);
+        }
+
+        if (!empty($limit)) {
             $qb->setMaxResults($limit);
         }
+
+        $qb->addOrderBy("q.".key($order), $order[key($order)])
+            ->getQuery();
+
         $query = $qb->getQuery();
         $result = $query->getResult();
 
         return $result;
     }
 
-    public function queryLatest()
+
+
+    public function queryLatest($status = null, $order = ['addDate'=>'DESC'])
     {
-        $qb = $this->createQueryBuilder('q')
-            ->where('q.dirStatus = 1')
-            ->orderBy('q.isTop', 'DESC')
-            ->addOrderBy('q.addDate', 'DESC')
+        $qb = $this->createQueryBuilder('q');
+        if(!empty($status)) {
+            $qb->andWhere("q.dirStatus = :STATUS")
+                ->setParameter(':STATUS', $status);
+        }
+        $qb = $qb->addOrderBy("q.".key($order), $order[key($order)])
             ->getQuery();
         return $qb;
     }
@@ -90,15 +101,15 @@ class AdvertisementRepository extends EntityRepository
     }
 
 
-    /*    public function findLatest($page = 1)
-        {
-            $adapter = new DoctrineORMAdapter($this->queryLatest());
-            $paginator = new Pagerfanta($adapter);
-            $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
-            $paginator->setCurrentPage($page);
-            return $paginator;
 
-        }*/
+    public function findLatest($page = 1)
+    {
+        $adapter = new DoctrineORMAdapter($this->queryLatest(1));
+        $paginator = new Pagerfanta($adapter);
+        $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
+        $paginator->setCurrentPage($page);
+        return $paginator;
+    }
 
     public function findLatestFilter($query, $page = 1)
     {
