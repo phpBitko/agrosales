@@ -12,7 +12,19 @@
     <script src="{{ asset('build/advertisement.js') }}"></script>
 {% endblock %}
 {% block body %}
+
     <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="pad margin no-print">
+                    <div class="callout callout-{{ label }} flash-{{ label }}"
+                         style="margin-bottom: 0!important;">
+                        {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
         <div class="row">
             <div class="col-1 detail-column">
                 <div class="details-picture-miniature">
@@ -28,6 +40,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="details-picture col-6">
                 {#-------------------------bootstrap caruseusel#}
                 <div id="carouselExampleControls" class="carousel carousel-fade" data-ride="carousel">
@@ -174,8 +187,22 @@
                         </a>
                     </div>
                 </div>
-                <div class="details-communication">Написати автору</div>
-                <div class="details-communication-text">Текст повідомлення</div>
+                {% if  is_granted('ROLE_ADMIN') %}
+                    <div class="block-message">
+                        <div class="details-communication">Статус повідомлення: {{ advertisement.getDirStatus.name }}</div>
+
+                        {#<div class="details-communication">Написати автору</div>#}
+                        <div class="details-communication-text">Написати автору</div>
+
+                        <div class="block-btn">
+                            <a href="{{ path('advertisement_activate_advertisement', {'id':advertisement.id}) }}" class="activate-button btn btn-success" >Активувати</a>
+                            <a href="{{ path('advertisement_deactivate_admin_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger" >Деактивувати</a>
+
+                        </div>
+                    </div>
+
+                {% endif %}
+
             </div>
             <div class="col-4">
                 <div class="details-author-container">

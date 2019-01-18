@@ -17,7 +17,7 @@ use AppBundle\Service\PaginatorServices;
  * Class AdvertisementController
  * @Route("/advertisement")
  */
-class AdvertisementController extends Controller
+class AdvertisementController extends SuperController
 {
 
     /*Закоментовані строчки треба відразу удаляти. Вони якщо що вже є в GIT (Для вього проекту)
@@ -52,8 +52,8 @@ class AdvertisementController extends Controller
              fclose($stream);
              throw $e;
          }
-
          dump($listener->getJson());*/
+
         $adv = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
@@ -86,7 +86,6 @@ class AdvertisementController extends Controller
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
             'advertisement' => $pagination,
-
         ));
 
         // replace this example code with whatever you need
@@ -151,6 +150,43 @@ class AdvertisementController extends Controller
 //                return $this->redirectToRoute('get_all_advertisement');
 //            }
     }
+
+    /**
+     * @param Advertisement $advertisement
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/deactivateAdminAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_deactivate_admin_advertisement", methods={"GET"})
+     *
+     */
+    public function deactivateAdvertisementAction(Advertisement $advertisement){
+        //Деактивувати може тільки адмін
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+        $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['DEACTIVATED']);
+
+        $this->addFlash('success', 'Оголошення деактивовано.');
+        return $this->redirectToRoute('advertisement_details', ['id'=>$advertisement->getId()]);
+    }
+
+    /**
+     * @param Advertisement $advertisement
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/activateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_activate_advertisement", methods={"GET"})
+     *
+     */
+    public function activateAdvertisementAction(Advertisement $advertisement){
+        //Активувати може тільки адмін
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+        $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['ACTIVE']);
+
+        $this->addFlash('success', 'Оголошення активовано.');
+        return $this->redirectToRoute('advertisement_details', ['id'=>$advertisement->getId()]);
+    }
+
 
 
 

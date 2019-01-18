@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Advertisement;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //use Symfony\Component\BrowserKit\Request;
@@ -24,9 +25,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class MapController extends Controller
 {
     /**
-     * @Route("/", name="map_index")
+     * @Route("/{id}", defaults={"id":null}, requirements={"id": "[1-9]\d*"}, name="map_index", methods={"GET"})
      */
-    public function indexAction()
+    public function indexAction(Advertisement $advertisement = null)
     {
         return $this->render('AppBundle:map:index.html.twig');
     }

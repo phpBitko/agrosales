@@ -330,3 +330,10 @@ $text-color: #626161;
 #details-geom {
   visibility: hidden;
 }
+
+.block-message{
+  margin-bottom: 1rem;
+  a.btn{
+    border-radius: 0;
+  }
+}

@@ -87,11 +87,6 @@
                                                             scope="row">{{ advertisement.textHead|isEmpty }}<br>
                                                             <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}"
                                                                class="mt-1 mb-1 btn btn-success btn-sm">Переглянути</a>
-                                                            <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}"
-                                                               class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
-                                                            <a href="{{ path('cabinet_deactivate_advertisement', {'id':advertisement.id}) }}"
-                                                               class="deactivate-button btn btn-danger btn-sm">Деактивувати</a>
-
                                                         </th>
                                                         <th class="font-light text-center align-middle"
                                                             scope="row">{{ advertisement.textAbout|isEmpty }}</th>

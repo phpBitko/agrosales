@@ -206,20 +206,16 @@ class CabinetController extends SuperController
      * @param Advertisement $advertisement
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/deactivateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_deactivate_advertisement", methods={"GET"})
+     * @Route("/deactivateMyAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_deactivate_my_advertisement", methods={"GET"})
      *
      */
-    public function deactivateAdvertisementAction(Advertisement $advertisement){
-
+    public function deactivateMyAdvertisementAction(Advertisement $advertisement){
         //Деактивувати можна тільки свої оголошення
         if ($advertisement->getUsers() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
+        $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['DEACTIVATED']);
 
-        $em = $this->getDoctrine()->getManager();
-        $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(4));
-        $em->persist($advertisement);
-        $em->flush();
         $this->addFlash('success', 'Оголошення деактивовано. Щоб активувати чи переглянути його, перейдіть в закладку "Деактивовані"!');
         return $this->redirectToRoute('cabinet_get_my_advertisement');
     }
@@ -233,14 +229,13 @@ class CabinetController extends SuperController
      */
     public function activateAdvertisementAction(Advertisement $advertisement){
         //Aктивувати можна тільки свої оголошення
+
         if ($advertisement->getUsers() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
-        $em->persist($advertisement);
-        $em->flush();
+        $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['PENDING']);
+
         $this->addFlash('success', 'Ваше оголошення буде розглянуто.');
         return $this->redirectToRoute('cabinet_get_my_advertisement');
     }
