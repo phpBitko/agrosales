@@ -9,6 +9,16 @@ import Overlay from "ol/Overlay";
 import {fromLonLat} from "ol/proj";
 import {unByKey} from 'ol/Observable.js';
 import {getArea, getLength} from 'ol/sphere.js';
+import WKT from 'ol/format/WKT';
+import sourceVector from "ol/source/Vector";
+import layerVector from "ol/layer/Vector";
+
+global.objWkt = new WKT;
+global.sourceVectorGlobal = sourceVector;
+global.layerVectorGlobal = layerVector;
+global.layerDrawGlobal = Draw;
+global.styleGlobal = Style;
+
 
 $(function () {
 
