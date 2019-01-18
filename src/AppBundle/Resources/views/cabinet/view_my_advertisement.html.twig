@@ -29,16 +29,6 @@
                                             {{ message }}
                                         </div>
                                     </div>
-                                {% endfor %}
-                            {% endfor %}
-                                {% for label, messages in app.flashes %}
-                                    {% for message in messages %}
-                                        <div class="pad margin no-print">
-                                            <div class="callout callout-success flash-{{ label }}" style="margin-bottom: 0!important;">
-                                               {# <h4><i class="fa fa-info"></i> Note:</h4>#}
-                                                {{ message }}
-                                            </div>
-                                        </div>
                                     {% endfor %}
                                 {% endfor %}
                                 <!-- /.box-header -->
@@ -51,7 +41,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link {{ (selected== 'pending-tab') ? 'active' }}" id="pending-tab" data-toggle="tab" href="#pending-tab-content"
+                                            <a class="nav-link {{ (selected == 'pending-tab') ? 'active' }}" id="pending-tab" data-toggle="tab" href="#pending-tab-content"
                                                role="tab" aria-controls="profile" aria-selected="{{ (selected == 'pending-tab') ? 'true' : 'false' }}">На розгляді ({{ advertisements.myAdvertisementPending|length }})</a>
                                         </li>
                                         <li class="nav-item">
@@ -93,7 +83,7 @@
 
                                                             <th class="font-light text-left text-left align-middle"
                                                                 scope="row">{{ advertisement.textHead|isEmpty }}<br>
-                                                                <button class="btn btn-success btn-sm">Переглянути</button>
+                                                                <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-success btn-sm">Переглянути</a>
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
                                                                 <a href="{{ path('cabinet_deactivate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Деактивувати</a>
 
@@ -110,7 +100,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade {{ (selected== 'pending-tab-content') ? 'show active' }}" id="pending-tab-content" role="pending-tab-content"
+                                        <div class="tab-pane fade {{ (selected== 'pending-tab') ? 'show active' }}" id="pending-tab-content" role="pending-tab-content"
                                              aria-labelledby="profile-tab">
                                             <div class="box-body">
                                                 <table class="my_advertisement_table table ">
@@ -144,7 +134,7 @@
 
                                                             <th class="font-light text-left text-left align-middle"
                                                                 scope="row">{{ advertisement.textHead|isEmpty }}<br>
-                                                                <button class="btn btn-success btn-sm">Переглянути</button>
+                                                                <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-success btn-sm">Переглянути</a>
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
                                                                 <a href="{{ path('cabinet_deactivate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Деактивувати</a>
                                                             </th>
@@ -193,9 +183,15 @@
 
                                                             <th class="font-light text-left text-left align-middle"
                                                                 scope="row">{{ advertisement.textHead|isEmpty }}<br>
-                                                                <button class="btn btn-success btn-sm">Переглянути</button>
-                                                                <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
-                                                                <a href="{{ path('cabinet_activate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Активувати</a>
+                                                                <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-success btn-sm">
+                                                                    Переглянути
+                                                                </a>
+                                                                <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">
+                                                                    Редагувати
+                                                                </a>
+                                                                <a href="{{ path('cabinet_activate_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm">
+                                                                    Активувати
+                                                                </a>
                                                             </th>
                                                             <th class="font-light text-center align-middle"
                                                                 scope="row">{{ advertisement.textAbout|isEmpty }}</th>

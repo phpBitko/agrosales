@@ -1,15 +1,22 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
-    prefix:   /
-
+    prefix:   /{_locale}
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
 homepage:
-    path: /
+    path: /{_locale}
+    requirements:
+        _locale: '%app_locales%'
     defaults:
         _controller: AppBundle:Main:index
         template:    AppBundle:main:index.html.twig
+        _locale:     '%locale%'
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+

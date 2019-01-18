@@ -27,7 +27,7 @@ class CabinetController extends SuperController
 {
 
     /**
-     * @Route("/", name="cabinet_index", methods={"POST","GET"})
+     * @Route("/", name="cabinet_index", methods={"GET"})
      */
     public function indexAction()
     {
@@ -206,7 +206,7 @@ class CabinetController extends SuperController
      * @param Advertisement $advertisement
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/deactivateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_deactivate_advertisement", methods={"GET"}, options={"expose"=true})
+     * @Route("/deactivateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_deactivate_advertisement", methods={"GET"})
      *
      */
     public function deactivateAdvertisementAction(Advertisement $advertisement){
@@ -215,7 +215,6 @@ class CabinetController extends SuperController
         if ($advertisement->getUsers() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
-        //dump($this->getRouting()->getCurrentInternalUri());
 
         $em = $this->getDoctrine()->getManager();
         $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(4));

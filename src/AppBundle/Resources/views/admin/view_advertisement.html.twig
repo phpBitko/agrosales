@@ -1,0 +1,127 @@
+{% extends 'AppBundle:admin:index.html.twig' %}
+
+
+{% block body %}
+    <div class="wrapper">
+        {% block main_sidebar %}
+            {{ parent() }}
+        {% endblock %}
+        {% block content_wrapper %}
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        Переглянути оголошення
+                    </h1>
+                </section>
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h3 class="box-title">Оголошення</h3>
+                                </div>
+                                <div class="admin-filter">
+
+
+
+
+
+                                </div>
+                                {% for label, messages in app.flashes %}
+                                    {% for message in messages %}
+                                        <div class="pad margin no-print">
+                                            <div class="callout callout-{{ label }} flash-{{ label }}"
+                                                 style="margin-bottom: 0!important;">
+                                                {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                                                {{ message }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div>
+                                        {{ form_start(formFilter, {'method': 'GET'}) }}
+                                            <div class="d-flex align-items-end">
+                                                <div class="form-group">
+                                                    {{ form_label(formFilter.dirStatus) }}
+                                                    {{ form_widget(formFilter.dirStatus) }}
+                                                </div>
+                                                <div class="ml-2 form-group">
+                                                    <input type="submit" class="btn btn-success" name="submit-filter" value="Примінити"/>
+                                                </div>
+                                            </div>
+                                        {{ form_end(formFilter) }}
+                                        <div>
+                                            <table class="my_advertisement_table table ">
+                                                <thead>
+                                                <tr>
+                                                    <th class="w-5 text-center align-middle">№ з/п</th>
+                                                    <th class="w-5 text-center align-middle">Додано</th>
+                                                    <th class="w-15 text-center align-middle">Фото</th>
+                                                    <th class="w-25 text-center align-middle">Заголовок</th>
+                                                    <th class="w-30 text-center align-middle">Текст об'яви</th>
+                                                    <th class="w-10 text-center align-middle">Ціна</th>
+                                                    <th class="w-10 text-center align-middle">Площа</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                               {# {% set counter = (pager.page-1)*(pager.numItems) %}#}
+                                                {% for advertisement in advertisements %}
+                                                    {% set counter = ( counter | default(0) ) + 1 %}
+                                                    <tr class="advertisement_one">
+                                                        <th class="text-center align-middle"
+                                                            scope="row">{{ counter }}</th>
+                                                        <th class="font-light text-center align-middle"
+                                                            scope="row">{{ advertisement.addDate|date('d.m.Y') }}</th>
+                                                        <th class="text-center align-middle" scope="row">
+                                                            {% set photo = advertisement.photos|first %}
+                                                            {% if photo %}
+                                                                <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+                                                            {% else %}
+                                                                <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
+                                                            {% endif %}
+                                                        </th>
+
+                                                        <th class="font-light text-left text-left align-middle"
+                                                            scope="row">{{ advertisement.textHead|isEmpty }}<br>
+                                                            <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}"
+                                                               class="mt-1 mb-1 btn btn-success btn-sm">Переглянути</a>
+                                                            <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}"
+                                                               class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
+                                                            <a href="{{ path('cabinet_deactivate_advertisement', {'id':advertisement.id}) }}"
+                                                               class="deactivate-button btn btn-danger btn-sm">Деактивувати</a>
+
+                                                        </th>
+                                                        <th class="font-light text-center align-middle"
+                                                            scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                                        <th class="font-light text-center align-middle"
+                                                            scope="row">{{ advertisement.price|isEmpty }}</th>
+                                                        <th class="font-light text-center align-middle"
+                                                            scope="row">{{ advertisement.area|isEmpty }}</th>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row col-12 justify-content-center">
+                                            <div class="navigation  text-center">
+                                                {{ knp_pagination_render(advertisements) }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
+            </div>
+        {% endblock %}
+    </div>
+
+{% endblock %}

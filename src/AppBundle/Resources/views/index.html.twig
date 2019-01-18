@@ -39,25 +39,40 @@
                             {% if app.request.attributes.get("_route")|slice(0, 13) == 'advertisement' %}
                                 active
                             {% endif %}
-                            " href="{{ path('advertisement_index') }}">Оголошення</a>
+                            " href="{{ path('advertisement_index') }}"><i class="far fa-list-alt"></i>Оголошення</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu
                             {% if app.request.attributes.get("_route") == 'map_index' %}
                                  active
                             {% endif %}
-                            " href="{{ path('map_index') }}">Карта</a>
+                            " href="{{ path('map_index') }}">
+                                <i class="fas fa-map-marked-alt"></i>Карта</a>
                         </li>
 
                         {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
-                                <a class="nav-link main-menu
-                                {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
-                                     active
+                                {% if  is_granted('ROLE_ADMIN') %}
+                                    <a class="nav-link main-menu
+                                        {% if app.request.attributes.get("_route")|slice(0, 5) == 'admin' %}
+                                            active
+                                        {% endif %}
+                                         "   href="{{ path('admin_index') }}">
+                                        <i class="fas fa-tools"></i>{{ 'Панель адміністратора' }}
+                                    </a>
+                                {% else %}
+                                    <a class="nav-link main-menu
+                                        {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
+                                            active
+                                        {% endif %}
+                                         "   href="{{ path('cabinet_index') }}">
+                                        <i class="fas fa-tools"></i>
+                                        {{ 'Кабінет' }}
+                                    </a>
                                 {% endif %}
-                                " href="{{ path('cabinet_index') }}">Кабінет</a>
                             </li>
                         {% endif %}
+
                         <li class="nav-item">
                             <a class="nav-link main-menu" href="#">Контакти</a>
                         </li>
@@ -79,7 +94,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item">
                                 <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">
-                                    <i class="btn-input fa fa-sign-out-alt pr-2"></i>Вийти</a>
+                                    <i class="fas fa-sign-out-alt"></i>Вийти</a>
                             </li>
                         </ul>
                     {% else %}
@@ -120,9 +135,21 @@
                             <li class="">
                                 <a href="{{ path('map_index') }}">{{ 'На карту' }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ path('cabinet_index') }}">{{ 'Кабінет' }}</a>
-                            </li>
+                            {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li class="nav-item">
+                                    {% if  is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('admin_index') }}">
+                                            <i class="fa fa-info"></i>
+                                            {{ 'Панель адміністратора' }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('cabinet_index') }}">
+                                            <i class="fa fa-info"></i>
+                                            {{ 'Кабінет' }}
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
                             <li class="nav-item">
                                 <a href="#">{{ 'Контакти' }}</a>
                             </li>

@@ -8,10 +8,7 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Advertisement;
 use Doctrine\ORM\EntityRepository;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\Pagerfanta;
 
 //Добавити DOC блоки
 class AdvertisementRepository extends EntityRepository
@@ -105,26 +102,11 @@ class AdvertisementRepository extends EntityRepository
                 ->setParameter(':STATUS', $status);
         }
 
-        $qb->addOrderBy("q." . key($order), $order[key($order)]);
+        foreach ($order as $field => $sort){
+            $qb->addOrderBy("q." . $field, $sort);
+        }
 
         return $qb;
-    }
-
-
-    /**
-     *
-     * @param $query
-     * @param int $page
-     * @return Pagerfanta
-     */
-    public function findForPagerfantaWithQuery($query, $page = 1)
-    {
-        $adapter = new DoctrineORMAdapter($query);
-        $paginator = new Pagerfanta($adapter);
-        $paginator->setMaxPerPage(Advertisement::NUM_ITEMS);
-        $paginator->setCurrentPage($page);
-        return $paginator;
-
     }
 
     /**

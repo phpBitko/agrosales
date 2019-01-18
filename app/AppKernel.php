@@ -18,10 +18,10 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
 
         ];
 

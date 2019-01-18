@@ -32,7 +32,7 @@ class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $advertisement = $em->getRepository('AppBundle:Advertisement')->findLatest(8);
+        $advertisement = $em->getRepository('AppBundle:Advertisement')->findAllWithLimit(8);
         if ($advertisement === null) {
             throw new NotFoundHttpException();
         }

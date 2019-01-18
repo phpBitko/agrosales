@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Doctrine\ORM\EntityRepository;
+use AppBundle\Service\PaginatorServices;
 
 /**
  * Class AdvertisementController
@@ -36,10 +36,8 @@ class AdvertisementController extends Controller
     /*Не вказаний метод для @Route("/page/{page}". за замовчуванням наче GET, але краще в явному вигляді*/
     /**
      * @Route("/",  defaults={"page": 1}, name="advertisement_index", methods={"GET"})
-     * @Route("/page/{page}", requirements={"page": "[1-9]\d*"}, name="advertisement_index_paginated")
-     *
      */
-    public function indexAction(Request $request, $page = 1)
+    public function indexAction(Request $request,  PaginatorServices $paginator)
     {
         /* $file = __DIR__.'\..\Resources\public\18.json';
          dump(__DIR__.'\..\Resources\public\test.json');
@@ -64,20 +62,16 @@ class AdvertisementController extends Controller
         $auxiliaryFunctionService = $this->get('app.service.auxiliary_function');
         $advertisement = $em->getRepository('AppBundle:Advertisement');
 
-        /*        $form = $this->createForm(AdvertisementFilterType::class, $adv, array(
-                    'entity_manager' => $em,
-                ));*/
-
         $form = $this->createForm(AdvertisementFilterType::class, $adv, array(
             'purpose' => $purpose,
 
         ));
-        dump($form);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
 
             // initialize a query builder
+
             $filterBuilder = $advertisement->qbFindByStatus(1);
 
             // build the query from the given form object
@@ -86,11 +80,12 @@ class AdvertisementController extends Controller
         } else {
             $query = $advertisement->queryFindByStatus(1);
         }
-        $repository = $advertisement->findForPagerfantaWithQuery($query, $page);
+
+        $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
 
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
-            'advertisement' => $repository,
+            'advertisement' => $pagination,
 
         ));
 
@@ -144,15 +139,12 @@ class AdvertisementController extends Controller
      * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", methods={"GET"})
      *
      */
-    public function advertisementDetailsAction(Request $request, $id)
+    public function advertisementDetailsAction(Request $request, Advertisement $advertisement)
     {
-        $em = $this->getDoctrine()->getManager();
-        $advertisementDetails = $em->getRepository('AppBundle:Advertisement')->findOneBy(array('id' => $id));
-
-        if ($advertisementDetails === null) {
+        if ($advertisement === null) {
             throw new NotFoundHttpException();
         }
-        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
+        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisement));
 //            if ($advertisementDetails->isActive()== true) {
 //                return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisementDetails));
 //            } else {
