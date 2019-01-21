@@ -1,16 +1,16 @@
 .advertisement-filter {
-  i {
+/*  i {
     color: #adb5bd;
     margin-right: 4px;
-  }
-  .sidebar-menu {
+  }*/
+  .box {
     background-color: #f1f1f1;
-    li.header {
+/*    li.header {
       color: $text-color;
       font-size: 1rem !important;
-    }
-    li {
-
+    }*/
+    .box-body {
+/*
       a {
         color: $text-color;
         span {
@@ -24,7 +24,7 @@
       }
       &:hover {
         background-color: darken(#f1f1f1, 5%);
-      }
+      }*/
       .filter-price, .filter-area {
         div {
           display: flex;
@@ -75,7 +75,7 @@
         input[type=checkbox]:checked+label .sprite-idea {
           background-position: -32px 0;
         }
-        div {
+        .provision {
           background-color: #f1f1f1;
           margin: 0 5px;
           padding: 8px;

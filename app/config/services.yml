@@ -42,6 +42,12 @@ services:
             arguments:
                 - "@doctrine.orm.entity_manager"
             public: true
+    app.service.paginator_services:
+                class:     AppBundle\Service\PaginatorServices
+                arguments:
+                    - "@doctrine.orm.entity_manager"
+                    - "@knp_paginator"
+                public: true
 
     #app.service.geometry:
     #            class:     AppBundle\Service\Geometry

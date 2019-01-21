@@ -9,15 +9,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Exception\WarningException;
-use AppBundle\Service\HandleForm;
-use Symfony\Component\EventDispatcher\Tests\Service;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Service\Geometry;
-
 
 /**
  * Class CabinetController
@@ -60,7 +57,7 @@ class CabinetController extends SuperController
                 $geomAdvertisement = $advertisement->getGeom();
                 $region = $geometryServices->getPositionRegion($geomAdvertisement);
 
-                if  (null === $region) {
+                if (null === $region) {
                     $this->addFlash('noticeMap', 'Необхідно вибрати місце розташування ділянки в межах України.');
                 } else {
                     $advertisement->setDirRegion($region);
@@ -120,7 +117,7 @@ class CabinetController extends SuperController
                 $geomAdvertisement = $advertisement->getGeom();
                 $region = $geometryServices->getPositionRegion($geomAdvertisement);
 
-                if  (null === $region) {
+                if (null === $region) {
                     $this->addFlash('noticeMap', 'Необхідно вибрати місце розташування ділянки в межах України.');
                 } else {
                     $advertisement->setDirRegion($region);
@@ -209,11 +206,13 @@ class CabinetController extends SuperController
      * @Route("/deactivateMyAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_deactivate_my_advertisement", methods={"GET"})
      *
      */
-    public function deactivateMyAdvertisementAction(Advertisement $advertisement){
+    public function deactivateMyAdvertisementAction(Advertisement $advertisement)
+    {
         //Деактивувати можна тільки свої оголошення
-        if ($advertisement->getUsers() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
+
+
+        $this->checkUserWithAuthor($advertisement);
+
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['DEACTIVATED']);
 
         $this->addFlash('success', 'Оголошення деактивовано. Щоб активувати чи переглянути його, перейдіть в закладку "Деактивовані"!');
@@ -227,12 +226,11 @@ class CabinetController extends SuperController
      * @Route("/activateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="cabinet_activate_advertisement", methods={"GET"})
      *
      */
-    public function activateAdvertisementAction(Advertisement $advertisement){
+    public function activateAdvertisementAction(Advertisement $advertisement)
+    {
         //Aктивувати можна тільки свої оголошення
 
-        if ($advertisement->getUsers() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->checkUserWithAuthor($advertisement);
 
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['PENDING']);
 

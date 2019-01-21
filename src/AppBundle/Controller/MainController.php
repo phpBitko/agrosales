@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Advertisement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Class MainController
  * @Route("/main")
  */
-class MainController extends Controller
+class MainController extends SuperController
 {
-
-
     /**
      * @param Request $request
      * @Route("/",name="main_index", methods={"GET"})
@@ -32,7 +31,9 @@ class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $advertisement = $em->getRepository('AppBundle:Advertisement')->findAllWithLimit(8);
+        $advertisement = $em->getRepository('AppBundle:Advertisement')
+            ->findAllWithLimit(8, self::STATUS_ADVERTISEMENT['ACTIVE'], Advertisement::$order);
+
         if ($advertisement === null) {
             throw new NotFoundHttpException();
         }
@@ -40,6 +41,4 @@ class MainController extends Controller
         return $this->render('AppBundle:main:index.html.twig', array('advertisement' => $advertisement));
 
     }
-
-
 }

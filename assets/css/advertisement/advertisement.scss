@@ -16,7 +16,56 @@
   .advertisement-control-panel {
     display: flex;
     justify-content: flex-end;
+    align-items:center;
     width: 100%;
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 15px;
+    /*.panel-sort {
+      flex-grow: 2;
+      a{
+        font-size: 1rem;
+        display: inline-block;
+        text-decoration: none;
+        color: #7c7a7a;
+      }
+    }*/
+    .count {
+      margin-right: 20px;
+      flex-grow: 1;
+      color: #adb5bd;
+    }
+    .sorting-price {
+      flex-grow: 2;
+      button {
+        background-color: #e9ecef;
+        border-color: #ced4da;
+        border-radius: 2px;
+        color: $text-color;
+        font-size: 0.9rem;
+        &:active {
+          background-color: darken(#e9ecef, 20%);
+         // box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
+        }
+        &:focus {
+          box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
+        }
+      }
+      a {
+        font-size: 0.9rem;
+        padding: 0.25rem 1.5rem;
+        font-weight: 400;
+        text-align: inherit;
+        white-space: nowrap;
+        background-color: transparent;
+        border: 0;
+        width: 100%;
+        &:hover {
+          text-decoration: none;
+          background-color: #f8f9fa;
+        }
+      }
+
+    }
     a {
       margin-right: 20px;
       display: block;
@@ -34,11 +83,21 @@
     border: solid 1px #d9d9d9;
     margin: 20px 0;
     transition: 0.1s;
-
     &:hover {
       border: solid 1px white;
       box-shadow: 0px 1px 6px 0px #bfb8b8;
     }
+    #carouselControls {
+      img {
+        max-height: 400px;
+        max-width: 670px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
     .advertisement-one-top {
       position: absolute;
       top: 22px;

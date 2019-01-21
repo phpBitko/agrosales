@@ -29,6 +29,14 @@ class Advertisement implements InstanceUserInterface
 {
     const NUM_ITEMS = 9;
 
+
+    /**
+     * Змінна для параметрів сортування по замовчуванню
+     *
+     * @var array
+     */
+    public static $order =['isTop' => 'DESC', 'addDate' => 'DESC'];
+
     /**
      * @var integer
      *

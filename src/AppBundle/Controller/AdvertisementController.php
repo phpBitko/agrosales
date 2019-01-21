@@ -18,8 +18,6 @@ use AppBundle\Service\PaginatorServices;
  */
 class AdvertisementController extends SuperController
 {
-    public static $order =['isTop' => 'DESC', 'addDate' => 'DESC'];
-
     /**
      * @param Request $request
      * @param PaginatorServices $paginator
@@ -28,7 +26,7 @@ class AdvertisementController extends SuperController
      * @Route("/{typeView}",  defaults={"page": 1}, requirements={"typeView": "list|tab"}, name="advertisement_index", methods={"GET"})
      * @return Response
      */
-    public function indexAction(Request $request,  $typeView = 'list')
+    public function indexAction(Request $request, $typeView = 'list')
     {
 
         $adv = new Advertisement();
@@ -46,13 +44,13 @@ class AdvertisementController extends SuperController
 
             // initialize a query builder
 
-            $filterBuilder = $advertisement->qbFindByStatus(1);
+            $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE']);
 
             // build the query from the given form object
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $query = $filterBuilder->getQuery();
         } else {
-            $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], self::$order);
+            $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], Advertisement::$order);
         }
 
         $paginator = $this->get('app.service.paginator_services');
@@ -81,7 +79,6 @@ class AdvertisementController extends SuperController
             throw new NotFoundHttpException();
         }
         return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisement));
-
     }
 
     /**
@@ -91,7 +88,8 @@ class AdvertisementController extends SuperController
      * @Route("/deactivateAdminAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_deactivate_admin_advertisement", methods={"GET"})
      *
      */
-    public function deactivateAdvertisementAction(Advertisement $advertisement){
+    public function deactivateAdvertisementAction(Advertisement $advertisement)
+    {
         //Деактивувати може тільки адмін
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException();
@@ -99,7 +97,7 @@ class AdvertisementController extends SuperController
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['DEACTIVATED']);
 
         $this->addFlash('success', 'Оголошення деактивовано.');
-        return $this->redirectToRoute('advertisement_details', ['id'=>$advertisement->getId()]);
+        return $this->redirectToRoute('advertisement_details', ['id' => $advertisement->getId()]);
     }
 
     /**
@@ -109,7 +107,8 @@ class AdvertisementController extends SuperController
      * @Route("/activateAdvertisement/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_activate_advertisement", methods={"GET"})
      *
      */
-    public function activateAdvertisementAction(Advertisement $advertisement){
+    public function activateAdvertisementAction(Advertisement $advertisement)
+    {
         //Активувати може тільки адмін
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException();
@@ -117,7 +116,7 @@ class AdvertisementController extends SuperController
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['ACTIVE']);
 
         $this->addFlash('success', 'Оголошення активовано.');
-        return $this->redirectToRoute('advertisement_details', ['id'=>$advertisement->getId()]);
+        return $this->redirectToRoute('advertisement_details', ['id' => $advertisement->getId()]);
     }
 
 }
