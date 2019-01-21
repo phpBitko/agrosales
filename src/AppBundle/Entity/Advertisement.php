@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\InstanceUserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,7 +25,7 @@ use Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AdvertisementRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Advertisement
+class Advertisement implements InstanceUserInterface
 {
     const NUM_ITEMS = 9;
 
