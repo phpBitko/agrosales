@@ -21,10 +21,12 @@
                 <div class="advertisement-control-panel">
                     <div class="sorting-price">
                         <div class="dropdown ">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            <button class="btn" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Сортувати
+                                <div>{{ stringSelection }}</div>
+                                <div><i class="fas fa-caret-down"></i></div>
                             </button>
+
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку дешевші', 'q.price', {}, {'direction': 'asc'}) }}
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку дорожчі', 'q.price', {}, {'direction': 'desc'}) }}
@@ -34,7 +36,9 @@
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку пізніше додані', 'q.addDate', {}, {'direction': 'desc'}) }}
                             </div>
                         </div>
+
                     </div>
+
                     <div class="count">
                         Всього результатів: {{ advertisement.getTotalItemCount }}
                     </div>

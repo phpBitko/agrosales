@@ -1,6 +1,7 @@
 @import '../error/error';
 @import '../generalSettings';
 @import '../../js/lib/adminLTE/css/AdminLTE.css';
+
 @import 'filter';
 @import 'details';
 
@@ -37,11 +38,15 @@
     .sorting-price {
       flex-grow: 2;
       button {
+        display: flex;
+        justify-content: space-between;
         background-color: #e9ecef;
         border-color: #ced4da;
         border-radius: 2px;
         color: $text-color;
         font-size: 0.9rem;
+        width: 250px;
+        text-align: left;
         &:active {
           background-color: darken(#e9ecef, 20%);
          // box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
@@ -49,6 +54,7 @@
         &:focus {
           box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
         }
+
       }
       a {
         font-size: 0.9rem;
