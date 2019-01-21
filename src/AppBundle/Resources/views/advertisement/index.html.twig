@@ -14,187 +14,45 @@
 {% block body %}
     <div class="container">
         <div class="row">
+            {{ include('@App/advertisement/filter.html.twig', { 'form': form }) }}
 
-            <div class="advertisement-filter col-3">
-                {{ form_start(form,{'method': 'GET'}) }}
-                <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header"><i class="fas fa-filter"></i>Фільтр</li>
-                    <li class="treeview menu-open">
-                        <a href="#">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>Ціна</span>
-                            <span class="pull-right-container">
-                                <i class="fas fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu filter-price" style="display: block">
-                            {{ form_widget(form.price) }}
-                            {# <span>від</span>
-                             <div class="input-group mb-3 col-5">
-                                 <div class="input-group-prepend">
-                                     <span class="input-group-text">$</span>
-                                 </div>
-                                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-
-                             </div>
-                             <div class="input-group mb-3 col-5">
-                                 <div class="input-group-prepend">
-                                     <span class="input-group-text">$</span>
-                                 </div>
-                                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-
-                             </div>
-                             <div class="form-group">
-                                 <input id="customRange1" type="range" class="custom-range" value=""
-                                        data-slider-min="10"
-                                        data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
-                             </div>#}
-                        </ul>
-                    </li>
-                    <li class="treeview menu-open">
-                        <a href="#">
-                            <i class="fas fa-vector-square"></i>
-                            <span>Площа</span>
-                            <span class="pull-right-container">
-                                      <i class="fas fa-angle-left pull-right"></i>
-                              </span>
-                        </a>
-                        <ul class="treeview-menu filter-area" style="display: block">
-                            {{ form_widget(form.area) }}
-                        </ul>
-                    </li>
-                    <li class="treeview menu-open">
-                        <a href="#">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>Дата розміщення</span>
-                            <span class="pull-right-container">
-                                      <i class="fas fa-angle-left pull-right"></i>
-                              </span>
-                        </a>
-                        <ul class="treeview-menu filter-date" style="display: block">
-                            {#{{ form_widget(form.addDate) }}#}
-                        </ul>
-                    </li>
-                    <li class="treeview menu-open">
-                        <a href="#">
-                            <i class="fab fa-elementor"></i>
-                            <span>Цільове призначення</span>
-                            <span class="pull-right-container">
-                                      <i class="fas fa-angle-left pull-right"></i>
-                              </span>
-                        </a>
-                        <ul class="treeview-menu filter-purpose" style="display: block">
-                            {#   {{ form_widget(form.dirPurpose) }}#}
-                        </ul>
-                    </li>
-                    <li class="treeview menu-open">
-                        <a href="#">
-                            <i class="fas fa-random"></i>
-                            <span>Облаштування</span>
-                            <span class="pull-right-container">
-                                <i class="fas fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu filter-provision" style="display: block">
-
-                            {{ form_widget(form.isRoad) }}
-                            <label for="item_filter_isRoad">
-                                <div><i class="sprite sprite-road"></i></div>
-                            </label>
-                            {{ form_widget(form.isWaterSupply) }}
-                            <label for="item_filter_isWaterSupply">
-                                <div><i class="sprite sprite-water"></i></div>
-                            </label>
-                            {{ form_widget(form.isGas) }}
-                            <label for="item_filter_isGas">
-                                <div><i class="sprite sprite-walve"></i></div>
-                            </label>
-                            {{ form_widget(form.isSewerage) }}
-                            <label for="item_filter_isSewerage">
-                                <div><i class="sprite sprite-waste"></i></div>
-                            </label>
-                            {{ form_widget(form.isElectricity) }}
-                            <label for="item_filter_isElectricity">
-                                <div><i class="sprite sprite-idea"></i></div>
-                            </label>
-
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="input-group mb-3 col-5">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        </div>
-                    </li>
-                    <li><input type="submit" name="submit-filter" value="filter"/></li>
-                </ul>
-                {{ form_end(form) }}
-            </div>
+            {#{{ app.request.queryString }}#}
             <div class="advertisement col-9">
                 <div class="advertisement-control-panel">
-                    <a href="{{ path('advertisement_index') }}">
+                    <div class="sorting-price">
+                        <div class="dropdown ">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Сортувати
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку дешевші', 'q.price', {}, {'direction': 'asc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку дорожчі', 'q.price', {}, {'direction': 'desc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку менші за площею', 'q.area', {}, {'direction': 'asc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку більші за площею', 'q.area', {}, {'direction': 'desc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку раніше додані', 'q.addDate', {}, {'direction': 'asc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку пізніше додані', 'q.addDate', {}, {'direction': 'desc'}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="count">
+                        Всього результатів: {{ advertisement.getTotalItemCount }}
+                    </div>
+                    <a href="{{ path('advertisement_index',{'typeView' : 'tab'}) }}">
                         <i class="fas fa-th"></i>
                     </a>
-                    <a href="{{ path('advertisement_list') }}">
+                    <a href="{{ path('advertisement_index',{'typeView' : 'list'}) }}">
+
                         <i class="fas fa-bars"></i>
                     </a>
                 </div>
-                {% for item in advertisement %}
-                    <div class="advertisement-one">
-                        {% if item.isTop|default(false) == true %}
-                            <div class="advertisement-one-top"><span>В топі</span></div>
-                        {% endif %}
-                        <div class="advertisement-img">
-                            <a href="" alt="">
-                                {% set photo = item.photos|first %}
-                                {% if photo %}
-                                    <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
-                                        ~photo.advertisement.id~'/'~photo.photoNameNew) }}">
-                                {% else %}
-                                    <img src="{{ asset('bundles/app/img/empty.jpg') }}">
-                                {% endif %}
-                            </a>
-                            {% if photo %}
-                                <div class="advertisement-one-photo-count">{{ item.photos|length }} фото</div>
-                            {% endif %}
-                            <i class="far fa-star advertisement-selected"></i>
-                        </div>
-                        <div class="advertisement-text">
-                            <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
-                               class="advertisement-text-title">
-                                {% if item.textHead|length >28 %}
-                                    {{ item.textHead|slice(0,25) }}. . .
-                                {% else %}
-                                    {{ item.textHead|isEmpty }}
-                                {% endif %}
-                            </a>
-                            <div class="advertisement-text-square">
-                                <i class="fas fa-vector-square"></i>
-                                {{ (item.area*100)|number_format(0,',',' ') }} соток
-                            </div>
-                            <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $
-                                <span class="advertisement-text-square"> |
-                                    {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }}
-                                    $ /сотка
-                                </span>
-                            </div>
-                            <div class="advertisement-text-content">
-                                {% if item.textAbout|length >58 %}
-                                    {{ item.textAbout|slice(0,58) }}. . .
-                                {% else %}
-                                    {{ item.textAbout|isEmpty }}
-                                {% endif %}
-                            </div>
-                            <div class="advertisement-text-date"><i class="far fa-clock"></i>
-                                <div>{{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}</div>
-                            </div>
-                            <a class="advertisement-text-position" href="">Осокорки<i class="fas fa-map-marker-alt"></i></a>
 
-                        </div>
-                        <div class="advertisement-geom">{{ item.geom }}</div>
-                    </div>
+                {% for item in advertisement %}
+                    {% if typeView == 'tab' %}
+                        {{ include('@App/advertisement/tabView.html.twig', { 'item': item }) }}
+                    {% else %}
+                        {{ include('@App/advertisement/listView.html.twig', { 'item': item }) }}
+                    {% endif %}
                 {% endfor %}
 
             </div>

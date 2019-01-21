@@ -1,0 +1,66 @@
+<div class="advertisement-filter col-3">
+    {{ form_start(form,{'method': 'GET'}) }}
+    <div class="box box-solid">
+        <div class="box-header">
+            <h3 class="box-title">Фільтр</h3>
+            <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="filter-price">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Ціна</span>
+                    {{ form_widget(form.price) }}
+                </li>
+                <li class="filter-area">
+                    <i class="fas fa-vector-square"></i>
+                    <span>Площа</span>
+                    {{ form_widget(form.area) }}
+                </li>
+                <li class="">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>Дата розміщення</span>
+                    {#{{ form_widget(form.addDate) }}#}
+                </li>
+                <li class="filter-purpose">
+                    <i class="fab fa-elementor"></i>
+                    <span>Цільове призначення</span>
+                    {#   {{ form_widget(form.dirPurpose) }}#}
+                </li>
+                <li class="filter-provision">
+
+                    <i class="fas fa-random"></i>
+                    <span>Облаштування</span>
+                    <div>
+                        {{ form_widget(form.isRoad) }}
+                        <label for="item_filter_isRoad">
+                            <div class="provision"><i class="sprite sprite-road"></i></div>
+                        </label>
+                        {{ form_widget(form.isWaterSupply) }}
+                        <label for="item_filter_isWaterSupply">
+                            <div class="provision"><i class="sprite sprite-water"></i></div>
+                        </label>
+                        {{ form_widget(form.isGas) }}
+                        <label for="item_filter_isGas">
+                            <div class="provision"><i class="sprite sprite-walve"></i></div>
+                        </label>
+                        {{ form_widget(form.isSewerage) }}
+                        <label for="item_filter_isSewerage">
+                            <div class="provision"><i class="sprite sprite-waste"></i></div>
+                        </label>
+                        {{ form_widget(form.isElectricity) }}
+                        <label for="item_filter_isElectricity">
+                            <div class="provision"><i class="sprite sprite-idea"></i></div>
+                        </label>
+                    </div>
+                </li>
+                <li><input type="submit" name="submit-filter" value="filter"/></li>
+
+            </ul>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
