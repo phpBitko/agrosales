@@ -87,7 +87,11 @@
                     title="Місце положення"></button>
         </div>
     </div>
-    <div class="map-details-info hidden start-position"></div>
+    <div class="map-details-info hidden start-position">
+        {% if advertisement is not null %}
+            {{ include('@App/map/details.html.twig', { 'advertisementDetails': advertisement }) }}
+        {% endif %}
+    </div>
     <div class="mouse-position-panel" id="mouse-position"></div>
 
 

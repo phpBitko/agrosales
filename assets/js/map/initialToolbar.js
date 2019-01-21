@@ -35,7 +35,6 @@ $(function () {
 
     mapSales.controls.extend([mousePositionControl]);//--------Додаємо новий control до карти
 
-
     //-------------------------------------------------- alternative zoom
     $('.zoom-button').on('click', function () {
         var view = mapSales.getView();
@@ -46,6 +45,7 @@ $(function () {
             duration: 200
         })
     });
+
     $('#zoom-full').on('click', function () {
         var view = mapSales.getView();
         view.animate({
@@ -118,7 +118,7 @@ $(function () {
      * Message to show when the user is drawing a polygon.
      * @type {string}
      */
-    var continuePolygonMsg = 'Click to continue drawing the polygon';
+    var continuePolygonMsg = 'Натисність для продовження рисування полігону';
 
 
     /**
@@ -137,7 +137,7 @@ $(function () {
             return;
         }
         /** @type {string} */
-        var helpMsg = 'Click to start drawing';
+        var helpMsg = 'Натисність для початку рисування';
         //alert(sketch.getGeometry);
 
         if (sketch) {
@@ -156,8 +156,6 @@ $(function () {
     var key;
 
     key = mapSales.on('pointermove', pointerMoveHandler);
-
-
 
 
     mapSales.getViewport().addEventListener('mouseout', function () {

@@ -1,18 +1,28 @@
-import WKT from 'ol/format/WKT.js';
+import WKT from 'ol/format/WKT';
 import {Vector as VectorSource} from 'ol/source.js';
 import Icon from "ol/style/Icon";
-import {Style} from "ol/style";
+import {Circle as CircleStyle, Fill, Stroke} from "ol/style";
 import {Vector as VectorLayer} from "ol/layer";
+import {fromLonLat} from "ol/proj";
+import View from "ol/View";
+import Style from "ol/style/Style";
+
 // import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
 
 $(document).ready(function () {
-
 
     //-------------------------------------------for points from advertisement
     var features;
     var format = new WKT();
     var vectorSourcePoints = new VectorSource;
 
+
+    var centerUkraine = fromLonLat([31.182233, 48.382778]);//------------------координати центру України
+
+    var view = new View({
+        center: centerUkraine,
+        zoom: 5
+    });
 
     //-------------------------------------------створюєм як буде виглядать іконка для відобреження ділянок(оголошень)
     var svg = $('#icon_advertisement');
@@ -22,7 +32,6 @@ $(document).ready(function () {
         })
     });
 
-
     //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
         $.each(data.data, function (i, value) {
@@ -30,84 +39,31 @@ $(document).ready(function () {
                 dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857'
             });
-
             features.set('id', value.id);
             vectorSourcePoints.addFeature(features);
         });
     }
 
-
-    /*
-        $('body').load(function () {
-            $('body').preloader('remove');
-        });
-    */
-
-
     $('.map-details-info').draggable({
-        stop: function() {
+        stop: function () {
             $('.move-left').removeClass('hidden');
         }
-
     });
 
 
-    //-----------------------------------заповнює значеннями форму
+    //-----------------------------------відображаєм форму з детальною інформацією
 
     function addMapDetails(data) {
-        // $('body').preloader('remove');
         $('.map-details-info').html(data.table.details);
         if ($('.map-details-info').hasClass('hidden')) {
             $('.map-details-info').removeClass('hidden')
         }
-
-
-        /*        var item = data.data[0];
-                if (item.area) {
-                    $('.map-main-area').html(item.area + ' соток');
-                } else {
-                    $('.map-main-area').html('площа не вказана')
-                }
-                if (item.price) {
-                    $('.map-main-price').html(item.price + '$');
-                } else {
-                    $('.map-main-price').html('')
-                }
-                if (item.area != 0 && item.price != 0) {
-                    var value = (Math.round((item.price / item.area) * 100) / 100);
-                    $('.map-main-price-to-area').html('| ' + value + '$/сотку');
-
-                } else {
-                    $('.map-main-price-to-area').html('')
-                }
-
-                var itemFirst = $('.details-road').children().first();
-                var itemLast = $('.details-road').children().last();
-
-
-                if (item.isRoad == false) {
-
-                    if (itemLast.hasClass('hidden')) {
-                        itemLast.removeClass('hidden');
-                        itemFirst.addClass('hidden');
-                        $('.details-road').removeClass('active')
-                    }
-                } else {
-
-                    if (itemFirst.hasClass('hidden')) {
-                        itemFirst.removeClass('hidden');
-                        itemLast.addClass('hidden');
-                        $('.details-road').addClass('active')
-                    }
-
-                }*/
-
     }
 
     //--- запит для отримання даних про координати точок, використувується бандл FOSjsroutingbundle
     function getAllAdvertisement() {
         $.ajax({
-            url: Routing.generate('get_all_advertisement'),
+            url: Routing.generate('get_advertisement_by_status'),
             dataType: 'json',
             method: 'POST',
             success: function (data) {
@@ -133,16 +89,12 @@ $(document).ready(function () {
     }
 
     //--------------------------------------------при клікі на карті вираховує чи є іконка і віддає id
-
     mapSales.on('click', function (evt) {
-
         var feature = mapSales.forEachFeatureAtPixel(evt.pixel,
             function (feature) {
                 return feature;
             });
-        console.log(evt.pixel);
         if (feature) {
-            //$('body').preloader();
             var idAdvertisement = feature.getProperties();
             getDetailsAdvertisement(idAdvertisement.id);
         }
@@ -165,6 +117,7 @@ $(document).ready(function () {
 
 
     //--- запит для отримання даних про детальну інформацію про ділянку бандл FOSjsroutingbundle
+
     function getDetailsAdvertisement(id) {
         $.ajax({
             url: Routing.generate('map_details_advertisement'),
@@ -193,12 +146,37 @@ $(document).ready(function () {
     }
 
     getAllAdvertisement();
-
     var vectorPoints = new VectorLayer({
         source: vectorSourcePoints,
         style: styleAdvert
     });
     mapSales.addLayer(vectorPoints);
+
+    if ($('.map-details-head').length) {
+        if ($('.map-details-info').hasClass('hidden')) {
+            $('.map-details-info').removeClass('hidden')
+        }
+        if ($('#map-properties-geom').text() !== undefined && $('#map-properties-geom').text() !== '') {
+            // var wkt = new WKT();
+            // var view = new View;
+            var style = new Style({
+                fill: new Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }),
+                stroke: new Stroke({
+                    color: '#f4820b',
+                    width: 2
+                }),
+                image: new CircleStyle({
+                    radius: 5,
+                    fill: new Fill({
+                        color: '#f4820b'
+                    })
+                })
+            });
+            feature.zoomToFeature($('#map-properties-geom').text());
+        }
+    }
 
 })
 
