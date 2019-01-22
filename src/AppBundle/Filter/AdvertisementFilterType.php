@@ -14,26 +14,30 @@ class AdvertisementFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $em = $options['entity_manager'];
+        $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
-        $purpose = $options['purpose'];
-        // $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
+
         $builder->add('area', Filters\NumberRangeFilterType::class);
-         //$builder->add('addDate', Filters\DateTimeRangeFilterType::class);
-       // $builder->add('addDate', Filters\DateTimeRangeFilterType::class);
-
-/*
         $builder->add('addDate', Filters\DateTimeRangeFilterType::class, [
             'left_datetime_options' => [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => ['class' => 'date date-filter-left'],
+                'label' => ' ',
+                'format' => 'dd.MM.yyyy',
+                'attr' => [
+                    'class' => 'datepicker',
+                    'data-date-format' => 'dd.mm.yyyy',
+                ]
             ],
             'right_datetime_options' => [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => ['class' => 'date date-filter-right'],
+                'label' => ' ',
+                'format' => 'dd.MM.yyyy',
+                'attr' => ['class' => 'datepicker',
+                    'data-date-format' => 'dd.mm.yyyy',
+                ],
             ]
-        ]);*/
+        ]);
 
         $builder->add('price', Filters\NumberRangeFilterType::class);
 
@@ -86,7 +90,7 @@ class AdvertisementFilterType extends AbstractType
             'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
 
         ));
-        $resolver->setRequired(array('purpose'));
+        $resolver->setRequired('entity_manager');
 
     }
 

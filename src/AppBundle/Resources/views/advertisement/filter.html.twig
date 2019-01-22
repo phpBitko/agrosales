@@ -20,12 +20,12 @@
                     <span>Площа</span>
                     {{ form_widget(form.area) }}
                 </li>
-{#                <li class="">
+                <li class="filter-date">
                     <i class="far fa-calendar-alt"></i>
                     <span>Дата розміщення</span>
                     {{ form_widget(form.addDate) }}
 
-                </li>#}
+                </li>
                 <li class="filter-purpose">
                     <i class="fab fa-elementor"></i>
                     <span>Цільове призначення</span>
@@ -58,7 +58,9 @@
                         </label>
                     </div>
                 </li>
-                <li><input type="submit" name="submit-filter" value="filter"/></li>
+                <li class="filter-btn">
+                    <input type="submit" name="submit-filter" value="Фільтрувати" class="btn btn-outline-secondary">
+                </li>
 
             </ul>
         </div>

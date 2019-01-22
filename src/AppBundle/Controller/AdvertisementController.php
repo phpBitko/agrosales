@@ -28,15 +28,13 @@ class AdvertisementController extends SuperController
      */
     public function indexAction(Request $request, PaginatorServices $paginator, $typeView = 'list')
     {
-        $adv = new Advertisement();
+        //$adv = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
         $advertisement = $em->getRepository('AppBundle:Advertisement');
 
-        $form = $this->createForm(AdvertisementFilterType::class, $adv, array(
-            'purpose' => $purpose,
-        ));
+        $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
@@ -56,9 +54,9 @@ class AdvertisementController extends SuperController
         $stringSelection = $this->identifySelectString($request);
 
         return $this->render('AppBundle:advertisement:index.html.twig', array(
-            'form'            => $form->createView(),
-            'advertisement'   => $pagination,
-            'typeView'        => $typeView,
+            'form' => $form->createView(),
+            'advertisement' => $pagination,
+            'typeView' => $typeView,
             'stringSelection' => $stringSelection,
 
         ));
@@ -128,18 +126,18 @@ class AdvertisementController extends SuperController
     {
         $stringSelected = 'Сортувати';
 
-        if($request->query->get('sort')) {
-            $field = explode('.',$request->query->get('sort'),2);
+        if ($request->query->get('sort')) {
+            $field = explode('.', $request->query->get('sort'), 2);
             $ordertype = $request->query->get('direction');
 
-            if($field[1] == 'price'){
-                $addString = ($ordertype =='asc')? ' дешевші': ' дорожчі';
+            if ($field[1] == 'price') {
+                $addString = ($ordertype == 'asc') ? ' дешевші' : ' дорожчі';
                 $stringSelected = "Спочатку $addString";
-            } elseif ($field[1] == 'area'){
-                $addString = ($ordertype =='asc')? ' менші': ' більші';
+            } elseif ($field[1] == 'area') {
+                $addString = ($ordertype == 'asc') ? ' менші' : ' більші';
                 $stringSelected = "Спочатку $addString за площею";
-            } elseif ($field[1] == 'addDate'){
-                $addString = ($ordertype =='asc')? ' раніше': ' пізніше';
+            } elseif ($field[1] == 'addDate') {
+                $addString = ($ordertype == 'asc') ? ' раніше' : ' пізніше';
                 $stringSelected = "Спочатку $addString додані";
             }
         }
