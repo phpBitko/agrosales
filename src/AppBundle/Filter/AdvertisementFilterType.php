@@ -16,23 +16,27 @@ class AdvertisementFilterType extends AbstractType
     {
 
         $purpose = $options['purpose'];
-       // $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
+        // $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
         $builder->add('area', Filters\NumberRangeFilterType::class);
+         //$builder->add('addDate', Filters\DateTimeRangeFilterType::class);
+       // $builder->add('addDate', Filters\DateTimeRangeFilterType::class);
 
-/*        $builder->add('addDate', Filters\DateTimeRangeFilterType::class, array(
-            'left_datetime_options' => array(
-                'label' => 'from',
+/*
+        $builder->add('addDate', Filters\DateTimeRangeFilterType::class, [
+            'left_datetime_options' => [
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
-                'attr' => array('class' => 'date date-filter-left')),
-            'right_datetime_options' => array(
-                'label' => 'to',
+                'attr' => ['class' => 'date date-filter-left'],
+            ],
+            'right_datetime_options' => [
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
-                'attr' => array('class' => 'date date-filter-right')),
-        ));*/
+                'attr' => ['class' => 'date date-filter-right'],
+            ]
+        ]);*/
 
         $builder->add('price', Filters\NumberRangeFilterType::class);
+
         $builder->add('isElectricity', Filters\CheckboxFilterType::class, [
             'label' => 'Електрика',
             'attr' => ['class' => ''],
@@ -59,14 +63,14 @@ class AdvertisementFilterType extends AbstractType
             'attr' => ['class' => ''],
             'label_attr' => ['class' => 'font-weight-bold'],
         ]);
-        /*$builder->add('dirPurpose', Filters\ChoiceFilterType::class, [
+        $builder->add('dirPurpose', Filters\ChoiceFilterType::class, [
             'label' => 'Цільове призначення',
             'multiple' => true,
             'choices' => $purpose,
             'choice_label' => function ($purpose, $key, $index) {
                 return ("{$purpose->getCode()} {$purpose->getText()}");
             },
-        ]);*/
+        ]);
 
     }
 
@@ -84,6 +88,6 @@ class AdvertisementFilterType extends AbstractType
         ));
         $resolver->setRequired(array('purpose'));
 
-    } 
+    }
 
 }

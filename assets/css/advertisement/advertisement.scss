@@ -21,6 +21,7 @@
     width: 100%;
     border-bottom: 1px solid #d9d9d9;
     padding-bottom: 15px;
+    height: fit-content;
     /*.panel-sort {
       flex-grow: 2;
       a{
@@ -103,7 +104,6 @@
         transform: translate(-50%, -50%);
       }
     }
-
     .advertisement-one-top {
       position: absolute;
       top: 22px;

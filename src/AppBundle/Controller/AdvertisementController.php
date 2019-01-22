@@ -118,9 +118,8 @@ class AdvertisementController extends SuperController
         return $this->redirectToRoute('advertisement_details', ['id' => $advertisement->getId()]);
     }
 
-
     /**
-     * Формує строку для сортування
+     * Формує строку для відображення типу сортування
      *
      * @param Request $request
      * @return string
@@ -128,9 +127,11 @@ class AdvertisementController extends SuperController
     protected function identifySelectString(Request $request)
     {
         $stringSelected = 'Сортувати';
+
         if($request->query->get('sort')) {
             $field = explode('.',$request->query->get('sort'),2);
             $ordertype = $request->query->get('direction');
+
             if($field[1] == 'price'){
                 $addString = ($ordertype =='asc')? ' дешевші': ' дорожчі';
                 $stringSelected = "Спочатку $addString";

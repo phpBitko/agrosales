@@ -36,7 +36,6 @@
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку пізніше додані', 'q.addDate', {}, {'direction': 'desc'}) }}
                             </div>
                         </div>
-
                     </div>
 
                     <div class="count">
@@ -50,15 +49,17 @@
                         <i class="fas fa-bars"></i>
                     </a>
                 </div>
-
-                {% for item in advertisement %}
-                    {% if typeView == 'tab' %}
-                        {{ include('@App/advertisement/tabView.html.twig', { 'item': item }) }}
-                    {% else %}
-                        {{ include('@App/advertisement/listView.html.twig', { 'item': item }) }}
-                    {% endif %}
-                {% endfor %}
-
+                {% if (advertisement.getTotalItemCount == 0) %}
+                    <div>Жодного результату не знайдено!</div>
+                {% else %}
+                    {% for item in advertisement %}
+                        {% if typeView == 'tab' %}
+                            {{ include('@App/advertisement/tabView.html.twig', { 'item': item }) }}
+                        {% else %}
+                            {{ include('@App/advertisement/listView.html.twig', { 'item': item }) }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="row col-12 justify-content-center">
                 <div class="navigation  text-center">
