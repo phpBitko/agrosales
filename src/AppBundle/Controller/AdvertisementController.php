@@ -4,13 +4,17 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Advertisement;
+use AppBundle\Entity\Messages;
+use AppBundle\Exception\ViewException;
 use AppBundle\Filter\AdvertisementFilterType;
+use AppBundle\Form\MessagesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Service\PaginatorServices;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * Class AdvertisementController
@@ -65,17 +69,59 @@ class AdvertisementController extends SuperController
     /**
      *
      * @param Advertisement $advertisement
-     * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", methods={"GET"})
+     * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", methods={"GET", "POST"})
      *
      * @return Response
      *
      */
-    public function advertisementDetailsAction(Advertisement $advertisement)
+    public function advertisementDetailsAction(Request $request, Advertisement $advertisement)
     {
         if ($advertisement === null) {
             throw new NotFoundHttpException();
         }
-        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisement));
+        $em = $this->getDoctrine()->getManager();
+        $formView = null;
+
+        if($this->checkUserWithAuthorBool($advertisement) || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            $messages = new Messages();
+            $form = $this->createForm(MessagesType::class, $messages);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted()) {
+                if($form->isValid()) {
+                    if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                        throw $this->createAccessDeniedException();
+                    }
+
+
+                    $messages->setAdvertisement($advertisement);
+                    $messages->setUsers($this->getUser());
+                    $em->persist($messages);
+                    $em->flush();
+
+                    $this->rejectAdvertisement($advertisement);
+
+                    return $this->redirectToRoute('advertisement_details',
+                        ['id' => $advertisement->getId()]
+                    );
+                }
+                $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
+            }
+
+            if($this->checkUserWithAuthorBool($advertisement)){
+                if(count($advertisement->getMessages())> 0){
+                    foreach ($advertisement->getMessages() as $message){
+                        $message->setIsView(true);
+                        $em->persist($message);
+                    }
+                    $em->flush();
+                }
+            }
+
+            $formView = $form->createView();
+        }
+
+        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisement, 'messagesForm' => $formView));
     }
 
     /**
@@ -97,6 +143,18 @@ class AdvertisementController extends SuperController
         return $this->redirectToRoute('advertisement_details', ['id' => $advertisement->getId()]);
     }
 
+    public function rejectAdvertisement(Advertisement $advertisement)
+    {
+        //Повернути на доопрацювання може тільки адмін
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+        $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['REJECT']);
+
+        $this->addFlash('success', 'Оголошення повернуто на доопрацювання.');
+        return $this->redirectToRoute('advertisement_details', ['id' => $advertisement->getId()]);
+    }
+
     /**
      * @param Advertisement $advertisement
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -110,6 +168,11 @@ class AdvertisementController extends SuperController
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException();
         }
+
+        if(self::STATUS_ADVERTISEMENT['PENDING'] !== $advertisement->getDirStatus()->getId()) {
+           throw new Exception('Активувати можна тільки повідомлення які знахdодяться на розгляді!', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['ACTIVE']);
 
         $this->addFlash('success', 'Оголошення активовано.');

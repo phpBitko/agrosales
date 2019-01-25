@@ -1,5 +1,3 @@
-require('../../css/advertisement/details.scss');
-
 $(function () {
     //---------------------------------------------підключаєм бутстрап слайдер і відміняє автоматичний скролінг
     $('.carousel').carousel({
@@ -24,7 +22,7 @@ $(function () {
     $('.details-picture-miniature img').each(function (i, elem) {
         sumImgHeight = sumImgHeight + $(this).height() + delta;
 
-    })
+    });
     if (sumImgHeight > heightBlockMiniature) {
         $('.detail-column').prepend('<a class="arrow-up btn btn-secondary btn-sm"><i class="fas fa-angle-up"></i></a>');
         $('.detail-column').append('<a class="arrow-down btn btn-secondary btn-sm"><i class="fas fa-angle-down"></i></a>');

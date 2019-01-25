@@ -4,7 +4,7 @@ $text-color: #626161;
 //-------------------------------------------- change standart properties tooltips
 .tooltip-inner {
   background: #515151;
-  border: 1px solid white;
+//  border: 1px solid white;
   color: white;
   border-radius: 2px;
   opacity: 1 !important;
@@ -16,8 +16,13 @@ $text-color: #626161;
   filter: alpha(opacity=100);
 }
 
+
+.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before{
+  border-bottom-color: #515151;
+}
+
 .tooltip-arrow {
-  color: #777777;
+  background: #515151;
 }
 
 .bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
@@ -333,7 +338,13 @@ $text-color: #626161;
 
 .block-message{
   margin-bottom: 1rem;
-  a.btn{
+  .btn{
     border-radius: 0;
   }
+
+}
+.message-row{
+  background-color: #fffbcd;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
 }

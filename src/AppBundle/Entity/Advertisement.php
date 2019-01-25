@@ -29,7 +29,6 @@ class Advertisement implements InstanceUserInterface
 {
     const NUM_ITEMS = 9;
 
-
     /**
      * Змінна для параметрів сортування по замовчуванню
      *
@@ -311,6 +310,12 @@ class Advertisement implements InstanceUserInterface
      */
     private $photos;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Messages", mappedBy="advertisement", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $messages;
+
     /**
      *
      * @ORM\ManyToOne(targetEntity="DirRegion")
@@ -373,6 +378,24 @@ class Advertisement implements InstanceUserInterface
     {
         $this->users = $users;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @param mixed $messages
+     */
+    public function setMessages($messages): void
+    {
+        $this->messages = $messages;
+    }
+
+
 
     /**
      * @return bool

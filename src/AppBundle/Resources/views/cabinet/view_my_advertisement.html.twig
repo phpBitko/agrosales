@@ -46,7 +46,14 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link {{ (selected== 'deactivated-tab') ? 'active' }}" id="deactivated-tab" data-toggle="tab" href="#deactivated-tab-content"
-                                               role="tab" aria-controls="contact" aria-selected="{{ (selected == 'deactivated-tab') ? 'true' : 'false' }}">Деактивовані ({{ advertisements.myAdvertisementDeactivated|length }})</a>
+                                               role="tab" aria-controls="contact" aria-selected="{{ (selected == 'deactivated-tab') ? 'true' : 'false' }}">
+                                                Деактивовані ({{ advertisements.myAdvertisementDeactivated|length }})
+                                                {% if data.countNotViewMessages > 0 %}
+                                                    <span class="pull-right-container" style="vertical-align: text-bottom; font-size: 0.8rem">
+                                                        <small class="label pull-right bg-yellow">{{ data.countNotViewMessages }}</small>
+                                                    </span>
+                                                {% endif %}
+                                            </a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="tab-my-advertisement-content">
@@ -117,6 +124,7 @@
                                                     </thead>
                                                     <tbody>
 
+
                                                     {% for advertisement in advertisements.myAdvertisementPending %}
                                                         {% set counter = ( counter | default(0) ) + 1 %}
                                                         <tr class="advertisement_one">
@@ -131,9 +139,9 @@
                                                                     <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
                                                                 {% endif %}
                                                             </th>
+                                                            <th class="font-light text-left text-left align-middle" scope="row">
 
-                                                            <th class="font-light text-left text-left align-middle"
-                                                                scope="row">{{ advertisement.textHead|isEmpty }}<br>
+                                                                {{ advertisement.textHead|isEmpty }}<br>
                                                                 <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-success btn-sm">Переглянути</a>
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-primary btn-sm">Редагувати</a>
                                                                 <a href="{{ path('cabinet_deactivate_my_advertisement', {'id':advertisement.id}) }}" class="deactivate-button btn btn-danger btn-sm" >Деактивувати</a>
@@ -181,8 +189,22 @@
                                                                 {% endif %}
                                                             </th>
 
-                                                            <th class="font-light text-left text-left align-middle"
-                                                                scope="row">{{ advertisement.textHead|isEmpty }}<br>
+                                                            <th class="font-light text-left text-left align-middle" scope="row">
+                                                                {% if advertisement.messages|length > 0 %}
+                                                                    {% set countNotViewMessages = 0 %}
+                                                                    {% for message in advertisement.messages %}
+                                                                        {% if message.isView == false %}
+                                                                            {% set  countNotViewMessages = countNotViewMessages  + 1  %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                    {% if countNotViewMessages > 0 %}
+                                                                        <span class="pull-right-container" style="vertical-align: text-bottom;">
+                                                                            <small class="label pull-right bg-yellow">Непрочитаних повідомлень:{{ countNotViewMessages }}</small>
+                                                                        </span>
+                                                                    {% endif %}
+
+                                                                {% endif %}
+                                                                <br>
                                                                 <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}" class="mt-1 mb-1 btn btn-success btn-sm">
                                                                     Переглянути
                                                                 </a>

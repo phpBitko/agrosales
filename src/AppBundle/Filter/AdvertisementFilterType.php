@@ -91,7 +91,7 @@ class AdvertisementFilterType extends AbstractType
 
         ));
         $resolver->setRequired('entity_manager');
-
+        
     }
 
 }

@@ -77,7 +77,6 @@ class CabinetController extends SuperController
                     return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
                 }
             }
-
             $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
         }
 
@@ -109,9 +108,8 @@ class CabinetController extends SuperController
             'entity_manager' => $em,
         ));
 
+        $formAdvertisement->handleRequest($request);
         if ($request->isMethod('POST')) {
-            $formAdvertisement->handleRequest($request);
-
             // Check form data is valid
             if ($formAdvertisement->isValid()) {
                 $geomAdvertisement = $advertisement->getGeom();
@@ -158,19 +156,28 @@ class CabinetController extends SuperController
      */
     public function getMyAdvertisementAction(Request $request, $selected = 'active-tab')
     {
+            $em = $this->getDoctrine()->getManager();
+            $advertisementRepository = $em->getRepository('AppBundle:Advertisement');
 
-        $em = $this->getDoctrine()->getManager();
-        //Активні
-        $myAdvertisement['myAdvertisementActive'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser' => $this->getUser()->getId(), 'dirStatus' => 1), array('addDate' => 'DESC'));
-        //Очікують, повернуті
-        $myAdvertisement ['myAdvertisementPending'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser' => $this->getUser()->getId(), 'dirStatus' => [2, 3]), array('addDate' => 'DESC'));
-        //Деактивовані
-        $myAdvertisement ['myAdvertisementDeactivated'] = $em->getRepository('AppBundle:Advertisement')
-            ->findBy(array('idUser' => $this->getUser()->getId(), 'dirStatus' => 4), array('addDate' => 'DESC'));
+            $userId = $this->getUser()->getId();
+            //Активні
+            $myAdvertisement['myAdvertisementActive'] = $advertisementRepository->
+            findBy(array('idUser' => $userId, 'dirStatus' => self::STATUS_ADVERTISEMENT['ACTIVE']), array('addDate' => 'DESC'));
+            //Очікують, повернуті
+            $myAdvertisement ['myAdvertisementPending'] = $advertisementRepository->
+            findBy(array('idUser' => $userId, 'dirStatus' => self::STATUS_ADVERTISEMENT['PENDING']), array('addDate' => 'DESC'));
+            //Деактивовані
+            $myAdvertisement ['myAdvertisementDeactivated'] = $advertisementRepository->
+            findBy(array('idUser' => $userId, 'dirStatus' => [self::STATUS_ADVERTISEMENT['DEACTIVATED'], self::STATUS_ADVERTISEMENT['REJECT']]), array('addDate' => 'DESC'));
 
-        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig', array('advertisements' => $myAdvertisement, 'selected' => $selected));
+            $data['countNotViewMessages'] = $em->getRepository('AppBundle:Messages')
+                ->getCountNotViewMessages($userId, self::STATUS_ADVERTISEMENT['REJECT']);
+
+        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig',
+            ['advertisements' => $myAdvertisement,
+                'selected' => $selected,
+                'data' => $data]);
+
     }
 
 
@@ -210,8 +217,7 @@ class CabinetController extends SuperController
     {
         //Деактивувати можна тільки свої оголошення
 
-
-        $this->checkUserWithAuthor($advertisement);
+        $this->checkUserWithAuthorException($advertisement);
 
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['DEACTIVATED']);
 
@@ -230,7 +236,7 @@ class CabinetController extends SuperController
     {
         //Aктивувати можна тільки свої оголошення
 
-        $this->checkUserWithAuthor($advertisement);
+        $this->checkUserWithAuthorException($advertisement);
 
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['PENDING']);
 

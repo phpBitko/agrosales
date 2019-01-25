@@ -3,12 +3,12 @@ namespace AppBundle\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class WarningException extends HttpException
+class ViewException extends HttpException
 {
     protected $statusCode;
     protected $message = "";
 
-    public function __construct($message, $statusCode = 404)
+    public function __construct($message, $statusCode = 500)
     {
         $this->message=$message;
         $this->statusCode = $statusCode;

@@ -1,0 +1,41 @@
+{% extends 'AppBundle::index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/advertisement.js') }}"></script>
+{% endblock %}
+{% block body %}
+
+    <div class="content-wrapper page-error">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="error-page">
+                <h2 class="headline text-yellow"> {{ status_code }}</h2>
+
+                <div class="error-content">
+                    <h3><i class="fas fa-exclamation-triangle text-yellow"></i> Виникла критична помилка.</h3>
+                    <p>
+                        {% if  is_granted('ROLE_ADMIN') %}
+                            {{ exception.message }}
+                        {% else %}
+                            {{ status_text }}
+                        {% endif %}
+
+                    </p>
+                </div>
+                <!-- /.error-content -->
+            </div>
+            <!-- /.error-page -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+{% endblock %}

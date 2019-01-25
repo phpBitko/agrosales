@@ -1,6 +1,4 @@
 @import '../generalSettings';
-@import '../../js/lib/adminLTE/css/AdminLTE.css';
-@import '../../js/lib/adminLTE/css/skin-blue.min.css';
 
 .advertisement_one {
   img {
@@ -103,4 +101,8 @@
     }
   }
 
+}
+
+.main-sidebar{
+  padding-top: 0;
 }
