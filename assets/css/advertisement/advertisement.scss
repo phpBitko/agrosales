@@ -2,11 +2,15 @@
 @import '../generalSettings';
 @import '../../js/lib/adminLTE/css/AdminLTE.css';
 @import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+@import '~bootstrap-slider/dist/css/bootstrap-slider.css';
+
 @import 'filter';
 @import 'details';
 
 //$icon-color: #adb5bd; //---------колір іконок в оголошенні
 //$text-color: #414042; //---------колір основного тексту
+
+
 
 //---------------------------------блок оголошень
 .advertisement {
@@ -14,6 +18,7 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  align-content: flex-start;
   .advertisement-control-panel {
     display: flex;
     justify-content: flex-end;
@@ -90,6 +95,8 @@
     border: solid 1px #d9d9d9;
     margin: 20px 0;
     transition: 0.1s;
+   //fheight: fit-content;
+
     &:hover {
       border: solid 1px white;
       box-shadow: 0px 1px 6px 0px #bfb8b8;
@@ -174,6 +181,8 @@
     transition: 0.1s;
     display: flex;
     padding-right: 10px;
+    height: fit-content;
+
     &:hover {
       border: solid 1px white;
       box-shadow: 0px 1px 6px 0px #bfb8b8;

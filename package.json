@@ -25,6 +25,7 @@
     "bootstrap": "^4.1.1",
     "bootstrap-datepicker": "^1.8.0",
     "bootstrap-select": "^1.13.1",
+    "bootstrap-slider": "^10.6.0",
     "getmdl-select": "^2.0.1",
     "jquery-inputmask": "^1.0.1",
     "jquery-ui": "^1.12.1",

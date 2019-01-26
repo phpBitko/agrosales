@@ -9,12 +9,13 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Advertisement;
-//use Doctrine\DBAL\Types\TextType;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

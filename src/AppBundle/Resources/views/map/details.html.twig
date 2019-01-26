@@ -15,7 +15,8 @@
         <ol class="carousel-indicators">
             {% for i, photo in advertisementDetails.photos %}
                 <li data-target="#carouselMapControls" data-slide-to="{{ i }}"
-                        {% if i == 0 %} class="active" {% endif %} ></li>
+                        {% if i == 0 %} class="active" {% endif %} >
+                </li>
             {% endfor %}
         </ol>
     {% endif %}
@@ -54,7 +55,8 @@
     </div>
     <div class="details-water {{ advertisementDetails.isWaterSupply ? 'active' }}" data-toggle="tooltip"
          title="{{ advertisementDetails.isWaterSupply ? 'Присутнє ' : 'Відсутнє ' }}водопостачання ">
-        <img src="{{ asset('bundles/app/img/ico/water_'~(advertisementDetails.isWaterSupply ? 'on' : 'off')~'.png') }}" alt="">
+        <img src="{{ asset('bundles/app/img/ico/water_'~(advertisementDetails.isWaterSupply ? 'on' : 'off')~'.png') }}"
+             alt="">
     </div>
     <div class="details-gas {{ advertisementDetails.isGas ? 'active' }}" data-toggle="tooltip"
          title="{{ advertisementDetails.isGas ? 'Присутнє ' : 'Відсутнє ' }}газопостачання ">
@@ -62,11 +64,13 @@
     </div>
     <div class="details-sewerage {{ advertisementDetails.isSewerage ? 'active' }}" data-toggle="tooltip"
          title="{{ advertisementDetails.isSewerage ? 'Присутня ' : 'Відсутня ' }}централізована каналізація ">
-        <img src="{{ asset('bundles/app/img/ico/waste_'~(advertisementDetails.isSewerage ? 'on' : 'off')~'.png') }}" alt="">
+        <img src="{{ asset('bundles/app/img/ico/waste_'~(advertisementDetails.isSewerage ? 'on' : 'off')~'.png') }}"
+             alt="">
     </div>
     <div class="details-electricity {{ advertisementDetails.isElectricity ? 'active' }}" data-toggle="tooltip"
          title="{{ advertisementDetails.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}елекрозабезпечення ">
-        <img src="{{ asset('bundles/app/img/ico/idea_'~(advertisementDetails.isElectricity ? 'on' : 'off')~'.png') }}" alt="">
+        <img src="{{ asset('bundles/app/img/ico/idea_'~(advertisementDetails.isElectricity ? 'on' : 'off')~'.png') }}"
+             alt="">
     </div>
 </div>
 <hr class="map-line">

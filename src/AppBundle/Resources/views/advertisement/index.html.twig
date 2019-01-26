@@ -23,7 +23,7 @@
                         <div class="dropdown ">
                             <button class="btn" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div>{{ stringSelection }}</div>
+                                <div>{{ data.sortString }}</div>
                                 <div><i class="fas fa-caret-down"></i></div>
                             </button>
 
@@ -41,11 +41,13 @@
                     <div class="count">
                         Всього результатів: {{ advertisement.getTotalItemCount }}
                     </div>
-                    <a href="{{ path('advertisement_index',{'typeView' : 'tab'}) }}">
+                    <a href="{{ path('advertisement_index',{'typeView' : 'tab'}) ~ (app.request.queryString ? '?' ~
+                    app.request.queryString ) }}
+                                ">
                         <i class="fas fa-th"></i>
                     </a>
-                    <a href="{{ path('advertisement_index',{'typeView' : 'list'}) }}">
-
+                    <a href="{{ path('advertisement_index',{'typeView' : 'list'})~ (app.request.queryString ? '?' ~
+                    app.request.queryString) }}">
                         <i class="fas fa-bars"></i>
                     </a>
                 </div>
@@ -53,7 +55,7 @@
                     <div>Жодного результату не знайдено!</div>
                 {% else %}
                     {% for item in advertisement %}
-                        {% if typeView == 'tab' %}
+                        {% if data.typeView == 'tab' %}
                             {{ include('@App/advertisement/tabView.html.twig', { 'item': item }) }}
                         {% else %}
                             {{ include('@App/advertisement/listView.html.twig', { 'item': item }) }}

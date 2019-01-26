@@ -34,14 +34,16 @@ class AdvertisementController extends SuperController
     {
         //$adv = new Advertisement();
         $em = $this->getDoctrine()->getManager();
-        $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
+        //$purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
         $advertisement = $em->getRepository('AppBundle:Advertisement');
 
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
+
             $form->submit($request->query->get($form->getName()));
+
 
             // initialize a query builder
 
@@ -50,19 +52,21 @@ class AdvertisementController extends SuperController
             // build the query from the given form object
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $query = $filterBuilder->getQuery();
+
         } else {
             $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], Advertisement::$order);
         }
 
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
-        $stringSelection = $this->identifySelectString($request);
+        $sortString = $this->parseSortString($request);
+        $filterAttributes = $this->parseQueryString($request);
+
+        $data = compact('typeView', 'sortString', 'filterAttributes');
 
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
             'advertisement' => $pagination,
-            'typeView' => $typeView,
-            'stringSelection' => $stringSelection,
-
+            'data' => $data,
         ));
     }
 
@@ -185,27 +189,142 @@ class AdvertisementController extends SuperController
      * @param Request $request
      * @return string
      */
-    protected function identifySelectString(Request $request)
+    protected function parseSortString(Request $request)
     {
         $stringSelected = 'Сортувати';
 
         if ($request->query->get('sort')) {
             $field = explode('.', $request->query->get('sort'), 2);
-            $ordertype = $request->query->get('direction');
+            $orderType = $request->query->get('direction');
 
             if ($field[1] == 'price') {
-                $addString = ($ordertype == 'asc') ? ' дешевші' : ' дорожчі';
+                $addString = ($orderType == 'asc') ? ' дешевші' : ' дорожчі';
                 $stringSelected = "Спочатку $addString";
             } elseif ($field[1] == 'area') {
-                $addString = ($ordertype == 'asc') ? ' менші' : ' більші';
+                $addString = ($orderType == 'asc') ? ' менші' : ' більші';
                 $stringSelected = "Спочатку $addString за площею";
             } elseif ($field[1] == 'addDate') {
-                $addString = ($ordertype == 'asc') ? ' раніше' : ' пізніше';
+                $addString = ($orderType == 'asc') ? ' раніше' : ' пізніше';
                 $stringSelected = "Спочатку $addString додані";
             }
         }
         return $stringSelected;
     }
 
+    protected function parseQueryString(Request $request)
+    {
+        $filterParams = $request->query->get('item_filter');
 
+        $resultFilter = [];
+        $arrParam = ['addDate', 'area', 'price', 'dirPurpose', 'isRoad', 'isElectricity', 'isGas', 'isSewerage', 'isWaterSupply'];
+        try {
+            if ($filterParams !== null) {
+                $str = $request->getQueryString();
+                $strMassOrig = explode('%', $str);
+
+                foreach ($strMassOrig as $k => $v) {
+                    $strMassCut[$k] = ltrim($v, '5B');
+                }
+
+                foreach ($strMassCut as $k => $v) {
+                    if (in_array($v, $arrParam) and (!isset($resultFilter[$v]['strHref']))) {
+                        $strMassOrigReplice = $strMassOrig;
+                        if ($v == 'price') {
+                            $strMassOrigReplice[$k + 3] = '5D=&item_filter';
+                            $strMassOrigReplice[$k + 7] = '5D=&submit-filter=';
+                        } elseif ($v == 'dirPurpose') {
+                            $keyPurpose = $k;
+                            $rowNumber = 0;
+                            while ($strMassOrigReplice[$keyPurpose] == '5BdirPurpose') {
+                                $keyPurpose += 4;
+                                $rowNumber++;
+                            }
+                            array_splice($strMassOrigReplice, $k, $rowNumber * 4);
+                        } elseif ($v == 'isRoad' or $v == 'isWaterSupply' or $v == 'isElectricity' or $v == 'isGas' or $v == 'isSewerage') {
+                            unset($strMassOrigReplice[$k]);
+                            unset($strMassOrigReplice[$k + 1]);
+
+                        } else {
+                            $strMassOrigReplice[$k + 3] = '5D=&item_filter';
+                            $strMassOrigReplice[$k + 7] = '5D=&item_filter';
+                        }
+
+                        if ($v == 'addDate') {
+                            if ($filterParams[$v]['left_datetime'] != '') {
+                                $resultFilter[$v]['left'] = $filterParams[$v]['left_datetime'];
+                            }
+                            if ($filterParams[$v]['right_datetime'] != '') {
+                                $resultFilter[$v]['right'] = $filterParams[$v]['right_datetime'];
+                            }
+                        } elseif ($v == 'dirPurpose') {
+                            $resultFilter[$v]['purpose'] = $filterParams[$v];
+                        } elseif ($v == 'isRoad' or $v == 'isWaterSupply' or $v == 'isElectricity' or $v == 'isGas' or $v == 'isSewerage') {
+                            $resultFilter[$v]['param'] = $filterParams[$v];
+                        } else {
+                            if ($filterParams[$v]['left_number'] != '') {
+                                $resultFilter[$v]['left'] = $filterParams[$v]['left_number'];
+                            }
+                            if ($filterParams[$v]['right_number'] != '') {
+                                $resultFilter[$v]['right'] = $filterParams[$v]['right_number'];
+                            }
+                        }
+                        if (array_key_exists($v, $resultFilter)) {
+                            $resultFilter[$v]['strHref'] = implode('%', $strMassOrigReplice);
+                        }
+                    }
+                }
+                $resultFilter = $this->parseArrayFilter($resultFilter);
+            }
+            return $resultFilter;
+        } catch (\Exception $exception) {
+
+            return $resultFilter = [];
+        }
+
+    }
+
+    private function parseArrayFilter(array $arrayFilter)
+    {
+        if ($arrayFilter !== null) {
+            $arrCopy = $arrayFilter;
+            foreach ($arrayFilter as $k => $v) {
+                if (array_key_exists('left', $v)) {
+                    $str = 'від: ' . $v['left'];
+                }
+                if (array_key_exists('right', $v)) {
+                    if (array_key_exists('left', $v)) {
+                        $str .= ' до ' . $v['right'];
+                    } else {
+                        $str = 'до: ' . $v['right'];
+                    }
+                }
+                if ($k == 'price') {
+                    $str = 'ціна ' . $str;
+                } elseif ($k == 'area') {
+                    $str = 'площа ' . $str;
+                } elseif ($k == 'addDate') {
+                    $str = 'дата ' . $str;
+                }
+                if (array_key_exists('purpose', $v)) {
+                    $str = 'цільове призначення';
+                }
+
+                if (array_key_exists('param', $v)) {
+                    if ($k == 'isRoad') {
+                        $str = 'є дорога';
+                    } elseif ($k == 'isWaterSupply') {
+                        $str = 'є вода';
+                    } elseif ($k == 'isElectricity') {
+                        $str = 'є елекрика';
+                    } elseif ($k == 'isGas') {
+                        $str = 'є газ';
+                    } elseif ($k == 'isSewerage') {
+                        $str = 'є каналізація';
+                    }
+                }
+                $arrCopy[$k]['strText'] = $str;
+            }
+            return $arrCopy;
+        }
+    }
 }

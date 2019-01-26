@@ -26,6 +26,7 @@ class AdvertisementFilterType extends AbstractType
                 'format' => 'dd.MM.yyyy',
                 'attr' => [
                     'class' => 'datepicker',
+                    'id' => 'datepicker',
                     'data-date-format' => 'dd.mm.yyyy',
                 ]
             ],
@@ -33,7 +34,8 @@ class AdvertisementFilterType extends AbstractType
                 'widget' => 'single_text',
                 'label' => ' ',
                 'format' => 'dd.MM.yyyy',
-                'attr' => ['class' => 'datepicker',
+                'attr' => [
+                    'class' => 'datepicker',
                     'data-date-format' => 'dd.mm.yyyy',
                 ],
             ]

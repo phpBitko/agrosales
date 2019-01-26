@@ -27,8 +27,8 @@
             {% endif %}
         </a>
         <div class="advertisement-text-content">
-            {% if item.textAbout|length >135 %}
-                {{ item.textAbout|slice(0,130) }}. . .
+            {% if item.textAbout|length >130 %}
+                {{ item.textAbout|slice(0,125) }}. . .
             {% else %}
                 {{ item.textAbout|isEmpty }}
             {% endif %}

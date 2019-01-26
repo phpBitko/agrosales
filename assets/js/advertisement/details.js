@@ -4,6 +4,7 @@ $(function () {
         interval: false,
     });
 
+
     //---------------------------------------------змінює велике зображення при натисканні на мініатюру
     $('.details-picture-miniature img').on('click', function () {
         var imgIndex = $(this).index();
@@ -34,9 +35,6 @@ $(function () {
 
     }
 
-    // console.log("початкова висота - ", containerTop);
-    // console.log("висота блока - ", widthFirstChild);
-    // console.log("сума блоків - ", sumImgHeight);
     $('.detail-column').find('a').on('click', function () {
 
         if ($(this).hasClass('arrow-down')) {
@@ -66,8 +64,7 @@ $(function () {
     });
 
     //---------------------------------------------прилипання блоку автор оголошення при прокрутці
-    //console.log($('.details-author').position());
-    // console.log($('.details-author').offset().top);
+
     if ($('.details-author').length > 0) {
         var topPosition = $('.details-author').offset().top;
         $(window).scroll(function () {
@@ -80,7 +77,6 @@ $(function () {
             }
         });
     }
-
 
 });
 
