@@ -211,6 +211,13 @@ class AdvertisementController extends SuperController
         return $stringSelected;
     }
 
+
+    /**
+     * Парсить строку url з параметрами, та готує дані для відображення параметрів фільтрації
+     *
+     * @param Request $request
+     * @return array
+     */
     protected function parseQueryString(Request $request)
     {
         $filterParams = $request->query->get('item_filter');
@@ -273,17 +280,23 @@ class AdvertisementController extends SuperController
                         }
                     }
                 }
-                $resultFilter = $this->parseArrayFilter($resultFilter);
+                $resultFilter = $this->parseResultFilter($resultFilter);
             }
             return $resultFilter;
         } catch (\Exception $exception) {
 
             return $resultFilter = [];
         }
-
     }
 
-    private function parseArrayFilter(array $arrayFilter)
+
+    /**
+     * Обрабляє масив для відображення параметрів фільтрації, додає строку з даними фільтра
+     *
+     * @param array $arrayFilter
+     * @return array
+     */
+    private function parseResultFilter(array $arrayFilter)
     {
         if ($arrayFilter !== null) {
             $arrCopy = $arrayFilter;
