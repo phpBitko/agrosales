@@ -90,12 +90,13 @@ $(document).ready(function () {
 
     //--------------------------------------------при клікі на карті вираховує чи є іконка і віддає id
     mapSales.on('click', function (evt) {
-        var feature = mapSales.forEachFeatureAtPixel(evt.pixel,
-            function (feature) {
-                return feature;
+        var featureIcon = mapSales.forEachFeatureAtPixel(evt.pixel,
+            function (featureIcon) {
+                return featureIcon;
             });
-        if (feature) {
-            var idAdvertisement = feature.getProperties();
+
+        if (featureIcon && (!$('#control-panel-area').hasClass('active')) && (!$('#control-panel-ruler').hasClass('active'))) {
+            var idAdvertisement = featureIcon.getProperties();
             getDetailsAdvertisement(idAdvertisement.id);
         }
     });
