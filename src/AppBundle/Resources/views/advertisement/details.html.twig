@@ -1,5 +1,7 @@
 {% extends 'AppBundle::index.html.twig' %}
-{% form_theme messagesForm '@App/form/fields.html.twig' %}
+{% if app.user and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
+    {% form_theme messagesForm '@App/form/fields.html.twig' %}
+{% endif %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -190,7 +192,7 @@
                     </div>
                 </div>
                 <div class="block-message">
-                    {% if app.user and(app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
+                    {% if app.user and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
                         {% if(advertisement.messages|length > 0) %}
                             {% for message in advertisement.messages|reverse  %}
                                 <div class="message-row">
