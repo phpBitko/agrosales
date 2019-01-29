@@ -62,6 +62,7 @@ class AdvertisementController extends SuperController
         $filterAttributes = $this->parseQueryString($request);
 
         $data = compact('typeView', 'sortString', 'filterAttributes');
+        dump($sortString);
 
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
@@ -223,10 +224,39 @@ class AdvertisementController extends SuperController
         $filterParams = $request->query->get('item_filter');
 
         $resultFilter = [];
+
+        if($filterParams !== null) {
+
+            $queryParamArray = [];
+
+            foreach ($filterParams as $k => $v) {
+                $queryParamArray['item_filter'] = $filterParams;
+                unset($queryParamArray['item_filter'][$k]);
+
+                if (is_array($v)) {
+                    $resultFilter[$k] = $v;
+                    $str = http_build_query($queryParamArray);
+                    $resultFilter[$k]['strHref'] = $str;
+                } else {
+                    $str = http_build_query($queryParamArray);
+                    $resultFilter[$k]['param'] = 1;
+                    $resultFilter[$k]['strHref'] = $str;
+                }
+            }
+
+            $resultFilter = $this->parseResultFilter($resultFilter);
+        }
+
+        dump($resultFilter);
+        return $resultFilter;
+
+        $resultFilter = [];
+
         $arrParam = ['addDate', 'area', 'price', 'dirPurpose', 'isRoad', 'isElectricity', 'isGas', 'isSewerage', 'isWaterSupply'];
         try {
             if ($filterParams !== null) {
                 $str = $request->getQueryString();
+                dump($str);
                 $strMassOrig = explode('%', $str);
 
                 foreach ($strMassOrig as $k => $v) {
@@ -280,8 +310,14 @@ class AdvertisementController extends SuperController
                         }
                     }
                 }
+             //   $s = 'item_filter[addDate][left_datetime]=&item_filter%5BaddDate%5D%5Bright_datetime%5D=&item_filter%5Barea%5D%5Bleft_number%5D=&item_filter%5Barea%5D%5Bright_number%5D=&item_filter%5BisWaterSupply%5D=1&item_filter%5Bprice%5D%5Bleft_number%5D=700&item_filter%5Bprice%5D%5Bright_number%5D=5555555&submit-filter=%D0%A4%D1%96%D0%BB%D1%8C%D1%82%D1%80%D1%83%D0%B2%D0%B0%D1%82%D0%B8';
+                dump($resultFilter);
+             //   $resultFilter['price']['strHref'] = $s;
+                $resultFilter['price']['left'] = 700;
+                dump($resultFilter);
                 $resultFilter = $this->parseResultFilter($resultFilter);
             }
+            dump(new \DateTime());
             return $resultFilter;
         } catch (\Exception $exception) {
 
@@ -300,17 +336,49 @@ class AdvertisementController extends SuperController
     {
         if ($arrayFilter !== null) {
             $arrCopy = $arrayFilter;
+            $str = '';
+
             foreach ($arrayFilter as $k => $v) {
-                if (array_key_exists('left', $v)) {
-                    $str = 'від: ' . $v['left'];
+                switch ($k) {
+                    case 'price':
+                        if(!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])){
+                            $str = 'ціна ';
+                            $str .= $v['left_number']?'від: ' . $v['left_number'] . ' ':'';
+                            $str .= $v['right_number']?'до: ' . $v['right_number']:'';
+
+                            $arrCopy[$k]['strText'] = $str;
+                        }
+                        break;
+                    case 'isElectricity':
+
+                        break;
                 }
-                if (array_key_exists('right', $v)) {
-                    if (array_key_exists('left', $v)) {
-                        $str .= ' до ' . $v['right'];
+            }
+
+            dump($arrayFilter);
+            foreach ($arrayFilter as $k => $v) {
+                if (array_key_exists('left_number', $v)) {
+                    $str = 'від: ' . $v['left_number'];
+                }
+                if (array_key_exists('right_number', $v)) {
+                    if (array_key_exists('left_number', $v)) {
+                        $str .= ' до ' . $v['right_number'];
                     } else {
-                        $str = 'до: ' . $v['right'];
+                        $str = 'до: ' . $v['right_number'];
                     }
                 }
+
+                if (array_key_exists('left_datetime', $v)) {
+                    $str = 'від: ' . $v['left_datetime'];
+                }
+                if (array_key_exists('right_datetime', $v)) {
+                    if (array_key_exists('left_datetime', $v)) {
+                        $str .= ' до ' . $v['right_datetime'];
+                    } else {
+                        $str = 'до: ' . $v['right_datetime'];
+                    }
+                }
+
                 if ($k == 'price') {
                     $str = 'ціна ' . $str;
                 } elseif ($k == 'area') {
@@ -318,7 +386,7 @@ class AdvertisementController extends SuperController
                 } elseif ($k == 'addDate') {
                     $str = 'дата ' . $str;
                 }
-                if (array_key_exists('purpose', $v)) {
+                if (array_key_exists('dirPurpose', $v)) {
                     $str = 'цільове призначення';
                 }
 
@@ -337,6 +405,7 @@ class AdvertisementController extends SuperController
                 }
                 $arrCopy[$k]['strText'] = $str;
             }
+            dump($arrCopy);
             return $arrCopy;
         }
     }
