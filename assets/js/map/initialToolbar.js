@@ -125,7 +125,7 @@ $(function () {
      * Message to show when the user is drawing a line.
      * @type {string}
      */
-    var continueLineMsg = 'Click to continue drawing the line';
+    var continueLineMsg = 'Натисність для продовження рисування лінії';
 
 
     /**
@@ -138,21 +138,26 @@ $(function () {
         }
         /** @type {string} */
         var helpMsg = 'Натисність для початку рисування';
-        //alert(sketch.getGeometry);
+
+        //console.log(sketch.getGeometry());
 
         if (sketch) {
             var geom = (sketch.getGeometry());
+
             if (geom instanceof Polygon) {
                 helpMsg = continuePolygonMsg;
             } else if (geom instanceof LineString) {
                 helpMsg = continueLineMsg;
             }
         }
+
         helpTooltipElement.innerHTML = helpMsg;
         helpTooltip.setPosition(evt.coordinate);
+
         helpTooltipElement.classList.remove('hidden');
     };
     mapSales.addLayer(vector);
+
     var key;
 
     key = mapSales.on('pointermove', pointerMoveHandler);
@@ -205,8 +210,9 @@ $(function () {
         return output;
     };
 
+    var type = 'LineString';
+
     function addInteraction() {
-        var type = 'Polygon';
         draw = new Draw({
             source: source,
             type: type,
@@ -230,6 +236,7 @@ $(function () {
                 })
             })
         });
+        mapSales.addInteraction(draw);
 
         var listener;
         draw.on('drawstart',
@@ -316,23 +323,44 @@ $(function () {
     createHelpTooltip();
     unByKey(key);
 
-    $('#control-panel-area').on('click', function () {
-        //----------------------------починає вимірювання
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
+
+    function startMeasure(mesureObj){
+
+        if (mesureObj.hasClass('active')) {
+            mesureObj.removeClass('active');
             mapSales.removeInteraction(draw);
             unByKey(key);
-            addInteraction();
 
         } else {
-            $(this).addClass('active');
+            mapSales.removeInteraction(draw);
+
+            if (mesureObj.attr('id') == 'control-panel-ruler') {
+                $('#control-panel-area').removeClass('active');
+                type = 'LineString';
+            } else {
+                $('#control-panel-ruler').removeClass('active');
+                type = 'Polygon';
+            }
+            mesureObj.addClass('active');
+
             helpTooltipElement.classList.remove('hidden');
             key = mapSales.on('pointermove', pointerMoveHandler);
-            mapSales.addInteraction(draw);
-            // createMeasureTooltip();
-            // createHelpTooltip();
+            addInteraction();
         }
+    }
+
+    //----------------------------починає вимірювання
+
+    $('#control-panel-area').on('click', function () {
+
+        startMeasure($('#control-panel-area'));
     });
 
-    addInteraction();
+    $('#control-panel-ruler').on('click', function () {
+
+        startMeasure($('#control-panel-ruler'));
+
+    });
+
+
 });
