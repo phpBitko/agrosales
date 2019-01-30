@@ -1,8 +1,5 @@
 @import '../generalSettings';
 
-legend, body{
-  color: $base-color;
-}
 
 .well{
   margin: 40px auto;
@@ -64,6 +61,14 @@ legend, body{
   background-color: #ecf0f5;
 }
 
+legend{
+  .fas{
+    color: $base-color !important;
+  }
+}
+body{
+  color: $base-color !important;
+}
 .fas{
   color: white;
 }

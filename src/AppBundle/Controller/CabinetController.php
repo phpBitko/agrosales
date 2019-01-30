@@ -125,14 +125,14 @@ class CabinetController extends SuperController
                     $advertisement->setDirDistrict($district);
 
                     //Учтановлюємо статус на розгляді
-                    $advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
+                    //$advertisement->setDirStatus($em->getRepository('AppBundle:DirStatus')->find(2));
                     $advertisement->setUpdateDate(new \DateTime());
                     // Save data to database
                     $em->persist($advertisement);
                     $em->flush();
 
                     // Inform user
-                    $this->addFlash('success', 'Дані успішно збережені. Ваше оголошення буде розглянуто.');
+                    $this->addFlash('success', 'Дані успішно збережені.');
 
                     return $this->redirectToRoute('cabinet_update_advertisement_id', array('id' => $advertisement->getId()));
                 }

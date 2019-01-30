@@ -19,11 +19,20 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      *
      *@ORM\OneToMany(targetEntity="Advertisement", mappedBy="users", cascade={"persist"})
      */
     private $advertisements;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mailToken", type="string", length=32, nullable=true)
+     */
+    private $mailToken;
 
 
     public function __construct()
@@ -32,6 +41,24 @@ class User extends BaseUser
         $this->advertisements = new ArrayCollection();
         // your own logic
     }
+
+    /**
+     * @return string
+     */
+    public function getMailToken(): string
+    {
+        return $this->mailToken;
+    }
+
+    /**
+     * @param string $mailToken
+     */
+    public function setMailToken(string $mailToken): void
+    {
+        $this->mailToken = $mailToken;
+    }
+
+
 
     /**
      * Add advertisement.

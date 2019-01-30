@@ -1,0 +1,37 @@
+{% extends 'AppBundle::index.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="body_content">
+        <div class="container ">
+            <div class="row">
+                <div class="width_100 d-flex justify-content-center">
+
+                        {% if status == true %}
+                             <div class="well card success alert-success">
+                            Дякуємо за реєстрацію. Ваш акаунт активовано.
+                             </div>
+                        {% else %}
+                            <div class="well card alert alert-danger">
+                            Виникла помилка при підтвердженні електронної адреси.
+                            </div>
+                        {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/advertisement.js') }}"></script>
+{% endblock %}

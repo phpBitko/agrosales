@@ -1,0 +1,51 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% form_theme form '@App/form/fields.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
+          integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('build/login.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
+    <script src="{{ asset('build/advertisement.js') }}"></script>
+{% endblock %}
+
+{# {% trans_default_domain 'FOSUserBundle' %}
+    {% form_theme form _self %}#}
+{% block fos_user_content %}
+    <div class="body_content">
+        <div class="container ">
+            <div class="row">
+                <div class="width_100 d-flex justify-content-center">
+                    <div class="well card ">
+                        <fieldset>
+                            <legend><i class="fas fa-user-plus"></i> {{ 'Зареєструватись'|trans }}</legend>
+                            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                            <div class="form-group">
+                                {{ form_row(form.email) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.username) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.plainPassword) }}
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" id="submit_register" class="btn btn-success">
+                                    <i class="fas fa-user-plus"></i> {{ 'Зареєструватись'|trans }}
+                                </button>
+                            </div>
+                            {{ form_end(form) }}
+
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}

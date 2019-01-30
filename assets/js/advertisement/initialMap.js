@@ -24,7 +24,6 @@ $(function () {
 
     //-------------------------------------------створюєм як буде виглядать іконка для відобреження ділянок(оголошень)
     if ($('#icon_advertisement').length > 0) {
-
         var svg = $('#icon_advertisement');
         var styleAdvert = new Style({
             image: new Icon({
