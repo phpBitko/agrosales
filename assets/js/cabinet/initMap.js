@@ -11,6 +11,8 @@ import WKT from 'ol/format/WKT.js';
 import Point from 'ol/geom/Point.js';
 import TileWMS from "ol/source/TileWMS";
 
+$('[data-toggle="tooltip"]').tooltip();
+
 $(function () {
     $("#text_search_cad_num").mask("9999999999:99:999:9999");
 

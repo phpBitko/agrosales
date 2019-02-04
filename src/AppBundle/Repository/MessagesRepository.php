@@ -17,28 +17,28 @@ class MessagesRepository extends EntityRepository
     use GeometryTrait;
 
 
-    public function getCountNotViewMessages(int $idUser, int $status){
+    public function getCountNotViewMessages(int $idUser, int $status = 0){
         if (!($idUser > 0) ){
             return;
         }
 
         $qb = $this->createQueryBuilder('m')
-            ->select('count(m)')
+            ->select('count(m.isView) as count, IDENTITY(a.dirStatus) as status')
             ->innerJoin('AppBundle\Entity\Advertisement', 'a', 'with', 'a.id = m.advertisement')
             ->where('a.users = :user')
             ->andWhere('m.isView = false')
-            ->andWhere('m.isView = false')
-            ->setParameter('user', $idUser);
+            ->setParameter('user', $idUser)
+            ->groupBy('a.dirStatus');
+
 
         if($status > 0){
-            $qb->andWhere('m.isView = false')
-                ->setParameter('user', $idUser);
+            $qb->andWhere('a.dirStatus = :status')
+                ->setParameter('status', $status);
+            return $qb ->getQuery()
+                ->getSingleScalarResult();
         }
 
-
-
-        $qb = $qb ->getQuery()
-            ->getSingleScalarResult();
+        $qb = $qb->getQuery()->getResult();
 
         return $qb;
     }

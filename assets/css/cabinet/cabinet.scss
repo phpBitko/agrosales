@@ -45,8 +45,8 @@
 }
 
 #add-photo-button{
-  margin-top: 1rem;
-  color:white;
+ // margin-top: 1rem;
+ // color:white;
 }
 #advertisement_prototype_photos{
   img{
@@ -108,4 +108,81 @@
 
 .main-sidebar{
   padding-top: 0;
+}
+
+.body_content{
+  display: flex;
+}
+
+.wrapper{
+  height: auto;
+  display: flex;
+  flex-grow: 1;
+}
+.content-wrapper{
+  flex-grow: 1;
+}
+
+.column-header{
+  position: relative;
+  >div{
+    position: static;
+    top:5px;
+    left:0;
+    right: 0;
+    bottom: 2px;
+  }
+}
+
+
+tr{
+  border: solid 1px #d9d9d9;
+}
+
+tbody tr{
+  &:hover{
+    border: solid 1px white;
+    box-shadow: 0px 1px 6px 0px #bfb8b8;
+  }
+}
+
+.table>tbody>tr>th{
+  border-top: none;
+}
+.table>thead>tr{
+  background-color: #f1f1f1;
+}
+.table>thead>tr>th{
+  color: #444;
+  font-weight: 400;
+  border-bottom: 0;
+  border-top: solid 1px #d9d9d9;
+  font-size: 18px;
+}
+
+.form-control{
+  border-radius: 0;
+
+}
+.form-group{
+  label{
+    font-weight: 400 !important;
+  }
+}
+
+.details-provision{
+  .active{
+    border: 2px solid #7bd74a;
+  }
+  div {
+    background-color: #f1f1f1;
+    margin-right: 12px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+  }
+  img{
+    width: 22px;
+  }
 }

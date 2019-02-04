@@ -1,5 +1,6 @@
 {% extends 'AppBundle::index.html.twig' %}
-{% if app.user and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
+
+{% if app.user and advertisement.users and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
     {% form_theme messagesForm '@App/form/fields.html.twig' %}
 {% endif %}
 
@@ -16,7 +17,6 @@
     <script src="{{ asset('build/advertisement.js') }}"></script>
 {% endblock %}
 {% block body %}
-
     <div class="container">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -192,7 +192,7 @@
                     </div>
                 </div>
                 <div class="block-message">
-                    {% if app.user and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
+                    {% if app.user and advertisement.users and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
                         {% if(advertisement.messages|length > 0) %}
                             {% for message in advertisement.messages|reverse  %}
                                 <div class="message-row">
@@ -213,11 +213,9 @@
                             {% endfor %}
                         {% endif %}
                     {% endif %}
-
                 {% if  is_granted('ROLE_ADMIN') %}
-
                         <div class="details-communication">Статус повідомлення: {{ advertisement.getDirStatus.name }}</div>
-                        {% if messagesForm is not null and (advertisement.dirStatus.id == 2 or advertisement.dirStatus.id == 1) %}
+                        {% if messagesForm is not null and (advertisement.dirStatus.id != 4) %}
                             {#<div class="details-communication">Написати автору</div>#}
                             {{ form_start(messagesForm, {'method': 'POST', 'attr':{'id': 'form-new-messages', 'class':'mt-4'}}) }}
                             {{ form_errors(messagesForm) }}
@@ -237,7 +235,6 @@
 
                 {% endif %}
                 </div>
-
             </div>
             <div class="col-4">
                 <div class="details-author-container">
@@ -270,9 +267,10 @@
                                           d="M22.906,10.438c0,4.367-6.281,14.312-7.906,17.031c-1.719-2.75-7.906-12.665-7.906-17.031S10.634,2.531,15,2.531S22.906,6.071,22.906,10.438z"/>
                                     <circle fill="#ffffff" cx="15" cy="10.677" r="3.291"/>
                                 </svg>#}
-                <svg style="display: none" id='icon_advertisement' style="z-index: 10"
+              {#  <i class="fas fa-map-marker-alt " id = 'icon_advertisement'></i>#}
+                <svg style="display: none; z-index: 10; enable-background:new 0 0 80 80;" id='icon_advertisement'
                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                     id="Capa_1" x="0px" y="0px" viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;"
+                     x="0px" y="0px" viewBox="0 0 80 80"
                      xml:space="preserve" width="30px" height="30px" class=""><g>
                         <g>
                             <g>
@@ -283,8 +281,6 @@
                         </g>
                     </g>
                 </svg>
-
-
             </div>
         </div>
     </div>

@@ -112,3 +112,24 @@ form{
  background-color: #f1f1f1;
   padding: 0.5rem 1rem;
 }
+
+.navbar-nav>li>a:hover{
+  background: #4c99c6 !important;
+}
+
+.main-sidebar{
+  padding-top: 0;
+}
+
+.body_content{
+  display: flex;
+}
+
+.wrapper{
+  height: auto;
+  display: flex;
+  flex-grow: 1;
+}
+.content-wrapper{
+  flex-grow: 1;
+}

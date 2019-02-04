@@ -26,7 +26,6 @@
                                 <div>{{ data.sortString }}</div>
                                 <div><i class="fas fa-caret-down"></i></div>
                             </button>
-
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку дешевші', 'q.price', {}, {'direction': 'asc'}) }}
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку дорожчі', 'q.price', {}, {'direction': 'desc'}) }}

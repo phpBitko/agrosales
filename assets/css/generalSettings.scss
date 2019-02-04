@@ -308,3 +308,58 @@ body {
   }
 }
 
+
+/**/
+
+.sidebar-menu li>a>.pull-right-container{
+  margin-top: -13px;
+}
+
+.color-grey{
+  color:#8aa4af
+}
+
+.my-btn{
+  text-align: center;
+  border-radius: 0.2rem;
+  transition: 0.1s;
+  margin: 0.25rem;
+  background: white;
+  &:hover {
+    text-decoration: none;
+    color: white;
+
+  }
+}
+
+.my-btn-grey {
+  color:$text-color;
+  border: 1px solid lighten($text-color, 10%);
+  &:hover {
+    background-color: lighten($text-color, 35%);
+  }
+}
+
+.my-btn-blue {
+  color: $base-color;
+  border: 1px solid lighten($base-color, 10%);
+  &:hover {
+    background-color: lighten($base-color, 25%);
+  }
+}
+
+.my-btn-red {
+  color: red;
+  border: 1px solid lighten(red, 10%);
+  &:hover {
+    background-color: lighten(red, 35%);
+  }
+}
+
+.my-btn-green {
+  color: darkgreen;
+  border: 1px solid lighten(darkgreen, 10%);
+  &:hover {
+    background-color: #7fe07f;
+  }
+}

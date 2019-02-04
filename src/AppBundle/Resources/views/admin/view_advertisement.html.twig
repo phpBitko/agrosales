@@ -23,9 +23,6 @@
                                 <div class="admin-filter">
 
 
-
-
-
                                 </div>
                                 {% for label, messages in app.flashes %}
                                     {% for message in messages %}
@@ -47,11 +44,15 @@
                                                     {{ form_label(formFilter.dirStatus) }}
                                                     {{ form_widget(formFilter.dirStatus) }}
                                                 </div>
-                                                <div class="ml-2 form-group">
+                                                <div class="ml-2 form-group flex-grow-1">
                                                     <input type="submit" class="btn btn-success" name="submit-filter" value="Примінити"/>
+                                                </div>
+                                                <div class="form-group">
+                                                Всього результатів: {{ advertisements.getTotalItemCount }}
                                                 </div>
                                             </div>
                                         {{ form_end(formFilter) }}
+
                                         <div>
                                             <table class="my_advertisement_table table ">
                                                 <thead>

@@ -93,6 +93,24 @@ class AdvertisementRepository extends EntityRepository
 
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getCountAdvertisementByStatus($userId){
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.dirStatus) as count, s.id, s.name')
+            ->innerJoin('AppBundle:dirStatus', 's', 'with', 'a.dirStatus = s.id')
+            ->where('a.idUser = :USER')
+            ->setParameter('USER', $userId)
+            ->groupBy('a.dirStatus, s.id, s.name')
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
+
+
+    /**
      *
      * @param null $status
      * @param array $order

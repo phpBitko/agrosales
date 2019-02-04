@@ -29,7 +29,7 @@ class CabinetController extends SuperController
     public function indexAction()
     {
 
-        return $this->redirectToRoute('cabinet_get_my_advertisement');
+        return $this->redirectToRoute('cabinet_get_my_advertisement', ['selected' => 'active']);
     }
 
 
@@ -74,16 +74,19 @@ class CabinetController extends SuperController
                     $em->flush();
                     $this->addFlash('success', 'Дані успішно збережені.');
 
-                    return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending-tab'));
+                    return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending'));
                 }
             }
             $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
         }
 
+        $data = $this->getDataForSidebar();
+
         return $this->render('AppBundle:cabinet:create_new_advertisement.html.twig', array(
             'form' => $formAdvertisement->createView(),
             'advertisement' => $advertisement,
-            'purpose' => $purpose
+            'purpose' => $purpose,
+            'data' => $data
         ));
     }
 
@@ -141,8 +144,11 @@ class CabinetController extends SuperController
             $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
         }
 
+        $data = $this->getDataForSidebar();
+
         return $this->render('AppBundle:cabinet:update_advertisement.html.twig', array(
             'form' => $formAdvertisement->createView(),
+            'data' => $data
         ));
     }
 
@@ -152,30 +158,25 @@ class CabinetController extends SuperController
      * @param string $selected
      * @return Response
      *
-     * @Route("/getMyAdvertisement/{selected}", requirements={"selected": "active-tab|pending-tab|deactivated-tab"}, name="cabinet_get_my_advertisement", methods={"GET"})
+     * @Route("/getMyAdvertisement/{selected}", requirements={"selected": "active|pending|deactivated|reject"}, name="cabinet_get_my_advertisement", methods={"GET"})
      */
-    public function getMyAdvertisementAction(Request $request, $selected = 'active-tab')
+    public function getMyAdvertisementAction(Request $request, $selected)
     {
-            $em = $this->getDoctrine()->getManager();
-            $advertisementRepository = $em->getRepository('AppBundle:Advertisement');
+        $em = $this->getDoctrine()->getManager();
+        $advertisementRepository = $em->getRepository('AppBundle:Advertisement');
 
-            $userId = $this->getUser()->getId();
-            //Активні
-            $myAdvertisement['myAdvertisementActive'] = $advertisementRepository->
-            findBy(array('idUser' => $userId, 'dirStatus' => self::STATUS_ADVERTISEMENT['ACTIVE']), array('addDate' => 'DESC'));
-            //Очікують, повернуті
-            $myAdvertisement ['myAdvertisementPending'] = $advertisementRepository->
-            findBy(array('idUser' => $userId, 'dirStatus' => self::STATUS_ADVERTISEMENT['PENDING']), array('addDate' => 'DESC'));
-            //Деактивовані
-            $myAdvertisement ['myAdvertisementDeactivated'] = $advertisementRepository->
-            findBy(array('idUser' => $userId, 'dirStatus' => [self::STATUS_ADVERTISEMENT['DEACTIVATED'], self::STATUS_ADVERTISEMENT['REJECT']]), array('addDate' => 'DESC'));
+        $userId = $this->getUser()->getId();
 
-            $data['countNotViewMessages'] = $em->getRepository('AppBundle:Messages')
-                ->getCountNotViewMessages($userId, self::STATUS_ADVERTISEMENT['REJECT']);
+        $myAdvertisement = $advertisementRepository->
+        findBy(array('idUser' => $userId, 'dirStatus' => self::STATUS_ADVERTISEMENT[strtoupper($selected)]), array('addDate' => 'DESC'));
 
-        return $this->render('AppBundle:cabinet:view_my_advertisement.html.twig',
+        $data = $this->getDataForSidebar();
+
+        $data['status'] = $em->getRepository('AppBundle:DirStatus')
+            ->find(self::STATUS_ADVERTISEMENT[strtoupper($selected)]);
+
+        return $this->render('AppBundle:cabinet:view_advertisement.html.twig',
             ['advertisements' => $myAdvertisement,
-                'selected' => $selected,
                 'data' => $data]);
 
     }
@@ -221,8 +222,8 @@ class CabinetController extends SuperController
 
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['DEACTIVATED']);
 
-        $this->addFlash('success', 'Оголошення деактивовано. Щоб активувати чи переглянути його, перейдіть в закладку "Деактивовані"!');
-        return $this->redirectToRoute('cabinet_get_my_advertisement');
+        $this->addFlash('success', 'Оголошення успішно деактивовано.');
+        return $this->redirectToRoute('cabinet_get_my_advertisement', ['selected' => 'deactivated']);
     }
 
     /**
@@ -241,7 +242,30 @@ class CabinetController extends SuperController
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['PENDING']);
 
         $this->addFlash('success', 'Ваше оголошення буде розглянуто.');
-        return $this->redirectToRoute('cabinet_get_my_advertisement');
+        return $this->redirectToRoute('cabinet_get_my_advertisement', ['selected' => 'pending']);
     }
 
+
+    public function getDataForSidebar(){
+        $em = $this->getDoctrine()->getManager();
+
+        $countAdvertisement = $em->getRepository('AppBundle:Advertisement')->getCountAdvertisementByStatus($this->getUser()->getId());
+
+        $data['countAdvertisement'] = [];
+        if (is_array($countAdvertisement)) {
+            foreach ($countAdvertisement as $k => $v) {
+                $data['countAdvertisement'][$v['id']] = $v;
+            }
+        }
+
+        $countNotViewMessages = $em->getRepository('AppBundle:Messages')->getCountNotViewMessages($this->getUser()->getId());
+        $data['countNotViewMessages'] = [];
+        if (is_array($countNotViewMessages)) {
+            foreach ($countNotViewMessages as $k => $v) {
+                $data['countNotViewMessages'][$v['status']] = $v;
+            }
+        }
+
+        return $data;
+    }
 }

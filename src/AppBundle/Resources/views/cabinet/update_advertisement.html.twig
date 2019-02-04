@@ -20,20 +20,7 @@
                             <div class="box-header with-border">
                                 <h3 class="box-title">Редагувати оголошення</h3>
                             </div>
-
-
-                           {# {% for label, messages in app.flashes %}
-                                {% for message in messages %}
-                                    <div class="pad margin no-print">
-                                        <div class="callout callout-{{ label }} flash-{{ label }}"
-                                             style="margin-bottom: 0!important;">
-                                            #}{# <h4><i class="fa fa-info"></i> Note:</h4>#}{#
-                                            {{ message }}
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}#}
-
+                            
                             {% for messages in app.flashes('success') %}
                                 <div class="pad margin no-print">
                                     <div class="callout callout-success flash-success"
@@ -166,7 +153,7 @@
                                     <div style="display:none">
                                         {{ form_widget(form.photos) }}
                                     </div>
-                                    <button id="add-photo-button" type='button' class='btn btn-warning btn-sm'><i
+                                    <button id="add-photo-button" type='button' class='my-btn my-btn-blue btn-sm'><i
                                                 class='fas fa-plus'></i> Зображення
                                     </button>
                                 </div>
@@ -186,7 +173,7 @@
                             <!-- /.box-body -->
 
                             <div class="box-footer">
-                                {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'btn btn-success btn-lg btn-block'}}) }}
+                                {{ form_widget(form.save, {'label':'Зберегти','attr':{'class':'my-btn my-btn-green btn-lg btn-block'}}) }}
                             </div>
                             {{ form_end(form) }}
                         </div>

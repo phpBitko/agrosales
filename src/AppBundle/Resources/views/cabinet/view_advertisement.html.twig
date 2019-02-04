@@ -1,0 +1,169 @@
+{% extends 'AppBundle:cabinet:index.html.twig' %}
+
+
+{% block body %}
+    <div class="wrapper">
+        {% block main_sidebar %}
+            {{ parent() }}
+        {% endblock %}
+        {% block content_wrapper %}
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        Переглянути мої оголошення
+                    </h1>
+                </section>
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h3 class="box-title">{{ data.status.name }} оголошення</h3>
+                                </div>
+                                {% for label, messages in app.flashes %}
+                                    {% for message in messages %}
+                                        <div class="pad margin no-print">
+                                            <div class="callout callout-{{ label }} flash-{{ label }}"
+                                                 style="margin-bottom: 0!important;">
+                                                {# <h4><i class="fa fa-info"></i> Note:</h4>#}
+                                                {{ message }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+
+                                <div class="box-body">
+                                    {% if advertisements|length > 0 %}
+
+                                        <table class="my_advertisement_table table ">
+                                            <thead>
+                                            <tr>
+                                                <th class="w-5 text-center align-middle">№ з/п</th>
+                                                <th class="w-5 text-center align-middle">Додано</th>
+                                                <th class="w-15 text-center align-middle">Фото</th>
+                                                <th class="w-30 text-center align-middle">Заголовок</th>
+                                                <th class="w-25 text-center align-middle">Текст об'яви</th>
+                                                <th class="w-10 text-center align-middle">Ціна</th>
+                                                <th class="w-10 text-center align-middle">Площа</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for advertisement in advertisements %}
+                                                {% set counter = ( counter | default(0) ) + 1 %}
+                                                <tr class="advertisement_one">
+                                                    <th class="text-center align-middle" scope="row">{{ counter }}</th>
+                                                    <th class="font-light text-center align-middle"
+                                                        scope="row">{{ advertisement.addDate|date('d.m.Y') }}</th>
+                                                    <th class="text-center align-middle" scope="row">
+                                                        {% set photo = advertisement.photos|first %}
+                                                        {% if photo %}
+                                                            <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'~photo.advertisement.id~'/'~photo.photoNameNew) }}">
+                                                        {% else %}
+                                                            <img src="{{ asset('/bundles/app/picture/template_209_139.jpg') }}">
+                                                        {% endif %}
+                                                    </th>
+
+                                                    <th class="column-header font-light text-left text-left align-middle "
+                                                        scope="row">
+                                                        <div class="d-flex flex-column">
+                                                            {% if advertisement.messages|length > 0 %}
+                                                                {% set countNotViewMessages = 0 %}
+                                                                {% for message in advertisement.messages %}
+                                                                    {% if message.isView == false %}
+                                                                        {% set  countNotViewMessages = countNotViewMessages  + 1 %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                                {% if countNotViewMessages > 0 %}
+                                                                    <span class="pull-right-container"
+                                                                          style="vertical-align: text-bottom;">
+                                                                            <small class="label pull-right bg-yellow">Непрочитаних повідомлень:{{ countNotViewMessages }}</small>
+                                                                        </span>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            <div class="flex-grow-1">
+                                                                <p>{{ advertisement.textHead|isEmpty }}</p>
+                                                            </div>
+                                                            <div class="details-provision mb-2 d-flex">
+                                                                <div class="details-road {{ advertisement.isRoad ? 'active' }}"
+                                                                     data-toggle="tooltip" data-placement = 'bottom'
+                                                                     title=" {{ advertisement.isRoad ? 'Присутній':'Відсутній' }}  під'їзд з твердим покриттям ">
+                                                                    <img src="{{ asset('bundles/app/img/ico/road_'~(advertisement.isRoad ? 'on' : 'off')~'.png') }}"
+                                                                         alt="">
+                                                                </div>
+                                                                <div class="details-water {{ advertisement.isWaterSupply ? 'active' }}"
+                                                                     data-toggle="tooltip" data-placement = 'bottom'
+                                                                     title="{{ advertisement.isWaterSupply ? 'Присутнє ' : 'Відсутнє ' }}водопостачання ">
+                                                                    <img src="{{ asset('bundles/app/img/ico/water_'~(advertisement.isWaterSupply ? 'on' : 'off')~'.png') }}"
+                                                                         alt="">
+                                                                </div>
+                                                                <div class="details-gas {{ advertisement.isGas ? 'active' }}"
+                                                                     data-toggle="tooltip" data-placement = 'bottom'
+                                                                     title="{{ advertisement.isGas ? 'Присутнє ' : 'Відсутнє ' }}газопостачання ">
+                                                                    <img src="{{ asset('bundles/app/img/ico/valve_'~(advertisement.isGas ? 'on' : 'off')~'.png') }}"
+                                                                         alt="">
+                                                                </div>
+                                                                <div class="details-sewerage {{ advertisement.isSewerage ? 'active' }}"
+                                                                     data-toggle="tooltip" data-placement = 'bottom'
+                                                                     title="{{ advertisement.isSewerage ? 'Присутня ' : 'Відсутня ' }}централізована каналізація ">
+                                                                    <img src="{{ asset('bundles/app/img/ico/waste_'~(advertisement.isSewerage ? 'on' : 'off')~'.png') }}"
+                                                                         alt="">
+                                                                </div>
+                                                                <div class="details-electricity {{ advertisement.isElectricity ? 'active' }}"
+                                                                     data-toggle="tooltip" data-placement = 'bottom'
+                                                                     title="{{ advertisement.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}елекрозабезпечення ">
+                                                                    <img src="{{ asset('bundles/app/img/ico/idea_'~(advertisement.isElectricity ? 'on' : 'off')~'.png') }}"
+                                                                         alt="">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="d-flex flex-wrap">
+
+                                                                <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}"
+                                                                   class="my-btn my-btn-grey btn-sm">
+                                                                    Переглянути
+                                                                </a>
+
+
+                                                                <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}"
+                                                                   class="my-btn my-btn-blue btn-sm">
+                                                                    Редагувати
+                                                                </a>
+
+                                                                {% if data.status.id == 1 or data.status.id == 2 %}
+                                                                    <a href="{{ path('cabinet_deactivate_my_advertisement', {'id':advertisement.id}) }}"
+                                                                       class="deactivate-button my-btn my-btn-red btn-sm">Деактивувати</a>
+                                                                {% else %}
+                                                                    <a href="{{ path('cabinet_activate_advertisement', {'id':advertisement.id}) }}"
+                                                                       class="my-btn my-btn-green btn-sm">Активувати</a>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th class="font-light text-left align-middle"
+                                                        scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                                    <th class="font-light text-center align-middle"
+                                                        scope="row">{{ advertisement.price|isEmpty }}</th>
+                                                    <th class="font-light text-center align-middle"
+                                                        scope="row">{{ advertisement.area|isEmpty }}</th>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <div class="callout callout-success">
+                                            <i class="fas fa-ban"></i> Оголошення відсутні
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
+            </div>
+        {% endblock %}
+    </div>
+
+{% endblock %}
