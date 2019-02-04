@@ -1,4 +1,12 @@
 $(function () {
+
+    function setValue(sliderObj) {
+        var sliderObjName = (sliderObj.attr('id')).substring(7);
+        var valuePrice = sliderObj.slider("getValue");
+        $("#item_filter_" + sliderObjName + "_left_number").val(valuePrice[0]);
+        $("#item_filter_" + sliderObjName + "_right_number").val(valuePrice[1]);
+    }
+
     //------------------- налаштування слайдера Ціна
 
     var valuePrice = [Number($("#item_filter_price_left_number").val()), Number($("#item_filter_price_right_number").val())];
@@ -9,11 +17,8 @@ $(function () {
     sliderPrice.slider('setValue', valuePrice);
 
     sliderPrice.slider().change(function () {
-        var valuePrice = sliderPrice.slider("getValue");
-        $("#item_filter_price_left_number").val(valuePrice[0]);
-        $("#item_filter_price_right_number").val(valuePrice[1]);
+        setValue(sliderPrice);
     });
-
 
     $('#item_filter_price_left_number').focusout(function () {
 
@@ -37,9 +42,7 @@ $(function () {
     sliderArea.slider('setValue', valueArea);
 
     sliderArea.slider().change(function () {
-        var valueArea = sliderArea.slider("getValue");
-        $("#item_filter_area_left_number").val(valueArea[0]);
-        $("#item_filter_area_right_number").val(valueArea[1]);
+        setValue(sliderArea);
     });
 
     $('#item_filter_area_left_number').focusout(function () {
