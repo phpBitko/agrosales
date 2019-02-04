@@ -49,20 +49,23 @@ class AdvertisementController extends SuperController
 
             $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE']);
 
+
             // build the query from the given form object
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $query = $filterBuilder->getQuery();
 
+
         } else {
             $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], Advertisement::$order);
         }
+
 
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
         $sortString = $this->parseSortString($request);
         $filterAttributes = $this->parseQueryString($request);
 
         $data = compact('typeView', 'sortString', 'filterAttributes');
-        dump($sortString);
+
 
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
@@ -87,13 +90,13 @@ class AdvertisementController extends SuperController
         $em = $this->getDoctrine()->getManager();
         $formView = null;
 
-        if($this->checkUserWithAuthorBool($advertisement) || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if ($this->checkUserWithAuthorBool($advertisement) || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $messages = new Messages();
             $form = $this->createForm(MessagesType::class, $messages);
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
-                if($form->isValid()) {
+                if ($form->isValid()) {
                     if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
                         throw $this->createAccessDeniedException();
                     }
@@ -113,9 +116,9 @@ class AdvertisementController extends SuperController
                 $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
             }
 
-            if($this->checkUserWithAuthorBool($advertisement)){
-                if(count($advertisement->getMessages())> 0){
-                    foreach ($advertisement->getMessages() as $message){
+            if ($this->checkUserWithAuthorBool($advertisement)) {
+                if (count($advertisement->getMessages()) > 0) {
+                    foreach ($advertisement->getMessages() as $message) {
                         $message->setIsView(true);
                         $em->persist($message);
                     }
@@ -174,8 +177,8 @@ class AdvertisementController extends SuperController
             throw $this->createAccessDeniedException();
         }
 
-        if(self::STATUS_ADVERTISEMENT['PENDING'] !== $advertisement->getDirStatus()->getId()) {
-           throw new Exception('Активувати можна тільки повідомлення які знахdодяться на розгляді!', Response::HTTP_INTERNAL_SERVER_ERROR);
+        if (self::STATUS_ADVERTISEMENT['PENDING'] !== $advertisement->getDirStatus()->getId()) {
+            throw new Exception('Активувати можна тільки повідомлення які знахdодяться на розгляді!', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $this->setStatusAdvertisement($advertisement, self::STATUS_ADVERTISEMENT['ACTIVE']);
@@ -225,15 +228,16 @@ class AdvertisementController extends SuperController
 
         $resultFilter = [];
 
-        if($filterParams !== null) {
+        if ($filterParams !== null) {
 
             $queryParamArray = [];
 
             foreach ($filterParams as $k => $v) {
+
                 $queryParamArray['item_filter'] = $filterParams;
                 unset($queryParamArray['item_filter'][$k]);
 
-                if (is_array($v)) {
+                if (is_array($v) ) {
                     $resultFilter[$k] = $v;
                     $str = http_build_query($queryParamArray);
                     $resultFilter[$k]['strHref'] = $str;
@@ -242,87 +246,12 @@ class AdvertisementController extends SuperController
                     $resultFilter[$k]['param'] = 1;
                     $resultFilter[$k]['strHref'] = $str;
                 }
+
             }
 
             $resultFilter = $this->parseResultFilter($resultFilter);
         }
-
-        dump($resultFilter);
         return $resultFilter;
-
-        $resultFilter = [];
-
-        $arrParam = ['addDate', 'area', 'price', 'dirPurpose', 'isRoad', 'isElectricity', 'isGas', 'isSewerage', 'isWaterSupply'];
-        try {
-            if ($filterParams !== null) {
-                $str = $request->getQueryString();
-                dump($str);
-                $strMassOrig = explode('%', $str);
-
-                foreach ($strMassOrig as $k => $v) {
-                    $strMassCut[$k] = ltrim($v, '5B');
-                }
-
-                foreach ($strMassCut as $k => $v) {
-                    if (in_array($v, $arrParam) and (!isset($resultFilter[$v]['strHref']))) {
-                        $strMassOrigReplice = $strMassOrig;
-                        if ($v == 'price') {
-                            $strMassOrigReplice[$k + 3] = '5D=&item_filter';
-                            $strMassOrigReplice[$k + 7] = '5D=&submit-filter=';
-                        } elseif ($v == 'dirPurpose') {
-                            $keyPurpose = $k;
-                            $rowNumber = 0;
-                            while ($strMassOrigReplice[$keyPurpose] == '5BdirPurpose') {
-                                $keyPurpose += 4;
-                                $rowNumber++;
-                            }
-                            array_splice($strMassOrigReplice, $k, $rowNumber * 4);
-                        } elseif ($v == 'isRoad' or $v == 'isWaterSupply' or $v == 'isElectricity' or $v == 'isGas' or $v == 'isSewerage') {
-                            unset($strMassOrigReplice[$k]);
-                            unset($strMassOrigReplice[$k + 1]);
-
-                        } else {
-                            $strMassOrigReplice[$k + 3] = '5D=&item_filter';
-                            $strMassOrigReplice[$k + 7] = '5D=&item_filter';
-                        }
-
-                        if ($v == 'addDate') {
-                            if ($filterParams[$v]['left_datetime'] != '') {
-                                $resultFilter[$v]['left'] = $filterParams[$v]['left_datetime'];
-                            }
-                            if ($filterParams[$v]['right_datetime'] != '') {
-                                $resultFilter[$v]['right'] = $filterParams[$v]['right_datetime'];
-                            }
-                        } elseif ($v == 'dirPurpose') {
-                            $resultFilter[$v]['purpose'] = $filterParams[$v];
-                        } elseif ($v == 'isRoad' or $v == 'isWaterSupply' or $v == 'isElectricity' or $v == 'isGas' or $v == 'isSewerage') {
-                            $resultFilter[$v]['param'] = $filterParams[$v];
-                        } else {
-                            if ($filterParams[$v]['left_number'] != '') {
-                                $resultFilter[$v]['left'] = $filterParams[$v]['left_number'];
-                            }
-                            if ($filterParams[$v]['right_number'] != '') {
-                                $resultFilter[$v]['right'] = $filterParams[$v]['right_number'];
-                            }
-                        }
-                        if (array_key_exists($v, $resultFilter)) {
-                            $resultFilter[$v]['strHref'] = implode('%', $strMassOrigReplice);
-                        }
-                    }
-                }
-             //   $s = 'item_filter[addDate][left_datetime]=&item_filter%5BaddDate%5D%5Bright_datetime%5D=&item_filter%5Barea%5D%5Bleft_number%5D=&item_filter%5Barea%5D%5Bright_number%5D=&item_filter%5BisWaterSupply%5D=1&item_filter%5Bprice%5D%5Bleft_number%5D=700&item_filter%5Bprice%5D%5Bright_number%5D=5555555&submit-filter=%D0%A4%D1%96%D0%BB%D1%8C%D1%82%D1%80%D1%83%D0%B2%D0%B0%D1%82%D0%B8';
-                dump($resultFilter);
-             //   $resultFilter['price']['strHref'] = $s;
-                $resultFilter['price']['left'] = 700;
-                dump($resultFilter);
-                $resultFilter = $this->parseResultFilter($resultFilter);
-            }
-            dump(new \DateTime());
-            return $resultFilter;
-        } catch (\Exception $exception) {
-
-            return $resultFilter = [];
-        }
     }
 
 
@@ -341,71 +270,49 @@ class AdvertisementController extends SuperController
             foreach ($arrayFilter as $k => $v) {
                 switch ($k) {
                     case 'price':
-                        if(!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])){
+                        if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
                             $str = 'ціна ';
-                            $str .= $v['left_number']?'від: ' . $v['left_number'] . ' ':'';
-                            $str .= $v['right_number']?'до: ' . $v['right_number']:'';
-
+                            $str .= (!empty($v['left_number'])) ? 'від: ' . $v['left_number'] . ' ' : '';
+                            $str .= (!empty($v['right_number'])) ? 'до: ' . $v['right_number'] : '';
                             $arrCopy[$k]['strText'] = $str;
                         }
                         break;
+                    case 'area':
+                        if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
+                            $str = 'площа ';
+                            $str .= (!empty($v['left_number'])) ? 'від: ' . $v['left_number'] . ' ' : '';
+                            $str .= (!empty($v['right_number'])) ? 'до: ' . $v['right_number'] : '';
+                            $arrCopy[$k]['strText'] = $str;
+                        }
+                        break;
+                    case 'addDate':
+                        if (!empty($arrayFilter[$k]['left_datetime']) || !empty($arrayFilter[$k]['right_datetime'])) {
+                            $str = 'дата ';
+                            $str .= (!empty($v['left_datetime'])) ? 'від: ' . $v['left_datetime'] . ' ' : '';
+                            $str .= (!empty($v['right_datetime'])) ? 'до: ' . $v['right_datetime'] : '';
+                            $arrCopy[$k]['strText'] = $str;
+                        }
+                        break;
+                    case 'isRoad':
+                        $arrCopy[$k]['strText'] = 'є дорога';
+                        break;
+                    case 'isWaterSupply':
+                        $arrCopy[$k]['strText'] = 'є вода';
+                        break;
                     case 'isElectricity':
-
+                        $arrCopy[$k]['strText'] = 'є електрика';
+                        break;
+                    case 'isGas':
+                        $arrCopy[$k]['strText'] = 'є газ';
+                        break;
+                    case 'isSewerage':
+                        $arrCopy[$k]['strText'] = 'є каналізація';
+                        break;
+                    case 'dirPurpose':
+                        $arrCopy[$k]['strText'] = 'цільове призначення';
                         break;
                 }
             }
-
-            dump($arrayFilter);
-            foreach ($arrayFilter as $k => $v) {
-                if (array_key_exists('left_number', $v)) {
-                    $str = 'від: ' . $v['left_number'];
-                }
-                if (array_key_exists('right_number', $v)) {
-                    if (array_key_exists('left_number', $v)) {
-                        $str .= ' до ' . $v['right_number'];
-                    } else {
-                        $str = 'до: ' . $v['right_number'];
-                    }
-                }
-
-                if (array_key_exists('left_datetime', $v)) {
-                    $str = 'від: ' . $v['left_datetime'];
-                }
-                if (array_key_exists('right_datetime', $v)) {
-                    if (array_key_exists('left_datetime', $v)) {
-                        $str .= ' до ' . $v['right_datetime'];
-                    } else {
-                        $str = 'до: ' . $v['right_datetime'];
-                    }
-                }
-
-                if ($k == 'price') {
-                    $str = 'ціна ' . $str;
-                } elseif ($k == 'area') {
-                    $str = 'площа ' . $str;
-                } elseif ($k == 'addDate') {
-                    $str = 'дата ' . $str;
-                }
-                if (array_key_exists('dirPurpose', $v)) {
-                    $str = 'цільове призначення';
-                }
-
-                if (array_key_exists('param', $v)) {
-                    if ($k == 'isRoad') {
-                        $str = 'є дорога';
-                    } elseif ($k == 'isWaterSupply') {
-                        $str = 'є вода';
-                    } elseif ($k == 'isElectricity') {
-                        $str = 'є елекрика';
-                    } elseif ($k == 'isGas') {
-                        $str = 'є газ';
-                    } elseif ($k == 'isSewerage') {
-                        $str = 'є каналізація';
-                    }
-                }
-                $arrCopy[$k]['strText'] = $str;
-            }
-            dump($arrCopy);
             return $arrCopy;
         }
     }

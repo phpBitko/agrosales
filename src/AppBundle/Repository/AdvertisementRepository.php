@@ -25,6 +25,25 @@ class AdvertisementRepository extends EntityRepository
      */
     public function findAllByNotNull($field, $all = 1, $status = 1)
     {
+        $qb = $this->qbfindAllByNotNull($field, $all, $status);
+
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
+     * Вибирає всі активні об'єкти де вказане поле поле $param не Null
+     *
+     * @param string $field field by not null
+     * @param int $all 1 - all fields, 0 - id,geom fields
+     * @param int $status table dir_status, default = active
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function qbFindAllByNotNull($field, $all = 1, $status = 1)
+    {
         $qb = $this->createQueryBuilder('a');
 
         if ($all == 1) {
@@ -36,11 +55,9 @@ class AdvertisementRepository extends EntityRepository
         $qb->andWhere('a.dirStatus = :STATUS')
             ->setParameter('STATUS', $status);
 
-        $query = $qb->getQuery();
-        $result = $query->getResult();
-
-        return $result;
+        return $qb;
     }
+
 
     /**
      * Вибірає всі обєкти з параметрами (максимальна кількість записів, поле по якому сортуєм, статус)
@@ -64,7 +81,7 @@ class AdvertisementRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        foreach ($order as $field => $sort){
+        foreach ($order as $field => $sort) {
             $qb->addOrderBy("q." . $field, $sort);
         }
 
@@ -102,7 +119,7 @@ class AdvertisementRepository extends EntityRepository
                 ->setParameter(':STATUS', $status);
         }
 
-        foreach ($order as $field => $sort){
+        foreach ($order as $field => $sort) {
             $qb->addOrderBy("q." . $field, $sort);
         }
 
