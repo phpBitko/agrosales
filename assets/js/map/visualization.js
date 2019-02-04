@@ -1,8 +1,6 @@
 $(document).ready(function()  {
     //-------------------------------------------- ініціалізуєм bootstrap tooltip і змінюєм налаштування
-    $('[data-toggle="tooltip"]').tooltip({
-        delay: {show: 100, hide: 100},
-    });
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('.choose-layer li').on('click', function () {
         $('.choose-layer li').removeClass('active');
@@ -44,12 +42,35 @@ $(document).ready(function()  {
         }
     });
 
+/*    $('#control-panel-filter').on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.map-filter').removeClass('move-in');
+            $('.map-filter').addClass('move-out');
+
+        } else {
+            $(this).addClass('active');
+            $('.map-filter').addClass('move-in');
+            $('.map-filter').removeClass('move-out');
+        }
+    });*/
+
     $('.choose-head .close').on('click', function () {
         $('.choose-layer').removeClass('choose-layer-move-in');
         $('.choose-layer').addClass('choose-layer-move-out');
 
         $('#control-panel-layer').removeClass('active');
     });
+
+/*    $('.map-filter .box-header .close').on('click', function () {
+        $('.map-filter').removeClass('move-in');
+        $('.map-filter').addClass('move-out');
+
+        $('#control-panel-filter').removeClass('active');
+    });*/
+
+        $('.map-filter').addClass('fixed');
+
 
     //-----------------------------------звернення до об'єтка якого не було в DOM
 
@@ -65,16 +86,5 @@ $(document).ready(function()  {
     $('.carousel').carousel({
         interval: false,
     });
-/*
-
-    $('.map-provision').load(function () {
-        $('[data-toggle="tooltip"]').tooltip({
-            delay: {show: 100, hide: 100},
-        });
-
-    });*/
-
-
-
 
 })

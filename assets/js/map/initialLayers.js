@@ -6,10 +6,10 @@ import TileWMS from 'ol/source/TileWMS.js';
 import Projection from 'ol/proj/Projection.js';
 import BingMaps from 'ol/source/BingMaps';
 import XYZ from 'ol/source/XYZ.js';
-import WKT from 'ol/format/WKT';
+//import WKT from 'ol/format/WKT';
 import {fromLonLat} from 'ol/proj.js';
 import {defaults as defaultControls} from 'ol/control.js';
-import sourceVector from 'ol/source/Vector';
+/*import sourceVector from 'ol/source/Vector';
 import layerVector from 'ol/layer/Vector';
 import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
@@ -19,11 +19,9 @@ import Stroke from 'ol/style/Stroke';
 global.wktObj = new WKT();
 global.sourceVector = sourceVector;
 global.layerVector = layerVector;
-global.Style = Style;
+global.Style = Style;*/
 
 $(function () {
-    //var wkts = new WKT()
-   // console.log( wktObj.readFeature('POINT(3379800.84453186 6412577.45935002)'));
     $('body').preloader();//--------------------запускаємо прелоадер поки все загружаєтся
 
     var projection900913 = new Projection({
@@ -85,7 +83,7 @@ $(function () {
         visible: 0
     });
 
-    //---------------------------------------------------- створення об'єкта Map
+    //---------------------------------------------------- створення об'єкту Map
     mapSales = new Map({
         target: 'map',
         layers: [
@@ -106,7 +104,7 @@ $(function () {
         })
     });
 
-    var style = new Style({
+/*    var style = new Style({
         fill: new Fill({
             color: 'rgba(255, 255, 255, 0.4)',
         }),
@@ -120,7 +118,7 @@ $(function () {
                 color: '#ffcc33'
             })
         })
-    });
+    });*/
 
-    zoomTo();
+    //zoomTo();
 });

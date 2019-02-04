@@ -1,4 +1,7 @@
 @import '../generalSettings';
+@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+@import '~bootstrap-slider/dist/css/bootstrap-slider.css';
+@import 'filter';
 
 .cursor-pointer {
   cursor: pointer;
@@ -23,6 +26,19 @@
   position: fixed;
   top: 62px;
 }
+.map-filter {
+  width: 310px;
+  position: fixed;
+  padding: 1px 0px;
+  background-color: #ffffff;
+  top: 70px;
+  right: 60px;
+  z-index: 10;
+  font-size: 16px;
+
+  //transition: .2s ease-out;
+  //-webkit-transition: .2s ease-out;
+}
 
 .choose-layer {
   width: 200px;
@@ -38,13 +54,13 @@
   //-webkit-transition: .2s ease-out;
 }
 
-.choose-layer-move-in {
+.choose-layer-move-in, .move-in {
   animation-name: example-in;
   animation-duration: .4s;
   right: 51px;
 }
 
-.choose-layer-move-out {
+.choose-layer-move-out, .move-out {
   right: -351px;
   animation-name: example-out;
   animation-duration: .4s;
@@ -92,9 +108,9 @@
 .choose-head {
   width: 198px;
   height: 35px;
-  background-color: #014656;
+  background-color: #11577f;
   color: #f9f7f6;
-  padding: 3px 0 0 5px;
+  padding: 6px 0 0 5px;
 }
 
 .choose-head img {
@@ -116,8 +132,8 @@
 }
 
 .choose-layer .active {
-  background-color: #dffff9;
-  border-bottom: 1px solid #00a2ad;
+  background-color: #cfebfc;
+  border: 1px solid #3c8dbc;
 }
 
 .choose-layer-item {
@@ -136,13 +152,9 @@
 
 .choose-layer-item:hover {
   cursor: pointer;
+  background-color: #cfebfc;
 }
 
-.choose-layer .active {
-  background-color: #dffff9;
-  border: 1px solid #00a2ad;
-  width: 200px;
-}
 
 //------------------------------------------------------zoom panel
 .zoom-layer {
@@ -157,7 +169,7 @@
 }
 
 .zoom-layer-border {
-  border: 1px solid #00a2ad;
+  border: 1px solid #3c8dbc;
 
 }
 
@@ -216,7 +228,7 @@
 }
 
 .control-panel .active {
-  background-color: #dffff9;
+  background-color: #cfebfc;
 
 }
 
@@ -228,14 +240,13 @@
 }
 
 .cp-layer:hover, .cp-ruler:hover, .cp-filter:hover, .cp-print:hover, .cp-placeholder:hover, .cp-area:hover {
-  background-color: #dffff9;
+  background-color: #aad4f5;
   cursor: pointer;
 
 }
 
 .cp-layer:focus, .cp-ruler:focus, .cp-filter:focus, .cp-print:focus, .cp-placeholder:focus, .cp-area:focus {
   outline: none;
-
 }
 
 .cp-layer {
@@ -298,7 +309,7 @@ $mouse-position-height: 28px;
 }
 
 .tooltip-static {
-  background-color: #f4820b !important;
+  background-color: #755C48 !important;
   color: black;
   border: 1px solid white;
 }
@@ -316,7 +327,7 @@ $mouse-position-height: 28px;
 }
 
 .tooltip-static:before {
-  border-top-color: #f4820b;
+  border-top-color: #755C48;
 }
 
 .modal-header {
@@ -507,24 +518,5 @@ $mouse-position-height: 28px;
     height: 0;
   }
 
-
-  /*.map-link {
-    display: block;
-    background-color: $base-color;
-    width: 100%;
-    color: white;
-    padding: 5px 0;
-    text-decoration: none;
-    text-align: center;
-    img {
-      width: auto;
-      text-align: right;
-      margin-right: 15px;
-    }
-
-  }
-  &:hover {
-    cursor: pointer;
-  }*/
 
 }

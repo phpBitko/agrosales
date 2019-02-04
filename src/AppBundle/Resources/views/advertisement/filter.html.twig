@@ -1,13 +1,29 @@
+{% set strController = app.request.attributes.get('_route')|slice(0,3) %}
+
 <div class="advertisement-filter col-3">
-    {{ form_start(form,{'method': 'GET'}) }}
+    {% if strController == 'map' %}
+        {{ form_start(form,{'method': 'POST'}) }}
+    {% else %}
+        {{ form_start(form,{'method': 'GET'}) }}
+    {% endif %}
     <div class="box box-solid">
         <div class="box-header">
-            <h3 class="box-title">Фільтр</h3>
+            {% if strController == 'map' %}
+                <img src="{{ asset('bundles/app/img/filter-outline_white.png') }}">
+            {% endif %}
+            <div class="box-title">Фільтр</div>
+            {#            {% if strController == 'map' %}
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        {% endif %}#}
             <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
                 </button>
             </div>
         </div>
+        {# <button id="filter-submit" class="" type="button">фільтрувати</button>#}
 
         <div class="box-body no-padding">
             <div class="filter-result">
@@ -17,10 +33,12 @@
                         <div>Результати фільтрування</div>
                         <div class="filter-result-tags">
                             {% for item in  data.filterAttributes %}
-                                <a href="{{ strUri[0] ~ '?' ~ item.strHref }}">
-                                    <i class="fa fa-times"></i>
-                                    {{ item.strText }}
-                                </a>
+                                {% if (item.strText is defined) %}
+                                    <a href="{{ strUri[0] ~ '?' ~ item.strHref }}">
+                                        <i class="fa fa-times"></i>
+                                        {{ item.strText }}
+                                    </a>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     {% endif %}
@@ -30,15 +48,15 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="filter-price">
                     <i class="fas fa-hand-holding-usd"></i>
-                    <span>Ціна</span>
+                    <span name='price'>Ціна, грн</span>
                     {{ form_widget(form.price) }}
-                    <input id="slider-price" data-slider-id='ex1Slider' type="text" />
+                    <input id="slider-price" data-slider-id='ex1Slider' type="text"/>
                 </li>
                 <li class="filter-area">
                     <i class="fas fa-vector-square"></i>
-                    <span>Площа</span>
+                    <span>Площа, га</span>
                     {{ form_widget(form.area) }}
-                    <input id="slider-area" data-slider-id='ex2Slider' type="text" />
+                    <input id="slider-area" data-slider-id='ex2Slider' type="text"/>
                 </li>
                 <li class="filter-date">
                     <i class="far fa-calendar-alt"></i>
@@ -80,8 +98,14 @@
                 </li>
                 <li class="filter-btn">
                     {% set strUri = app.request.requestUri|split('?', 2) %}
-                    <a href="{{ strUri[0] }} ">Очистити фільтр </a>
-                    <input type="submit" name="submit-filter" value="Фільтрувати" class="btn btn-outline-secondary">
+                    <a class="btn-grey" href="{{ strUri[0] }} ">Очистити фільтр </a>
+                    <input id="filter-submit"
+                        {% if strController == 'map' %}
+                            type="button"
+                         {% else %}
+                            type="submit"
+                        {% endif %}
+                     name="submit-filter" value="Фільтрувати" class="btn btn-blue">
                 </li>
 
             </ul>

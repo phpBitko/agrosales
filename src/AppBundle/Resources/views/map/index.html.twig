@@ -21,8 +21,8 @@
 {% block body %}
 
     <div id="map" class="map"></div>
+    <div class="map-filter">   {{ include('@App/advertisement/filter.html.twig', { 'form': form }) }}</div>
     <div class="choose-layer d-flex align-items-center flex-column">
-
         <div class="choose-head">
             <img src="{{ asset('bundles/app/img/layers_.png') }}">
             Базові шари
@@ -47,7 +47,8 @@
     <svg style="display: none" id='icon_advertisement' style="z-index: 10"
          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
          id="Capa_1" x="0px" y="0px" viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;"
-         xml:space="preserve" width="30px" height="30px" class=""><g>
+         xml:space="preserve" width="30px" height="30px" class="">
+        <g>
             <g>
                 <g>
                     <path d="M40,0C26.191,0,15,11.194,15,25c0,23.87,25,55,25,55s25-31.13,25-55C65,11.194,53.807,0,40,0z     M40,38.8c-7.457,0-13.5-6.044-13.5-13.5S32.543,11.8,40,11.8c7.455,0,13.5,6.044,13.5,13.5S47.455,38.8,40,38.8z"
@@ -56,10 +57,8 @@
                 </g>
             </g>
         </g>
-                </svg>
-    {#<div id = 'icons_advertisement'>
-        <i  class="fas fa-anchor fa-fw"></i>
-    </div>#}
+    </svg>
+
     <div class="zoom-layer">
         <div class="zoom-layer-border d-flex flex-column align-items-center">
             <button id="zoom-in" class="zoom-button my-zoom-in" type="button" data-toggle="tooltip"
