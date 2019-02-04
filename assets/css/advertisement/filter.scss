@@ -8,6 +8,9 @@
   }
   .box {
     background-color: #f1f1f1;
+    .box-header {
+      color: $text-color;
+    }
     .box-body {
       .filter-result {
         padding: 0 5px;
@@ -84,7 +87,7 @@
           input {
             display: block;
             width: 45%;
-            color: $text-color;
+            color: $text-color!important;;
             border: 1px solid #d9d9d9;
             &:focus {
               border: 1px solid #d9d9d9;
@@ -109,7 +112,7 @@
               border-radius: 2px;
               border: 1px solid #d9d9d9;
               padding: 2px 2px;
-              color: #626161;
+              color: #626161!important;
             }
           }
         }
@@ -119,35 +122,6 @@
         justify-content: space-between;
         text-align: right;
         width: 100%;
-        .btn {
-          margin-right: 15px;
-          color: #3c8dbc;
-          border: 1px solid #3c8dbc;
-          height: 35px;
-          &:hover {
-            background-color: #aad4f5;
-            text-decoration: none;
-            color: white;
-          }
-
-        }
-
-        a {
-          color: $text-color;
-          text-align: center;
-          display: inline-block;
-          height: 35px;
-          border-radius: 0.2rem;
-          transition: 0.1s;
-          padding: 5px 5px;
-          border: 1px solid #8e8e8e;
-          margin-left: 15px;
-          &:hover {
-            text-decoration: none;
-            color: white;
-            background-color: #adadad;
-          }
-        }
       }
       .filter-purpose {
         select {
@@ -170,6 +144,7 @@
           -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
           -webkit-user-select: none; /* Chrome, Safari, and Opera */
           -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+
         }
         position: relative;
         input[type=checkbox] {
@@ -241,6 +216,22 @@
           border-top: 1px solid #d5d5d5;
           margin: 0 5px;
           padding-bottom: 24px;
+          input:-webkit-autofill,
+          input:-webkit-autofill:hover,
+          input:-webkit-autofill:focus,
+          input:-webkit-autofill:active  {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: $text-color!important;
+          }
+          input,
+          textarea {
+            &:focus{
+              outline:#8e8e8e solid 1px ;
+            }
+
+
+          }
+
           i {
             margin: 0 10px 10px 10px;
             color: #adb5bd;
