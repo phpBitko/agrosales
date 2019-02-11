@@ -51,22 +51,23 @@ $(document).ready(function () {
         })
     });
 
-    function setStyleCluster(size) {
+    function setStyleCluster(size, colorFill, colorStroke) {
 
         //--------------------------------стиль для відображення кластерів на карті
         var styleCluster = new Style({
             image: new CircleStyle({
-                radius: 8,
+                radius: 14,
                 stroke: new Stroke({
-                    color: 'rgba(244, 130, 11, 0.6)',
-                    width: 6
+                    color: colorStroke,
+                    width: 8
                 }),
                 fill: new Fill({
-                    color: '#f4820b'
+                    color: colorFill
                 })
             }),
             text: new Text({
                 text: size.toString(),
+                font: '14px "Lato"',
                 fill: new Fill({
                     color: '#fff'
                 })
@@ -121,13 +122,15 @@ $(document).ready(function () {
         var vectorPoints;
         //-----------------------------------додаємо кластирізацію
         var clusterSource = new Cluster({
-            distance: 20,
+            distance: 50,
             source: vectorSourcePoints,
         });
         if (typeof(ifLayerExist('pointAdvertisement')) === "undefined") {
 
             var styleCache = {};
 
+            var colorFill;
+            var colorStroke;
             vectorPoints = new VectorLayer({
 
                 source: clusterSource,
@@ -138,9 +141,18 @@ $(document).ready(function () {
                     var style = styleCache[size];
 
                     if (!style) {
-
                         if (size > 1) {
-                            style = setStyleCluster(size);
+                            if (size <= 10) {
+                                colorFill = 'rgba(23, 146, 140, 0.9)';
+                                colorStroke = 'rgba(23, 146, 140, 0.3)'
+                            } else if (size > 10 && size < 30) {
+                                colorFill = 'rgba(210, 163, 0, 0.9)';
+                                colorStroke = 'rgba(210, 163, 0, 0.3)';
+                            } else {
+                                colorFill = 'rgba(241, 128, 23, 0.9)';
+                                colorStroke = 'rgba(241, 128, 23, 0.3)';
+                            }
+                            style = setStyleCluster(size, colorFill, colorStroke);
                             styleCache[size] = style;
                         } else {
                             style = stylePoints;
