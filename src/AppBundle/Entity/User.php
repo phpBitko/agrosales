@@ -23,6 +23,7 @@ class User extends BaseUser
     /**
      *
      *@ORM\OneToMany(targetEntity="Advertisement", mappedBy="users", cascade={"persist"})
+     *
      */
     private $advertisements;
 

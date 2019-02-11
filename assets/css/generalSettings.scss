@@ -45,6 +45,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 
 .bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
   border-top-color: #777777;
+  border-bottom-color: #515151;
   opacity: 1 !important;
 }
 

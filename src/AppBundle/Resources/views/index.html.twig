@@ -94,7 +94,8 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item">
                                 <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">
-                                    <i class="fas fa-sign-out-alt"></i>Вийти</a>
+                                    <i class="fas fa-sign-out-alt"></i>Вийти, {{ app.user.username }}</a>
+
                             </li>
                         </ul>
                     {% else %}
@@ -139,7 +140,6 @@
                                 <li class="nav-item">
                                     {% if  is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path('admin_index') }}">
-                                            <i class="fa fa-info"></i>
                                             {{ 'Панель адміністратора' }}
                                         </a>
                                     {% else %}

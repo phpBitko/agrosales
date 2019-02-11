@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -43,20 +44,19 @@ class AdvertisementType extends AbstractType
                 'label' => 'Назва*',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
-                'required' => false
+                'required' => true
             ])
             ->add('textAbout', TextareaType::class, [
-                'label' => 'Опис',
+                'label' => 'Опис*',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
-                'required' => false
+                'required' => true
             ])
-            ->add('price', MoneyType::class, [
-                'label' => 'Вартість',
-                'currency' => 'UAH',
+            ->add('price', IntegerType::class, [
+                'label' => 'Вартість, грн',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'font-weight-bold'],
-                'required' => false
+                'required' => true
             ])
             ->add('declarantPhoneNum', TelType::class, [
                 'label' => 'Телефон',

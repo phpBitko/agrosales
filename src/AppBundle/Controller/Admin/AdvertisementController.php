@@ -6,7 +6,7 @@
  * Time: 17:19
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Exception\WarningException;
 use AppBundle\Service\PaginatorServices;
@@ -18,17 +18,18 @@ use AppBundle\Entity\Advertisement;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Service\Geometry;
 use AppBundle\Filter\AdminAdvertisementFilterType;
+use AppBundle\Controller\SuperController;
 
 
 /**
  * Class CabinetController
- * @Route("/admin")
+ * @Route("/admin/advertisement")
  */
-class AdminController extends SuperController
+class AdvertisementController extends SuperController
 {
 
     /**
-     * @Route("/", name="admin_index", methods={"GET"})
+     * @Route("/", name="admin.advertisement_index", methods={"GET"})
      */
     public function indexAction()
     {
@@ -41,7 +42,7 @@ class AdminController extends SuperController
      * @param PaginatorServices $paginator
      * @return Response
      *
-     * @Route("/getAdvertisement", name="admin_get_advertisement", methods={"GET"})
+     * @Route("/getAdvertisement", name="admin.advertisement_get_advertisement", methods={"GET"})
      *
      */
     public function getAdvertisementAction(Request $request, PaginatorServices $paginator)
@@ -67,8 +68,21 @@ class AdminController extends SuperController
 
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
 
-        return $this->render('AppBundle:admin:view_advertisement.html.twig',
+        return $this->render('AppBundle:admin/advertisement:get_advertisement.html.twig',
             array('advertisements' => $pagination, 'formFilter'=>$formFilter->createView()));
+    }
+
+    /**
+     * @Route("/getUsers", name="admin_get_users", methods={"GET"})
+     *
+     */
+    public function getUsers()
+    {
+
+
+        return $this->render('AppBundle:admin:get_users.html.twig');
+
+
     }
 
 }

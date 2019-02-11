@@ -11,10 +11,13 @@ import WKT from 'ol/format/WKT.js';
 import Point from 'ol/geom/Point.js';
 import TileWMS from "ol/source/TileWMS";
 
-$('[data-toggle="tooltip"]').tooltip();
+
 
 $(function () {
+
+    $('[data-toggle="tooltip"]').tooltip();
     $("#text_search_cad_num").mask("9999999999:99:999:9999");
+    $('#advertisement_declarantPhoneNum').mask("(999)999-99-99");
 
     var osmLayer = new TileLayer({
         source: new OSM(),
@@ -35,7 +38,6 @@ $(function () {
             'CRS': 'EPSG:900913',
             serverType: 'geoserver',
         },
-
     });
 
     // Земельні ділянки
@@ -46,7 +48,6 @@ $(function () {
     });
 
     var centerUkraine = fromLonLat([30.582233, 50.382778]);
-
 
     var mapCabinet = new Map({
         target: 'map-create-container',
@@ -98,7 +99,7 @@ $(function () {
             if (coatuuRegExp.test(searchval)) {
                 $('.for-preloader').preloader();
                 $.ajax({
-                    url: 'http://map.land.gov.ua/kadastrova-karta/find-Parcel',
+                    url: 'https://map.land.gov.ua/kadastrova-karta/find-Parcel',
                     type: 'GET',
                     data: {
                         'cadnum': searchval
@@ -124,7 +125,7 @@ $(function () {
 
                     },
                     error: function () {
-                        $('for-preloader').preloader('remove');
+                        $('.for-preloader').preloader('remove');
                         $('html, body').css("cursor", "auto");
                         if (searchMarker !== undefined) {
                             //map.removeOverlay(searchMarker);

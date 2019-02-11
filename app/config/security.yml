@@ -27,10 +27,14 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
+                login_path:             fos_user_security_login
+                check_path:             fos_user_security_check
                 csrf_token_generator: security.csrf.token_manager
-
-            logout:       true
+            logout:
+                path:     fos_user_security_logout
             anonymous:    true
+            remember_me:
+                 secret: '%secret%'
     encoders:
             FOS\UserBundle\Model\UserInterface: bcrypt
 

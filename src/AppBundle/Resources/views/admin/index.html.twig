@@ -33,21 +33,39 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">Навігація по розділам</li>
-                <li class="treeview menu-open">
+                <li class="treeview {{ app.request.attributes.get('_route')|slice(6, 13) == 'advertisement' ? 'menu-open' }}">
                     <a href="#">
                         <i class="fas fa-clipboard-list"></i> <span>Оголошення</span>
                         <span class="pull-right-container">
-              <i class="fas fa-angle-left pull-right"></i>
-            </span>
+                            <i class="fas fa-angle-left pull-right"></i>
+                        </span>
                     </a>
-                    <ul class="treeview-menu" style="display: block">
+                    <ul class="treeview-menu" {{ app.request.attributes.get('_route')|slice(6, 13) == 'advertisement' ? 'style="display:block"' }}>
                         <li class="
-                            {% if app.request.attributes.get("_route") == 'admin_get_advertisement' %}
+                            {% if app.request.attributes.get("_route") == 'admin.advertisement_get_advertisement' %}
                                  active
                             {% endif %}
-                            "><a href="{{ path('admin_get_advertisement') }}"><i class="far fa-circle"></i> Переглянути оголошення</a></li>
+                            "><a href="{{ path('admin.advertisement_get_advertisement') }}"><i class="far fa-circle"></i> Переглянути оголошення</a></li>
+                    </ul>
+
+                </li>
+
+                <li class="treeview {{ app.request.attributes.get('_route')|slice(6, 5) == 'users' ? 'menu-open' }}">
+                    <a href="#">
+                        <i class="fas fa-users"></i> <span>Користувачі</span>
+                        <span class="pull-right-container">
+                                <i class="fas fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu" {{ app.request.attributes.get('_route')|slice(6, 5) == 'users' ? 'style="display:block"' }} >
+                        <li class=" {{  (app.request.attributes.get('_route') == 'admin.users_get_users') ? 'active' }}">
+                            <a href="{{ path('admin.users_get_users') }}">
+                                <i class="far fa-circle"></i> Список користувачів
+                            </a>
+                        </li>
                     </ul>
                 </li>
+
             </ul>
         </section>
         <!-- /.sidebar -->

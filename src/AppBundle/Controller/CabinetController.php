@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
 use AppBundle\Entity\Advertisement;
+use AppBundle\Service\PaginatorServices;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Service\Geometry;
 
@@ -160,23 +161,23 @@ class CabinetController extends SuperController
      *
      * @Route("/getMyAdvertisement/{selected}", requirements={"selected": "active|pending|deactivated|reject"}, name="cabinet_get_my_advertisement", methods={"GET"})
      */
-    public function getMyAdvertisementAction(Request $request, $selected)
+    public function getMyAdvertisementAction(Request $request, $selected, PaginatorServices $paginator)
     {
         $em = $this->getDoctrine()->getManager();
         $advertisementRepository = $em->getRepository('AppBundle:Advertisement');
 
         $userId = $this->getUser()->getId();
 
-        $myAdvertisement = $advertisementRepository->
-        findBy(array('idUser' => $userId, 'dirStatus' => self::STATUS_ADVERTISEMENT[strtoupper($selected)]), array('addDate' => 'DESC'));
-
         $data = $this->getDataForSidebar();
 
         $data['status'] = $em->getRepository('AppBundle:DirStatus')
             ->find(self::STATUS_ADVERTISEMENT[strtoupper($selected)]);
 
+        $query = $advertisementRepository->queryFindByStatus(self::STATUS_ADVERTISEMENT[strtoupper($selected)], ['addDate' => 'DESC'], $userId);
+        $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
+
         return $this->render('AppBundle:cabinet:view_advertisement.html.twig',
-            ['advertisements' => $myAdvertisement,
+            ['advertisements' => $pagination,
                 'data' => $data]);
 
     }

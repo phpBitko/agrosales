@@ -1,6 +1,5 @@
 @import '../generalSettings';
-@import '../../js/lib/adminLTE/css/AdminLTE.css';
-@import '../../js/lib/adminLTE/css/skin-blue.min.css';
+@import '../cabinet/cabinet';
 
 .advertisement_one {
   img {
@@ -102,7 +101,6 @@
       box-shadow: none;
     }
   }
-
 }
 
 #admin_advertisement_filter_dirStatus{
@@ -121,15 +119,14 @@ form{
   padding-top: 0;
 }
 
-.body_content{
-  display: flex;
+.content-wrapper{
+  min-height: auto !important;
 }
 
-.wrapper{
-  height: auto;
-  display: flex;
-  flex-grow: 1;
+.treeview.menu-open .treeview-menu{
+  //  display: block;
 }
-.content-wrapper{
-  flex-grow: 1;
+
+.fa-circle{
+  margin-left: 6px;
 }

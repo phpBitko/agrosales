@@ -27,6 +27,10 @@ use Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText;
  */
 class Advertisement implements InstanceUserInterface
 {
+
+    /**
+     * Кількість оголошень на сторінку
+     */
     const NUM_ITEMS = 9;
 
     /**
@@ -34,7 +38,7 @@ class Advertisement implements InstanceUserInterface
      *
      * @var array
      */
-    public static $order =['isTop' => 'DESC', 'addDate' => 'DESC'];
+    public static $order = ['isTop' => 'DESC', 'addDate' => 'DESC'];
 
     /**
      * @var integer
@@ -51,103 +55,13 @@ class Advertisement implements InstanceUserInterface
      *
      * @ORM\Column(name="text_head", type="string", length=500, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *      max = 150,
+     *      maxMessage = "Довжина тексту не повинна перевищувати {{ limit }} символів"
+     * )
      *
      */
-
     private $textHead;
-
-//    /**
-//     * @ORM\Column(type="string", length=255, nullable=true)
-//     * @var string
-//     */
-//    private $imageName;
-//
-//    /**
-//     * @Vich\UploadableField(mapping="advertisement_images", fileNameProperty="imageName")
-//     * @var File
-//     */
-//    private $imageFile;
-//
-//    /**
-//     * @ORM\Column(type="datetime", nullable=true)
-//     * @var \DateTime
-//     */
-//    private $updatedAt;
-//    /**
-//     * @ORM\Column(type="integer", nullable=true)
-//     *
-//     * @var integer
-//     */
-//    private $imageSize;
-//
-//    /**
-//     * @return int
-//     */
-//    public function getImageSize()
-//    {
-//        return $this->imageSize;
-//    }
-//
-//    /**
-//     * @param int $imageSize
-//     */
-//    public function setImageSize($imageSize)
-//    {
-//        $this->imageSize = $imageSize;
-//    }
-//
-//    /**
-//     * @return \DateTime
-//     */
-//    public function getUpdatedAt()
-//    {
-//        return $this->updatedAt;
-//    }
-//
-//    /**
-//     * @param \DateTime $updatedAt
-//     */
-//    public function setUpdatedAt($updatedAt)
-//    {
-//        $this->updatedAt = $updatedAt;
-//    }
-//
-//
-//    /**
-//     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-//     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-//     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-//     * must be able to accept an instance of 'File' as the bundle will inject one here
-//     * during Doctrine hydration.
-//     *
-//     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
-//     */
-//    public function setImageFile(?File $image = null)
-//    {
-//        $this->imageFile = $image;
-//
-//        if (null !== $image) {
-//            // It is required that at least one field changes if you are using doctrine
-//            // otherwise the event listeners won't be called and the file is lost
-//            $this->updatedAt = new \DateTimeImmutable();
-//        }
-//    }
-//
-//    public function getImageFile()
-//    {
-//        return $this->imageFile;
-//    }
-//
-//    public function setImageName($imageName)
-//    {
-//        $this->imageName = $imageName;
-//    }
-//
-//    public function getImageName()
-//    {
-//        return $this->imageName;
-//    }
-
 
     /**
      * @var string
@@ -165,6 +79,11 @@ class Advertisement implements InstanceUserInterface
     /**
      * @var string
      * @ORM\Column(name="text_about", type="text", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      max = 4000,
+     *      maxMessage = "Довжина тексту не повинна перевищувати {{ limit }} символів"
+     * )
      */
     private $textAbout;
 
@@ -180,23 +99,6 @@ class Advertisement implements InstanceUserInterface
      *
      */
     private $isTop = false;
-
-    /**
-     * @return bool
-     */
-    public function isTop(): bool
-    {
-        return $this->isTop;
-    }
-
-    /**
-     * @param bool $isTop
-     */
-    public function setIsTop(bool $isTop): void
-    {
-        $this->isTop = $isTop;
-    }
-
 
     /**
      * @var boolean
@@ -234,15 +136,25 @@ class Advertisement implements InstanceUserInterface
     private $isSewerage = false;
 
     /**
-     * @var float
+     * @var integer
      *
-     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="price", type="integer", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Допустимі тільки цілі числа."
+     * )
      */
     private $price;
 
     /**
      * @var float
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(
+     *     type="float",
+     *
+     * )
      * @ORM\Column(name="area", type="float", precision=10, scale=0, nullable=true)
      */
     private $area;
@@ -364,6 +276,22 @@ class Advertisement implements InstanceUserInterface
 
 
     /**
+     * @return bool
+     */
+    public function isTop(): bool
+    {
+        return $this->isTop;
+    }
+
+    /**
+     * @param bool $isTop
+     */
+    public function setIsTop(bool $isTop): void
+    {
+        $this->isTop = $isTop;
+    }
+
+    /**
      * @return int
      */
     public function getUsers()
@@ -462,7 +390,7 @@ class Advertisement implements InstanceUserInterface
     }
 
     /**
-     * @return float
+     * @return int
      */
     public function getPrice()
     {
@@ -470,7 +398,7 @@ class Advertisement implements InstanceUserInterface
     }
 
     /**
-     * @param float $price
+     * @param int $price
      */
     public function setPrice($price)
     {

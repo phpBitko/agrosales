@@ -140,7 +140,7 @@
                                                         </div>
                                                     </th>
                                                     <th class="font-light text-left align-middle"
-                                                        scope="row">{{ advertisement.textAbout|isEmpty }}</th>
+                                                        scope="row">{{ advertisement.textAbout|isEmpty|slice(0,150) }}</th>
                                                     <th class="font-light text-center align-middle"
                                                         scope="row">{{ advertisement.price|isEmpty }}</th>
                                                     <th class="font-light text-center align-middle"
@@ -155,8 +155,12 @@
                                         </div>
                                     {% endif %}
                                 </div>
+                                <div class="row col-12 justify-content-center">
+                                    <div class="navigation  text-center">
+                                        {{ knp_pagination_render(advertisements) }}
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                         <!-- /.col -->
                     </div>
