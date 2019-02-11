@@ -8,17 +8,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
-
 class AdvertisementFilterType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $em = $options['entity_manager'];
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
-
         $builder->add('area', Filters\NumberRangeFilterType::class);
+
         $builder->add('addDate', Filters\DateTimeRangeFilterType::class, [
             'left_datetime_options' => [
                 'widget' => 'single_text',
@@ -89,11 +87,10 @@ class AdvertisementFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
+            'validation_groups' =>array('filtering'), // avoid NotBlank() constraint-related message
 
         ));
         $resolver->setRequired('entity_manager');
-        
     }
 
 }

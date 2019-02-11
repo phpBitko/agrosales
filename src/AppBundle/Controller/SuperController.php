@@ -1,7 +1,8 @@
 <?php
 
 namespace AppBundle\Controller;
-
+use Symfony\Component\HttpFoundation\Request;
+//use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Interfaces\InstanceUserInterface;
@@ -48,6 +49,28 @@ class SuperController extends Controller
            return true;
         }
         return false;
+    }
+
+
+    /**
+     * Генерує тип сортування
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function getOrder(Request $request)
+    {
+        $sortField = $request->query->get('sort');
+        $sortDirection = $request->query->get('direction');
+
+        if(!empty($sortField)) {
+            $order = [substr($sortField, 2) => $sortDirection];
+        } else {
+            $order = Advertisement::$order;
+        }
+
+        return $order;
+
     }
 
 }

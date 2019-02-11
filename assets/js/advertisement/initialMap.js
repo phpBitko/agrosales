@@ -16,6 +16,8 @@ import Projection from "ol/proj/Projection";
 $(function () {
     //-------------------------------------------for points from advertisement
     var vectorSourcePoints = new VectorSource;
+    var point;
+    var points = null;
 
     var projection900913 = new Projection({
         code: 'EPSG:900913',
@@ -32,7 +34,6 @@ $(function () {
         });
     }
 
-    var point;
 
     if ($('#details-geom').text() !== undefined && $('#details-geom').text() !== '') {
 
@@ -40,17 +41,16 @@ $(function () {
         var features = wkt.readFeature($('#details-geom').text());
         point = (features.getGeometry());
         vectorSourcePoints.addFeature(features);
+        points = point.getCoordinates();
     }
-    var coordinates = point.getCoordinates();
 
     var centerUkraine = fromLonLat([31.182233, 48.382778]);//------------------координати центру України
-    console.log(centerUkraine);
+
 
     var view = new View({
         center: centerUkraine,
-        zoom: 5
+        zoom: 6
     });
-
     if (point != null) {
         view.fit(point, {minResolution: 5});
     }
@@ -103,16 +103,21 @@ $(function () {
     });
     mapDetail.addLayer(vectorPoints);
 
-    console.log(coordinates);
     $('#details-map-full').on('click', function () {
-        view.fit(point, {minResolution: 5});
-        //view = mapDetail.getView();
-       /* view.animate({
-            center: [0, 0],
-            zoom: 5,
-            duration: 200
-        })*/
+
+        if (points != null) {
+            view = mapDetail.getView();
+            view.animate({
+                center: points,
+                duration: 300,
+                zoom: 14
+            });
+        } else {
+            view.animate({
+                center: centerUkraine,
+                duration: 300,
+                zoom: 6
+            });
+        }
     });
-
-
 })

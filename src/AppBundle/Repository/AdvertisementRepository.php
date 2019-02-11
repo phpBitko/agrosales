@@ -131,6 +131,7 @@ class AdvertisementRepository extends EntityRepository
      */
     public function qbFindByStatus($status = null, $order = ['addDate' => 'DESC'])
     {
+
         $qb = $this->createQueryBuilder('q');
         if (!empty($status)) {
             $qb->andWhere("q.dirStatus = :STATUS")
@@ -138,7 +139,9 @@ class AdvertisementRepository extends EntityRepository
         }
 
         foreach ($order as $field => $sort) {
-            $qb->addOrderBy("q." . $field, $sort);
+            $qb->addSelect("CASE WHEN q.$field IS NULL THEN 1 ELSE 0 END as HIDDEN ".$field."_is_null")
+                ->addOrderBy($field."_is_null", 'ASC')
+                ->addOrderBy("q." . $field, $sort);
         }
 
         return $qb;

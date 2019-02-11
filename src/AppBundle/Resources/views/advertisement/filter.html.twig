@@ -1,10 +1,19 @@
 {% set strController = app.request.attributes.get('_route')|slice(0,3) %}
 
 <div class="advertisement-filter col-3">
+    {% for messages in app.flashes('danger') %}
+
+        <div class="alert alert-danger"
+             style="margin-bottom: 0!important;">
+            {{ messages }}
+        </div>
+
+    {% endfor %}
     {% if strController == 'map' %}
         {{ form_start(form,{'method': 'POST'}) }}
     {% else %}
         {{ form_start(form,{'method': 'GET'}) }}
+        {# {{ dump(form_errors(form.price.left_number)) }}#}
     {% endif %}
     <div class="box box-solid">
         <div class="box-header">
@@ -50,6 +59,7 @@
                     <i class="fas fa-hand-holding-usd"></i>
                     <span name='price'>Ціна, грн</span>
                     {{ form_widget(form.price) }}
+
                     <input id="slider-price" data-slider-id='ex1Slider' type="text"/>
                 </li>
                 <li class="filter-area">
@@ -100,12 +110,12 @@
                     {% set strUri = app.request.requestUri|split('?', 2) %}
                     <a class="btn-grey" href="{{ strUri[0] }} ">Очистити фільтр </a>
                     <input id="filter-submit"
-                        {% if strController == 'map' %}
-                            type="button"
-                         {% else %}
-                            type="submit"
-                        {% endif %}
-                     name="submit-filter" value="Фільтрувати" class="btn btn-blue">
+                            {% if strController == 'map' %}
+                                type="button"
+                            {% else %}
+                                type="submit"
+                            {% endif %}
+                           name="submit-filter" value="Фільтрувати" class="btn btn-blue">
                 </li>
 
             </ul>

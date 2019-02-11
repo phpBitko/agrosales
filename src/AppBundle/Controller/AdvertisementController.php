@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Messages;
 use AppBundle\Exception\ViewException;
 use AppBundle\Filter\AdvertisementFilterType;
 use AppBundle\Form\MessagesType;
+use AppBundle\Service\ParseFilterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Service\PaginatorServices;
 use Symfony\Component\Config\Definition\Exception\Exception;
+
 
 /**
  * Class AdvertisementController
@@ -37,36 +38,44 @@ class AdvertisementController extends SuperController
         //$purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
         $advertisement = $em->getRepository('AppBundle:Advertisement');
-
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
+
+        $order = $this->getOrder($request);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
 
             $form->submit($request->query->get($form->getName()));
+           // $filterParams = $request->query->get('item_filter');
 
+            if ($form->isValid()) {
+                // initialize a query builder
 
-            // initialize a query builder
+                $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
 
-            $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE']);
+                // build the query from the given form object
+                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+                $query = $filterBuilder->getQuery();
 
-
-            // build the query from the given form object
-            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
-            $query = $filterBuilder->getQuery();
-
+            } else {
+                $this->addFlash('danger', 'Помилка! Перевірьте, будь ласка, правильність заповнення даних фільтру!');
+                $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
+            }
 
         } else {
-            $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], Advertisement::$order);
-        }
+            $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
 
+        }
 
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
         $sortString = $this->parseSortString($request);
-        $filterAttributes = $this->parseQueryString($request);
+
+        if ($form->isValid()) {
+            $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($request);
+
+        }
 
         $data = compact('typeView', 'sortString', 'filterAttributes');
-
-
+     
         return $this->render('AppBundle:advertisement:index.html.twig', array(
             'form' => $form->createView(),
             'advertisement' => $pagination,
@@ -100,7 +109,6 @@ class AdvertisementController extends SuperController
                     if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
                         throw $this->createAccessDeniedException();
                     }
-
 
                     $messages->setAdvertisement($advertisement);
                     $messages->setUsers($this->getUser());
@@ -216,104 +224,4 @@ class AdvertisementController extends SuperController
     }
 
 
-    /**
-     * Парсить строку url з параметрами, та готує дані для відображення параметрів фільтрації
-     *
-     * @param Request $request
-     * @return array
-     */
-    protected function parseQueryString(Request $request)
-    {
-        $filterParams = $request->query->get('item_filter');
-
-        $resultFilter = [];
-
-        if ($filterParams !== null) {
-
-            $queryParamArray = [];
-
-            foreach ($filterParams as $k => $v) {
-
-                $queryParamArray['item_filter'] = $filterParams;
-                unset($queryParamArray['item_filter'][$k]);
-
-                if (is_array($v) ) {
-                    $resultFilter[$k] = $v;
-                    $str = http_build_query($queryParamArray);
-                    $resultFilter[$k]['strHref'] = $str;
-                } else {
-                    $str = http_build_query($queryParamArray);
-                    $resultFilter[$k]['param'] = 1;
-                    $resultFilter[$k]['strHref'] = $str;
-                }
-
-            }
-
-            $resultFilter = $this->parseResultFilter($resultFilter);
-        }
-        return $resultFilter;
-    }
-
-
-    /**
-     * Обрабляє масив для відображення параметрів фільтрації, додає строку з даними фільтра
-     *
-     * @param array $arrayFilter
-     * @return array
-     */
-    private function parseResultFilter(array $arrayFilter)
-    {
-        if ($arrayFilter !== null) {
-            $arrCopy = $arrayFilter;
-            $str = '';
-
-            foreach ($arrayFilter as $k => $v) {
-                switch ($k) {
-                    case 'price':
-                        if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
-                            $str = 'ціна ';
-                            $str .= (!empty($v['left_number'])) ? 'від: ' . $v['left_number'] . ' ' : '';
-                            $str .= (!empty($v['right_number'])) ? 'до: ' . $v['right_number'] : '';
-                            $arrCopy[$k]['strText'] = $str;
-                        }
-                        break;
-                    case 'area':
-                        if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
-                            $str = 'площа ';
-                            $str .= (!empty($v['left_number'])) ? 'від: ' . $v['left_number'] . ' ' : '';
-                            $str .= (!empty($v['right_number'])) ? 'до: ' . $v['right_number'] : '';
-                            $arrCopy[$k]['strText'] = $str;
-                        }
-                        break;
-                    case 'addDate':
-                        if (!empty($arrayFilter[$k]['left_datetime']) || !empty($arrayFilter[$k]['right_datetime'])) {
-                            $str = 'дата ';
-                            $str .= (!empty($v['left_datetime'])) ? 'від: ' . $v['left_datetime'] . ' ' : '';
-                            $str .= (!empty($v['right_datetime'])) ? 'до: ' . $v['right_datetime'] : '';
-                            $arrCopy[$k]['strText'] = $str;
-                        }
-                        break;
-                    case 'isRoad':
-                        $arrCopy[$k]['strText'] = 'є дорога';
-                        break;
-                    case 'isWaterSupply':
-                        $arrCopy[$k]['strText'] = 'є вода';
-                        break;
-                    case 'isElectricity':
-                        $arrCopy[$k]['strText'] = 'є електрика';
-                        break;
-                    case 'isGas':
-                        $arrCopy[$k]['strText'] = 'є газ';
-                        break;
-                    case 'isSewerage':
-                        $arrCopy[$k]['strText'] = 'є каналізація';
-                        break;
-                    case 'dirPurpose':
-                        $arrCopy[$k]['strText'] = 'цільове призначення';
-                        break;
-                }
-            }
-            return $arrCopy;
-        }
-    }
 }

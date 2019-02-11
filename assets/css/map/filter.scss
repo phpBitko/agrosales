@@ -152,12 +152,7 @@
           }
         }
       }
-      .filter-btn {
-        display: flex;
-        justify-content: space-between;
-        text-align: right;
-        width: 100%;
-      }
+
       .filter-purpose {
         select {
           width: 100%;
@@ -242,6 +237,16 @@
         }
 
       }
+      .filter-btn {
+        display: flex;
+        justify-content: space-between;
+        text-align: right;
+        width: 100%;
+        .btn-blue {
+          margin-right: 15px;
+        }
+      }
+
       ul {
         padding-bottom: 15px;
         margin-top: 10px;
