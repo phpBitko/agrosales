@@ -131,18 +131,12 @@ class MapController extends SuperController
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
         try {
-
-            if (!$request->request->has($form->getName())) {
-                throw new \Exception('Не передано даних для фільру!');
+            $filterBuilder = $advertisement->qbFindAllByNotNull('geom',0,self::STATUS_ADVERTISEMENT['ACTIVE']);
+            if ($request->request->has($form->getName())) {
+                $form->submit($request->request->get($form->getName()));
+                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             }
-
-            $form->submit($request->request->get($form->getName()));
-            $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
-
-            // build the query from the given form object
-            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $query = $filterBuilder->getQuery();
-
             $advertisement = $query->getResult();
 
             if (empty($advertisement)) {
