@@ -344,23 +344,10 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log(data);
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('body').preloader('remove');
-                $('html, body').css("cursor", "auto");
-                if (jqXHR.responseJSON) {
-                    bootbox.alert({
-                        title: 'Виникла помилка',
-                        message: jqXHR.responseJSON.error
-                    });
-                } else {
-                    bootbox.alert({
-                        title: 'Виникла помилка',
-                        message: jqXHR.responseText
-                    });
-                }
+                bootboxAlertMessage(jqXHR);
             },
         });
     }

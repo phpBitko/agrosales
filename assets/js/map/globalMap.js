@@ -10,6 +10,9 @@ require('bootstrap-datepicker');
 require('bootstrap-datepicker/js/locales/bootstrap-datepicker.uk');
 require('bootstrap-slider/dist/bootstrap-slider');
 
+bootboxMessage = require('../../js/functionLib/bootboxMessage');
+bootboxAlertMessage = require('../../js/functionLib/bootboxAlertMessage');
+
 require('../../js/map/initialLayers');
 require('../../js/map/initialToolbar');
 feature = require('../../js/functionLib/featureManipulations');

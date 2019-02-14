@@ -9,6 +9,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Advertisement;
+use AppBundle\Exception\ViewException;
+use AppBundle\Exception\WarningException;
 use AppBundle\Filter\AdvertisementFilterType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,28 +131,30 @@ class MapController extends SuperController
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
         try {
-            if ($request->request->has($form->getName())) {           // manually bind values from the request
-                $form->submit($request->request->get($form->getName()));
 
-                $filterBuilder = $advertisement->qbFindAllByNotNull('geom',0,self::STATUS_ADVERTISEMENT['ACTIVE']);
-
-                // build the query from the given form object
-                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
-                $query = $filterBuilder->getQuery();
-
-            } else {
-                $qb = $advertisement->qbFindAllByNotNull('geom',0,self::STATUS_ADVERTISEMENT['ACTIVE']);
-                $query = $qb->getQuery();
+            if (!$request->request->has($form->getName())) {
+                throw new \Exception('Не передано даних для фільру!');
             }
+
+            $form->submit($request->request->get($form->getName()));
+            $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
+
+            // build the query from the given form object
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            $query = $filterBuilder->getQuery();
+
             $advertisement = $query->getResult();
 
-            if ($advertisement === null) {
-                throw new NotFoundHttpException();
+            if (empty($advertisement)) {
+                throw new WarningException('Нічого не знайдено!');
             }
 
             return $this->json(array('data' => $advertisement), Response::HTTP_OK);
+
+        }catch (WarningException $exception) {
+                return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
-            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
