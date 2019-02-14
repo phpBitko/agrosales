@@ -18,15 +18,16 @@
     background: url("../../../src/AppBundle/Resources/public/img/bg_blog_article_cover_black.png") repeat;
     height: 100%;
     width: 100%;
-    .title-content {
-      margin: 0 auto;
-      text-align: left;
-      max-width: 1350px;
-      h1 {
-        margin-top: 9rem;
-      }
+    opacity: 0.7;
+  }
+  .title-content {
+    margin: 0 auto;
+    padding-top: 150px;
+    text-align: left;
+    max-width: 1350px;
+    h1 {
+      //margin-top: 9rem;
     }
-
   }
 }
 
@@ -62,7 +63,6 @@
   img {
     width: 188px;
   }
-
 }
 
 .blocks-button-else {
