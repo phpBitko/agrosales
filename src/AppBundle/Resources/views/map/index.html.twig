@@ -41,23 +41,7 @@
             <li id="bingMap" class=" choose-layer-item" data-val="bing">
                 <span>{{ 'Bing map'|trans|raw }}</span></li>
         </ul>
-
     </div>
-
-    <svg style="display: none" id='icon_advertisement' style="z-index: 10"
-         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-         id="Capa_1" x="0px" y="0px" viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;"
-         xml:space="preserve" width="30px" height="30px" class="">
-        <g>
-            <g>
-                <g>
-                    <path d="M40,0C26.191,0,15,11.194,15,25c0,23.87,25,55,25,55s25-31.13,25-55C65,11.194,53.807,0,40,0z     M40,38.8c-7.457,0-13.5-6.044-13.5-13.5S32.543,11.8,40,11.8c7.455,0,13.5,6.044,13.5,13.5S47.455,38.8,40,38.8z"
-                          data-original="#030104" class="active-path" data-old_color="#ff7f00"
-                          fill="#ff7f00"/>
-                </g>
-            </g>
-        </g>
-    </svg>
 
     <div class="zoom-layer">
         <div class="zoom-layer-border d-flex flex-column align-items-center">
@@ -69,6 +53,7 @@
                     data-placement="left" title="Зменшити"></button>
         </div>
     </div>
+
     <div class="control-panel">
         <div class="zoom-layer-border d-flex flex-column align-items-center">
             <button id="control-panel-layer" class="cp-layer" type="button" data-placement="left" data-toggle="tooltip"
@@ -94,45 +79,6 @@
     </div>
     <div class="mouse-position-panel" id="mouse-position"></div>
 
-
-    {#<div class=" choose_layer  mdl-shadow--4dp mdl-color--blue-grey-900 mdl-color-text--blue-grey-50 is-visible"#}
-    {#aria-hidden="false">#}
-    {#<div class="layersAll">#}
-
-    {#<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">#}
-    {#<div class="level_menu">#}
-    {#<div class="choose_head">#}
-    {#<button type="button" class="close" aria-label="Close">#}
-    {#<span aria-hidden="true">&times;</span>#}
-    {#</button>#}
-    {#<i class="material-icons align-middle">layers</i> {{ 'Базові шари'|trans }}#}
-    {#</div>#}
-    {#<ul class="list-group list-group-flush">#}
-    {#<li id="viewMap" class="list-group-item active" data-val="pub">#}
-    {#<span>{{ 'Оглядова карта України'|trans|raw }}</span></li>#}
-    {#<li id='orto10000base' class="list-group-item" data-val="kiev2006">#}
-    {#<span>{{ 'Ортофотоплани'|trans|raw }}, 2006</span></li>#}
-    {#<li id='tileLayer' class="list-group-item" data-val="tileLayer">#}
-    {#<span>{{ 'Супутниковий знімок'|trans|raw }}</span></li>#}
-    {#<li id='topoUA' class="list-group-item" data-val="topoUA">#}
-    {#<span>{{ 'Топографічна карта України'|trans }}</span></li>#}
-    {#<li id='osmBase' class="list-group-item" data-val="osm"><span>Open Street Map</span></li>#}
-    {#<li id='osmCycle' class="list-group-item" data-val="OpenCycleMap">#}
-    {#<span>Open Street Cycle Map</span></li>#}
-    {#<li id='googleSatelit' class="list-group-item" data-val="google"><span>Google Map</span>#}
-    {#</li>#}
-    {#<li id='googleHybrid' class="list-group-item" data-val="googlehybrid"><span>Google Hybrid</span>#}
-    {#</li>#}
-    {#<li id='emptyLayerR' class="list-group-item" data-val="emptyRelief">#}
-    {#<span>{{ 'Порожній шар (рельєф)'|trans }}</span></li>#}
-    {#<li id='emptyLayer' class="list-group-item" data-val="emptyLayer">#}
-    {#<span>{{ 'Порожній шар'|trans }}</span></li>#}
-    {#</ul>#}
-
-    {#</div>#}
-    {#</nav>#}
-    {#</div>#}
-    {#</div>#}
 
 {% endblock %}
 

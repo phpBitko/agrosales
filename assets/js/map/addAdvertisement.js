@@ -4,6 +4,7 @@ import Icon from "ol/style/Icon";
 import {Circle as CircleStyle, Fill, Stroke, Text} from "ol/style";
 import {Vector as VectorLayer} from "ol/layer";
 import {fromLonLat} from "ol/proj";
+import Feature from 'ol/Feature';
 
 import View from "ol/View";
 import Style from "ol/style/Style";
@@ -26,11 +27,15 @@ $(document).ready(function () {
     });
 
     //-------------------------------------------створюєм як буде виглядать іконка для відобреження ділянок(оголошень)
-    var svg = $('#icon_advertisement');
 
     var styleAdvert = new Style({
         image: new Icon({
-            src: 'data:image/svg+xml;utf8,' + svg[0].outerHTML,
+            src: '/bundles/app/img/maps-and-flags.png',
+        })
+    });
+    var styleAdvertBlue = new Style({
+        image: new Icon({
+            src: '/bundles/app/img/maps-and-flags-blue.png',
         })
     });
 
@@ -50,6 +55,7 @@ $(document).ready(function () {
             })
         })
     });
+
 
     function setStyleCluster(size, colorFill, colorStroke) {
 
@@ -78,14 +84,15 @@ $(document).ready(function () {
 
     };
 
-
-
+//------------------------------- обробка кнопок фільтра
     $('#filter-submit').on('click', function () {
-
         var formData = new FormData($('[name = "item_filter"]')[0]);
-
         getFilterAdvertisement(formData);
+    });
 
+    $('.filter-clear').on('click', function () {
+        getFilterAdvertisement();
+        $('[name = "item_filter"]')[0].reset();
     });
 
 
@@ -155,16 +162,14 @@ $(document).ready(function () {
                             style = setStyleCluster(size, colorFill, colorStroke);
                             styleCache[size] = style;
                         } else {
-                            style = stylePoints;
+                            style = styleAdvert;
                             styleCache[size] = style;
                         }
                     }
-
                     return style;
                 },
 
             });
-
             mapSales.addLayer(vectorPoints);
 
         } else {
@@ -172,8 +177,10 @@ $(document).ready(function () {
             vectorPoints = ifLayerExist('pointAdvertisement');
             vectorPoints.setSource(clusterSource);
 
+            if (vectorSourcePoints.getFeatures().length) {
+                feature.zoomToFeature(vectorSourcePoints);
+            }
         }
-
     }
 
     //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
@@ -185,6 +192,7 @@ $(document).ready(function () {
                 featureProjection: 'EPSG:3857'
             });
             features.set('id', value.id);
+            features.setId(value.id);
             vectorSourcePoints.addFeature(features);
 
         });
@@ -241,10 +249,9 @@ $(document).ready(function () {
     mapSales.on('click', function (evt) {
 
         var featureIcon = mapSales.forEachFeatureAtPixel(evt.pixel, function (featureIcon) {
+            return featureIcon;
 
-                return featureIcon;
-
-            });
+        });
 
         if (featureIcon && (!$('#control-panel-area').hasClass('active')) && (!$('#control-panel-ruler').hasClass('active'))) {
 
@@ -257,14 +264,12 @@ $(document).ready(function () {
                 var arrayClaster = idAdvertisement.features;
 
                 if (arrayClaster.length === 1) {
-
                     idAdvertisement = arrayClaster[0].getProperties();
 
                     if (idAdvertisement.hasOwnProperty('id')) {
                         getDetailsAdvertisement(idAdvertisement.id);
                     }
                 } else {
-
                     var view = mapSales.getView();
 
                     view.animate({
@@ -328,7 +333,7 @@ $(document).ready(function () {
 
     //--- запит для отримання даних фільтру, бандл FOSjsroutingbundle
 
-    function getFilterAdvertisement(formData) {
+    function getFilterAdvertisement(formData = []) {
 
         $.ajax({
             url: Routing.generate('map_filter_advertisement'),
@@ -360,33 +365,14 @@ $(document).ready(function () {
         });
     }
 
-
     getAllAdvertisement();
-
 
     if ($('.map-details-head').length) {
         if ($('.map-details-info').hasClass('hidden')) {
             $('.map-details-info').removeClass('hidden')
         }
         if ($('#map-properties-geom').text() !== undefined && $('#map-properties-geom').text() !== '') {
-            // var wkt = new WKT();
-            // var view = new View;
-            var style = new Style({
-                fill: new Fill({
-                    color: 'rgba(255, 255, 255, 0.2)'
-                }),
-                stroke: new Stroke({
-                    color: '#f4820b',
-                    width: 2
-                }),
-                image: new CircleStyle({
-                    radius: 5,
-                    fill: new Fill({
-                        color: '#f4820b'
-                    })
-                })
-            });
-            feature.zoomToFeature($('#map-properties-geom').text());
+            feature.zoomToFeatureWKT($('#map-properties-geom').text());
         }
     }
 

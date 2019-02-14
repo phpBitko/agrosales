@@ -6,10 +6,9 @@ $(document).ready(function()  {
         $('.choose-layer li').removeClass('active');
         $(this).addClass('active');
         var selected = $(this).attr('data-val');
-        //alert(selected);
+
         var artbaz = ['pub', 'osm', 'OpenCycleMap', 'google', 'googlehybrid', 'kiev2006', 'emptyRelief', 'emptyLayer', 'topoUA', 'tileLayer', 'bing'];
         mapSales.getLayers().forEach(function (l) {
-            //alert(l.get('name'))
 
             if (($.inArray(l.get('name'), artbaz)) > -1) {
 
@@ -17,11 +16,6 @@ $(document).ready(function()  {
                     l.setVisible(false);
 
                 } else {
-                    //     if (l.get('name') == 'OpenCycleMap' || l.get('name') == 'osm') {
-                    //         $('.osm-copyright').show();
-                    //     } else {
-                    //         $('.osm-copyright').hide();
-                    //     }
                     l.setVisible(true);
                 }
             }
@@ -42,18 +36,6 @@ $(document).ready(function()  {
         }
     });
 
-/*    $('#control-panel-filter').on('click', function () {
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
-            $('.map-filter').removeClass('move-in');
-            $('.map-filter').addClass('move-out');
-
-        } else {
-            $(this).addClass('active');
-            $('.map-filter').addClass('move-in');
-            $('.map-filter').removeClass('move-out');
-        }
-    });*/
 
     $('.choose-head .close').on('click', function () {
         $('.choose-layer').removeClass('choose-layer-move-in');
@@ -62,12 +44,6 @@ $(document).ready(function()  {
         $('#control-panel-layer').removeClass('active');
     });
 
-/*    $('.map-filter .box-header .close').on('click', function () {
-        $('.map-filter').removeClass('move-in');
-        $('.map-filter').addClass('move-out');
-
-        $('#control-panel-filter').removeClass('active');
-    });*/
 
         $('.map-filter').addClass('fixed');
 

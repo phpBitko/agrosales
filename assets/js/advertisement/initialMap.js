@@ -26,10 +26,9 @@ $(function () {
 
     //-------------------------------------------створюєм як буде виглядать іконка для відобреження ділянок(оголошень)
     if ($('#icon_advertisement').length > 0) {
-        var svg = $('#icon_advertisement');
         var styleAdvert = new Style({
             image: new Icon({
-                src: 'data:image/svg+xml;utf8,' + svg[0].outerHTML,
+                src: '/bundles/app/img/maps-and-flags.png',
             })
         });
     }

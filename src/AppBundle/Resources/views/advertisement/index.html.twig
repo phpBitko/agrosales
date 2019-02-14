@@ -15,8 +15,6 @@
     <div class="container">
         <div class="row">
             {{ include('@App/advertisement/filter.html.twig', { 'form': form }) }}
-
-            {#{{ app.request.queryString }}#}
             <div class="advertisement col-9">
                 <div class="advertisement-control-panel">
                     <div class="sorting-price">
@@ -26,37 +24,7 @@
                                 <div>{{ data.sortString }}</div>
                                 <div><i class="fas fa-caret-down"></i></div>
                             </button>
-                           {# {% set strQuery = app.request.queryString %}
-                            {% set strUrlParse = null %}
-                            #}{# {{ strQuery }}#}{#
-                            {{ strQuery|slice(0,9) }}
-                            {% if strQuery|slice(0,9) == 'direction' %}
-
-                                {% set strCutting = strQuery|split('&') %}
-
-                                #}{# {{ dump(strCutting) }}#}{#
-
-                                {% for key, item in strCutting %}
-                                    {{ item }}
-                                    {% if item|slice(0,4) == 'item' or item|slice(0,4) == 'subm' %}
-                                        {% set strUrlParse = strUrlParse ~ '&' ~ item %}
-                                    {% endif %}
-
-                                {% endfor %}
-                                #}{#  {{ dump(strUrlParse) }}#}{#
-
-                            {% else %}
-                                {% set strUrlParse =app.request.queryString %}
-
-                            {% endif %}
-#}
-
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {# <a href="{{ path('advertisement_index' , {'sort' : 'q.price', 'direction': 'asc'}) ~ (strUrlParse ? '&' ~
-                                 strUrlParse ) }}">Спочатку дешевші_</a>
-
-                                 <a href="{{ path('advertisement_index', {'sort' : 'q.price', 'direction': 'desc'})~ (app.request.queryString ? '&' ~
-                                 app.request.queryString ) }}">Спочатку дорожчі_</a>#}
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку дорожчі', 'q.price', {}, {'direction': 'desc'}) }}
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку дешевші', 'q.price', {}, {'direction': 'asc'}) }}
                                 {{ knp_pagination_sortable(advertisement, 'Спочатку менші за площею', 'q.area', {}, {'direction': 'asc'}) }}
@@ -66,7 +34,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="count">
                         Всього результатів: {{ advertisement.getTotalItemCount }}
