@@ -124,37 +124,25 @@ class MapController extends SuperController
      */
     public function getFilterAdvertisementAction(Request $request)
     {
-        //$adv = new Advertisement();
         $em = $this->getDoctrine()->getManager();
-
         $advertisement = $em->getRepository('AppBundle:Advertisement');
-
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
+
         try {
-
             if ($request->request->has($form->getName())) {           // manually bind values from the request
-
                 $form->submit($request->request->get($form->getName()));
 
-
-                // initialize a query builder
-
-                //$filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE']);
                 $filterBuilder = $advertisement->qbFindAllByNotNull('geom',0,self::STATUS_ADVERTISEMENT['ACTIVE']);
-
 
                 // build the query from the given form object
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
                 $query = $filterBuilder->getQuery();
-
 
             } else {
                 $qb = $advertisement->qbFindAllByNotNull('geom',0,self::STATUS_ADVERTISEMENT['ACTIVE']);
                 $query = $qb->getQuery();
             }
             $advertisement = $query->getResult();
-            dump($advertisement);
-
 
             if ($advertisement === null) {
                 throw new NotFoundHttpException();

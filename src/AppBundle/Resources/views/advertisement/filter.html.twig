@@ -13,7 +13,6 @@
         {{ form_start(form,{'method': 'POST'}) }}
     {% else %}
         {{ form_start(form,{'method': 'GET'}) }}
-        {# {{ dump(form_errors(form.price.left_number)) }}#}
     {% endif %}
     <div class="box box-solid">
         <div class="box-header">
@@ -21,18 +20,12 @@
                 <img src="{{ asset('bundles/app/img/filter-outline_white.png') }}">
             {% endif %}
             <div class="box-title">Фільтр</div>
-            {#            {% if strController == 'map' %}
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        {% endif %}#}
             <div class="box-tools">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
                 </button>
             </div>
         </div>
-        {# <button id="filter-submit" class="" type="button">фільтрувати</button>#}
 
         <div class="box-body no-padding">
             <div class="filter-result">
@@ -107,8 +100,15 @@
                     </div>
                 </li>
                 <li class="filter-btn">
-                    {% set strUri = app.request.requestUri|split('?', 2) %}
-                    <a class="btn-grey" href="{{ strUri[0] }} ">Очистити фільтр </a>
+                    {% if strController == 'map' %}
+                        {#  <a class="btn-grey filter-clear" href="">Очистити фільтр </a>#}
+                        <input value="Очистити фільтр" class="btn-grey filter-clear" type="button">
+                    {% else %}
+                        {% set strUri = app.request.requestUri|split('?', 2) %}
+
+                        <a class="btn-grey" href="{{ strUri[0] }}">Очистити фільтр </a>
+                    {% endif %}
+
                     <input id="filter-submit"
                             {% if strController == 'map' %}
                                 type="button"
@@ -119,6 +119,9 @@
                 </li>
 
             </ul>
+            {#            {% if strController == 'map' %}
+                            <div id="id-advertisement"></div>
+                        {% endif %}#}
         </div>
     </div>
     {{ form_end(form) }}

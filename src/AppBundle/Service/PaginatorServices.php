@@ -23,11 +23,4 @@ class PaginatorServices  extends BaseEmServices
         return $this->paginator->paginate($query, $page, $numItems);
     }
 
-
-
-
-
-
-
-
 }

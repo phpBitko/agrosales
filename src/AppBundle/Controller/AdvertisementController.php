@@ -33,13 +33,11 @@ class AdvertisementController extends SuperController
      */
     public function indexAction(Request $request, PaginatorServices $paginator, $typeView = 'list')
     {
-        //$adv = new Advertisement();
+
         $em = $this->getDoctrine()->getManager();
-        //$purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
         $advertisement = $em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
-
         $order = $this->getOrder($request);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
@@ -65,7 +63,6 @@ class AdvertisementController extends SuperController
             $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
 
         }
-
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
         $sortString = $this->parseSortString($request);
 
@@ -73,7 +70,6 @@ class AdvertisementController extends SuperController
             $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($request);
 
         }
-
         $data = compact('typeView', 'sortString', 'filterAttributes');
      
         return $this->render('AppBundle:advertisement:index.html.twig', array(
@@ -93,6 +89,7 @@ class AdvertisementController extends SuperController
      */
     public function advertisementDetailsAction(Request $request, Advertisement $advertisement)
     {
+        dump($this->container);
         if ($advertisement === null) {
             throw new NotFoundHttpException();
         }

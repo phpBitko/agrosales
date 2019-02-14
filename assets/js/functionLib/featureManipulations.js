@@ -1,4 +1,29 @@
 var feature = {
+
+    /**
+     * Зумує на обєкти features (дані в форматі VectorSource, обєкт - Map)
+     *
+     * @param vectorSourcePoints - ol/source/Vector~VectorSource
+     * @param map - ol/Map
+     *
+     * @return mixed
+     */
+
+    zoomToFeature: function (vectorSourcePoints, map = mapSales) {
+        try {
+            var view = map.getView();
+            if (vectorSourcePoints.getFeatures().length > 1) {
+                view.fit(vectorSourcePoints.getExtent(), {duration: 300});
+
+            } else {
+                view.fit(vectorSourcePoints.getExtent(), {minResolution: 5, duration: 300});
+            }
+        } catch (e) {
+            alert(e.message);
+        }
+    },
+
+
     /**
      * Зумує на обєкт feature (дані в форматі WKT, обєкт - Map)
      *
@@ -8,7 +33,7 @@ var feature = {
      * @return mixed
      */
 
-    zoomToFeature: function (dataWkt, map = mapSales) {
+    zoomToFeatureWKT: function (dataWkt, map = mapSales) {
         try {
             var features = objWkt.readFeature(dataWkt);
             var figure = features.getGeometry();
@@ -52,29 +77,29 @@ var feature = {
             } else {
                 alert("параметр style не є обєктом ol/Style, не можливо відобразити дані!");
             }
-            feature.zoomToFeature(dataWkt, map)
+            feature.zoomToFeatureWKT(dataWkt, map)
         } catch (e) {
             alert(e.message);
         }
 
     },
-/*
-    drawFeatureInDraw: function (dataWkt, style = '', map = mapSales) {
-        //console.log(style);
+    /*
+        drawFeatureInDraw: function (dataWkt, style = '', map = mapSales) {
+            //console.log(style);
 
-        var lSource = new sourceVectorGlobal();
-        var features = objWkt.readFeature(dataWkt);
-        //console.log(features);
-        lSource.addFeature(features);
-        var layer = new layerDrawGlobal({
-            type: 'Point',
-            source: lSource,
-            style: style,
+            var lSource = new sourceVectorGlobal();
+            var features = objWkt.readFeature(dataWkt);
+            //console.log(features);
+            lSource.addFeature(features);
+            var layer = new layerDrawGlobal({
+                type: 'Point',
+                source: lSource,
+                style: style,
 
-        });
-        map.addInteraction(layer);
-        feature.zoomToFeature(dataWkt, map)
-    },*/
+            });
+            map.addInteraction(layer);
+            feature.zoomToFeature(dataWkt, map)
+        },*/
 }
 
 module.exports = feature;
