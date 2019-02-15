@@ -1,6 +1,8 @@
 $(document).ready(function()  {
     //-------------------------------------------- ініціалізуєм bootstrap tooltip і змінюєм налаштування
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+    });
 
     $('.choose-layer li').on('click', function () {
         $('.choose-layer li').removeClass('active');

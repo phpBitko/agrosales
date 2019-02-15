@@ -30,12 +30,12 @@ $(document).ready(function () {
 
     var styleAdvert = new Style({
         image: new Icon({
-            src: '/bundles/app/img/maps-and-flags.png',
+            src: '/bundles/app/img/maps-andflags.png',
         })
     });
     var styleAdvertBlue = new Style({
         image: new Icon({
-            src: '/bundles/app/img/maps-and-flags-blue.png',
+            src: '/bundles/app/img/maps-and-flagsblue.png',
         })
     });
 
