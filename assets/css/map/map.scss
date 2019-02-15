@@ -26,18 +26,18 @@
   position: fixed;
   top: 62px;
 }
+
 .map-filter {
   width: 310px;
   position: fixed;
   padding: 1px 0px;
-  background-color: #ffffff;
+  background-color: #f1f1f1;
   top: 70px;
-  right: 60px;
+  right: calc(100vw - 337px);
+  //right: 60px;
   z-index: 10;
   font-size: 16px;
-
-  //transition: .2s ease-out;
-  //-webkit-transition: .2s ease-out;
+  box-shadow: 0px 1px 6px 0px #bfb8b8;
 }
 
 .choose-layer {
@@ -49,9 +49,6 @@
   right: -351px;
   z-index: 10;
   font-size: 16px;
-
-  //transition: .2s ease-out;
-  //-webkit-transition: .2s ease-out;
 }
 
 .choose-layer-move-in, .move-in {
@@ -155,7 +152,6 @@
   background-color: #cfebfc;
 }
 
-
 //------------------------------------------------------zoom panel
 .zoom-layer {
   width: 39px;
@@ -232,20 +228,20 @@
 
 }
 
-.cp-layer, .cp-ruler, .cp-filter, .cp-print, .cp-placeholder, .cp-area {
+.cp-layer, .cp-ruler, .cp-erase, .cp-print, .cp-placeholder, .cp-area {
   width: 35px;
   height: 35px;
   border: none;
   border-bottom: 1px solid #d8d7d7;
 }
 
-.cp-layer:hover, .cp-ruler:hover, .cp-filter:hover, .cp-print:hover, .cp-placeholder:hover, .cp-area:hover {
+.cp-layer:hover, .cp-ruler:hover, .cp-erase:hover, .cp-print:hover, .cp-placeholder:hover, .cp-area:hover {
   background-color: #aad4f5;
   cursor: pointer;
 
 }
 
-.cp-layer:focus, .cp-ruler:focus, .cp-filter:focus, .cp-print:focus, .cp-placeholder:focus, .cp-area:focus {
+.cp-layer:focus, .cp-ruler:focus, .cp-erase:focus, .cp-print:focus, .cp-placeholder:focus, .cp-area:focus {
   outline: none;
 }
 
@@ -257,8 +253,8 @@
   background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/ruler.png") no-repeat center;
 }
 
-.cp-filter {
-  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/filter-outline.png") no-repeat center;
+.cp-erase {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/eraser.png") no-repeat center;
 }
 
 .cp-print {
@@ -333,27 +329,29 @@ $mouse-position-height: 28px;
 .modal-header {
   flex-direction: row-reverse;
 }
+
 .start-position {
-  top: 81px;
-  right: calc(100vw - 316px);
+  top: 70px;
+  //right: calc(100vw - 337px);
+  right: 60px;
 }
 
 .map-details-info {
-  background-color: white;
-  padding: 3px;
-  width: 300px;
+  background-color: #f1f1f1;
+  padding: 1px 0;
+  width: 310px;
   position: fixed;
   z-index: 11;
+  box-shadow: 0px 1px 6px 0px #bfb8b8;
   &:hover {
-    cursor:default !important;
+    cursor: default !important;
   }
   .map-details-head {
     width: 100%;
-    height: 31px;
+    height: 35px;
     color: #f9f7f6;
-    background-color: #014656;
-    padding: 3px 9px 2px 7px;
-    margin-bottom: 2px;
+    background-color: #11577f;
+    padding: 6px 9px 2px 5px;
     .move-left {
       border: none;
       background: none;
@@ -377,7 +375,7 @@ $mouse-position-height: 28px;
     width: 100%;
   }
 
-  $height-slider: 187px; //-------------------висота слайдера
+  $height-slider: 206px; //-------------------висота слайдера
   #carouselMapControls {
     .carousel-inner {
       width: 100%;
@@ -390,7 +388,7 @@ $mouse-position-height: 28px;
 
       img {
         max-height: $height-slider;
-        max-width: 282px;
+        max-width: 310px;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -411,12 +409,13 @@ $mouse-position-height: 28px;
   }
 
   .map-provision {
-    margin-top: 25px;
     display: flex;
     justify-content: space-around;
-    width: 100%;
+    margin: 0 5px;
+    border-bottom: 1px solid #d5d5d5;
+    padding: 10px 0;
+
     div {
-      //width: 32px;
       background-color: #f1f1f1;
       margin-right: 0;
       padding: 8px;
@@ -428,16 +427,16 @@ $mouse-position-height: 28px;
       border: 2px solid #7bd74a;
     }
   }
-  .map-line {
-    border-top: 1px solid #8c8b8b;
-    border-bottom: 1px solid #fff;
+  .map-purpose {
+    margin: 0 7px;
+    padding: 10px 0;
+    border-bottom: 1px solid #d5d5d5;
   }
   .map-main {
     display: flex;
     flex-wrap: wrap;
     background-color: #f1f1f1;
     width: 100%;
-    margin-top: 20px;
     .map-main-caption {
       padding: 20px 0 20px 15px;
       width: 40%;
@@ -469,12 +468,12 @@ $mouse-position-height: 28px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    padding-bottom: 2px;
+    padding-bottom: 7px;
 
     .advertisement-properties-button {
       color: $base-color;
       text-align: center;
-      width: 82%;
+      width: 78%;
       display: block;
       height: 35px;
       border-radius: 0.2rem 0rem 0rem 0.2rem;
@@ -513,10 +512,9 @@ $mouse-position-height: 28px;
       }
     }
   }
-  #map-properties-geom {
+  #map-properties-geom  {
     visibility: hidden;
     height: 0;
   }
-
 
 }

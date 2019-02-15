@@ -2,7 +2,7 @@
     <img src="{{ asset('bundles/app/img/information.png') }}">
     Інформація про ділянку
     <button type="button" class="move-left hidden" aria-label="move">
-        <span class="fas fa-angle-double-left"></span>
+        <span class="fas fa-angle-double-right"></span>
     </button>
     <button type="button" class="close" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -73,9 +73,9 @@
              alt="">
     </div>
 </div>
-<hr class="map-line">
-<div> {{ advertisementDetails.dirPurpose ? advertisementDetails.dirPurpose.text: 'Не вказано цільове призначення' }}</div>
-<hr class="map-line">
+
+<div class="map-purpose"> {{ advertisementDetails.dirPurpose ? advertisementDetails.dirPurpose.text: 'Не вказано цільове призначення' }}</div>
+
 <div class="map-main">
     <div class="map-main-caption">
         <div>Площа:</div>

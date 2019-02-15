@@ -58,8 +58,9 @@ $(function () {
     //------------------------------vector layer for measure
     var source = new VectorSource();
 
-    var vector = new VectorLayer({
+    var vectorDraw = new VectorLayer({
         source: source,
+        name: 'draw',
         style: new Style({
             fill: new Fill({
                 color: 'rgba(255, 255, 255, 0.2)'
@@ -139,8 +140,6 @@ $(function () {
         /** @type {string} */
         var helpMsg = 'Натисність для початку рисування';
 
-        //console.log(sketch.getGeometry());
-
         if (sketch) {
             var geom = (sketch.getGeometry());
 
@@ -156,7 +155,7 @@ $(function () {
 
         helpTooltipElement.classList.remove('hidden');
     };
-    mapSales.addLayer(vector);
+    mapSales.addLayer(vectorDraw);
 
     var key;
 
@@ -167,9 +166,7 @@ $(function () {
         helpTooltipElement.classList.add('hidden');
     });
 
-
     var draw; // global so we can remove it later
-
 
     /**
      * Format length output.
@@ -214,6 +211,7 @@ $(function () {
         draw = new Draw({
             source: source,
             type: type,
+
             style: new Style({
                 fill: new Fill({
                     color: 'rgba(255, 255, 255, 0.2)'
@@ -279,6 +277,7 @@ $(function () {
     function createHelpTooltip() {
         if (helpTooltipElement) {
             helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+
         }
         helpTooltipElement = document.createElement('div');
         helpTooltipElement.className = 'tooltip hidden';
@@ -350,6 +349,7 @@ $(function () {
 
     $('#control-panel-area').on('click', function () {
         startMeasure($('#control-panel-area'));
+
     });
 
     $('#control-panel-ruler').on('click', function () {
@@ -357,6 +357,17 @@ $(function () {
 
     });
 
+    $('#control-panel-erase').on('click', function () {
+        var collection = mapSales.getOverlays();
+        collection.clear();
+        vectorDraw.getSource().clear();
+        createMeasureTooltip();
+        createHelpTooltip();
+
+
+
+
+    });
 
 
 });

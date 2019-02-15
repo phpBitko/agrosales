@@ -6,5 +6,6 @@ $(function () {
     });
 
     $('.advertisement-filter').removeClass('col-3');
+    $('.box').removeClass('hidden');
 
 })

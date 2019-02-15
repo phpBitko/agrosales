@@ -3,9 +3,7 @@
   .filter-price input#slider-price, .filter-area input#slider-area {
    display: none;
   }
-/*  #ex1Slider .slider-selection, #ex2Slider .slider-selection {
-    background: #BABABA;
-  }*/
+
   .box {
     background-color: #f1f1f1;
     .box-tools {
@@ -76,45 +74,6 @@
       }
 
       .filter-price, .filter-area {
-/*        .slider {
-          width: 90%;
-          margin: 0 auto;
-          margin-top: 10px;
-
-          .slider-track {
-            height: 7px;
-          }
-          .slider-handle {
-            top: 0;
-            width: 15px;
-            height: 15px;
-            border: 1px solid #A3A3A3;
-            background-color: #bababa;
-            background-image: -webkit-linear-gradient(top, #bababa 0%, #bababa 100%);
-            background-image: -o-linear-gradient(top, #bababa 0%, #bababa 100%);
-
-          }
-          .slider-tick {
-            top: 2px;
-            width: 12px;
-            height: 12px;
-          }
-          .slider-selection {
-            top: -1px;
-          }
-          .in-selection {
-            background-color: #d8d8d8;
-            background-image: -webkit-linear-gradient(top, #d8d8d8 0%, #d8d8d8 100%);
-            background-image: -o-linear-gradient(top, #d8d8d8 0%, #d8d8d8 100%);
-          }
-          .slider-tick-label:last-child {
-            left: 96% !important;
-          }
-          .slider-tick-label {
-            padding-top: 0;
-          }
-        }*/
-
         div {
           display: flex;
           flex-wrap: wrap;
@@ -248,7 +207,6 @@
       }
 
       ul {
-        padding-bottom: 15px;
         margin-top: 10px;
         li {
           padding-top: 10px;
