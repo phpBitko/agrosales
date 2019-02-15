@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Repository\MyTrait\AdminTrait;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Repository\MyTrait\GeometryTrait;
 use AppBundle\Entity\Advertisement;
@@ -15,6 +16,7 @@ use AppBundle\Entity\Advertisement;
 class MessagesRepository extends EntityRepository
 {
     use GeometryTrait;
+    use AdminTrait;
 
 
     public function getCountNotViewMessages(int $idUser, int $status = 0){

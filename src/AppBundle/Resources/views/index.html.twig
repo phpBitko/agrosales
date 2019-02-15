@@ -53,19 +53,13 @@
                         {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 {% if  is_granted('ROLE_ADMIN') %}
-                                    <a class="nav-link main-menu
-                                        {% if app.request.attributes.get("_route")|slice(0, 5) == 'admin' %}
-                                            active
-                                        {% endif %}
-                                         "   href="{{ path('admin_index') }}">
+                                    <a class="nav-link main-menu {{ app.request.attributes.get("_route")|slice(0, 5) == 'admin' ? 'active'}}"
+                                       href="{{ path('admin.advertisement_get_advertisement') }}">
                                         <i class="fas fa-tools"></i>{{ 'Панель адміністратора' }}
                                     </a>
                                 {% else %}
-                                    <a class="nav-link main-menu
-                                        {% if app.request.attributes.get("_route")|slice(0, 7) == 'cabinet' %}
-                                            active
-                                        {% endif %}
-                                         "   href="{{ path('cabinet_index') }}">
+                                    <a class="nav-link main-menu {{ app.request.attributes.get('_route')|slice(0, 7) == 'cabinet' ? 'active'}}"
+                                       href="{{ path('cabinet_index') }}">
                                         <i class="fas fa-tools"></i>
                                         {{ 'Кабінет' }}
                                     </a>

@@ -30,23 +30,26 @@
 
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu" data-widget="tree">
+                <ul class="sidebar-menu tree" data-widget="tree">
                     <li class="header">Навігація по розділам</li>
-                    <li class="treeview menu-open">
+                    <li class=" {{ app.request.attributes.get("_route") == 'cabinet_index' ? 'active' }}">
+                        <a href="{{ path('cabinet_index') }}">
+                            <i class="fas fa-home"></i> <span>Домашня сторінка</span>
+                        </a>
+                    </li>
+                    <li class="treeview  {{ app.request.attributes.get('_route')|slice(0, 28) == 'cabinet_get_my_advertisement' ? 'menu-open'}} ">
                         <a href="#">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Оголошення</span>
                             <span class="pull-right-container">
-              <i class="fas fa-angle-left pull-right"></i>
-            </span>
+                                <i class="fas fa-angle-left pull-right"></i>
+                            </span>
                         </a>
-                        <ul class="treeview-menu" style="display: block">
-                            <li class="{{ app.request.attributes.get("_route") == 'cabinet_get_my_advertisement' ? 'active' }}">
-                                <a href="#"><i class="far fa-circle"></i> Переглянути оголошення</a>
-                                <ul class="treeview-menu" style="display: block">
-                                    <li class=" {{ app.request.attributes.get("selected") == 'active' ? 'active' }}">
+
+                        <ul class="treeview-menu sub-menu-1" {{ app.request.attributes.get('_route')|slice(0, 28) == 'cabinet_get_my_advertisement' ? 'style="display:block"'}} >
+                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'active' ? 'active' }}">
                                         <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'active'}) }}">
-                                            <i class="far fa-circle"></i>
+
                                             <span>Активні</span>
                                             <span class="pull-right-container">
                                                 {%  if  data.countNotViewMessages['1'] is defined %}
@@ -60,9 +63,9 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li class=" {{ app.request.attributes.get("selected") == 'pending' ? 'active' }}">
+                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'pending' ? 'active' }}">
                                         <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'pending'}) }}">
-                                            <i class="far fa-circle"></i>
+
                                             <span>На розгляді</span>
                                             <span class="pull-right-container">
                                                 {%  if  data.countNotViewMessages['2'] is defined %}
@@ -76,9 +79,9 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li class=" {{ app.request.attributes.get("selected") == 'deactivated' ? 'active' }}">
+                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'deactivated' ? 'active' }}">
                                         <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'deactivated'}) }}">
-                                            <i class="far fa-circle"></i>
+
                                             <span> Деактивовані</span>
                                             <span class="pull-right-container">
                                               {%  if  data.countNotViewMessages['4'] is defined %}
@@ -92,9 +95,9 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li class=" {{ app.request.attributes.get("selected") == 'reject' ? 'active' }}">
+                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'reject' ? 'active' }}">
                                         <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'reject'}) }}">
-                                            <i class="far fa-circle"></i>
+
                                             <span>На доопрацюванні</span>
                                             <span class="pull-right-container">
                                                 {%  if  data.countNotViewMessages['3'] is defined %}
@@ -108,16 +111,18 @@
                                             </span>
                                         </a>
                                     </li>
-                                </ul>
-                            </li>
-                            <li class="
-                            {% if app.request.attributes.get("_route") == 'cabinet_create_advertisement' %}
-                                 active
-                            {% endif %}
-                        "><a href="{{ path('cabinet_create_advertisement') }}"><i class="far fa-circle"></i> Створити
-                                    оголошення</a></li>
                         </ul>
                     </li>
+                    <li class="{% if app.request.attributes.get("_route") == 'cabinet_create_advertisement' %}
+                                     active
+                                {% endif %}">
+
+
+                            <a href="{{ path('cabinet_create_advertisement') }}"><i class="far fa-plus-square"></i>
+                                Створити оголошення</a>
+
+                    </li>
+
                 </ul>
             </section>
             <!-- /.sidebar -->

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ParseFilterServices
 {
+
     /**
      * Парсить строку url з параметрами, та готує дані для відображення параметрів фільтрації
      *

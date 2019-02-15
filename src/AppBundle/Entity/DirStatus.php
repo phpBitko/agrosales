@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * DirStatus
  *
  * @ORM\Table(name="dir_status")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DirStatusRepository")
  */
 class DirStatus
 {

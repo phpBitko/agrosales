@@ -22,17 +22,18 @@
     <!-- =============================================== -->
 
     {% block main_sidebar %}
-    <!-- Left side column. contains the sidebar -->
     <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-            <!-- Sidebar user panel -->
-            <!-- search form -->
-
-            <!-- /.search form -->
-            <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">Навігація по розділам</li>
+                <li class=" {{ app.request.attributes.get('_route')|slice(6, 13) == 'advertisement' ? 'menu-open' }}">
+                    <a href="#">
+                        <i class="fas fa-home"></i> <span>Домашня сторінка</span>
+                        <span class="pull-right-container">
+                            <i class="fas fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
                 <li class="treeview {{ app.request.attributes.get('_route')|slice(6, 13) == 'advertisement' ? 'menu-open' }}">
                     <a href="#">
                         <i class="fas fa-clipboard-list"></i> <span>Оголошення</span>
@@ -40,14 +41,13 @@
                             <i class="fas fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu" {{ app.request.attributes.get('_route')|slice(6, 13) == 'advertisement' ? 'style="display:block"' }}>
-                        <li class="
+                    <ul class="treeview-menu sub-menu-1" {{ app.request.attributes.get('_route')|slice(6, 13) == 'advertisement' ? 'style="display:block"' }}>
+                        <li class="sub-menu-select
                             {% if app.request.attributes.get("_route") == 'admin.advertisement_get_advertisement' %}
                                  active
                             {% endif %}
-                            "><a href="{{ path('admin.advertisement_get_advertisement') }}"><i class="far fa-circle"></i> Переглянути оголошення</a></li>
+                            "><a href="{{ path('admin.advertisement_get_advertisement') }}">Переглянути оголошення</a></li>
                     </ul>
-
                 </li>
 
                 <li class="treeview {{ app.request.attributes.get('_route')|slice(6, 5) == 'users' ? 'menu-open' }}">
@@ -57,10 +57,30 @@
                                 <i class="fas fa-angle-left pull-right"></i>
                             </span>
                     </a>
-                    <ul class="treeview-menu" {{ app.request.attributes.get('_route')|slice(6, 5) == 'users' ? 'style="display:block"' }} >
-                        <li class=" {{  (app.request.attributes.get('_route') == 'admin.users_get_users') ? 'active' }}">
+                    <ul class="treeview-menu sub-menu-1" {{ app.request.attributes.get('_route')|slice(6, 5) == 'users' ? 'style="display:block"' }} >
+                        <li class="sub-menu-select {{  (app.request.attributes.get('_route') == 'admin.users_get_users') ? 'active' }}">
                             <a href="{{ path('admin.users_get_users') }}">
-                                <i class="far fa-circle"></i> Список користувачів
+                                Список користувачів
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ app.request.attributes.get('_route')|slice(6, 5) == 'table' ? 'menu-open' }}">
+                    <a href="#">
+                        <i class="fas fa-table"></i> <span>Таблиці</span>
+                        <span class="pull-right-container">
+                                <i class="fas fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu  sub-menu-1" {{ app.request.attributes.get('_route')|slice(6, 5) == 'table' ? 'style="display:block"' }} >
+                        <li class="sub-menu-select {{  (app.request.attributes.get('_route') == 'admin.table_get_status') ? 'active' }}">
+                            <a href="{{ path('admin.table_get_status') }}">
+                               Статуси оголошень
+                            </a>
+                        </li>
+                        <li class="sub-menu-select {{  (app.request.attributes.get('_route') == 'admin.table_get_message') ? 'active' }}">
+                            <a href="{{ path('admin.table_get_message') }}">
+                                Повідомлення
                             </a>
                         </li>
                     </ul>

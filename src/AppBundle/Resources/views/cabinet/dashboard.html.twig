@@ -1,0 +1,88 @@
+{% extends 'AppBundle:cabinet:index.html.twig' %}
+
+
+{% block body %}
+    <div class="wrapper">
+        {% block main_sidebar %}
+            {{ parent() }}
+        {% endblock %}
+        {% block content_wrapper %}
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        Домашня сторінка
+                    </h1>
+                </section>
+                <section class="content">
+                    <div class="row">
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>{{ data.countAdvertisement.countAll }}</h3>
+                                    <p>Всього оголошень</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <a href="{{ path('cabinet_get_my_advertisement', {'selected':'active'}) }}" class="small-box-footer">Детальніше &nbsp; <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>53</h3>
+                                    <p>Кількість переглядів</p>
+                                </div>
+                                <div class="icon">
+                                    <i class=" "></i>
+                                </div>
+                                <a href="#" class="small-box-footer">Детальніше &nbsp; <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>44</h3>
+
+                                    <p>User Registrations</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-red">
+                                <div class="inner">
+                                    <h3>65</h3>
+
+                                    <p>Unique Visitors</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-pie-graph"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                    </div>
+
+
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
+            </div>
+        {% endblock %}
+    </div>
+
+{% endblock %}

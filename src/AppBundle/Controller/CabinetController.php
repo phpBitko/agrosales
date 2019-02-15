@@ -29,8 +29,8 @@ class CabinetController extends SuperController
      */
     public function indexAction()
     {
-
-        return $this->redirectToRoute('cabinet_get_my_advertisement', ['selected' => 'active']);
+        $data = $this->getDataForSidebar();
+        return $this->render('AppBundle:cabinet:dashboard.html.twig', ['data'=>$data]);
     }
 
 
@@ -253,11 +253,14 @@ class CabinetController extends SuperController
         $countAdvertisement = $em->getRepository('AppBundle:Advertisement')->getCountAdvertisementByStatus($this->getUser()->getId());
 
         $data['countAdvertisement'] = [];
+        $countAll = 0;
         if (is_array($countAdvertisement)) {
             foreach ($countAdvertisement as $k => $v) {
                 $data['countAdvertisement'][$v['id']] = $v;
+                $countAll += $v['count'];
             }
         }
+        $data['countAdvertisement']['countAll'] = $countAll;
 
         $countNotViewMessages = $em->getRepository('AppBundle:Messages')->getCountNotViewMessages($this->getUser()->getId());
         $data['countNotViewMessages'] = [];

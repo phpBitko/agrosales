@@ -13,6 +13,29 @@
   }
 }
 
+.sub-menu-1{
+  .sub-menu-select.active{
+    border-left: 3px solid #3c8dbc;
+    margin-left: -5px;
+    padding-left: 0px;
+  }
+}
+
+.sub-menu-2{
+  li.active{
+    border-left: 3px solid #3c8dbc;
+    margin-left: -26px;
+    padding-left: 20px;
+  }
+}
+
+.icon{
+  i{
+   padding-top: 18px;
+  }
+}
+
+
 #tab-my-advertisement{
   .nav-link {
     color: $text-color;
@@ -142,7 +165,7 @@ tr{
 tbody tr{
   &:hover{
     border: solid 1px white;
-    box-shadow: 0px 1px 6px 0px #bfb8b8;
+    box-shadow: 0px 1px 4px 0px #bfb8b8;
   }
 }
 

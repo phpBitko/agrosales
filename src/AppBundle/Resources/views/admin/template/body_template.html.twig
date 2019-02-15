@@ -1,0 +1,96 @@
+{% extends 'AppBundle:admin:index.html.twig' %}
+
+{% block body %}
+    <div class="wrapper">
+        {% block main_sidebar %}
+            {{ parent() }}
+        {% endblock %}
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    {{ options.main_menu_alias is defined ? options.main_menu_alias }}
+                </h1>
+            </section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-success">
+                            <div class="box-header">
+                                <h3 class="box-title"> {{ options.sub_menu_alias is defined ? options.sub_menu_alias }}</h3>
+                            </div>
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="pad margin no-print">
+                                        <div class="callout callout-{{ label }} flash-{{ label }}"
+                                             style="margin-bottom: 0!important;">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th class="w-5 text-center align-middle">№ з/п</th>
+                                                {% for column in fieldOptions %}
+                                                    <th class="text-center align-middle {{ column.attr.class_head is defined ? column.attr.class_head }} ">{{ column.label }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% set counter = (data.getCurrentPageNumber-1)*(data.getItemNumberPerPage) %}
+                                            {% for items in data %}
+                                                {% set counter = ( counter | default(0) ) + 1 %}
+                                                <tr class="admin_table_column">
+                                                    <th class="font-light text-center align-middle" scope="row">
+                                                        {{ counter }}
+                                                    </th>
+                                                    {% for key, column in items %}
+                                                        {% if key != 'id' %}
+                                                            <th class="{{ fieldOptions[key].attr.class_column is defined ? fieldOptions[key].attr.class_column }} font-light align-middle "
+                                                                scope="row">
+                                                                {% if column is iterable and column is not empty %}
+                                                                    {{ column|join(',') }}
+                                                                {% else %}
+                                                                    {% if column is same as (true) %}
+                                                                        <span class="label label-success">так</span>
+                                                                    {% elseif  column is same as (false) %}
+                                                                        <span class="label label-danger">ні</span>
+                                                                    {% else %}
+                                                                        {% if column is of_type('date') %}
+                                                                            {{ column|date('m:s  d.m.Y') }}
+                                                                        {% else %}
+                                                                            {{ column is not empty ? column : '-'}}
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </th>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                        <div class="row col-12 justify-content-center">
+                                            <div class="navigation  text-center">
+                                                {{ knp_pagination_render(data) }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

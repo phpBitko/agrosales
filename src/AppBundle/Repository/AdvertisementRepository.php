@@ -116,9 +116,9 @@ class AdvertisementRepository extends EntityRepository
      * @param array $order
      * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
      */
-    public function queryFindByStatus($status = null, $order = ['addDate' => 'DESC'])
+    public function queryFindByStatus($status = null, $order = ['addDate' => 'DESC'], $user = null)
     {
-        $qb = $this->qbFindByStatus($status, $order);
+        $qb = $this->qbFindByStatus($status, $order, $user);
 
         return $qb->getQuery();
     }
@@ -129,20 +129,26 @@ class AdvertisementRepository extends EntityRepository
      * @param array $order
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function qbFindByStatus($status = null, $order = ['addDate' => 'DESC'])
+    public function qbFindByStatus($status = null, $order = ['addDate' => 'DESC'], $user = null)
     {
-
         $qb = $this->createQueryBuilder('q');
+
         if (!empty($status)) {
             $qb->andWhere("q.dirStatus = :STATUS")
                 ->setParameter(':STATUS', $status);
         }
 
-        foreach ($order as $field => $sort) {
-            $qb->addSelect("CASE WHEN q.$field IS NULL THEN 1 ELSE 0 END as HIDDEN ".$field."_is_null")
-                ->addOrderBy($field."_is_null", 'ASC')
-                ->addOrderBy("q." . $field, $sort);
+        if (!empty($user)) {
+            $qb->andWhere("q.idUser = :USER")
+                ->setParameter(':USER', $user);
         }
+
+        foreach ($order as $field => $sort) {
+            $qb->addSelect("CASE WHEN q.$field IS NULL THEN 1 ELSE 0 END as HIDDEN ".$field."_is_null");
+            $qb->addOrderBy($field."_is_null", 'ASC');
+            $qb->addOrderBy("q." . $field, $sort);
+        }
+
 
         return $qb;
     }

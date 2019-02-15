@@ -1,7 +1,7 @@
 @import '../generalSettings';
 @import '../cabinet/cabinet';
 
-.advertisement_one {
+.admin_table_column {
   img {
     max-height: 150px;
   }
@@ -121,10 +121,6 @@ form{
 
 .content-wrapper{
   min-height: auto !important;
-}
-
-.treeview.menu-open .treeview-menu{
-  //  display: block;
 }
 
 .fa-circle{

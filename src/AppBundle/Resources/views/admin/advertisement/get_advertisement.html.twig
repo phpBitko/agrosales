@@ -22,7 +22,6 @@
                                 </div>
                                 <div class="admin-filter">
 
-
                                 </div>
                                 {% for label, messages in app.flashes %}
                                     {% for message in messages %}
@@ -52,7 +51,7 @@
                                                 Всього результатів: {{ advertisements.getTotalItemCount }}
                                                 </div>
                                             </div>
-                                        {{ form_end(formFilter) }}
+
                                         </div>
                                         <div>
                                             <table class="my_advertisement_table table ">
@@ -69,6 +68,8 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
+
+
                                                {# {% set counter = (pager.page-1)*(pager.numItems) %}#}
                                                 {% for advertisement in advertisements %}
                                                     {% set counter = ( counter | default(0) ) + 1 %}
