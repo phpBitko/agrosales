@@ -201,7 +201,7 @@ $(document).ready(function () {
 
     $('.map-details-info').draggable({
         stop: function () {
-            $('.move-left').removeClass('hidden');
+            $('.move-right').removeClass('hidden');
         }
     });
 

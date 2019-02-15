@@ -28,20 +28,24 @@ $(document).ready(function()  {
             $(this).removeClass('active');
             $('.choose-layer').removeClass('choose-layer-move-in');
             $('.choose-layer').addClass('choose-layer-move-out');
+            $('.map-details-info').removeClass('move-position');
+
 
         } else {
             $(this).addClass('active');
             $('.choose-layer').addClass('choose-layer-move-in');
             $('.choose-layer').removeClass('choose-layer-move-out');
+            $('.map-details-info').addClass('move-position');
         }
+
     });
 
 
     $('.choose-head .close').on('click', function () {
         $('.choose-layer').removeClass('choose-layer-move-in');
         $('.choose-layer').addClass('choose-layer-move-out');
-
         $('#control-panel-layer').removeClass('active');
+        $('.map-details-info').removeClass('move-position');
     });
 
 
@@ -53,10 +57,12 @@ $(document).ready(function()  {
     $('body').on('click', '.map-details-info .close', function () {
         $('.map-details-info').addClass('hidden');
 
+
     });
-    $('body').on('click', '.map-details-info .move-left', function () {
+
+    $('body').on('click', '.map-details-info .move-right', function () {
         $('.map-details-info').removeAttr("style");
-        $('.move-left').addClass('hidden');
+        $('.move-right').addClass('hidden');
      });
 
     $('.carousel').carousel({

@@ -335,6 +335,11 @@ $mouse-position-height: 28px;
   //right: calc(100vw - 337px);
   right: 60px;
 }
+.move-position {
+  top: 70px;
+  //right: calc(100vw - 337px);
+  right: 258px;
+}
 
 .map-details-info {
   background-color: #f1f1f1;
@@ -343,6 +348,7 @@ $mouse-position-height: 28px;
   position: fixed;
   z-index: 11;
   box-shadow: 0px 1px 6px 0px #bfb8b8;
+  transition: .4s ease ;
   &:hover {
     cursor: default !important;
   }
@@ -352,7 +358,7 @@ $mouse-position-height: 28px;
     color: #f9f7f6;
     background-color: #11577f;
     padding: 6px 9px 2px 5px;
-    .move-left {
+    .move-right {
       border: none;
       background: none;
       color: #000;
