@@ -7,7 +7,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: uk
-    app_locales: uk
+    app_locales: uk|ru
     photos_directory: '%kernel.root_dir%/../src/AppBundle/resources/public/picture/move/'
 
 framework:

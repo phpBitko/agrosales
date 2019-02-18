@@ -39,7 +39,7 @@
                             {% if app.request.attributes.get("_route")|slice(0, 13) == 'advertisement' %}
                                 active
                             {% endif %}
-                            " href="{{ path('advertisement_index') }}"><i class="far fa-list-alt"></i>Оголошення</a>
+                            " href="{{ path('advertisement_index') }}"><i class="far fa-list-alt"></i>{{'Оголошення'|trans}}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu
@@ -73,6 +73,18 @@
 
                     {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                         <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a href="{{path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'uk'})) }}"
+                                   class="main-menu nav-link {{  app.request.locale == app.request.defaultLocale ? 'active'}}">
+                                    UA
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'ru'})) }}"
+                                   class="main-menu nav-link {{  app.request.locale == 'ru' ? 'active'}}">
+                                    RU
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">
                                     <i class="fas fa-sign-out-alt"></i>Вийти, {{ app.user.username }}</a>
@@ -125,7 +137,6 @@
                                         </a>
                                     {% else %}
                                         <a href="{{ path('cabinet_index') }}">
-                                            <i class="fa fa-info"></i>
                                             {{ 'Кабінет' }}
                                         </a>
                                     {% endif %}
