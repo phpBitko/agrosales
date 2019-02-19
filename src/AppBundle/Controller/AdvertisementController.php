@@ -93,17 +93,19 @@ class AdvertisementController extends SuperController
         $formView = null;
 
         //Додаємо інформацію про перегляди
-        $viewInfo = new ViewInfo();
         $viewInfoRepository = $this->em->getRepository('AppBundle:ViewInfo');
 
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
             !$viewInfoRepository->findOneBy(['advertisement'=>$advertisement, 'ip'=>$request->getClientIp()])){
+
+            $viewInfo = new ViewInfo();
 
             $viewInfo->setIp($request->getClientIp())->setAdvertisement($advertisement);
             $this->em->persist($viewInfo);
 
             $advertisement->setViewCount($advertisement->getViewCount()+1);
             $this->em->persist($advertisement);
+            $this->em->flush();
         }
 
 
