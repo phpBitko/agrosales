@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Controller;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 //use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,6 +24,20 @@ class SuperController extends Controller
         'DEACTIVATED' => 4
     ];
 
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
+
+    /**
+     * SuperController constructor.
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
     protected function setStatusAdvertisement(Advertisement $advertisement, int $status)
     {

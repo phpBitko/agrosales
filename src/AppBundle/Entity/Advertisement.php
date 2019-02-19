@@ -205,6 +205,13 @@ class Advertisement implements InstanceUserInterface
     /**
      * @var integer
      *
+     * @ORM\Column(name="view_count", type="integer", nullable=true)
+     */
+    private $viewCount;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="id_user", type="integer", nullable=true)
      */
     private $idUser;
@@ -222,6 +229,10 @@ class Advertisement implements InstanceUserInterface
      */
     private $photos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ViewInfo", mappedBy="advertisement", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $viewInfo;
 
     /**
      * @ORM\OneToMany(targetEntity="Messages", mappedBy="advertisement", cascade={"persist"}, orphanRemoval=true)
@@ -272,6 +283,38 @@ class Advertisement implements InstanceUserInterface
     {
         $this->photos = new ArrayCollection();
         $this->addDate = new \DateTime();
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewCount(): ?int
+    {
+        return $this->viewCount;
+    }
+
+    /**
+     * @param int $viewCount
+     */
+    public function setViewCount(int $viewCount): void
+    {
+        $this->viewCount = $viewCount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getViewInfo()
+    {
+        return $this->viewInfo;
+    }
+
+    /**
+     * @param mixed $viewInfo
+     */
+    public function setViewInfo($viewInfo): void
+    {
+        $this->viewInfo = $viewInfo;
     }
 
 

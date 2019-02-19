@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Messages;
+use AppBundle\Entity\ViewInfo;
 use AppBundle\Exception\ViewException;
 use AppBundle\Filter\AdvertisementFilterType;
 use AppBundle\Form\MessagesType;
@@ -41,7 +42,6 @@ class AdvertisementController extends SuperController
         $order = $this->getOrder($request);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
-
             $form->submit($request->query->get($form->getName()));
            // $filterParams = $request->query->get('item_filter');
 
@@ -79,22 +79,33 @@ class AdvertisementController extends SuperController
         ));
     }
 
+
     /**
-     *
+     * @param Request $request
      * @param Advertisement $advertisement
+     *
      * @Route("/details/{id}", requirements={"id": "[1-9]\d*"}, name="advertisement_details", methods={"GET", "POST"})
      *
      * @return Response
-     *
      */
     public function advertisementDetailsAction(Request $request, Advertisement $advertisement)
     {
-        dump($this->container);
-        if ($advertisement === null) {
-            throw new NotFoundHttpException();
-        }
-        $em = $this->getDoctrine()->getManager();
         $formView = null;
+
+        //Додаємо інформацію про перегляди
+        $viewInfo = new ViewInfo();
+        $viewInfoRepository = $this->em->getRepository('AppBundle:ViewInfo');
+
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+            !$viewInfoRepository->findOneBy(['advertisement'=>$advertisement, 'ip'=>$request->getClientIp()])){
+
+            $viewInfo->setIp($request->getClientIp())->setAdvertisement($advertisement);
+            $this->em->persist($viewInfo);
+
+            $advertisement->setViewCount($advertisement->getViewCount()+1);
+            $this->em->persist($advertisement);
+        }
+
 
         if ($this->checkUserWithAuthorBool($advertisement) || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $messages = new Messages();
@@ -109,8 +120,8 @@ class AdvertisementController extends SuperController
 
                     $messages->setAdvertisement($advertisement);
                     $messages->setUsers($this->getUser());
-                    $em->persist($messages);
-                    $em->flush();
+                    $this->em->persist($messages);
+                    $this->em->flush();
 
                     $this->rejectAdvertisement($advertisement);
 
@@ -125,9 +136,9 @@ class AdvertisementController extends SuperController
                 if (count($advertisement->getMessages()) > 0) {
                     foreach ($advertisement->getMessages() as $message) {
                         $message->setIsView(true);
-                        $em->persist($message);
+                        $this->em->persist($message);
                     }
-                    $em->flush();
+                    $this->em->flush();
                 }
             }
 
