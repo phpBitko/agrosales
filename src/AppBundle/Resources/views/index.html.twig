@@ -28,10 +28,12 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link main-menu
-                            {% if app.request.attributes.get("_route")|slice(0, 4) == 'main' or app.request.attributes.get("_route")|slice(0, 8) == 'homepage'%}
+                            {% if app.request.attributes.get("_route")|slice(0, 4) == 'main' or app.request.attributes.get("_route")|slice(0, 8) == 'homepage' %}
                                 active
                             {% endif %}
-                            " href="{{ path('main_index') }}"><img class="home" src="{{ asset('bundles/app/img/house-outline.png') }}"><span  class="sr-only">(current)</span></a>
+                            " href="{{ path('main_index') }}"><img class="home"
+                                                                   src="{{ asset('bundles/app/img/house-outline.png') }}"><span
+                                        class="sr-only">(current)</span></a>
                         </li>
 
                         <li class="nav-item">
@@ -39,7 +41,8 @@
                             {% if app.request.attributes.get("_route")|slice(0, 13) == 'advertisement' %}
                                 active
                             {% endif %}
-                            " href="{{ path('advertisement_index') }}"><i class="far fa-list-alt"></i>{{'Оголошення'|trans}}</a>
+                            " href="{{ path('advertisement_index') }}"><i
+                                        class="far fa-list-alt"></i>{{ 'Оголошення'|trans }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link main-menu
@@ -53,12 +56,12 @@
                         {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 {% if  is_granted('ROLE_ADMIN') %}
-                                    <a class="nav-link main-menu {{ app.request.attributes.get("_route")|slice(0, 5) == 'admin' ? 'active'}}"
+                                    <a class="nav-link main-menu {{ app.request.attributes.get("_route")|slice(0, 5) == 'admin' ? 'active' }}"
                                        href="{{ path('admin.advertisement_get_advertisement') }}">
                                         <i class="fas fa-tools"></i>{{ 'Панель адміністратора' }}
                                     </a>
                                 {% else %}
-                                    <a class="nav-link main-menu {{ app.request.attributes.get('_route')|slice(0, 7) == 'cabinet' ? 'active'}}"
+                                    <a class="nav-link main-menu {{ app.request.attributes.get('_route')|slice(0, 7) == 'cabinet' ? 'active' }}"
                                        href="{{ path('cabinet_index') }}">
                                         <i class="fas fa-tools"></i>
                                         {{ 'Кабінет' }}
@@ -71,41 +74,39 @@
                         </li>
                     </ul>
 
-                    {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item">
-                                <a href="{{path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'uk'})) }}"
-                                   class="main-menu nav-link {{  app.request.locale == app.request.defaultLocale ? 'active'}}">
-                                    UA
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'ru'})) }}"
-                                   class="main-menu nav-link {{  app.request.locale == 'ru' ? 'active'}}">
-                                    RU
-                                </a>
-                            </li>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'uk'})) }}"
+                               class="main-menu nav-link {{ app.request.locale == app.request.defaultLocale ? 'active' }}">
+                                UA
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'ru'})) }}"
+                               class="main-menu nav-link {{ app.request.locale == 'ru' ? 'active' }}">
+                                RU
+                            </a>
+                        </li>
+                        {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">
                                     <i class="fas fa-sign-out-alt"></i>Вийти, {{ app.user.username }}</a>
 
                             </li>
-                        </ul>
-                    {% else %}
-                        <ul class="nav navbar-nav navbar-right">
+                        {% else %}
                             <li class="nav-item">
                                 <a class="nav-link main-menu
-                                    {% if app.request.attributes.get("_route") == 'fos_user_security_login' %}
-                                        active
-                                    {% endif %}
-                                    " href="{{ path('fos_user_security_login') }}">
+                                        {% if app.request.attributes.get("_route") == 'fos_user_security_login' %}
+                                            active
+                                        {% endif %}
+                                        " href="{{ path('fos_user_security_login') }}">
                                     <i class="btn-input far fa-user pr-2"></i>Увійти</a>
                             </li>
-                        </ul>
-                    {% endif %}
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
-
         </nav>
     </div>
 
