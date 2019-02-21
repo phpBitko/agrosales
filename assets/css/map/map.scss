@@ -7,6 +7,24 @@
   cursor: pointer;
 }
 
+.transition-non {
+  transition: none!important;
+
+}
+
+@media print {
+  @page {
+    size:landscape;
+  }
+  body {transform: scaleX(1.25);}
+  table {page-break-inside: avoid;}
+  .layersAll,
+  .map-filter,
+  .edit_buttons{
+    display: none;
+  }
+}
+
 //-------------------------------------------- change standart properties tooltips
 .tooltip-inner {
   background-color: #ffffff;
@@ -198,7 +216,7 @@
 }
 
 .my-zoom-in:hover, .my-zoom-full:hover, .my-zoom-out:hover {
-  background-color: #dffff9;
+  background-color: #aad4f5;
   cursor: pointer;
 }
 

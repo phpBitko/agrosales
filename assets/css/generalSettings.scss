@@ -18,6 +18,13 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
     max-width: 1400px;
   }
 }
+.icon-color {
+  color: $icon-color;
+}
+
+.alert {
+  border-radius: 0.2rem!important;
+}
 
 //-------------------------------------------- change standart properties tooltips
 .tooltip {
@@ -49,6 +56,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
   opacity: 1 !important;
 }
 
+//---------------------------------------------------------------------------------------
 body {
   font-family: MyriadPro;
   color: $text-color !important;
@@ -261,7 +269,7 @@ body {
     cursor: pointer;
   }
 }
-
+//---------------------------------------кнопки
 .btn-grey {
   color: #626161!important;
   border-radius: 0.2rem!important;
@@ -271,7 +279,6 @@ body {
   height: 35px;
   transition: 0.1s;
   padding: 0.375rem 0.75rem;
-  margin-left: 15px;
   background-color: transparent;
 
   &:hover {
@@ -308,6 +315,51 @@ body {
   }
 }
 
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-bottom: 2px;
+
+  .btn-blue-cut {
+    color: $base-color!important;
+    text-align: center;
+    display: block;
+    height: 35px;
+    border-radius: 0.2rem 0rem 0rem 0.2rem;
+    border: 1px solid $base-color;
+    transition: 0.1s;
+    padding-top: 5px;
+    &:hover {
+      background-color: #aad4f5!important;
+      text-decoration: none;
+      color: white!important;
+
+    }
+  }
+  .btn-position-cut {
+    display: block;
+    height: 35px;
+    text-align: center;
+    color: $icon-color;
+    font-size: 1rem;
+    padding-top: 4px;
+    border-radius: 0rem 0.2rem 0.2rem 0rem;
+    border-right: 1px solid $icon-color;
+    border-top: 1px solid $icon-color;
+    border-bottom: 1px solid $icon-color;
+    i {
+      font-size: 1.5rem;
+      align-self: end;
+      margin-left: 6px;
+    }
+    &:hover {
+      cursor: pointer;
+      color: #626161!important;
+      text-decoration: none;
+    }
+  }
+}
 
 /**/
 

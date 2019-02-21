@@ -3,11 +3,16 @@
 namespace AppBundle\Filter;
 
 
+use AppBundle\Form\Type\IntegerRangeFilterType;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Type;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+
 
 class AdvertisementFilterType extends AbstractType
 {
@@ -16,7 +21,22 @@ class AdvertisementFilterType extends AbstractType
         $em = $options['entity_manager'];
         $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
 
-        $builder->add('area', Filters\NumberRangeFilterType::class);
+        $builder->add('area', Filters\NumberRangeFilterType::class, [
+            'left_number_options' => [
+                'scale' => 4,
+                'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN,
+                'constraints' => [
+                    new Range(['min' => 0, 'groups' => 'filtering']),
+
+                ]
+            ],
+            'right_number_options' => [
+                'scale' => 4,
+                'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN,
+                'constraints' => new Range(['max' => 1000, 'groups' => 'filtering']),
+            ],
+
+        ]);
 
         $builder->add('addDate', Filters\DateTimeRangeFilterType::class, [
             'left_datetime_options' => [
@@ -25,7 +45,6 @@ class AdvertisementFilterType extends AbstractType
                 'format' => 'dd.MM.yyyy',
                 'attr' => [
                     'class' => 'datepicker',
-                    'id' => 'datepicker',
                     'data-date-format' => 'dd.mm.yyyy',
                 ]
             ],
@@ -34,13 +53,22 @@ class AdvertisementFilterType extends AbstractType
                 'label' => ' ',
                 'format' => 'dd.MM.yyyy',
                 'attr' => [
-                    'class' => 'datepicker',
+                    'class' => 'datepicker ',
                     'data-date-format' => 'dd.mm.yyyy',
                 ],
             ]
         ]);
 
-        $builder->add('price', Filters\NumberRangeFilterType::class);
+        $builder->add('price', IntegerRangeFilterType::class, [
+            'left_number_options' => [
+                'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN,
+                'constraints' => new Range(['min' => 0, 'groups' => 'filtering'])
+            ],
+            'right_number_options' => [
+                'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN,
+                'constraints' => new Range(['max' => 1000000, 'groups' => 'filtering'])
+            ],
+        ]);
 
         $builder->add('isElectricity', Filters\CheckboxFilterType::class, [
             'label' => 'Електрика',
@@ -88,10 +116,11 @@ class AdvertisementFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'validation_groups' =>array('filtering'), // avoid NotBlank() constraint-related message
+            'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
 
         ));
         $resolver->setRequired('entity_manager');
+
     }
 
 }

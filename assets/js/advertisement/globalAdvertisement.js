@@ -17,5 +17,6 @@ require('../../css/advertisement/advertisement.scss');
 require('../../js/advertisement/appAdvertisement');
 require('../../js/advertisement/details');
 require('../../js/advertisement/initialMap');
+feature = require('../../js/functionLib/featureManipulations');
 require('../../js/advertisement/sliderWidget');
 

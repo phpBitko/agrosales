@@ -1,7 +1,7 @@
-$(document).ready(function()  {
+$(document).ready(function () {
     //-------------------------------------------- ініціалізуєм bootstrap tooltip і змінюєм налаштування
     $('[data-toggle="tooltip"]').tooltip({
-        trigger : 'hover'
+        trigger: 'hover',
     });
 
     $('.choose-layer li').on('click', function () {
@@ -32,12 +32,11 @@ $(document).ready(function()  {
             $('.choose-layer').addClass('choose-layer-move-out');
             $('.map-details-info').removeClass('move-position');
 
-
         } else {
             $(this).addClass('active');
             $('.choose-layer').addClass('choose-layer-move-in');
             $('.choose-layer').removeClass('choose-layer-move-out');
-            $('.map-details-info').addClass('move-position');
+             $('.map-details-info').addClass('move-position');
         }
 
     });
@@ -51,7 +50,7 @@ $(document).ready(function()  {
     });
 
 
-        $('.map-filter').addClass('fixed');
+    $('.map-filter').addClass('fixed');
 
 
     //-----------------------------------звернення до об'єтка якого не було в DOM
@@ -59,13 +58,13 @@ $(document).ready(function()  {
     $('body').on('click', '.map-details-info .close', function () {
         $('.map-details-info').addClass('hidden');
 
-
     });
 
     $('body').on('click', '.map-details-info .move-right', function () {
         $('.map-details-info').removeAttr("style");
         $('.move-right').addClass('hidden');
-     });
+        $('.map-details-info').removeClass('transition-non');
+    });
 
     $('.carousel').carousel({
         interval: false,

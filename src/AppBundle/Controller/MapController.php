@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class MapController
@@ -33,41 +33,25 @@ class MapController extends SuperController
      * @return Response
      */
     public function indexAction(Request $request, Advertisement $advertisement = null)
-
     {
-        //$adv = new Advertisement();
-        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+        $em = $this->em;
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
-        if ($request->query->has($form->getName())) {           // manually bind values from the request
-
-            $form->submit(($form->getName()));
-
-
-            // initialize a query builder
-
-            $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE']);
-
-            // build the query from the given form object
-            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
-
-
-        } else {
+        if ($session->has($form->getName())) {
+            $form->submit($session->get($form->getName()));
 
         }
-
-        $filterAttributes = $this->parseQueryString($request);
-
-        $data = compact('typeView', 'filterAttributes');
-
 
         return $this->render('AppBundle:map:index.html.twig', array(
             'advertisement' => $advertisement,
             'form' => $form->createView(),
-            'data' => $data,
+
         ));
 
     }
+
+
 
     /**
      * @Route("/getDetailsAdvertisement", name="map_details_advertisement", options={"expose"=true}, methods={"POST"})
@@ -100,21 +84,21 @@ class MapController extends SuperController
      *
      * @return JsonResponse
      */
-    public function getAdvertisementByStatusAction()
-    {
-        try {
-            $em = $this->getDoctrine()->getManager();
+    /*    public function getAdvertisementByStatusAction()
+        {
+            try {
+                $em = $this->getDoctrine()->getManager();
 
-            $advertisement = $em->getRepository('AppBundle:Advertisement')->findAllByNotNull('geom', 0);
-            if ($advertisement === null) {
-                throw new NotFoundHttpException();
+                $advertisement = $em->getRepository('AppBundle:Advertisement')->findAllByNotNull('geom', 0);
+                if ($advertisement === null) {
+                    throw new NotFoundHttpException();
+                }
+
+                return $this->json(array('data' => $advertisement), Response::HTTP_OK);
+            } catch (\Exception $exception) {
+                return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-
-            return $this->json(array('data' => $advertisement), Response::HTTP_OK);
-        } catch (\Exception $exception) {
-            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
+        }*/
 
 
     /**
@@ -126,18 +110,26 @@ class MapController extends SuperController
      */
     public function getFilterAdvertisementAction(Request $request)
     {
+        $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $advertisement = $em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
+        $filterArray = [];
 
+        $filterArray = $session->get($form->getName()) ?? $request->request->get($form->getName());
         try {
-            $filterBuilder = $advertisement->qbFindAllByNotNull('geom',0,self::STATUS_ADVERTISEMENT['ACTIVE']);
-            if ($request->request->has($form->getName())) {
-                $form->submit($request->request->get($form->getName()));
+            $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
+            if ($filterArray) {
+                $form->submit($filterArray);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+                $session->remove($form->getName());
+            } else {
+                $filterArray = [];
+                $form->submit($filterArray);
             }
             $query = $filterBuilder->getQuery();
             $advertisement = $query->getResult();
+
 
             if (empty($advertisement)) {
                 throw new WarningException('Нічого не знайдено!');
@@ -145,11 +137,12 @@ class MapController extends SuperController
 
             return $this->json(array('data' => $advertisement), Response::HTTP_OK);
 
-        }catch (WarningException $exception) {
-                return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
+        } catch (WarningException $exception) {
+            return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
     }
 
 

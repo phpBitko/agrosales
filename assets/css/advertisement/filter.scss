@@ -1,6 +1,9 @@
 
 .advertisement-filter {
   min-width: 320px;
+  .alert-danger {
+    margin-bottom: 0 !important;
+  }
   .filter-price input#slider-price, .filter-area input#slider-area {
     visibility: hidden;
   }
@@ -88,8 +91,9 @@
           input {
             display: block;
             width: 45%;
-            color: $text-color!important;;
+            color: $text-color !important;;
             border: 1px solid #d9d9d9;
+            padding: 2px 4px;
             &:focus {
               border: 1px solid #d9d9d9;
             }
@@ -112,8 +116,8 @@
               width: 100%;
               border-radius: 2px;
               border: 1px solid #d9d9d9;
-              padding: 2px 2px;
-              color: #626161!important;
+              padding: 2px 4px;
+              color: #626161 !important;
             }
           }
         }
@@ -212,31 +216,46 @@
         }
 
       }
+      .filter-container {
+        width: 50%;
+        .btn-blue-cut {
+          width: 120px;
+          background-color: transparent;
+        }
+        .btn-position-cut {
+          width: 49px;
+          &:hover {
+            color: #626161 !important;
+          }
+        }
+
+      }
+
       ul {
         padding-bottom: 15px;
         margin-top: 24px;
         li {
-          padding-top: 24px;
+          padding: 16px 0;
           border-top: 1px solid #d5d5d5;
           margin: 0 5px;
-          padding-bottom: 24px;
+
           input:-webkit-autofill,
           input:-webkit-autofill:hover,
           input:-webkit-autofill:focus,
-          input:-webkit-autofill:active  {
+          input:-webkit-autofill:active {
             -webkit-box-shadow: 0 0 0 30px white inset !important;
-            -webkit-text-fill-color: $text-color!important;
+            -webkit-text-fill-color: $text-color !important;
           }
           input,
           textarea {
-            &:focus{
-              outline:#8e8e8e solid 1px ;
+            &:focus {
+              outline: #8e8e8e solid 1px;
             }
           }
 
-          i {
+          .far, .fas, .fab {
             margin: 0 10px 10px 10px;
-            color: #adb5bd;
+
           }
         }
       }

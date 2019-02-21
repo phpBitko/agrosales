@@ -2,6 +2,7 @@
 
 
 namespace AppBundle\Service;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class ParseFilterServices
@@ -28,7 +29,7 @@ class ParseFilterServices
                 $queryParamArray['item_filter'] = $filterParams;
                 unset($queryParamArray['item_filter'][$k]);
 
-                if (is_array($v) ) {
+                if (is_array($v)) {
                     $resultFilter[$k] = $v;
                     $str = http_build_query($queryParamArray);
                     $resultFilter[$k]['strHref'] = $str;
@@ -71,8 +72,8 @@ class ParseFilterServices
                     case 'area':
                         if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
                             $str = 'площа ';
-                            $str .= (!empty($v['left_number'])) ? 'від: ' . $v['left_number'] . ' ' : '';
-                            $str .= (!empty($v['right_number'])) ? 'до: ' . $v['right_number'] : '';
+                            $str .= (!empty($v['left_number'])) ? 'від: ' .round((str_replace(',', '.', $v['left_number'])), 4) . ' ' : '';
+                            $str .= (!empty($v['right_number'])) ? 'до: ' . round((str_replace(',', '.', $v['right_number'])), 4) : '';
                             $arrCopy[$k]['strText'] = $str;
                         }
                         break;

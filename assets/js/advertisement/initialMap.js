@@ -24,14 +24,15 @@ $(function () {
         units: 'm'
     });
 
-    //-------------------------------------------створюєм як буде виглядать іконка для відобреження ділянок(оголошень)
-    if ($('#icon_advertisement').length > 0) {
-        var styleAdvert = new Style({
-            image: new Icon({
-                src: '/bundles/app/img/maps-and-flags.png',
-            })
-        });
-    }
+    /**
+     * створюєм як буде виглядать іконка для відобреження ділянок(оголошень)
+     */
+
+    var styleAdvert = new Style({
+        image: new Icon({
+            src: '/bundles/app/img/maps-andflags.png',
+        })
+    });
 
 
     if ($('#details-geom').text() !== undefined && $('#details-geom').text() !== '') {
@@ -50,8 +51,9 @@ $(function () {
         center: centerUkraine,
         zoom: 6
     });
+
     if (point != null) {
-        view.fit(point, {minResolution: 5});
+        view.fit(point, {minResolution: 6});
     }
 
     var osmLayer = new TileLayer({
@@ -83,7 +85,6 @@ $(function () {
         visible: 1
     });
 
-
     var mapDetail = new Map({
         target: 'details-map-container',
         layers: [
@@ -96,9 +97,10 @@ $(function () {
             zoom: false,
         })
     });
+
     var vectorPoints = new VectorLayer({
         source: vectorSourcePoints,
-        style: styleAdvert
+        style: styleAdvert,
     });
     mapDetail.addLayer(vectorPoints);
 

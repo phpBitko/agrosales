@@ -33,6 +33,7 @@ $(document).ready(function () {
             src: '/bundles/app/img/maps-andflags.png',
         })
     });
+
     var styleAdvertBlue = new Style({
         image: new Icon({
             src: '/bundles/app/img/maps-and-flagsblue.png',
@@ -87,12 +88,25 @@ $(document).ready(function () {
 //------------------------------- обробка кнопок фільтра
     $('#filter-submit').on('click', function () {
         var formData = new FormData($('[name = "item_filter"]')[0]);
+
         getFilterAdvertisement(formData);
     });
 
+    /**
+     * очищає форму
+     */
+
     $('.filter-clear').on('click', function () {
+
+        //$('[name = "item_filter"]')[0].reset();
+
+        $('.filter-price input').val('');
+        $('.filter-area input').val('');
+        $('.filter-date input').val('');
+        $('.filter-provision input').prop('checked', false);
+        $('.filter-purpose option').prop("selected", false);
+
         getFilterAdvertisement();
-        $('[name = "item_filter"]')[0].reset();
     });
 
 
@@ -185,6 +199,7 @@ $(document).ready(function () {
 
     //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
+        console.log(data);
         vectorSourcePoints.clear();
         $.each(data.data, function (i, value) {
             features = format.readFeature(value.geom, {
@@ -199,7 +214,11 @@ $(document).ready(function () {
         addVectorLayer(vectorSourcePoints);
     }
 
+
     $('.map-details-info').draggable({
+        start: function(){
+            $('.map-details-info').addClass('transition-non');
+        },
         stop: function () {
             $('.move-right').removeClass('hidden');
         }
@@ -219,28 +238,16 @@ $(document).ready(function () {
     function getAllAdvertisement() {
 
         $.ajax({
-            url: Routing.generate('get_advertisement_by_status'),
+            url: Routing.generate('map_filter_advertisement'),
             dataType: 'json',
             method: 'POST',
             success: function (data) {
-
                 $('body').preloader('remove');
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('body').preloader('remove');
-                $('html, body').css("cursor", "auto");
-                if (jqXHR.responseJSON) {
-                    bootbox.alert({
-                        title: 'Виникла помилка',
-                        message: jqXHR.responseJSON.error
-                    });
-                } else {
-                    bootbox.alert({
-                        title: 'Виникла помилка',
-                        message: jqXHR.responseText
-                    });
-                }
+                bootboxAlertMessage(jqXHR);
             },
         });
     }
@@ -311,22 +318,9 @@ $(document).ready(function () {
             method: 'POST',
             success: function (data) {
                 addMapDetails(data);
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('body').preloader('remove');
-                $('html, body').css("cursor", "auto");
-                if (jqXHR.responseJSON) {
-                    bootbox.alert({
-                        title: 'Виникла помилка',
-                        message: jqXHR.responseJSON.error
-                    });
-                } else {
-                    bootbox.alert({
-                        title: 'Виникла помилка',
-                        message: jqXHR.responseText
-                    });
-                }
+                bootboxAlertMessage(jqXHR);
             },
         });
     }
@@ -344,9 +338,11 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (data) {
+                $('body').preloader('remove');
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                $('body').preloader('remove');
                 bootboxAlertMessage(jqXHR);
             },
         });

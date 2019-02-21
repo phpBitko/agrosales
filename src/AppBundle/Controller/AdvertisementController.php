@@ -11,6 +11,7 @@ use AppBundle\Form\MessagesType;
 use AppBundle\Service\ParseFilterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,34 +35,36 @@ class AdvertisementController extends SuperController
      */
     public function indexAction(Request $request, PaginatorServices $paginator, $typeView = 'list')
     {
-
-        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+        $filterAttributes = '';
+        $em = $this->em;
 
         $advertisement = $em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
+
         $order = $this->getOrder($request);
 
         if ($request->query->has($form->getName())) {           // manually bind values from the request
+
             $form->submit($request->query->get($form->getName()));
-           // $filterParams = $request->query->get('item_filter');
 
             if ($form->isValid()) {
-                // initialize a query builder
 
                 $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
 
-                // build the query from the given form object
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
                 $query = $filterBuilder->getQuery();
 
+                $session->set('item_filter', $request->query->get($form->getName()));
+
             } else {
+
                 $this->addFlash('danger', 'Помилка! Перевірьте, будь ласка, правильність заповнення даних фільтру!');
                 $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
             }
 
         } else {
             $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
-
         }
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
         $sortString = $this->parseSortString($request);
@@ -70,13 +73,14 @@ class AdvertisementController extends SuperController
             $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($request);
 
         }
-        $data = compact('typeView', 'sortString', 'filterAttributes');
-     
-        return $this->render('AppBundle:advertisement:index.html.twig', array(
+
+        $data = ['typeView' => $typeView, 'sortString' => $sortString, 'filterAttributes' => $filterAttributes];
+
+        return $this->render('AppBundle:advertisement:index.html.twig', [
             'form' => $form->createView(),
             'advertisement' => $pagination,
             'data' => $data,
-        ));
+        ]);
     }
 
 
@@ -95,20 +99,18 @@ class AdvertisementController extends SuperController
         //Додаємо інформацію про перегляди
         $viewInfoRepository = $this->em->getRepository('AppBundle:ViewInfo');
 
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
-            !$viewInfoRepository->findOneBy(['advertisement'=>$advertisement, 'ip'=>$request->getClientIp()])){
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+            !$viewInfoRepository->findOneBy(['advertisement' => $advertisement, 'ip' => $request->getClientIp()])) {
 
             $viewInfo = new ViewInfo();
 
             $viewInfo->setIp($request->getClientIp())->setAdvertisement($advertisement);
             $this->em->persist($viewInfo);
 
-            $advertisement->setViewCount($advertisement->getViewCount()+1);
+            $advertisement->setViewCount($advertisement->getViewCount() + 1);
             $this->em->persist($advertisement);
             $this->em->flush();
         }
-
-
         if ($this->checkUserWithAuthorBool($advertisement) || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $messages = new Messages();
             $form = $this->createForm(MessagesType::class, $messages);
@@ -213,7 +215,7 @@ class AdvertisementController extends SuperController
      */
     protected function parseSortString(Request $request)
     {
-        $stringSelected = 'Сортувати';
+        $stringSelected = 'Спочатку додані пізніше';
 
         if ($request->query->get('sort')) {
             $field = explode('.', $request->query->get('sort'), 2);

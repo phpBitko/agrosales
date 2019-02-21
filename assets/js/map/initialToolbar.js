@@ -13,6 +13,7 @@ import WKT from 'ol/format/WKT';
 import sourceVector from "ol/source/Vector";
 import layerVector from "ol/layer/Vector";
 
+
 global.objWkt = new WKT;
 global.sourceVectorGlobal = sourceVector;
 global.layerVectorGlobal = layerVector;
@@ -320,7 +321,7 @@ $(function () {
     unByKey(key);
 
 
-    function startMeasure(mesureObj){
+    function startMeasure(mesureObj) {
 
         if (mesureObj.hasClass('active')) {
             mesureObj.removeClass('active');
@@ -363,11 +364,22 @@ $(function () {
         vectorDraw.getSource().clear();
         createMeasureTooltip();
         createHelpTooltip();
+    });
 
-
-
+//--------------------------------------------------------- Потрібне зєднання по протоколу https
+    $('#control-panel-placeholder').on('click', function () {
 
     });
 
+
+    $('#control-panel-print').on('click', function () {
+        window.print();
+/*        $('#map').html2canvas({
+            onrendered: function (canvas) {
+                var img = canvas.toDataURL("image/png");
+                window.open(img);
+            }
+        });*/
+    });
 
 });
