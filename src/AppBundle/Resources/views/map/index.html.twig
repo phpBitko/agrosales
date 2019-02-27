@@ -21,7 +21,7 @@
 {% block body %}
 
     <div id="map" class="map"></div>
-    <div class="map-filter">   {{ include('@App/advertisement/filter.html.twig', { 'form': form }) }}</div>
+    <div class="map-filter hidden">   {{ include('@App/advertisement/_filter.html.twig', { 'form': form }) }}</div>
     <div class="choose-layer d-flex align-items-center flex-column">
         <div class="choose-head">
             <img src="{{ asset('bundles/app/img/layers_.png') }}">
@@ -72,9 +72,9 @@
             </button>
         </div>
     </div>
-    <div class="map-details-info hidden start-position">
+    <div class="map-details-info start-position hidden">
         {% if advertisement is not null %}
-            {{ include('@App/map/details.html.twig', { 'advertisementDetails': advertisement }) }}
+            {{ include('@App/map/_details.html.twig', { 'advertisementDetails': advertisement }) }}
         {% endif %}
     </div>
     <div class="mouse-position-panel" id="mouse-position"></div>

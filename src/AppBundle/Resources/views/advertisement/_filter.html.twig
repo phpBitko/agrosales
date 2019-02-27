@@ -1,6 +1,6 @@
 {% set strController = app.request.attributes.get('_route')|slice(0,3) %}
 
-<div class="advertisement-filter col-3">
+<div class="advertisement-filter hidden col-3" xmlns="http://www.w3.org/1999/html">
     {% for messages in app.flashes('danger') %}
         <div class="alert alert-danger"> {{ messages }} </div>
     {% endfor %}
@@ -72,23 +72,28 @@
                     <div>
                         {{ form_widget(form.isRoad) }}
                         <label for="item_filter_isRoad">
-                            <div class="provision"><i class="sprite sprite-road"></i></div>
+                            <div class="provision" data-toggle="tooltip" title="Під'їзд з твердим покриттям"><i
+                                        class="sprite sprite-road"></i></div>
                         </label>
                         {{ form_widget(form.isWaterSupply) }}
                         <label for="item_filter_isWaterSupply">
-                            <div class="provision"><i class="sprite sprite-water"></i></div>
+                            <div class="provision" data-toggle="tooltip" title="Водопостачання"><i
+                                        class="sprite sprite-water"></i></div>
                         </label>
                         {{ form_widget(form.isGas) }}
                         <label for="item_filter_isGas">
-                            <div class="provision"><i class="sprite sprite-walve"></i></div>
+                            <div class="provision" data-toggle="tooltip" title="Газопостачання"><i
+                                        class="sprite sprite-walve"></i></div>
                         </label>
                         {{ form_widget(form.isSewerage) }}
                         <label for="item_filter_isSewerage">
-                            <div class="provision"><i class="sprite sprite-waste"></i></div>
+                            <div class="provision" data-toggle="tooltip" title="Централізована каналізація"><i
+                                        class="sprite sprite-waste"></i></div>
                         </label>
                         {{ form_widget(form.isElectricity) }}
                         <label for="item_filter_isElectricity">
-                            <div class="provision"><i class="sprite sprite-idea"></i></div>
+                            <div class="provision" data-toggle="tooltip" title="Елекрозабезпечення"><i
+                                        class="sprite sprite-idea"></i></div>
                         </label>
                     </div>
                 </li>
@@ -106,17 +111,15 @@
                         <div class="filter-container btn-container">
                             <input id="filter-submit" type="submit"
                                    name="submit-filter" value="Фільтрувати" class="btn btn-blue-cut">
-                            <a href="{{ path('map_index') }}" class="btn-position-cut">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </a>
+                            <button id = "btn-filter" type="submit" name="filter" class="btn btn-position-cut"
+                                   formaction="{{ path('map_index') }}" formmethod="post" >
+                            <i class="fas fa-map-marker-alt"></i>
+                            </button>
                         </div>
                     {% endif %}
                 </li>
-
             </ul>
-            {#            {% if strController == 'map' %}
-                            <div id="id-advertisement"></div>
-                        {% endif %}#}
+
         </div>
     </div>
     {{ form_end(form) }}

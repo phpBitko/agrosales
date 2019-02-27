@@ -374,12 +374,6 @@ $(function () {
 
     $('#control-panel-print').on('click', function () {
         window.print();
-/*        $('#map').html2canvas({
-            onrendered: function (canvas) {
-                var img = canvas.toDataURL("image/png");
-                window.open(img);
-            }
-        });*/
     });
 
 });

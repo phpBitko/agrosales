@@ -35,7 +35,6 @@ class AdvertisementController extends SuperController
      */
     public function indexAction(Request $request, PaginatorServices $paginator, $typeView = 'list')
     {
-        $session = new Session();
         $filterAttributes = '';
         $em = $this->em;
 
@@ -54,8 +53,6 @@ class AdvertisementController extends SuperController
 
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
                 $query = $filterBuilder->getQuery();
-
-                $session->set('item_filter', $request->query->get($form->getName()));
 
             } else {
 

@@ -9,9 +9,7 @@ import Feature from 'ol/Feature';
 import View from "ol/View";
 import Style from "ol/style/Style";
 
-// import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
-
-$(document).ready(function () {
+$(function () {
 
     //-------------------------------------------for points from advertisement
     var features;
@@ -57,6 +55,13 @@ $(document).ready(function () {
         })
     });
 
+/*    function setTooltip() {
+        $('[data-toggle="tooltip"]').tooltip({
+            trigger: 'hover',
+        });
+
+    }*/
+
 
     function setStyleCluster(size, colorFill, colorStroke) {
 
@@ -93,7 +98,7 @@ $(document).ready(function () {
     });
 
     /**
-     * очищає форму
+     * ---------------------------------------------------очищає форму
      */
 
     $('.filter-clear').on('click', function () {
@@ -199,7 +204,7 @@ $(document).ready(function () {
 
     //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
-        console.log(data);
+
         vectorSourcePoints.clear();
         $.each(data.data, function (i, value) {
             features = format.readFeature(value.geom, {
@@ -216,11 +221,11 @@ $(document).ready(function () {
 
 
     $('.map-details-info').draggable({
-        start: function(){
+        start: function () {
             $('.map-details-info').addClass('transition-non');
         },
         stop: function () {
-            $('.move-right').removeClass('hidden');
+            $('.move-right').removeClass('hidden-ico');
         }
     });
 
@@ -232,6 +237,7 @@ $(document).ready(function () {
         if ($('.map-details-info').hasClass('hidden')) {
             $('.map-details-info').removeClass('hidden')
         }
+        //setTooltip;
     }
 
     //--- запит для отримання даних про координати точок, використувується бандл FOSjsroutingbundle
@@ -311,6 +317,7 @@ $(document).ready(function () {
     //--- запит для отримання даних про детальну інформацію про ділянку бандл FOSjsroutingbundle
 
     function getDetailsAdvertisement(id) {
+
         $.ajax({
             url: Routing.generate('map_details_advertisement'),
             dataType: 'json',
@@ -342,6 +349,8 @@ $(document).ready(function () {
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
+
+
                 $('body').preloader('remove');
                 bootboxAlertMessage(jqXHR);
             },
@@ -349,6 +358,7 @@ $(document).ready(function () {
     }
 
     getAllAdvertisement();
+    //$('body').preloader('remove');
 
     if ($('.map-details-head').length) {
         if ($('.map-details-info').hasClass('hidden')) {

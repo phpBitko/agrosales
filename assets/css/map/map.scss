@@ -9,32 +9,19 @@
 
 .transition-non {
   transition: none!important;
-
 }
 
 @media print {
   @page {
-    size:landscape;
+    size: landscape;
   }
-  body {transform: scaleX(1.25);}
-  table {page-break-inside: avoid;}
-  .layersAll,
-  .map-filter,
-  .edit_buttons{
-    display: none;
+  body {
+    transform: scaleX(1.25);
   }
-}
-
-//-------------------------------------------- change standart properties tooltips
-.tooltip-inner {
-  background-color: #ffffff;
-  border: 1px solid #014656;
-  color: #014656;
-  border-radius: 0.15rem;
-}
-
-.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
-  border-left-color: #00a2ad;
+  table {
+    page-break-inside: avoid;
+  }
+  .layersAll, .map-filter, .edit_buttons { display: none; }
 }
 
 //--------------------------------------------------- Layers panel
@@ -314,7 +301,14 @@ $mouse-position-height: 28px;
 }
 
 .hidden {
-  display: none;
+  //display: none;
+  top: 70px;
+  //right: calc(100vw - 337px);
+  right: -600px!important;
+}
+.hidden-ico {
+  visibility: hidden;
+
 }
 
 .tooltip-measure {
@@ -375,7 +369,7 @@ $mouse-position-height: 28px;
     height: 35px;
     color: #f9f7f6;
     background-color: #11577f;
-    padding: 6px 9px 2px 5px;
+    padding: 4px 9px 2px 5px;
     .move-right {
       border: none;
       background: none;
@@ -442,7 +436,7 @@ $mouse-position-height: 28px;
     div {
       background-color: #f1f1f1;
       margin-right: 0;
-      padding: 8px;
+      padding: 6px;
       text-align: center;
       border: 1px solid #e1e1e1;
       border-radius: 3px;

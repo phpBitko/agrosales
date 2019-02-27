@@ -29,18 +29,19 @@ class MapController extends SuperController
     /**
      * @param Request $request
      * @param Advertisement $advertisement
-     * @Route("/{id}", defaults={"id": null}, requirements={"id": "[1-9]\d*"}, name="map_index", methods={"GET"})
+     * @Route("/{id}", defaults={"id": null}, requirements={"id" : "[1-9]\d*"}, name="map_index", methods={"POST", "GET"})
      * @return Response
      */
     public function indexAction(Request $request, Advertisement $advertisement = null)
     {
-        $session = new Session();
+
         $em = $this->em;
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
-        if ($session->has($form->getName())) {
-            $form->submit($session->get($form->getName()));
-
+        if ($request->request->get($form->getName())) {
+            $session = new Session();
+            $session->set($form->getName(),$request->request->get($form->getName()));
+            $form->submit($request->request->get($form->getName()));
         }
 
         return $this->render('AppBundle:map:index.html.twig', array(
@@ -48,10 +49,7 @@ class MapController extends SuperController
             'form' => $form->createView(),
 
         ));
-
     }
-
-
 
     /**
      * @Route("/getDetailsAdvertisement", name="map_details_advertisement", options={"expose"=true}, methods={"POST"})
@@ -69,12 +67,14 @@ class MapController extends SuperController
             if ($advertisementDetails === null) {
                 return $this->json(array('error' => 'Оголошення не знайдено!'), Response::HTTP_NOT_FOUND);
             }
-            $table['details'] = $this->renderView('AppBundle:map:details.html.twig', array('advertisementDetails' => $advertisementDetails));
+            $table['details'] = $this->renderView('AppBundle:map:_details.html.twig', array('advertisementDetails' => $advertisementDetails));
 
             return new JsonResponse(['table' => $table], Response::HTTP_OK);
 
+        } catch (WarningException $exception) {
+            return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
-            return $this->json(array('error' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -110,19 +110,25 @@ class MapController extends SuperController
      */
     public function getFilterAdvertisementAction(Request $request)
     {
+
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $advertisement = $em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
         $filterArray = [];
 
-        $filterArray = $session->get($form->getName()) ?? $request->request->get($form->getName());
+        $filterArray = $session->get($form->getName())  ? $session->get($form->getName())  : $request->request->get($form->getName());
+        dump($filterArray);
+
+
+
         try {
             $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
             if ($filterArray) {
                 $form->submit($filterArray);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
                 $session->remove($form->getName());
+
             } else {
                 $filterArray = [];
                 $form->submit($filterArray);

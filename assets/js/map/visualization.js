@@ -1,7 +1,26 @@
 $(document).ready(function () {
     //-------------------------------------------- ініціалізуєм bootstrap tooltip і змінюєм налаштування
-    $('[data-toggle="tooltip"]').tooltip({
+/*    $('[data-toggle="tooltip"]').tooltip({
         trigger: 'hover',
+        container: 'body',
+        placement: 'bottom',
+    });*/
+/*    $('.advertisement-filter').tooltip({
+        trigger: 'hover',
+        selector: '[data-toggle="tooltip"]',
+        placement: 'bottom',
+    });*/
+
+    $('.map-details-info, .advertisement-filter').tooltip({
+        trigger: 'hover',
+        selector: '[data-toggle="tooltip"]',
+        placement: 'bottom',
+    });
+
+    $('.control-panel').tooltip({
+        trigger: 'hover',
+        selector: '[data-toggle="tooltip"]',
+        placement: 'left',
     });
 
     $('.choose-layer li').on('click', function () {
@@ -36,7 +55,7 @@ $(document).ready(function () {
             $(this).addClass('active');
             $('.choose-layer').addClass('choose-layer-move-in');
             $('.choose-layer').removeClass('choose-layer-move-out');
-             $('.map-details-info').addClass('move-position');
+            $('.map-details-info').addClass('move-position');
         }
 
     });
@@ -49,7 +68,7 @@ $(document).ready(function () {
         $('.map-details-info').removeClass('move-position');
     });
 
-
+    $('.map-filter').removeClass('hidden');
     $('.map-filter').addClass('fixed');
 
 
@@ -57,13 +76,27 @@ $(document).ready(function () {
 
     $('body').on('click', '.map-details-info .close', function () {
         $('.map-details-info').addClass('hidden');
+        $('.map-details-info').removeAttr("style");
 
     });
 
+    /*    $('body').on('mouseover', function () {
+
+            $('[data-toggle="tooltip"]').tooltip({
+                trigger: 'hover',
+            });
+        });*/
+    /*
+        $('body').on('load', '.map-details-info', function () {
+            $('[data-toggle="tooltip"]').tooltip("show");
+
+        });*/
+
     $('body').on('click', '.map-details-info .move-right', function () {
         $('.map-details-info').removeAttr("style");
-        $('.move-right').addClass('hidden');
+        $('.move-right').addClass('hidden-ico');
         $('.map-details-info').removeClass('transition-non');
+
     });
 
     $('.carousel').carousel({

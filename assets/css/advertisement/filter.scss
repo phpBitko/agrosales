@@ -134,7 +134,7 @@
       .filter-purpose {
         select {
           width: 100%;
-          height: 150px;
+          height: 130px;
           color: $text-color;
           option {
             font-size: 0.9rem;
@@ -228,14 +228,19 @@
             color: #626161 !important;
           }
         }
-
+        #btn-filter {
+          padding: 0;
+          i {
+            margin: 4px 0 0 0;
+          }
+        }
       }
 
       ul {
         padding-bottom: 15px;
         margin-top: 24px;
         li {
-          padding: 16px 0;
+          padding: 10px 0;
           border-top: 1px solid #d5d5d5;
           margin: 0 5px;
 

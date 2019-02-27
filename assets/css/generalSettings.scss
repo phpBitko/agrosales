@@ -3,6 +3,7 @@ $fa-font-path: "~font-awesome/fonts";
 
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
 $text-color: #626161;
 $base-color: #3c8dbc;
@@ -25,6 +26,7 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 .alert {
   border-radius: 0.2rem!important;
 }
+
 
 //-------------------------------------------- change standart properties tooltips
 .tooltip {
@@ -344,6 +346,7 @@ body {
     color: $icon-color;
     font-size: 1rem;
     padding-top: 4px;
+    background: transparent;
     border-radius: 0rem 0.2rem 0.2rem 0rem;
     border-right: 1px solid $icon-color;
     border-top: 1px solid $icon-color;
