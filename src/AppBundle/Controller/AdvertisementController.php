@@ -42,36 +42,25 @@ class AdvertisementController extends SuperController
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
 
         $order = $this->getOrder($request);
+        $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
 
-        if ($request->query->has($form->getName())) {           // manually bind values from the request
-
+        if ($request->query->has($form->getName())) {          // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
 
             if ($form->isValid()) {
-
                 $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
-
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
                 $query = $filterBuilder->getQuery();
+                $filterParams = $request->query->get($form->getName());
+                $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($filterParams);
 
             } else {
-
                 $this->addFlash('filter-danger', 'Помилка заповнення даних фільтру!');
-                $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
             }
-
-        } else {
-            $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
         }
+
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
-
         $sortString = $this->parseSortString($request);
-
-        if ($form->isValid()) {
-            $filterParams = $request->query->get('item_filter');
-            $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($filterParams);
-
-        }
 
         $data = ['typeView' => $typeView, 'sortString' => $sortString, 'filterAttributes' => $filterAttributes];
 
