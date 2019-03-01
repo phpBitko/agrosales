@@ -205,6 +205,7 @@ $(function () {
     //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
 
+        addErrors(data.errors);
         vectorSourcePoints.clear();
         $.each(data.data, function (i, value) {
             features = format.readFeature(value.geom, {
@@ -217,6 +218,19 @@ $(function () {
 
         });
         addVectorLayer(vectorSourcePoints);
+    }
+
+    function addErrors (errors)
+    {
+        $('.filter-result').html('');
+        $('.filter-result').removeClass('alert alert-danger');
+        if (errors.length > 0){
+            errors.forEach(function(item) {
+                $('.filter-result').prepend('<div>' + item + '</div>');
+                $('.filter-result').addClass('alert alert-danger');
+            });
+        }
+
     }
 
 
@@ -248,6 +262,7 @@ $(function () {
             dataType: 'json',
             method: 'POST',
             success: function (data) {
+
                 $('body').preloader('remove');
                 addAdvertLayers(data);
             },
@@ -345,6 +360,7 @@ $(function () {
             processData: false,
             contentType: false,
             success: function (data) {
+                console.log(data);
                 $('body').preloader('remove');
                 addAdvertLayers(data);
             },

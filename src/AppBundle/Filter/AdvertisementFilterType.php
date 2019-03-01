@@ -26,14 +26,25 @@ class AdvertisementFilterType extends AbstractType
                 'scale' => 4,
                 'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN,
                 'constraints' => [
-                    new Range(['min' => 0, 'groups' => 'filtering']),
-
+                    new Range([
+                        'min' => 0,
+                        'max' => 10,
+                        'groups' => 'filtering',
+                        'minMessage' => 'Значення має бути не менше {{ limit }}',
+                        'maxMessage' => 'Значення має бути не більше 10 га.',
+                    ]),
                 ]
             ],
             'right_number_options' => [
                 'scale' => 4,
                 'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN,
-                'constraints' => new Range(['max' => 1000, 'groups' => 'filtering']),
+                'constraints' => new Range([
+                    'min' => 0,
+                    'max' => 10,
+                    'groups' => 'filtering',
+                    'minMessage' => 'Значення має бути не менше {{ limit }}',
+                    'maxMessage' => 'Значення має бути не більше 10 га.',
+                ]),
             ],
 
         ]);
@@ -62,11 +73,26 @@ class AdvertisementFilterType extends AbstractType
         $builder->add('price', IntegerRangeFilterType::class, [
             'left_number_options' => [
                 'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN,
-                'constraints' => new Range(['min' => 0, 'groups' => 'filtering'])
+                'constraints' => [
+                    new Range([
+                        'min' => 0,
+                        'max' => 10000000,
+                        'groups' => 'filtering',
+                        'minMessage' => 'Значення має бути не менше {{ limit }}',
+                        'maxMessage' => 'Значення має бути не більше 10 млн.',
+                    ]),
+
+                ],
             ],
             'right_number_options' => [
                 'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN,
-                'constraints' => new Range(['max' => 1000000, 'groups' => 'filtering'])
+                'constraints' => new Range([
+                    'min' => 0,
+                    'max' => 10000000,
+                    'groups' => 'filtering',
+                    'minMessage' => 'Значення має бути не менше {{ limit }}',
+                    'maxMessage' => 'Значення має бути не більше 10 млн.',
+                ])
             ],
         ]);
 

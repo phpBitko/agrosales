@@ -1,5 +1,6 @@
 
 .advertisement-filter {
+
   .filter-price input#slider-price, .filter-area input#slider-area {
    display: none;
   }
@@ -43,6 +44,9 @@
     }
     .box-body {
       .filter-result {
+        width: 97%;
+        margin: 0 auto;
+        margin-top: 3px;
         padding: 0 5px;
         .filter-result-tags {
           display: flex;

@@ -56,7 +56,7 @@ class AdvertisementController extends SuperController
 
             } else {
 
-                $this->addFlash('danger', 'Помилка! Перевірьте, будь ласка, правильність заповнення даних фільтру!');
+                $this->addFlash('filter-danger', 'Помилка заповнення даних фільтру!');
                 $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
             }
 
@@ -64,10 +64,12 @@ class AdvertisementController extends SuperController
             $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
         }
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
+
         $sortString = $this->parseSortString($request);
 
         if ($form->isValid()) {
-            $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($request);
+            $filterParams = $request->query->get('item_filter');
+            $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($filterParams);
 
         }
 
@@ -212,7 +214,7 @@ class AdvertisementController extends SuperController
      */
     protected function parseSortString(Request $request)
     {
-        $stringSelected = 'Спочатку додані пізніше';
+        $stringSelected = 'Спочатку пізніше додані';
 
         if ($request->query->get('sort')) {
             $field = explode('.', $request->query->get('sort'), 2);
@@ -220,7 +222,7 @@ class AdvertisementController extends SuperController
 
             if ($field[1] == 'price') {
                 $addString = ($orderType == 'asc') ? ' дешевші' : ' дорожчі';
-                $stringSelected = "Спочатку $addString";
+                $stringSelected = "Спочатку$addString";
             } elseif ($field[1] == 'area') {
                 $addString = ($orderType == 'asc') ? ' менші' : ' більші';
                 $stringSelected = "Спочатку $addString за площею";

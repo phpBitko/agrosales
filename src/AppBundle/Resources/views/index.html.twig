@@ -50,7 +50,7 @@
                                  active
                             {% endif %}
                             " href="{{ path('map_index') }}">
-                                <i class="fas fa-map-marked-alt"></i>Карта</a>
+                                <i class="fas fa-map-marked-alt"></i>{{ 'Карта'|trans }}</a>
                         </li>
 
                         {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -58,19 +58,19 @@
                                 {% if  is_granted('ROLE_ADMIN') %}
                                     <a class="nav-link main-menu {{ app.request.attributes.get("_route")|slice(0, 5) == 'admin' ? 'active' }}"
                                        href="{{ path('admin.advertisement_get_advertisement') }}">
-                                        <i class="fas fa-tools"></i>{{ 'Панель адміністратора' }}
+                                        <i class="fas fa-tools"></i>{{ 'Панель адміністратора'|trans }}
                                     </a>
                                 {% else %}
                                     <a class="nav-link main-menu {{ app.request.attributes.get('_route')|slice(0, 7) == 'cabinet' ? 'active' }}"
                                        href="{{ path('cabinet_index') }}">
                                         <i class="fas fa-tools"></i>
-                                        {{ 'Кабінет' }}
+                                        {{ 'Кабінет'|trans }}
                                     </a>
                                 {% endif %}
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link main-menu" href="#">Контакти</a>
+                            <a class="nav-link main-menu" href="#">{{ 'Контакти'|trans }}</a>
                         </li>
                     </ul>
 
@@ -91,7 +91,7 @@
                         {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">
-                                    <i class="fas fa-sign-out-alt"></i>Вийти, {{ app.user.username }}</a>
+                                    <i class="fas fa-sign-out-alt"></i>{{ 'Вийти'|trans }}, {{ app.user.username }}</a>
 
                             </li>
                         {% else %}
@@ -101,7 +101,7 @@
                                             active
                                         {% endif %}
                                         " href="{{ path('fos_user_security_login') }}">
-                                    <i class="btn-input far fa-user pr-2"></i>Увійти</a>
+                                    <i class="btn-input far fa-user pr-2"></i>{{ 'Увійти'|trans }}</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -117,7 +117,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-2 col-md-4">
-                    © 2018. Всі права захищено.
+                    © 2018-2019. Всі права захищено.
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-4">
                     <div class="footer-title-block">Розділи</div>

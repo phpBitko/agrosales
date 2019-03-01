@@ -4,6 +4,18 @@
   .alert-danger {
     margin-bottom: 0 !important;
   }
+
+  .alert-filter-error {
+    ul {
+      margin: 0;
+      padding: 0;
+      li{
+        list-style-type: none;
+      }
+    }
+
+  }
+
   .filter-price input#slider-price, .filter-area input#slider-area {
     visibility: hidden;
   }

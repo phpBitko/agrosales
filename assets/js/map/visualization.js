@@ -17,7 +17,7 @@ $(document).ready(function () {
         placement: 'bottom',
     });
 
-    $('.control-panel').tooltip({
+    $('.control-panel, .zoom-layer').tooltip({
         trigger: 'hover',
         selector: '[data-toggle="tooltip"]',
         placement: 'left',

@@ -40,7 +40,7 @@ class MapController extends SuperController
 
         if ($request->request->get($form->getName())) {
             $session = new Session();
-            $session->set($form->getName(),$request->request->get($form->getName()));
+            $session->set($form->getName(), $request->request->get($form->getName()));
             $form->submit($request->request->get($form->getName()));
         }
 
@@ -110,123 +110,60 @@ class MapController extends SuperController
      */
     public function getFilterAdvertisementAction(Request $request)
     {
-
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $advertisement = $em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $em]);
         $filterArray = [];
-
-        $filterArray = $session->get($form->getName())  ? $session->get($form->getName())  : $request->request->get($form->getName());
-        dump($filterArray);
-
-
-
+        $errors = [];
+        $filterArray = $session->get($form->getName()) ? $session->get($form->getName()) : $request->request->get($form->getName());
         try {
             $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
+
             if ($filterArray) {
                 $form->submit($filterArray);
-                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+                if ($form->isValid()) {
+                    $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+                } else {
+                    $errors = $this->parseErrors($form->getErrors(true));
+                }
                 $session->remove($form->getName());
-
             } else {
-                $filterArray = [];
                 $form->submit($filterArray);
             }
             $query = $filterBuilder->getQuery();
             $advertisement = $query->getResult();
 
-
             if (empty($advertisement)) {
                 throw new WarningException('Нічого не знайдено!');
             }
 
-            return $this->json(array('data' => $advertisement), Response::HTTP_OK);
+            return $this->json(['data' => $advertisement, 'errors' => $errors], Response::HTTP_OK);
 
         } catch (WarningException $exception) {
             return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
 
 
     /**
-     * Парсить строку url з параметрами, та готує дані для відображення параметрів фільтрації
+     * Повертає масив з переліком помилок
      *
-     * @param Request $request
+     * @param $arrayErrors
      * @return array
      */
-    protected function parseQueryString(Request $request)
+    private function parseErrors($arrayErrors)
     {
-        $filterParams = $request->query->get('item_filter');
-
-        $resultFilter = [];
-        $arrParam = ['addDate', 'area', 'price', 'dirPurpose', 'isRoad', 'isElectricity', 'isGas', 'isSewerage', 'isWaterSupply'];
-        try {
-            if ($filterParams !== null) {
-                $str = $request->getQueryString();
-                $strMassOrig = explode('%', $str);
-
-                foreach ($strMassOrig as $k => $v) {
-                    $strMassCut[$k] = ltrim($v, '5B');
-                }
-
-                foreach ($strMassCut as $k => $v) {
-                    if (in_array($v, $arrParam) and (!isset($resultFilter[$v]['strHref']))) {
-                        $strMassOrigReplice = $strMassOrig;
-                        if ($v == 'price') {
-                            $strMassOrigReplice[$k + 3] = '5D=&item_filter';
-                            $strMassOrigReplice[$k + 7] = '5D=&submit-filter=';
-                        } elseif ($v == 'dirPurpose') {
-                            $keyPurpose = $k;
-                            $rowNumber = 0;
-                            while ($strMassOrigReplice[$keyPurpose] == '5BdirPurpose') {
-                                $keyPurpose += 4;
-                                $rowNumber++;
-                            }
-                            array_splice($strMassOrigReplice, $k, $rowNumber * 4);
-                        } elseif ($v == 'isRoad' or $v == 'isWaterSupply' or $v == 'isElectricity' or $v == 'isGas' or $v == 'isSewerage') {
-                            unset($strMassOrigReplice[$k]);
-                            unset($strMassOrigReplice[$k + 1]);
-
-                        } else {
-                            $strMassOrigReplice[$k + 3] = '5D=&item_filter';
-                            $strMassOrigReplice[$k + 7] = '5D=&item_filter';
-                        }
-
-                        if ($v == 'addDate') {
-                            if ($filterParams[$v]['left_datetime'] != '') {
-                                $resultFilter[$v]['left'] = $filterParams[$v]['left_datetime'];
-                            }
-                            if ($filterParams[$v]['right_datetime'] != '') {
-                                $resultFilter[$v]['right'] = $filterParams[$v]['right_datetime'];
-                            }
-                        } elseif ($v == 'dirPurpose') {
-                            $resultFilter[$v]['purpose'] = $filterParams[$v];
-                        } elseif ($v == 'isRoad' or $v == 'isWaterSupply' or $v == 'isElectricity' or $v == 'isGas' or $v == 'isSewerage') {
-                            $resultFilter[$v]['param'] = $filterParams[$v];
-                        } else {
-                            if ($filterParams[$v]['left_number'] != '') {
-                                $resultFilter[$v]['left'] = $filterParams[$v]['left_number'];
-                            }
-                            if ($filterParams[$v]['right_number'] != '') {
-                                $resultFilter[$v]['right'] = $filterParams[$v]['right_number'];
-                            }
-                        }
-                        if (array_key_exists($v, $resultFilter)) {
-                            $resultFilter[$v]['strHref'] = implode('%', $strMassOrigReplice);
-                        }
-                    }
-                }
-                $resultFilter = $this->parseResultFilter($resultFilter);
+        $errors = [];
+        if ($arrayErrors) {
+            foreach ($arrayErrors as $key => $error) {
+                $template = $error->getMessage();
+                $errors[$key] = $template;
             }
-            return $resultFilter;
-        } catch (\Exception $exception) {
-
-            return $resultFilter = [];
         }
+        return $errors;
     }
 
 

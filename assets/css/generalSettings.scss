@@ -5,9 +5,16 @@ $fa-font-path: "~font-awesome/fonts";
 @import '~bootstrap-select/dist/css/bootstrap-select';
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
+//------------------------------------------------------------------налаштування
 $text-color: #626161;
 $base-color: #3c8dbc;
-$icon-color: #adb5bd; //---------колір іконок в оголошенні
+$icon-color: #adb5bd; //колір іконок в оголошенні
+
+//------------------------------------ tooltip bootstrap
+$background-field: #515151; //колір підложки
+$tooltip-font-color: white; //колір тексту
+$tooltip-border-color: white; //колір межі
+
 
 @font-face {
   font-family: 'MyriadPro';
@@ -34,13 +41,12 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
 }
 
 .tooltip-inner {
-  background: #515151;
-  border: 1px solid white;
-  color: white;
+  background: $background-field;
+  border: 1px solid $tooltip-border-color;
+  color: $tooltip-font-color;
   border-radius: 2px;
   opacity: 1 !important;
   filter: alpha(opacity=100);
-
 }
 
 .tooltip.in {
@@ -48,15 +54,19 @@ $icon-color: #adb5bd; //---------колір іконок в оголошенні
   filter: alpha(opacity=100);
 }
 
-.tooltip-arrow {
-  color: #777777;
-}
-
-.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
-  border-top-color: #777777;
-  border-bottom-color: #515151;
+//---------- для стрілки вниз
+.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before{
+  border-bottom-color: $background-field;
   opacity: 1 !important;
 }
+
+//---------- для стрілки вліво
+.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before{
+  border-left-color: $background-field;
+  opacity: 1 !important;
+}
+
+
 
 //---------------------------------------------------------------------------------------
 body {

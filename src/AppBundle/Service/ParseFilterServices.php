@@ -14,14 +14,13 @@ class ParseFilterServices
      * @param Request $request
      * @return array
      */
-    public function parseQueryString(Request $request)
+    public function parseQueryString($filterParams)
     {
-        $filterParams = $request->query->get('item_filter');
-
         $resultFilter = [];
 
         if ($filterParams !== null) {
-
+            /* $filterParams = $this->prepareFilterParam($filterParams);
+             dump($filterParams);*/
             $queryParamArray = [];
 
             foreach ($filterParams as $k => $v) {
@@ -33,12 +32,12 @@ class ParseFilterServices
                     $resultFilter[$k] = $v;
                     $str = http_build_query($queryParamArray);
                     $resultFilter[$k]['strHref'] = $str;
+
                 } else {
                     $str = http_build_query($queryParamArray);
                     $resultFilter[$k]['param'] = 1;
                     $resultFilter[$k]['strHref'] = $str;
                 }
-
             }
 
             $resultFilter = $this->parseResultFilter($resultFilter);
@@ -64,16 +63,16 @@ class ParseFilterServices
                     case 'price':
                         if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
                             $str = 'ціна ';
-                            $str .= (!empty($v['left_number'])) ? 'від: ' . $v['left_number'] . ' ' : '';
-                            $str .= (!empty($v['right_number'])) ? 'до: ' . $v['right_number'] : '';
+                            $str .= (!empty($v['left_number'])) ? 'від: ' . floor($v['left_number']) . ' ' : '';
+                            $str .= (!empty($v['right_number'])) ? 'до: ' . floor($v['right_number']) : '';
                             $arrCopy[$k]['strText'] = $str;
                         }
                         break;
                     case 'area':
                         if (!empty($arrayFilter[$k]['left_number']) || !empty($arrayFilter[$k]['right_number'])) {
                             $str = 'площа ';
-                            $str .= (!empty($v['left_number'])) ? 'від: ' .round((str_replace(',', '.', $v['left_number'])), 4) . ' ' : '';
-                            $str .= (!empty($v['right_number'])) ? 'до: ' . round((str_replace(',', '.', $v['right_number'])), 4) : '';
+                            $str .= (!empty($v['left_number'])) ? 'від: ' . number_format(round((str_replace(',', '.', $v['left_number'])), 4), 4, ".", "") . ' ' : '';
+                            $str .= (!empty($v['right_number'])) ? 'до: ' . number_format(round((str_replace(',', '.', $v['right_number'])), 4), 4, ".", "") : '';
                             $arrCopy[$k]['strText'] = $str;
                         }
                         break;

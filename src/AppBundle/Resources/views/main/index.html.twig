@@ -17,8 +17,8 @@
 
         </div>
         <div class="title-content col-10">
-            <h1>Сайт продажу земельних ділянок</h1>
-            <p> Сайт створено для пошуку та розміщення оголошень про продаж та оренду земельних ділянок
+            <h1>{{ 'Сайт продажу земельних ділянок'|trans }}</h1>
+            <p> {{ 'Сайт створено для пошуку та розміщення оголошень про продаж та оренду земельних ділянок'|trans }}
             </p>
         </div>
     </div>
@@ -30,24 +30,24 @@
                         <img src="{{ asset('bundles/app/img/location.png') }}" alt="map">
                     </div>
 
-                    <div>Перейти на карту</div>
+                    <div>{{ 'Перейти на карту'|trans }}</div>
                 </a>
                 <a class="block-advertisement" href="{{ path('cabinet_create_advertisement') }}">
                     <div class="block-cover">
                         <img src="{{ asset('bundles/app/img/map-of-roads.png') }}" alt="map">
                     </div>
-                    <div>Додати оголошення</div>
+                    <div>{{ 'Додати оголошення'|trans }}</div>
                 </a>
                 <a class="block-search" href="{{ path('advertisement_index') }}">
                     <div class="block-cover">
                         <img src="{{ asset('bundles/app/img/planet-earth.png') }}" alt="map">
                     </div>
-                    <div>Пошук ділянки</div>
+                    <div>{{ 'Пошук ділянки'|trans }}</div>
                 </a>
             </div>
         </div>
         <div class="row">
-            <div class="col-11 last-advertisement-title">Останні оголошення</div>
+            <div class="col-11 last-advertisement-title">{{ 'Останні оголошення'|trans }}</div>
             <div class="last-advertisement col-11">
 
                 {% for item in advertisement %}

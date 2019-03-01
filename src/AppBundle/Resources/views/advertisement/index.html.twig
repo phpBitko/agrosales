@@ -21,26 +21,26 @@
                         <div class="dropdown ">
                             <button class="btn" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div>{{ data.sortString }}</div>
+
+                                <div>{{ data.sortString|trans }}</div>
                                 <div><i class="fas fa-caret-down"></i></div>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {{ knp_pagination_sortable(advertisement, 'Спочатку дорожчі', 'q.price', {}, {'direction': 'desc'}) }}
-                                {{ knp_pagination_sortable(advertisement, 'Спочатку дешевші', 'q.price', {}, {'direction': 'asc'}) }}
-                                {{ knp_pagination_sortable(advertisement, 'Спочатку менші за площею', 'q.area', {}, {'direction': 'asc'}) }}
-                                {{ knp_pagination_sortable(advertisement, 'Спочатку більші за площею', 'q.area', {}, {'direction': 'desc'}) }}
-                                {{ knp_pagination_sortable(advertisement, 'Спочатку раніше додані', 'q.addDate', {}, {'direction': 'asc'}) }}
-                                {{ knp_pagination_sortable(advertisement, 'Спочатку пізніше додані', 'q.addDate', {}, {'direction': 'desc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку дорожчі'|trans, 'q.price', {}, {'direction': 'desc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку дешевші'|trans, 'q.price', {}, {'direction': 'asc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку менші за площею'|trans, 'q.area', {}, {'direction': 'asc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку більші за площею'|trans, 'q.area', {}, {'direction': 'desc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку раніше додані'|trans, 'q.addDate', {}, {'direction': 'asc'}) }}
+                                {{ knp_pagination_sortable(advertisement, 'Спочатку пізніше додані'|trans, 'q.addDate', {}, {'direction': 'desc'}) }}
                             </div>
                         </div>
                     </div>
 
                     <div class="count">
-                        Всього результатів: {{ advertisement.getTotalItemCount }}
+                        {{ 'Всього'|trans }} {{ 'результатів'|trans|raw }}: {{ advertisement.getTotalItemCount }}
                     </div>
                     <a href="{{ path('advertisement_index',{'typeView' : 'tab'}) ~ (app.request.queryString ? '?' ~
-                    app.request.queryString ) }}
-                                ">
+                    app.request.queryString ) }}">
                         <i class="fas fa-th"></i>
                     </a>
                     <a href="{{ path('advertisement_index',{'typeView' : 'list'})~ (app.request.queryString ? '?' ~
@@ -49,7 +49,7 @@
                     </a>
                 </div>
                 {% if (advertisement.getTotalItemCount == 0) %}
-                    <div>Жодного результату не знайдено!</div>
+                    <div>{{ 'Жодного результату не знайдено'|trans }}!</div>
                 {% else %}
                     {% for item in advertisement %}
                         {% if data.typeView == 'tab' %}

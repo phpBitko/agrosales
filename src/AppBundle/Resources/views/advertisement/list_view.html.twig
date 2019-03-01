@@ -1,6 +1,6 @@
 <div class="advertisement-one-list">
     {% if item.isTop|default(false) == true %}
-        <div class="advertisement-one-top"><span>В топі</span></div>
+        <div class="advertisement-one-top"><span>{{ 'В топі'|trans }}</span></div>
     {% endif %}
     <div class="advertisement-img">
         <a href="" alt="">
@@ -71,9 +71,9 @@
     </div>
     <div class="advertisement-properties">
         <div class="advertisement-properties-text">
-            <div>Площа:</div>
-            <div>Ціна:</div>
-            <div>Ціна за сотку:</div>
+            <div>{{ 'Площа'|trans }}:</div>
+            <div>{{ 'Ціна'|trans }}:</div>
+            <div>{{ 'Ціна'|trans }} за сотку:</div>
 
         </div>
         <div class="advertisement-properties-value">

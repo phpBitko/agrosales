@@ -3,6 +3,7 @@
 @import '~bootstrap-slider/dist/css/bootstrap-slider.css';
 @import 'filter';
 
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -281,7 +282,6 @@ $mouse-position-height: 28px;
   height: $mouse-position-height;
   position: fixed;
   padding: 5px 9px;
-  //background-color: #f9f7f6;
   background: rgba(249, 247, 246, 0.7);
   text-align: center;
   top: calc(100vh - 28px);
@@ -505,7 +505,6 @@ $mouse-position-height: 28px;
 
       }
     }
-
     .advertisement-text-position {
       display: block;
       height: 35px;
