@@ -33,28 +33,31 @@ class AdvertisementController extends SuperController
      * @Route("/{typeView}",  defaults={"page": 1}, requirements={"typeView": "list|tab"}, name="advertisement_index", methods={"GET"})
      * @return Response
      */
-    public function indexAction(Request $request, PaginatorServices $paginator, $typeView = 'list')
+    public function indexAction(Request $request, PaginatorServices $paginator, ParseFilterServices $parseFilterServices, $typeView = 'list')
     {
         $filterAttributes = '';
         $advertisement = $this->em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $this->em]);
 
         $order = $this->getOrder($request);
-        $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
 
         if ($request->query->has($form->getName())) {          // manually bind values from the request
-            $form->submit($request->query->get($form->getName()));
+            $filterParams = $request->query->get($form->getName());
+            $form->submit($filterParams);
 
             if ($form->isValid()) {
                 $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
                 $query = $filterBuilder->getQuery();
-                $filterParams = $request->query->get($form->getName());
-                $filterAttributes = $this->get('app.service.parse_filter')->parseQueryString($filterParams);
+                $filterAttributes = $parseFilterServices->parseQueryString($filterParams);
 
             } else {
                 $this->addFlash('filter-danger', 'Помилка заповнення даних фільтру!');
             }
+        }
+
+        if (!isset($query)) {
+            $query = $advertisement->queryFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
         }
 
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));

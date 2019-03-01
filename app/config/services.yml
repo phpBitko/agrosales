@@ -57,10 +57,6 @@ services:
             tags:
                 - { name: form.type, alias: app_user_registration }
 
-    app.service.parse_filter:
-            class: AppBundle\Service\ParseFilterServices
-            public: true
-
     #app.register:
     #        autoconfigure: false
     #        class: AppBundle\EventListener\AutoDisableUserListener
