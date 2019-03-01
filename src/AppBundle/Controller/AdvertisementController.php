@@ -36,7 +36,6 @@ class AdvertisementController extends SuperController
     public function indexAction(Request $request, PaginatorServices $paginator, $typeView = 'list')
     {
         $filterAttributes = '';
-
         $advertisement = $this->em->getRepository('AppBundle:Advertisement');
         $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $this->em]);
 
