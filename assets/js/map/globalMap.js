@@ -17,7 +17,8 @@ bootboxAlertMessage = require('../../js/functionLib/bootboxAlertMessage');
 
 require('../../js/map/initialLayers');
 require('../../js/map/initialToolbar');
-feature = require('../../js/functionLib/featureManipulations');
+featureMapControl = require('../../js/functionLib/featureManipulations');
+serviceFunction = require('../../js/functionLib/serviceFunction');
 require('../../js/map/addAdvertisement');
 require('../../js/map/visualization');
 require('../../js/map/zoomToPoint');

@@ -55,14 +55,6 @@ $(function () {
         })
     });
 
-/*    function setTooltip() {
-        $('[data-toggle="tooltip"]').tooltip({
-            trigger: 'hover',
-        });
-
-    }*/
-
-
     function setStyleCluster(size, colorFill, colorStroke) {
 
         //--------------------------------стиль для відображення кластерів на карті
@@ -85,9 +77,7 @@ $(function () {
                 })
             })
         });
-
         return styleCluster;
-
     };
 
 //------------------------------- обробка кнопок фільтра
@@ -197,15 +187,18 @@ $(function () {
             vectorPoints.setSource(clusterSource);
 
             if (vectorSourcePoints.getFeatures().length) {
-                feature.zoomToFeature(vectorSourcePoints);
+                featureMapControl.zoomToFeature(vectorSourcePoints);
             }
         }
     }
 
     //----------------переберає отримані дані з контролєра і додає в обєкт Sourse
     function addAdvertLayers(data) {
-
-        addErrors(data.errors);
+        $('.filter-result').html('');
+        $('.filter-result').removeClass('alert alert-danger');
+        if (data.errors.length > 0) {
+            addErrors(data.errors);
+        }
         vectorSourcePoints.clear();
         $.each(data.data, function (i, value) {
             features = format.readFeature(value.geom, {
@@ -220,17 +213,11 @@ $(function () {
         addVectorLayer(vectorSourcePoints);
     }
 
-    function addErrors (errors)
-    {
-        $('.filter-result').html('');
-        $('.filter-result').removeClass('alert alert-danger');
-        if (errors.length > 0){
-            errors.forEach(function(item) {
-                $('.filter-result').prepend('<div>' + item + '</div>');
-                $('.filter-result').addClass('alert alert-danger');
-            });
-        }
-
+    function addErrors(errors) {
+        errors.forEach(function (item) {
+            $('.filter-result').prepend('<div>' + item + '</div>');
+            $('.filter-result').addClass('alert alert-danger');
+        });
     }
 
     $('.map-details-info').draggable({
@@ -303,12 +290,9 @@ $(function () {
                         zoom: view.getZoom() + 1,
                         duration: 200,
                         center: evt.coordinate,
-
                     })
                 }
-
             }
-
         }
     });
 
@@ -377,7 +361,7 @@ $(function () {
             $('.map-details-info').removeClass('hidden')
         }
         if ($('#map-properties-geom').text() !== undefined && $('#map-properties-geom').text() !== '') {
-            feature.zoomToFeatureWKT($('#map-properties-geom').text());
+            featurefeatureMapControl.zoomToFeatureWKT($('#map-properties-geom').text());
         }
     }
 

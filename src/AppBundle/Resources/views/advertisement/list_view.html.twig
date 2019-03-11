@@ -21,46 +21,46 @@
         <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
            class="advertisement-text-title">
             {% if item.textHead|length >70 %}
-                {{ item.textHead|isEmpty|slice(0,66) }}. . .
+                {{ item.textHead|e|isEmpty|slice(0,66) }}. . .
             {% else %}
-                {{ item.textHead|isEmpty }}
+                {{ item.textHead|e|isEmpty }}
             {% endif %}
         </a>
         <div class="advertisement-text-content">
             {% if item.textAbout|length >130 %}
-                {{ item.textAbout|slice(0,125) }}. . .
+                {{ item.textAbout|e|slice(0,125) }}. . .
             {% else %}
-                {{ item.textAbout|isEmpty }}
+                {{ item.textAbout|e|isEmpty }}
             {% endif %}
         </div>
         <div class="details-provision">
             <div class="details-road {{ item.isRoad ? 'active' }}"
                  data-toggle="tooltip" title=" {{ item.isRoad ? 'Присутній':'Відсутній' }}
-                                     під'їзд з твердим покриттям ">
+                                     {{ "під'їзд з твердим покриттям"|trans }} ">
                 <img src="{{ asset('bundles/app/img/ico/road_'~(item.isRoad ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-water {{ item.isWaterSupply ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isWaterSupply ? 'Присутнє ' : 'Відсутнє ' }}водопостачання ">
+                 title="{{ item.isWaterSupply ? 'Присутнє '|trans : 'Відсутнє '|trans }} {{ 'водопостачання'|trans }} ">
                 <img src="{{ asset('bundles/app/img/ico/water_'~(item.isWaterSupply ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-gas {{ item.isGas ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isGas ? 'Присутнє ' : 'Відсутнє ' }}газопостачання ">
+                 title="{{ item.isGas ? 'Присутнє ' : 'Відсутнє ' }}{{ 'газопостачання'|trans }} ">
                 <img src="{{ asset('bundles/app/img/ico/valve_'~(item.isGas ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-sewerage {{ item.isSewerage ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isSewerage ? 'Присутня ' : 'Відсутня ' }}централізована каналізація ">
+                 title="{{ item.isSewerage ? 'Присутня '|trans : 'Відсутня '|trans }} {{ 'централізована каналізація'|trans }}">
                 <img src="{{ asset('bundles/app/img/ico/waste_'~(item.isSewerage ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-electricity {{ item.isElectricity ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}елекрозабезпечення ">
+                 title="{{ item.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}{{ 'елекрозабезпечення'|trans }} ">
                 <img src="{{ asset('bundles/app/img/ico/idea_'~(item.isElectricity ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
@@ -77,21 +77,18 @@
 
         </div>
         <div class="advertisement-properties-value">
-            <div class="advertisement-text-square">{{ (item.area*100)|number_format(0,',',' ') }}
-                соток
-            </div>
-            <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $</div>
+            <div class="advertisement-text-square">{{ item.area|number_format(4,'.',' ') }} {{ 'га'|trans }}</div>
+            <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} {{ '₴'|trans }}</div>
             <div class="advertisement-text-square">
-                {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }}
-                $ /сотка
+                {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }} {{ '₴/сотка'|trans }}
             </div>
         </div>
         <div class="advertisement-properties-button-container btn-container">
             <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
                class="advertisement-properties-button btn-blue-cut" tabindex="-1" role="button"
-               aria-disabled="true">Детально...
+               aria-disabled="true">{{ 'Детально...'|trans }}
             </a>
-            <a href="{{ path('map_index',{'id' : item.id}) }}" class="advertisement-text-position btn-position-cut" >
+            <a href="{{ path('map_index',{'id' : item.id}) }}" class="advertisement-text-position btn-position-cut">
                 <i class="fas fa-map-marker-alt"></i>
             </a>
         </div>

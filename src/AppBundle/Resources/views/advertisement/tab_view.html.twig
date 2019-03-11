@@ -1,6 +1,6 @@
 <div class="advertisement-one">
     {% if item.isTop|default(false) == true %}
-        <div class="advertisement-one-top"><span>В топі</span></div>
+        <div class="advertisement-one-top"><span>{{ 'В топі'|trans }}</span></div>
     {% endif %}
     <div class="advertisement-img">
         <a href="#" alt="" data-toggle="modal" data-target="#advertisementModal">
@@ -84,33 +84,33 @@
         <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
            class="advertisement-text-title">
             {% if item.textHead|length >28 %}
-                {{ item.textHead|slice(0,25) }}. . .
+                {{ item.textHead|e|slice(0,25) }}. . .
             {% else %}
-                {{ item.textHead|isEmpty }}
+                {{ item.textHead|e|isEmpty }}
             {% endif %}
         </a>
         <div class="advertisement-text-square">
             <i class="fas fa-vector-square"></i>
-            {{ (item.area*100)|number_format(0,',',' ') }} соток
+            {{ item.area|number_format(4,'.',' ') }}{{ ' га'|trans }}
         </div>
-        <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} $
+        <div class="advertisement-text-price"> {{ item.price|number_format(0,',',' ') }} ₴
             <span class="advertisement-text-square"> |
-                {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }}
-                $ /сотка
-                                </span>
+                {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }} {{ '₴/сотка'|trans }}
+            </span>
         </div>
         <div class="advertisement-text-content">
             {% if item.textAbout|length >58 %}
-                {{ item.textAbout|slice(0,58) }}. . .
+                {{ item.textAbout|e|slice(0,58) }}. . .
             {% else %}
-                {{ item.textAbout|isEmpty }}
+                {{ item.textAbout|e|isEmpty }}
             {% endif %}
         </div>
         <div class="advertisement-text-date"><i class="far fa-clock"></i>
             <div>{{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}</div>
         </div>
-        <a class="advertisement-text-position" href="{{ path('map_index',{'id' : item.id}) }}">Осокорки<i
-                    class="fas fa-map-marker-alt"></i></a>
+        <a class="advertisement-text-position" href="{{ path('map_index',{'id' : item.id}) }}">Осокорки
+            <i class="fas fa-map-marker-alt"></i>
+        </a>
 
     </div>
     <div class="advertisement-geom">{{ item.geom }}</div>

@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ParseFilterServices
 {
-
     /**
      * @param $filterParams
      * @return mixed

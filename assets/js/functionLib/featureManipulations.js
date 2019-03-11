@@ -1,4 +1,4 @@
-var feature = {
+var featureMapControl = {
 
     /**
      * Зумує на обєкти features (дані в форматі VectorSource, обєкт - Map)
@@ -22,7 +22,6 @@ var feature = {
             alert(e.message);
         }
     },
-
 
     /**
      * Зумує на обєкт feature (дані в форматі WKT, обєкт - Map)
@@ -102,4 +101,4 @@ var feature = {
         },*/
 }
 
-module.exports = feature;
+module.exports = featureMapControl;
