@@ -233,7 +233,6 @@ $(function () {
 
     }
 
-
     $('.map-details-info').draggable({
         start: function () {
             $('.map-details-info').addClass('transition-non');
@@ -360,13 +359,10 @@ $(function () {
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log(data);
                 $('body').preloader('remove');
                 addAdvertLayers(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
-
                 $('body').preloader('remove');
                 bootboxAlertMessage(jqXHR);
             },

@@ -1,17 +1,17 @@
+{#{% form_theme form '@App/form/fields.html.twig' %}#}
 {% set strController = app.request.attributes.get('_route')|slice(0,3) %}
 
 <div class="advertisement-filter hidden col-3" xmlns="http://www.w3.org/1999/html">
     {% for messages in app.flashes('filter-danger') %}
         <div class="alert alert-danger"> {{ messages }} </div>
-        <div class="alert alert-danger alert-filter-error">
-            {{ form_errors(form.price.left_number) }}
-            {{ form_errors(form.price.right_number) }}
-            {{ form_errors(form.area.left_number) }}
-            {{ form_errors(form.area.right_number) }}
-            {{ form_errors(form.addDate.left_datetime) }}
-            {{ form_errors(form.addDate.right_datetime) }}
-        </div>
     {% endfor %}
+{#    {% if data.errors|length > 0 %}
+        <div class="alert alert-danger">
+            {% for error in data.errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}#}
 
     {% if strController == 'map' %}
         {{ form_start(form,{'method': 'POST'}) }}
@@ -123,7 +123,7 @@
                     {% else %}
 
                         {% set strUri = app.request.requestUri|split('?', 2) %}
-                        <a class="btn-grey" href="{{ strUri[0] }}">{{ 'Очистити'|trans }} {{ 'фільтр'|trans }} </a>
+                        <a class="btn-grey" href="{{ strUri[0] }}">{{ 'Очистити'|trans }}</a>
                         <div class="filter-container btn-container">
                             <input id="filter-submit" type="submit"
                                    name="submit-filter" value="{{ 'Фільтрувати'|trans }}" class="btn btn-blue-cut">

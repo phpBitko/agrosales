@@ -7,14 +7,12 @@ use AppBundle\Entity\Messages;
 use AppBundle\Entity\ViewInfo;
 use AppBundle\Exception\ViewException;
 use AppBundle\Filter\AdvertisementFilterType;
+use AppBundle\Form\Helpers\FormErrorHelper;
 use AppBundle\Form\MessagesType;
 use AppBundle\Service\ParseFilterServices;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Service\PaginatorServices;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -37,13 +35,16 @@ class AdvertisementController extends SuperController
     {
         $filterAttributes = '';
         $advertisement = $this->em->getRepository('AppBundle:Advertisement');
-        $form = $this->createForm(AdvertisementFilterType::class, null, ['entity_manager' => $this->em]);
+        $form = $this->createForm(AdvertisementFilterType::class);
 
         $order = $this->getOrder($request);
 
         if ($request->query->has($form->getName())) {          // manually bind values from the request
             $filterParams = $request->query->get($form->getName());
             $form->submit($filterParams);
+
+
+            dump($form->getPropertyPath());
 
             if ($form->isValid()) {
                 $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
@@ -52,6 +53,7 @@ class AdvertisementController extends SuperController
                 $filterAttributes = $parseFilterServices->parseQueryString($filterParams);
 
             } else {
+                $this->errors = FormErrorHelper::getErrorMessages($form, true);
                 $this->addFlash('filter-danger', 'Помилка заповнення даних фільтру!');
             }
         }
@@ -63,15 +65,16 @@ class AdvertisementController extends SuperController
         $pagination = $paginator->getPagination($query, $request->query->getInt('page', 1));
         $sortString = $this->parseSortString($request);
 
-        $data = ['typeView' => $typeView, 'sortString' => $sortString, 'filterAttributes' => $filterAttributes];
 
-        return $this->render('AppBundle:advertisement:index.html.twig', [
-            'form' => $form->createView(),
-            'advertisement' => $pagination,
-            'data' => $data,
-        ]);
+        $data = ['typeView' => $typeView, 'sortString' => $sortString, 'filterAttributes' => $filterAttributes, 'errors' => $this->errors];
+
+        return $this->render('AppBundle:advertisement:index.html.twig',
+            [
+                'form' => $form->createView(),
+                'advertisement' => $pagination,
+                'data' => $data,
+            ]);
     }
-
 
     /**
      * @param Request $request
@@ -134,7 +137,6 @@ class AdvertisementController extends SuperController
                     $this->em->flush();
                 }
             }
-
             $formView = $form->createView();
         }
 
@@ -223,6 +225,5 @@ class AdvertisementController extends SuperController
         }
         return $stringSelected;
     }
-
 
 }

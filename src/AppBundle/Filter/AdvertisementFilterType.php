@@ -2,13 +2,14 @@
 
 namespace AppBundle\Filter;
 
-
+use AppBundle\Entity\DirPurpose;
 use AppBundle\Form\Type\IntegerRangeFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Type;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
@@ -18,35 +19,25 @@ class AdvertisementFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $em = $options['entity_manager'];
-        $purpose = $em->getRepository('AppBundle:DirPurpose')->findAll();
-
         $builder->add('area', Filters\NumberRangeFilterType::class, [
             'left_number_options' => [
                 'scale' => 4,
                 'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN,
-                'constraints' => [
-                    new Range([
-                        'min' => 0,
-                        'max' => 10,
-                        'groups' => 'filtering',
-                        'minMessage' => 'Значення має бути не менше {{ limit }}',
-                        'maxMessage' => 'Значення має бути не більше 10 га.',
-                    ]),
-                ]
+                'constraints' => new Range([
+                    'min' => 0,
+                    'groups' => 'filtering',
+                    'minMessage' => 'Значення має бути не менше {{ limit }}',
+                ]),
             ],
             'right_number_options' => [
                 'scale' => 4,
                 'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN,
                 'constraints' => new Range([
                     'min' => 0,
-                    'max' => 10,
                     'groups' => 'filtering',
                     'minMessage' => 'Значення має бути не менше {{ limit }}',
-                    'maxMessage' => 'Значення має бути не більше 10 га.',
                 ]),
             ],
-
         ]);
 
         $builder->add('addDate', Filters\DateTimeRangeFilterType::class, [
@@ -73,25 +64,23 @@ class AdvertisementFilterType extends AbstractType
         $builder->add('price', IntegerRangeFilterType::class, [
             'left_number_options' => [
                 'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN,
-                'constraints' => [
-                    new Range([
-                        'min' => 0,
-                        'max' => 10000000,
-                        'groups' => 'filtering',
-                        'minMessage' => 'Значення має бути не менше {{ limit }}',
-                        'maxMessage' => 'Значення має бути не більше 10 млн.',
-                    ]),
-
+                'constraints' => [new Range([
+                    'min' => 0,
+                    'max' => 2147483647,
+                    'groups' => 'filtering',
+                    'minMessage' => 'Значення має бути не менше {{ limit }}',
+                    'maxMessage' => 'Значення має бути не більше {{ limit }}',
+                ])
                 ],
             ],
             'right_number_options' => [
                 'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN,
                 'constraints' => new Range([
                     'min' => 0,
-                    'max' => 10000000,
+                    'max' => 2147483647,
                     'groups' => 'filtering',
                     'minMessage' => 'Значення має бути не менше {{ limit }}',
-                    'maxMessage' => 'Значення має бути не більше 10 млн.',
+                    'maxMessage' => 'Значення має бути не більше {{ limit }}',
                 ])
             ],
         ]);
@@ -122,15 +111,14 @@ class AdvertisementFilterType extends AbstractType
             'attr' => ['class' => ''],
             'label_attr' => ['class' => 'font-weight-bold'],
         ]);
-        $builder->add('dirPurpose', Filters\ChoiceFilterType::class, [
+        $builder->add('dirPurpose', Filters\EntityFilterType::class, [
             'label' => 'Цільове призначення',
             'multiple' => true,
-            'choices' => $purpose,
-            'choice_label' => function ($purpose, $key, $index) {
-                return ("{$purpose->getCode()} {$purpose->getText()}");
+            'class' => DirPurpose::class,
+            'choice_label' => function ($purpose) {
+                return $purpose->getCode() . ' ' . $purpose->getText();
             },
         ]);
-
     }
 
     public function getBlockPrefix()
@@ -143,10 +131,7 @@ class AdvertisementFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
-
         ));
-        $resolver->setRequired('entity_manager');
-
     }
 
 }

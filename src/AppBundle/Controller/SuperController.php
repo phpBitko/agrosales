@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-//use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Interfaces\InstanceUserInterface;
@@ -24,10 +23,14 @@ class SuperController extends Controller
         'DEACTIVATED' => 4
     ];
 
+
+    protected $errors = '';
+
     /**
      * @var EntityManagerInterface
      */
     protected $em;
+
 
 
     /**

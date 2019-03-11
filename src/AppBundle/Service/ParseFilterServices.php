@@ -9,6 +9,23 @@ class ParseFilterServices
 {
 
     /**
+     * @param $filterParams
+     * @return mixed
+     */
+    public function normalizeFilterParam($filterParams)
+    {
+        if($filterParams) {
+            $filterParams['price']['left_number'] = !empty($filterParams['price']['left_number']) ?
+                floor($filterParams['price']['left_number']) : '';
+            $filterParams['price']['right_number'] = !empty($filterParams['price']['right_number']) ?
+                floor($filterParams['price']['right_number']) : '';
+        }
+        dump($filterParams);
+        return $filterParams;
+
+    }
+
+    /**
      * Парсить строку url з параметрами, та готує дані для відображення параметрів фільтрації
      *
      * @param Request $request
@@ -19,8 +36,7 @@ class ParseFilterServices
         $resultFilter = [];
 
         if ($filterParams !== null) {
-            /* $filterParams = $this->prepareFilterParam($filterParams);
-             dump($filterParams);*/
+
             $queryParamArray = [];
 
             foreach ($filterParams as $k => $v) {

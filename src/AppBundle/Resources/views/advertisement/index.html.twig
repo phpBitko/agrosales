@@ -49,14 +49,10 @@
                     </a>
                 </div>
                 {% if (advertisement.getTotalItemCount == 0) %}
-                    <div>{{ 'Жодного результату не знайдено'|trans }}!</div>
+                    <div >{{ 'Жодного результату не знайдено'|trans }}!</div>
                 {% else %}
                     {% for item in advertisement %}
-                        {% if data.typeView == 'tab' %}
-                            {{ include('@App/advertisement/tab_view.html.twig', { 'item': item }) }}
-                        {% else %}
-                            {{ include('@App/advertisement/list_view.html.twig', { 'item': item }) }}
-                        {% endif %}
+                        {{ include('@App/advertisement/' ~ data.typeView ~ '_view.html.twig', { 'item': item }) }}
                     {% endfor %}
                 {% endif %}
             </div>

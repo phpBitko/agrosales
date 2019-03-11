@@ -12,6 +12,8 @@ require('../../js/lib/adminLTE/js/adminlte');
 require('bootstrap-datepicker');
 require('bootstrap-datepicker/js/locales/bootstrap-datepicker.uk');
 require('bootstrap-slider/dist/bootstrap-slider');
+require('inputmask/dist/jquery.inputmask.bundle'); //маска для ведення значень фільтру
+
 
 require('../../css/advertisement/advertisement.scss');
 require('../../js/advertisement/appAdvertisement');

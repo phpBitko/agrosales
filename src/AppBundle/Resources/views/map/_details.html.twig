@@ -1,6 +1,6 @@
 <div class="map-details-head" >
     <img src="{{ asset('bundles/app/img/information.png') }}">
-    Інформація про ділянку
+    {{ 'Інформація про ділянку'|trans }}
     <button type="button" class="move-right hidden-ico" aria-label="move">
         <span class="fas fa-angle-double-right"></span>
     </button>
@@ -54,32 +54,32 @@
         <img src="{{ asset('bundles/app/img/ico/road_'~(advertisementDetails.isRoad ? 'on' : 'off')~'.png') }}" alt="">
     </div>
     <div class="details-water {{ advertisementDetails.isWaterSupply ? 'active' }}" data-toggle="tooltip"
-         title="{{ advertisementDetails.isWaterSupply ? 'Присутнє ' : 'Відсутнє ' }}водопостачання ">
+         title="{{ advertisementDetails.isWaterSupply ? 'Присутнє ' : 'Відсутнє ' }}{{'водопостачання'|trans}} ">
         <img src="{{ asset('bundles/app/img/ico/water_'~(advertisementDetails.isWaterSupply ? 'on' : 'off')~'.png') }}"
              alt="">
     </div>
     <div class="details-gas {{ advertisementDetails.isGas ? 'active' }}" data-toggle="tooltip"
-         title="{{ advertisementDetails.isGas ? 'Присутнє ' : 'Відсутнє ' }}газопостачання ">
+         title="{{ advertisementDetails.isGas ? 'Присутнє ' : 'Відсутнє ' }}{{ 'газопостачання'|trans }} ">
         <img src="{{ asset('bundles/app/img/ico/valve_'~(advertisementDetails.isGas ? 'on' : 'off')~'.png') }}" alt="">
     </div>
     <div class="details-sewerage {{ advertisementDetails.isSewerage ? 'active' }}" data-toggle="tooltip"
-         title="{{ advertisementDetails.isSewerage ? 'Присутня ' : 'Відсутня ' }}централізована каналізація ">
+         title="{{ advertisementDetails.isSewerage ? 'Присутня ' : 'Відсутня ' }}{{ 'централізована каналізація'|trans }} ">
         <img src="{{ asset('bundles/app/img/ico/waste_'~(advertisementDetails.isSewerage ? 'on' : 'off')~'.png') }}"
              alt="">
     </div>
     <div class="details-electricity {{ advertisementDetails.isElectricity ? 'active' }}" data-toggle="tooltip"
-         title="{{ advertisementDetails.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}елекрозабезпечення ">
+         title="{{ advertisementDetails.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}{{ 'елекрозабезпечення'|trans }} ">
         <img src="{{ asset('bundles/app/img/ico/idea_'~(advertisementDetails.isElectricity ? 'on' : 'off')~'.png') }}"
              alt="">
     </div>
 </div>
 
-<div class="map-purpose"> {{ advertisementDetails.dirPurpose ? advertisementDetails.dirPurpose.text: 'Не вказано цільове призначення' }}</div>
+<div class="map-purpose"> {{ advertisementDetails.dirPurpose ? advertisementDetails.dirPurpose.text: 'Не вказано цільове призначення'|trans }}</div>
 
 <div class="map-main">
     <div class="map-main-caption">
-        <div>Площа:</div>
-        <div>Ціна:</div>
+        <div>{{ 'Площа'|trans }}:</div>
+        <div>{{ 'Ціна'|trans }}:</div>
     </div>
     <div class="map-main-values">
         <div class="map-main-area">{{ (advertisementDetails.area*100)|number_format(0,',',' ') }} соток</div>
@@ -87,7 +87,7 @@
             <span class="map-main-price">{{ advertisementDetails.price|number_format(0,',',' ') }} $</span>
             <span class="map-main-price-to-area">|
                 {{ advertisementDetails.area ? (advertisementDetails.price/advertisementDetails.area/100)|number_format(0,',',' ') }}
-                $ /сотка
+                $ /{{ 'сотка'|trans }}
             </span>
         </div>
     </div>
