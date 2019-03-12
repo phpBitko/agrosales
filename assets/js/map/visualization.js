@@ -23,24 +23,29 @@ $(document).ready(function () {
         placement: 'left',
     });
 
-    $('.choose-layer li').on('click', function () {
+    //Перемикаємо шари
+    $('.choose-layer li:not(#pubMap)').on('click', function () {
         $('.choose-layer li').removeClass('active');
         $(this).addClass('active');
         var selected = $(this).attr('data-val');
-
-        var artbaz = ['pub', 'osm', 'OpenCycleMap', 'google', 'googlehybrid', 'kiev2006', 'emptyRelief', 'emptyLayer', 'topoUA', 'tileLayer', 'bing'];
         mapSales.getLayers().forEach(function (l) {
-
-            if (($.inArray(l.get('name'), artbaz)) > -1) {
-
-                if (l.get('name') !== selected) {
-                    l.setVisible(false);
-
-                } else {
+            if(!(l instanceof VectorLayer) && l.get('name') != 'pub'){
+                l.setVisible(false);
+                if (l.get('name') === selected) {
                     l.setVisible(true);
                 }
             }
         });
+    });
+
+    //Перемикаємо ПКК
+    $('#checkPub').on('click', function (e) {
+        var layer = getLayerByName('pub', mapSales);
+        if($('#checkPub').prop('checked') === false){
+            layer.setVisible(false);
+        }else{
+            layer.setVisible(true);
+        }
     });
 
 

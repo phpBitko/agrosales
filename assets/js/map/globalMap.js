@@ -14,6 +14,7 @@ require('inputmask/dist/jquery.inputmask.bundle'); //маска для веде�
 
 bootboxMessage = require('../../js/functionLib/bootboxMessage');
 bootboxAlertMessage = require('../../js/functionLib/bootboxAlertMessage');
+getLayerByName = require('../../js/functionLib/getLayerByName');
 
 require('../../js/map/initialLayers');
 require('../../js/map/initialToolbar');

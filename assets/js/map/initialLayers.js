@@ -9,6 +9,8 @@ import XYZ from 'ol/source/XYZ.js';
 import {fromLonLat} from 'ol/proj.js';
 import {defaults as defaultControls} from 'ol/control.js';
 
+global.Map = Map;
+
 
 $(function () {
     $('body').preloader();//--------------------запускаємо прелоадер поки все загружаєтся
@@ -69,7 +71,7 @@ $(function () {
     var kievPublichka = new TileLayer({
         source: kievPublichkaSource,
         name: 'pub',
-        visible: 0
+        visible: 1
     });
 
     //---------------------------------------------------- створення об'єкту Map

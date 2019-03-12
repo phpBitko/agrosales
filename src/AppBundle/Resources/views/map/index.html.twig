@@ -2,7 +2,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" type="text/css">
     <link rel="stylesheet" href="{{ asset('build/map.css') }}">
 {% endblock %}
 
@@ -36,10 +35,14 @@
                 <span>{{ 'Open Street map'|trans|raw }}</span></li>
             <li id="orto10000base" class=" choose-layer-item" data-val="kiev2006">
                 <span>{{ 'Космічний знімок'|trans|raw }}</span></li>
-            <li id="pubMap" class=" choose-layer-item" data-val="pub">
-                <span>{{ 'Публічна карта'|trans|raw }}</span></li>
             <li id="bingMap" class=" choose-layer-item" data-val="bing">
                 <span>{{ 'Bing map'|trans|raw }}</span></li>
+            <li id="pubMap" class=" choose-layer-item" data-val="pub">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="checkPub" checked>
+                    <label class="form-check-label" for="checkPub">{{ 'Публічна карта'|trans|raw }}</label>
+                </div>
+            </li>
         </ul>
     </div>
 

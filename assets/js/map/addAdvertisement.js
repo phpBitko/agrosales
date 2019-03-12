@@ -8,6 +8,7 @@ import Feature from 'ol/Feature';
 
 import View from "ol/View";
 import Style from "ol/style/Style";
+global.VectorLayer = VectorLayer;
 
 $(function () {
 
