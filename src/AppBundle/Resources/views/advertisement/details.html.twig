@@ -6,15 +6,17 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" type="text/css">
     <link rel="stylesheet" href="{{ asset('build/advertisement.css') }}">
 
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script src="{{ asset('build/manifest.js') }}"></script>
     <script src="{{ asset('build/vendor.js') }}"></script>
     <script src="{{ asset('build/advertisement.js') }}"></script>
+
 {% endblock %}
 {% block body %}
     <div class="container">
@@ -91,7 +93,7 @@
                     </span>
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Осокорки</span>
-                    <label data-toggle="tooltip" data-placement="bottom"  title="кількість переглядів">
+                    <label data-toggle="tooltip" data-placement="bottom" title="{{ 'кількість переглядів'|trans }}">
                         <i class="fas fa-eye"></i>
                         <span>{{ advertisement.viewCount }}</span>
                     </label>
@@ -100,8 +102,9 @@
             <div class="details-map col-4">
                 <div id="details-map-container">
                     <div class="details-map-navigation">
-                        <button id="details-map-full" class="cp-layer" type="button" tabindex="0" data-placement="bottom"
-                                data-toggle="tooltip" title="Зумувати на ділянку">
+                        <button id="details-map-full" class="cp-layer" type="button" tabindex="0"
+                                data-placement="bottom"
+                                data-toggle="tooltip" title="{{ 'Зумувати на ділянку'|trans }}">
                         </button>
                     </div>
                 </div>
@@ -121,51 +124,52 @@
                 <div class="details-title">{{ advertisement.textHead|isEmpty }}</div>
                 <div class="details-main">
                     <div class="details-main-caption">
-                        <div>Площа:</div>
-                        <div>Ціна:</div>
-                        <div>Цільове призначення:</div>
+                        <div>{{ 'Площа'|trans }}:</div>
+                        <div>{{ 'Ціна'|trans }}:</div>
+                        <div>{{ 'Цільове призначення'|trans }}:</div>
                     </div>
                     <div class="details-main-values">
-                        <div>{{ (advertisement.area*100)|number_format(0,',',' ') }} соток</div>
+                        <div>{{ advertisement.area|number_format(4,'.',' ') }} {{ 'га'|trans }}</div>
                         <div>
-                            <span class="details-main-price">{{ advertisement.price|number_format(0,',',' ') }} $</span>
+                            <span class="details-main-price">{{ advertisement.price|number_format(0,',',' ') }} ₴</span>
                             |
                             {{ advertisement.area ? (advertisement.price/advertisement.area/100)|number_format(0,',',' ') }}
-                            $ /сотка
+                            ₴/сотка
                         </div>
                         <div>
-                            {{ advertisement.dirPurpose ? advertisement.dirPurpose.text :'Не вказано цільове призначення' }}
+                            {{ advertisement.dirPurpose ? advertisement.dirPurpose.text :'Не вказано цільове призначення'|trans }}
                         </div>
                     </div>
                 </div>
                 <div class="details-provision">
                     <div class="details-road {{ advertisement.isRoad ? 'active' }}"
-                         data-toggle="tooltip" title=" {{ advertisement.isRoad ? 'Присутній' : 'Відсутній' }}
-                          під'їзд з твердим покриттям ">
+                         data-toggle="tooltip"
+                         title=" {{ advertisement.isRoad ? 'Присутній'|trans : 'Відсутній'|trans }}
+                          {{ "під'їзд з твердим покриттям"|trans }}">
                         <img src="{{ asset('bundles/app/img/ico/road_'~(advertisement.isRoad ? 'on' : 'off')~'.png') }}"
                              alt="">
                     </div>
                     <div class="details-water {{ advertisement.isWaterSupply ? 'active' }}"
                          data-toggle="tooltip"
-                         title="{{ advertisement.isWaterSupply ? 'Присутнє ' : 'Відсутнє ' }}водопостачання ">
+                         title="{{ advertisement.isWaterSupply ? 'Присутнє'|trans : 'Відсутнє'|trans }} {{ 'водопостачання'|trans }} ">
                         <img src="{{ asset('bundles/app/img/ico/water_'~(advertisement.isWaterSupply ? 'on' : 'off')~'.png') }}"
                              alt="">
                     </div>
                     <div class="details-gas {{ advertisement.isGas ? 'active' }}"
                          data-toggle="tooltip"
-                         title="{{ advertisement.isGas ? 'Присутнє ' : 'Відсутнє ' }}газопостачання ">
+                         title="{{ advertisement.isGas ? 'Присутнє'|trans : 'Відсутнє'|trans }} {{ 'газопостачання'|trans }} ">
                         <img src="{{ asset('bundles/app/img/ico/valve_'~(advertisement.isGas ? 'on' : 'off')~'.png') }}"
                              alt="">
                     </div>
                     <div class="details-sewerage {{ advertisement.isSewerage ? 'active' }}"
                          data-toggle="tooltip"
-                         title="{{ advertisement.isSewerage ? 'Присутня ' : 'Відсутня ' }}централізована каналізація ">
+                         title="{{ advertisement.isSewerage ? 'Присутня'|trans : 'Відсутня'|trans }} {{ 'централізована каналізація'|trans }} ">
                         <img src="{{ asset('bundles/app/img/ico/waste_'~(advertisement.isSewerage ? 'on' : 'off')~'.png') }}"
                              alt="">
                     </div>
                     <div class="details-electricity {{ advertisement.isElectricity ? 'active' }}"
                          data-toggle="tooltip"
-                         title="{{ advertisement.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}елекрозабезпечення ">
+                         title="{{ advertisement.isElectricity ? 'Присутнє'|trans : 'Відсутнє'|trans }} {{ 'елекрозабезпечення'|trans }} ">
                         <img src="{{ asset('bundles/app/img/ico/idea_'~(advertisement.isElectricity ? 'on' : 'off')~'.png') }}"
                              alt="">
                     </div>
@@ -175,26 +179,26 @@
                     <div>
                         <a href="">
                             <i class="fas fa-bullhorn"></i>
-                            <span>Рекламувати</span>
+                            <span>{{ 'Рекламувати'|trans }}</span>
                         </a>
                     </div>
                     <div>
                         <a href="">
                             <i class="fas fa-share-alt"></i>
-                            <span>Поширити</span>
+                            <span>{{ 'Поширити'|trans }}</span>
                         </a>
                     </div>
                     <div>
                         <a href="">
                             <i class="fas fa-book-open"></i>
-                            <span>Поскаржитись</span>
+                            <span>{{ 'Поскаржитись'|trans }}</span>
                         </a>
                     </div>
                 </div>
                 <div class="block-message">
                     {% if app.user and advertisement.users and (app.user.id == advertisement.users.id  or is_granted('ROLE_ADMIN')) %}
                         {% if(advertisement.messages|length > 0) %}
-                            {% for message in advertisement.messages|reverse  %}
+                            {% for message in advertisement.messages|reverse %}
                                 <div class="message-row">
                                     <div class="text-info  message-info d-flex justify-content-between">
                                         <div>
@@ -213,27 +217,30 @@
                             {% endfor %}
                         {% endif %}
                     {% endif %}
-                {% if  is_granted('ROLE_ADMIN') %}
-                        <div class="details-communication">Статус повідомлення: {{ advertisement.getDirStatus.name }}</div>
+                    {% if  is_granted('ROLE_ADMIN') %}
+                        <div class="details-communication">Статус
+                            повідомлення: {{ advertisement.getDirStatus.name }}</div>
                         {% if messagesForm is not null and (advertisement.dirStatus.id != 4) %}
                             {#<div class="details-communication">Написати автору</div>#}
                             {{ form_start(messagesForm, {'method': 'POST', 'attr':{'id': 'form-new-messages', 'class':'mt-4'}}) }}
                             {{ form_errors(messagesForm) }}
-                                    <div class="form-group">
-                                        {{ form_widget(messagesForm.text) }}
-                                        {{ form_errors(messagesForm.text) }}
-                                    </div>
+                            <div class="form-group">
+                                {{ form_widget(messagesForm.text) }}
+                                {{ form_errors(messagesForm.text) }}
+                            </div>
                             <div class="block-btn">
                                 {% if advertisement.dirStatus.id == 2 %}
-                                    <a href="{{ path('advertisement_activate_advertisement', {'id':advertisement.id}) }}" class="activate-button btn btn-success" >Активувати</a>
+                                    <a href="{{ path('advertisement_activate_advertisement', {'id':advertisement.id}) }}"
+                                       class="activate-button btn btn-success">Активувати</a>
                                 {% endif %}
-                                <input type="submit" name="deactivate" class="deactivate-button btn btn-danger" value="Повернути на доопрацювання" />
+                                <input type="submit" name="deactivate" class="deactivate-button btn btn-danger"
+                                       value="Повернути на доопрацювання"/>
                             </div>
                             {{ form_end(messagesForm) }}
                         {% endif %}
 
 
-                {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <div class="col-4">
@@ -243,16 +250,17 @@
                             <i class="far fa-user-circle"></i>
                         </div>
                         <div class="details-author-phones">
-                            <div> Vetal33</div>
-                            <div> 063-742-8874</div>
-                            <div> 063-742-8874</div>
+                            <a class="text-decoration-none text-color" href=""> {{ advertisement.users.usernameCanonical }}</a>
+                            <div class="phone"> {{ (advertisement.declarantPhoneNum|trim('38','left'))|slice(0,3) ~ '*******' }}</div>
+                            <a href="" class="text-decoration-none show-phone" data-id = '{{ advertisement.Id }}'>{{ 'Показати'|trans }}</a>
+                           {# <div> 063-742-8874</div>#}
                         </div>
                         <div class="details-author-additional">
-                            <a class="details-author-advertisement" href="">
-                                <i class="fas fa-list-ul"></i> Інші об'яви
+                            <a class="details-author-advertisement " href="">
+                                <i class="fas fa-list-ul"></i> {{ "Інші об'яви"|trans }}
                             </a>
                             <a class="details-author-writing" href="">
-                                <i class="far fa-envelope"></i> Написати листа
+                                <i class="far fa-envelope"></i> {{ "Написати листа"|trans }}
                             </a>
                         </div>
                     </div>

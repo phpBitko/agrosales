@@ -4,8 +4,6 @@ import Icon from "ol/style/Icon";
 import {Circle as CircleStyle, Fill, Stroke, Text} from "ol/style";
 import {Vector as VectorLayer} from "ol/layer";
 import {fromLonLat} from "ol/proj";
-import Feature from 'ol/Feature';
-
 import View from "ol/View";
 import Style from "ol/style/Style";
 global.VectorLayer = VectorLayer;
@@ -197,6 +195,7 @@ $(function () {
     function addAdvertLayers(data) {
         $('.filter-result').html('');
         $('.filter-result').removeClass('alert alert-danger');
+
         if (data.errors.length > 0) {
             addErrors(data.errors);
         }
@@ -259,6 +258,7 @@ $(function () {
             },
         });
     }
+
 
     //--------------------------------------------при клікі на карті вираховує чи є іконка і віддає id
     mapSales.on('click', function (evt) {
@@ -323,6 +323,7 @@ $(function () {
             data: {id: id},
             method: 'POST',
             success: function (data) {
+                console.log(data);
                 addMapDetails(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -362,7 +363,7 @@ $(function () {
             $('.map-details-info').removeClass('hidden')
         }
         if ($('#map-properties-geom').text() !== undefined && $('#map-properties-geom').text() !== '') {
-            featurefeatureMapControl.zoomToFeatureWKT($('#map-properties-geom').text());
+            featureMapControl.zoomToFeatureWKT($('#map-properties-geom').text());
         }
     }
 

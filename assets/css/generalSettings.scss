@@ -29,11 +29,18 @@ $tooltip-border-color: white; //колір межі
 .icon-color {
   color: $icon-color;
 }
+//**************************************************Загальні налаштування
+.text-color {
+  color: $text-color!important;
+}
+
+/*a:hover {
+  color: lighten ;
+}*/
 
 .alert {
   border-radius: 0.2rem!important;
 }
-
 
 //-------------------------------------------- change standart properties tooltips
 .tooltip {

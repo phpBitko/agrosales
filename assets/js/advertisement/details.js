@@ -78,5 +78,30 @@ $(function () {
         });
     }
 
+
+    /**
+     * ------------------------- Отримання телефону клієнта
+     *
+     */
+
+    $('.show-phone').on('click', function (func) {
+        func.preventDefault(); /*  Відміняємо стандартну поведінку ссилки (не відбуваєтся перехід по посиланню)  */
+        var id = $(this).data('id');
+        console.log(id);
+        $.ajax({
+            url: Routing.generate('advertisement_get_phone'),
+            dataType: 'json',
+            data: {id: id},
+            method: 'POST',
+            success: function (data) {
+                $('.phone').html(data.advertisementPhone);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                bootboxAlertMessage(jqXHR);
+            },
+        });
+    });
+
+
 });
 

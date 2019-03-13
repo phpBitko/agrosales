@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vetal
- * Date: 06.09.2018
- * Time: 14:21
- */
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Advertisement;
@@ -92,9 +85,6 @@ class MapController extends SuperController
             $filterArray = $parseFilterServices->normalizeFilterParam($filterArray);
 
             $form->submit($filterArray);
-
-            dump($filterArray);
-
 
             if ($filterArray) {
                 if ($form->isValid()) {

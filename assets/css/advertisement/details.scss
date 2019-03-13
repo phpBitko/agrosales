@@ -1,33 +1,6 @@
+@import '~ol/ol.css';
 $base-color: #3c8dbc;
 $text-color: #626161;
-
-//-------------------------------------------- change standart properties tooltips
-/*.tooltip-inner {
-  background: #515151;
-  color: white;
-  border-radius: 2px;
-  opacity: 1 !important;
-  filter: alpha(opacity=100);
-}*/
-
-/*.tooltip.in {
-  opacity: 1 !important;
-  filter: alpha(opacity=100);
-}
-
-
-.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before{
-  border-bottom-color: #515151;
-}
-
-.tooltip-arrow {
-  background: #515151;
-}
-
-.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
-  border-top-color: #777777;
-  opacity: 1 !important;
-}*/
 
 .detail-column {
   padding: 0 0 0 10px;
@@ -275,7 +248,7 @@ $text-color: #626161;
   .details-author {
     transition: 0.2s;
     display: flex;
-    width: 400px;
+    width: 436px;
     background-color: #f1f1f1;
     padding: 10px 10px;
     border: 1px solid #e1e1e1;
@@ -303,7 +276,7 @@ $text-color: #626161;
         display: block;
         width: 90%;
         background-color: #adb5bd;
-        padding: 7px 10px;
+        padding: 7px 8px;
         color: white;
         margin: 0 auto;
         transition: 0.2s;

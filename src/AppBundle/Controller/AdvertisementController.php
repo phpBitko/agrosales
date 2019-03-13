@@ -4,8 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Advertisement;
 use AppBundle\Entity\Messages;
+use AppBundle\Entity\User;
 use AppBundle\Entity\ViewInfo;
 use AppBundle\Exception\ViewException;
+use AppBundle\Exception\WarningException;
 use AppBundle\Filter\AdvertisementFilterType;
 use AppBundle\Form\Helpers\FormErrorHelper;
 use AppBundle\Form\MessagesType;
@@ -15,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Service\PaginatorServices;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 /**
@@ -42,9 +45,6 @@ class AdvertisementController extends SuperController
         if ($request->query->has($form->getName())) {          // manually bind values from the request
             $filterParams = $request->query->get($form->getName());
             $form->submit($filterParams);
-
-
-            dump($form->getPropertyPath());
 
             if ($form->isValid()) {
                 $filterBuilder = $advertisement->qbFindByStatus(self::STATUS_ADVERTISEMENT['ACTIVE'], $order);
@@ -113,7 +113,6 @@ class AdvertisementController extends SuperController
                     if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
                         throw $this->createAccessDeniedException();
                     }
-
                     $messages->setAdvertisement($advertisement);
                     $messages->setUsers($this->getUser());
                     $this->em->persist($messages);
@@ -140,7 +139,37 @@ class AdvertisementController extends SuperController
             $formView = $form->createView();
         }
 
-        return $this->render('AppBundle:advertisement:details.html.twig', array('advertisement' => $advertisement, 'messagesForm' => $formView));
+        return $this->render('AppBundle:advertisement:details.html.twig', [
+            'advertisement' => $advertisement,
+            'messagesForm' => $formView,
+        ]);
+    }
+
+    /**
+     * Повертає номер телефона юзера по кліку
+     * @param Request $request
+     * @return JsonResponse
+     * @Route("/getPhone", name="advertisement_get_phone", options={"expose"=true}, methods={"POST"})
+     */
+    public function getPhone(Request $request)
+    {
+        try {
+            $id = (int)$request->request->get('id');
+            $advertisementRepository = $this->em->getRepository('AppBundle:Advertisement');
+            $advertisement = $advertisementRepository->findOneBy(['id'=> $id]);
+
+            if (empty($advertisement)) {
+                throw new WarningException('Нічого не знайдено!');
+            }
+
+            return new JsonResponse(['advertisementPhone' => $advertisement->getDeclarantPhoneNum()], Response::HTTP_OK);
+
+        } catch (WarningException $exception) {
+            return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
+        } catch (\Exception $exception) {
+            return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     /**

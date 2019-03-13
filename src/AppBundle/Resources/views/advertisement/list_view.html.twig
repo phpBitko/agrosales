@@ -35,32 +35,32 @@
         </div>
         <div class="details-provision">
             <div class="details-road {{ item.isRoad ? 'active' }}"
-                 data-toggle="tooltip" title=" {{ item.isRoad ? 'Присутній':'Відсутній' }}
+                 data-toggle="tooltip" title=" {{ item.isRoad ? 'Присутній'|trans : 'Відсутній'|trans }}
                                      {{ "під'їзд з твердим покриттям"|trans }} ">
                 <img src="{{ asset('bundles/app/img/ico/road_'~(item.isRoad ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-water {{ item.isWaterSupply ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isWaterSupply ? 'Присутнє '|trans : 'Відсутнє '|trans }} {{ 'водопостачання'|trans }} ">
+                 title="{{ item.isWaterSupply ? 'Присутнє'|trans : 'Відсутнє'|trans }} {{ 'водопостачання'|trans }}">
                 <img src="{{ asset('bundles/app/img/ico/water_'~(item.isWaterSupply ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-gas {{ item.isGas ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isGas ? 'Присутнє ' : 'Відсутнє ' }}{{ 'газопостачання'|trans }} ">
+                 title="{{ item.isGas ? 'Присутнє'|trans : 'Відсутнє'|trans }} {{ 'газопостачання'|trans }}">
                 <img src="{{ asset('bundles/app/img/ico/valve_'~(item.isGas ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-sewerage {{ item.isSewerage ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isSewerage ? 'Присутня '|trans : 'Відсутня '|trans }} {{ 'централізована каналізація'|trans }}">
+                 title="{{ item.isSewerage ? 'Присутня'|trans : 'Відсутня'|trans }} {{ 'централізована каналізація'|trans }}">
                 <img src="{{ asset('bundles/app/img/ico/waste_'~(item.isSewerage ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>
             <div class="details-electricity {{ item.isElectricity ? 'active' }}"
                  data-toggle="tooltip"
-                 title="{{ item.isElectricity ? 'Присутнє ' : 'Відсутнє ' }}{{ 'елекрозабезпечення'|trans }} ">
+                 title="{{ item.isElectricity ? 'Присутнє'|trans : 'Відсутнє'|trans }} {{ 'елекрозабезпечення'|trans }} ">
                 <img src="{{ asset('bundles/app/img/ico/idea_'~(item.isElectricity ? 'on' : 'off')~'.png') }}"
                      alt="">
             </div>

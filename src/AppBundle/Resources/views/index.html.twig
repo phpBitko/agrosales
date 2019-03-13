@@ -117,48 +117,47 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-2 col-md-4">
-                    © 2018-2019. Всі права захищено.
+                    © 2018-2019. {{ 'Всі права захищені'|trans }}.
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-4">
-                    <div class="footer-title-block">Розділи</div>
+                    <div class="footer-title-block">{{ 'Розділи'|trans }}</div>
                     <nav>
                         <ul class="list-unstyled">
 
                             <li class="list-unstyled">
-                                <a href="{{ path('advertisement_index') }}">{{ 'Головна' }}</a>
+                                <a href="{{ path('advertisement_index') }}">{{ 'Головна'|trans }}</a>
                             </li>
                             <li class="">
-                                <a href="{{ path('map_index') }}">{{ 'На карту' }}</a>
+                                <a href="{{ path('map_index') }}">{{ 'На карту'|trans }}</a>
                             </li>
                             {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <li class="nav-item">
                                     {% if  is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path('admin_index') }}">
-                                            {{ 'Панель адміністратора' }}
+                                            {{ 'Панель адміністратора'|trans }}
                                         </a>
                                     {% else %}
                                         <a href="{{ path('cabinet_index') }}">
-                                            {{ 'Кабінет' }}
+                                            {{ 'Кабінет'|trans }}
                                         </a>
                                     {% endif %}
                                 </li>
                             {% endif %}
                             <li class="nav-item">
-                                <a href="#">{{ 'Контакти' }}</a>
+                                <a href="#">{{ 'Контакти'|trans }}</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-4">
-                    <div class="footer-title-block">Обліковий запис</div>
+                    <div class="footer-title-block">{{ 'Обліковий запис'|trans }}</div>
                     <nav>
                         <ul class="list-unstyled">
-
                             <li class="list-unstyled">
                                 {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Вийти' }}</a>
+                                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Вийти'|trans }}</a>
                                 {% else %}
-                                    <a href="{{ path('fos_user_security_login') }}">{{ 'Увійти' }}</a>
+                                    <a href="{{ path('fos_user_security_login') }}">{{ 'Увійти'|trans }}</a>
                                 {% endif %}
                             </li>
 
