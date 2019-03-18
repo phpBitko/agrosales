@@ -316,10 +316,10 @@ $(function () {
     //     addInteraction();
     // };
 
+
     createMeasureTooltip();
     createHelpTooltip();
     unByKey(key);
-
 
     function startMeasure(mesureObj) {
 
@@ -327,7 +327,6 @@ $(function () {
             mesureObj.removeClass('active');
             mapSales.removeInteraction(draw);
             unByKey(key);
-
         } else {
             mapSales.removeInteraction(draw);
 
@@ -355,8 +354,22 @@ $(function () {
 
     $('#control-panel-ruler').on('click', function () {
         startMeasure($('#control-panel-ruler'));
-
     });
+
+
+    $('#control-panel-closest').on('click', function () {
+        clearInteraction();
+        $('.measure-button').removeClass('active');
+        $(this).toggleClass('active');
+    });
+
+    function clearInteraction(){
+        var collection = mapSales.getOverlays();
+        collection.clear();
+        vectorDraw.getSource().clear();
+        mapSales.removeInteraction(draw);
+        unByKey(key);
+    }
 
     $('#control-panel-erase').on('click', function () {
         var collection = mapSales.getOverlays();

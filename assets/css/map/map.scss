@@ -232,24 +232,20 @@
 
 .control-panel .active {
   background-color: #cfebfc;
-
 }
 
-.cp-layer, .cp-ruler, .cp-erase, .cp-print, .cp-placeholder, .cp-area {
+.cp-button{
   width: 35px;
   height: 35px;
   border: none;
   border-bottom: 1px solid #d8d7d7;
-}
-
-.cp-layer:hover, .cp-ruler:hover, .cp-erase:hover, .cp-print:hover, .cp-placeholder:hover, .cp-area:hover {
-  background-color: #aad4f5;
-  cursor: pointer;
-
-}
-
-.cp-layer:focus, .cp-ruler:focus, .cp-erase:focus, .cp-print:focus, .cp-placeholder:focus, .cp-area:focus {
-  outline: none;
+  &:hover{
+    background-color: #aad4f5;
+    cursor: pointer;
+  }
+  &:focus{
+    outline: none;
+  }
 }
 
 .cp-layer {
@@ -269,6 +265,10 @@
 }
 
 .cp-placeholder {
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/placeholder.png") no-repeat center;
+}
+
+.cp-closest {
   background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/placeholder.png") no-repeat center;
 }
 
