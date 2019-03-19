@@ -48,21 +48,77 @@ class MapController extends SuperController
     {
         try {
             $id = $request->request->getInt('id');
-            //треба перевірити $id бо може прийти що попало. мабуть на > 0
-            if ($id > 0) {
-                $advertisementDetails = $this->em->getRepository('AppBundle:Advertisement')->find($id);
+
+            if (!($id > 0)) {
+                return $this->json(array('message' => 'Передано не вірний індетифікатор!'), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
+            $advertisementDetails = $this->em->getRepository('AppBundle:Advertisement')->find($id);
+
             if ($advertisementDetails === null) {
-                return $this->json(array('error' => 'Оголошення не знайдено!'), Response::HTTP_NOT_FOUND);
+                return $this->json(array('message' => 'Оголошення не знайдено!'), Response::HTTP_NOT_FOUND);
             }
+
+            /**Отримуємо інформацію з АПІ */
+            $data = [];
+            if ($request->getHost() == '192.168.33.37' || $request->getHost() == '212.26.131.134' ) {
+                $osmRequestClient = $this->get('app.service.api_client.osm_request_client');
+                if (!$osmRequestClient->isConnect()) {
+                    return $this->json([
+                        'message' => 'Виникла помилка доступу до API E-сервісу!'
+                    ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+
+                $coord = preg_split("/[(\s,)]/", $advertisementDetails->getGeom());
+                $coord = [$coord[1], $coord[2]];
+                $data['closestObject'] = $osmRequestClient->getClosestObject(['coord' => $coord]);
+                $data['coord'] = $coord;
+
+                if (false === $data['closestObject']) {
+                    return $this->json([
+                        'message' => $osmRequestClient->getLastErrorMessage()
+                    ], Response::HTTP_BAD_REQUEST);
+                }
+            }
+
             $table['details'] = $this->renderView('AppBundle:map:_details.html.twig', ['advertisementDetails' => $advertisementDetails]);
-            return new JsonResponse(['table' => $table], Response::HTTP_OK);
+            return new JsonResponse(['table' => $table, 'data' =>$data], Response::HTTP_OK);
 
         } catch (WarningException $exception) {
             return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     *
+     * @Route("/getClosestObject", name="map.get_closest_object", options={"expose"=true}, methods={"POST"})
+     *
+     * @return JsonResponse
+     */
+    public function getClosestObject(Request $request)
+    {
+        try {
+            $coord = $request->get('coord');
+            $osmRequestClient = $this->get('app.service.api_client.osm_request_client');
+            if (!$osmRequestClient->isConnect()) {
+                return $this->json([
+                    'message' => 'Виникла помилка доступу до API E-сервісу!'
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $data['closestObject'] = $osmRequestClient->getClosestObject(['coord' => $coord]);
+
+            if (false === $data['closestObject']) {
+                return $this->json([
+                    'message' => $osmRequestClient->getLastErrorMessage()
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            return new JsonResponse($data);
+        } catch (Exception $exception) {
+            return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -79,6 +135,7 @@ class MapController extends SuperController
         $form = $this->createForm(AdvertisementFilterType::class);
 
         $filterArray = $session->get($form->getName()) ? $session->get($form->getName()) : $request->get($form->getName());
+
         try {
             $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
 

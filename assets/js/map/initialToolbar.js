@@ -369,6 +369,7 @@ $(function () {
         vectorDraw.getSource().clear();
         mapSales.removeInteraction(draw);
         unByKey(key);
+        sourceVectorClosest.clear();
     }
 
     $('#control-panel-erase').on('click', function () {

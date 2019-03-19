@@ -4,9 +4,14 @@ import Icon from "ol/style/Icon";
 import {Circle as CircleStyle, Fill, Stroke, Text} from "ol/style";
 import {Vector as VectorLayer} from "ol/layer";
 import {fromLonLat} from "ol/proj";
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
 import View from "ol/View";
 import Style from "ol/style/Style";
+import LineString from 'ol/geom/LineString';
 global.VectorLayer = VectorLayer;
+global.sourceVectorClosest = '';
+
 
 $(function () {
 
@@ -248,7 +253,6 @@ $(function () {
             dataType: 'json',
             method: 'POST',
             success: function (data) {
-
                 $('body').preloader('remove');
                 addAdvertLayers(data);
             },
@@ -269,7 +273,6 @@ $(function () {
         });
 
         if (featureIcon && (!$('#control-panel-area').hasClass('active')) && (!$('#control-panel-ruler').hasClass('active'))) {
-
             var idAdvertisement = featureIcon.getProperties();
 
             if (idAdvertisement.hasOwnProperty('id')) {
@@ -294,6 +297,20 @@ $(function () {
                     })
                 }
             }
+        }else if($('#control-panel-closest').hasClass('active')){
+            var coord = evt.coordinate;
+            $.ajax({
+                url: Routing.generate('map.get_closest_object'),
+                dataType: 'json',
+                data: {coord: coord},
+                method: 'POST',
+                success: function (data) {
+                    addClosestObject(data.closestObject, coord);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    bootboxAlertMessage(jqXHR);
+                },
+            });
         }
     });
 
@@ -316,15 +333,16 @@ $(function () {
     //--- запит для отримання даних про детальну інформацію про ділянку бандл FOSjsroutingbundle
 
     function getDetailsAdvertisement(id) {
-
         $.ajax({
             url: Routing.generate('map_details_advertisement'),
             dataType: 'json',
             data: {id: id},
             method: 'POST',
             success: function (data) {
-                console.log(data);
                 addMapDetails(data);
+                if(data.data.closestObject !== undefined){
+                    addClosestObject(data.data.closestObject, data.data.coord);
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 bootboxAlertMessage(jqXHR);
@@ -332,10 +350,114 @@ $(function () {
         });
     }
 
+    //******************Додаємо шар найближчих об'єктів*****************************/
+    sourceVectorClosest = new VectorSource({wrapX: false});
+
+    var pointText =  new Text({
+        font: 'bold 24px "Lato"',
+        fill: new Fill({
+            color: '#5b5e65'
+        }),
+        backgroundFill:new Fill({
+            color: '#fffcf3'
+        }),
+
+
+        textAlign:'right',
+        offsetX: -10
+    });
+
+    var lineText = new Text({
+        font: '16px "Lato"',
+        fill: new Fill({
+            color: '#fffcf3'
+        }),
+        stroke: new Stroke({
+            color: '#484848',
+            width: 4
+        }),
+        placement: 'line',
+        textAlign:'center',
+        offsetY: -10
+    });
+
+    var style = new Style({
+        fill: new Fill({
+            color: '#7cff47'
+        }),
+        stroke: new Stroke({
+            color: '#484848',
+            width: 2,
+            //  miterLimit: 50,
+            // lineDashOffset: [5,6],
+            lineDash: [5,10]
+        }),
+
+        image: new CircleStyle({
+            radius: 6,
+            stroke: new Stroke({
+                color: '#ff0800',
+                width: 2,
+                //  miterLimit: 50,
+                // lineDashOffset: [5,6],
+            }),
+            fill: new Fill({
+                color: '#fffcf3'
+            })
+        }),
+    });
+
+    var vectorClosestLayer = new VectorLayer({
+        source: sourceVectorClosest,
+        style: function(feature) {
+            var text;
+            if(feature.getGeometry() instanceof Point){
+                text = pointText;
+            }else{
+                text = lineText;
+            }
+            style.setText(text);
+            style.getText().setText(feature.get('name'));
+            return [ new Style({
+                stroke: new Stroke({
+                    color: 'white',
+                    width: 5,
+                    lineDash: [5,10]
+                })
+            }), style];
+        }
+    });
+    mapSales.addLayer(vectorClosestLayer);
+
+    function addClosestObject(data, coord) {
+        sourceVectorClosest.clear();
+        data.forEach(function (element) {
+            var cooordData = new WKT().readGeometry(element.geom);
+
+            var lineString = new LineString([coord, cooordData.getCoordinates()]);
+            var featurePoint = new Feature({
+                geometry: cooordData,
+                name: element.t.trim()
+            });
+            var featureLine = new Feature({
+                geometry: lineString,
+                name: element.dist + 'м'
+            });
+            sourceVectorClosest.addFeature(featurePoint);
+            sourceVectorClosest.addFeature(featureLine);
+        })
+        var view = mapSales.getView();
+        view.fit(sourceVectorClosest.getExtent(), {duration:300})
+
+    }
+    //*****END*************Додаємо шар найближчих об'єктів***************END**************/
+
+
+
+
+
     //--- запит для отримання даних фільтру, бандл FOSjsroutingbundle
-
     function getFilterAdvertisement(formData = []) {
-
         $.ajax({
             url: Routing.generate('map_filter_advertisement'),
             method: 'POST',
