@@ -340,7 +340,7 @@ $(function () {
             method: 'POST',
             success: function (data) {
                 addMapDetails(data);
-                if(data.data.closestObject !== undefined){
+                if(data.data.closestObject !== undefined && $('#control-panel-closest').hasClass('active')){
                     addClosestObject(data.data.closestObject, data.data.coord);
                 }
             },

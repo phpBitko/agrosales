@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OblNew
+ * DirRegion
  *
  * @ORM\Table(name="dir_region", indexes={@ORM\Index(name="obl_new_koatuu_t", columns={"koatuu_t"}), @ORM\Index(name="obl_new_koatuu", columns={"koatuu"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DirRegionRepository")

@@ -17,3 +17,4 @@ bootboxMessage = require('../../js/functionLib/bootboxMessage');
 bootboxAlertMessage = require('../../js/functionLib/bootboxAlertMessage');
 
 require('../../css/admin/admin.scss');
+require('../../js/admin/initial');

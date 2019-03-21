@@ -11,6 +11,7 @@ class AppExtension extends AbstractExtension
     {
         return array(
             new TwigFilter('isEmpty', array($this, 'isEmptyCheck')),
+            new TwigFilter('inArray', array($this, 'inArray')),
         );
     }
 
@@ -21,5 +22,10 @@ class AppExtension extends AbstractExtension
         }
 
         return $text;
+    }
+
+    public function inArray($array, $text)
+    {
+        return in_array($text, $array);
     }
 }

@@ -19,7 +19,7 @@ class ParseFilterServices
             $filterParams['price']['right_number'] = !empty($filterParams['price']['right_number']) ?
                 floor($filterParams['price']['right_number']) : '';
         }
-        dump($filterParams);
+
         return $filterParams;
 
     }

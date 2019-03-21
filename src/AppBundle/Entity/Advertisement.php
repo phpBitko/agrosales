@@ -21,7 +21,6 @@ use Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText;
  * Advertisement
  *
  * @ORM\Table(name="advertisement")
- * @ORM\Entity
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AdvertisementRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -144,6 +143,14 @@ class Advertisement implements InstanceUserInterface
      *     type="integer",
      *     message="Допустимі тільки цілі числа."
      * )
+     *
+     * @Assert\Range(
+     *     min = 0,
+     *     max = 2147483647,
+     *     minMessage = "Значення повинно бути не менше {{ limit }}",
+     *     maxMessage  = "Значення повинно бути не більше {{ limit }}."
+     * )
+     *
      */
     private $price;
 
@@ -153,7 +160,6 @@ class Advertisement implements InstanceUserInterface
      * @Assert\NotBlank()
      * @Assert\Type(
      *     type="float",
-     *
      * )
      * @ORM\Column(name="area", type="float", precision=10, scale=0, nullable=true)
      */
@@ -366,23 +372,6 @@ class Advertisement implements InstanceUserInterface
         $this->messages = $messages;
     }
 
-
-
-    /**
-     * @return bool
-     */
-    public function isInTheTop(): bool
-    {
-        return $this->isInTheTop;
-    }
-
-    /**
-     * @param bool $isInTheTop
-     */
-    public function setIsInTheTop(bool $isInTheTop): void
-    {
-        $this->isInTheTop = $isInTheTop;
-    }
 
 
     /**
@@ -858,8 +847,6 @@ class Advertisement implements InstanceUserInterface
     {
         $this->coordL = $coordL;
     }
-
-
 
 
     /**

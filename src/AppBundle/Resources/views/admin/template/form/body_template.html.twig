@@ -1,0 +1,63 @@
+{% extends 'AppBundle:admin:index.html.twig' %}
+{% form_theme form '@App/form/fields.html.twig' %}
+
+{% block body %}
+    <div class="wrapper">
+        {% block main_sidebar %}
+            {{ parent() }}
+        {% endblock %}
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    {{ options.main_menu_alias is defined ? options.main_menu_alias }}
+                </h1>
+            </section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"> {{ options.sub_menu_alias is defined ? options.sub_menu_alias }}
+                                    {{  app.request.pathInfo|split('\/')|inArray('edit') ? '(редагувати)': '(створити)' }}</h3>
+                            </div>
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="pad margin no-print">
+                                        <div class="callout callout-{{ label }} flash-{{ label }}"
+                                             style="margin-bottom: 0!important;">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-sm-12 pl-4 pr-4">
+
+                                        {{ form_start(form, {'method': 'POST'}) }}
+                                        <div class="box-body">
+                                            {% for key, children in form.children %}
+                                                {% if(key  != '_token' ) %}
+                                                    <div class="form-group">
+                                                        {{ form_label(children) }}
+                                                        {{ form_widget(children) }}
+                                                        {{ form_errors(children) }}
+                                                    </div>
+                                                    <hr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        <button class="my-btn my-btn-green btn" type="submit">Зберегти</button>
+                                        </div>
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

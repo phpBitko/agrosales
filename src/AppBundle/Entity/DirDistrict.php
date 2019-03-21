@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
+ * DirDistrict
  *
  * @ORM\Table(name="dir_district")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DirDistrictRepository")

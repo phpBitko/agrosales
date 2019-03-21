@@ -109,6 +109,25 @@ class AdvertisementRepository extends EntityRepository
         return $qb;
     }
 
+    /**
+     *
+     * Підраховує загальну кількість переглядів
+     *
+     * @param $userId
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getTotalCountView($userId){
+        $qb = $this->createQueryBuilder('a')
+            ->select('sum(a.viewCount)')
+            ->where('a.idUser = :USER')
+            ->setParameter('USER', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $qb;
+    }
+
 
     /**
      *

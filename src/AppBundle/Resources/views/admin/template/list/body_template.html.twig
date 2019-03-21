@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-success">
-                            <div class="box-header">
+                            <div class="box-header with-border">
                                 <h3 class="box-title"> {{ options.sub_menu_alias is defined ? options.sub_menu_alias }}</h3>
                             </div>
                             {% for label, messages in app.flashes %}
@@ -29,21 +29,37 @@
                                 {% endfor %}
                             {% endfor %}
                             <!-- /.box-header -->
+                            {% set table =  (app.request.pathInfo|split('\/')|reverse)[1] %}
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-sm-12">
+                                        <div class="mb-2">
+
+                                            <div class="d-flex bg-color-grey d-flex align-items-end justify-content-end p-3">
+                                                <a class="align-items-end " href="{{ path('admin.object_create', { 'entity': table }) }}">
+                                                    <i class="fas fa-plus-circle"></i> Додати новий
+                                                </a>
+                                            </div>
+
+                                        </div>
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
                                                 <th class="w-5 text-center align-middle">№ з/п</th>
                                                 {% for column in fieldOptions %}
-                                                    <th class="text-center align-middle {{ column.attr.class_head is defined ? column.attr.class_head }} ">{{ column.label }}</th>
+                                                    <th class="text-center align-middle {{ column.attr.class_head is defined ? column.attr.class_head }} ">
+                                                        {{ column.label is defined ? column.label : column.name }}
+                                                    </th>
                                                 {% endfor %}
+                                                {% if options.btn_action is defined %}
+                                                        <th class="text-center align-middle">{{ 'Дії'|trans }}</th>
+                                                {% endif %}
                                             </tr>
                                             </thead>
                                             <tbody>
 
                                             {% set counter = (data.getCurrentPageNumber-1)*(data.getItemNumberPerPage) %}
+                                           {# {% set table =  (app.request.pathInfo|split('\/')|reverse)[1] %}#}
                                             {% for items in data %}
                                                 {% set counter = ( counter | default(0) ) + 1 %}
                                                 <tr class="admin_table_column">
@@ -52,6 +68,9 @@
                                                     </th>
                                                     {% for key, column in items %}
                                                         {% if key != 'id' %}
+                                                            {#В базі даних аліас через "_" а в параметрах через "."#}
+                                                            {% set key = key|replace({'_':'.'}) %}
+
                                                             <th class="{{ fieldOptions[key].attr.class_column is defined ? fieldOptions[key].attr.class_column }} font-light align-middle "
                                                                 scope="row">
                                                                 {% if column is iterable and column is not empty %}
@@ -72,6 +91,17 @@
                                                             </th>
                                                         {% endif %}
                                                     {% endfor %}
+                                                    {% if options.btn_action is defined %}
+                                                        <th class="font-light text-center align-middle" scope="row">
+                                                            {% for btn in options.btn_action %}
+                                                                {% if btn == 'view' %}
+                                                                    <a href="{{ path('admin.object_view', {'id': items.id, 'entity': table }) }}"><i class="far fa-eye"></i></a>
+                                                                {% elseif btn == 'edit' %}
+                                                                    <a href="{{ path('admin.object_edit', {'id': items.id, 'entity': table }) }}"><i class="far fa-edit"></i></a>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </th>
+                                                    {% endif %}
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

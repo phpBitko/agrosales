@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ObjectType
+ * DirPurpose
  *
  * @ORM\Table(name="dir_purpose")
  * @ORM\Entity

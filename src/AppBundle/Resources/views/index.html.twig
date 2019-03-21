@@ -57,8 +57,8 @@
                             <li class="nav-item">
                                 {% if  is_granted('ROLE_ADMIN') %}
                                     <a class="nav-link main-menu {{ app.request.attributes.get("_route")|slice(0, 5) == 'admin' ? 'active' }}"
-                                       href="{{ path('admin.advertisement_get_advertisement') }}">
-                                        <i class="fas fa-tools"></i>{{ 'Панель адміністратора'|trans }}
+                                       href="{{ path('admin.advertisement_list') }}">
+                                        <i class="fas fa-tools"></i>{{ 'Панель адміністратора' }}
                                     </a>
                                 {% else %}
                                     <a class="nav-link main-menu {{ app.request.attributes.get('_route')|slice(0, 7) == 'cabinet' ? 'active' }}"
@@ -77,14 +77,20 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item">
-                            <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'uk'})) }}"
-                               class="main-menu nav-link {{ app.request.locale == app.request.defaultLocale ? 'active' }}">
+                            <a href="
+                            {% if app.request.attributes.get('_route') is not null%}
+                                {{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'uk'})) }}
+                            {% endif %}
+                                " class="main-menu nav-link {{ app.request.locale == app.request.defaultLocale ? 'active' }}">
                                 UA
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'ru'})) }}"
-                               class="main-menu nav-link {{ app.request.locale == 'ru' ? 'active' }}">
+                            <a href="
+                            {% if app.request.attributes.get('_route') is not null%}
+                                {{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'ru'})) }}
+                            {% endif %}
+                            " class="main-menu nav-link {{ app.request.locale == 'ru' ? 'active' }}">
                                 RU
                             </a>
                         </li>

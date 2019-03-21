@@ -7,21 +7,19 @@ use http\Exception\InvalidArgumentException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Repository\UserRepository;
 
-
 /**
- * Class ListMapper
+ * Class ViewMapper
  * @package AppBundle\Service\Admin
  */
-class ListMapper extends BaseMapper
+class ViewMapper extends BaseMapper
 {
 
     /**
      * @param $name
-     * @param null $type
      * @param array $fieldOption
      * @return $this
      */
-    public function add($name, $type = null, $fieldOption = [])
+    public function add($name, $fieldOption = [])
     {
         $fieldOption['name'] = $name;
 
@@ -29,7 +27,4 @@ class ListMapper extends BaseMapper
 
         return $this;
     }
-
-
-
 }

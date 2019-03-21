@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="messages")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MessagesRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Messages
 {
@@ -187,6 +188,13 @@ class Messages
         $this->users = $users;
     }
 
+    /**
+     * @ORM\PreUpdate()
+     *
+     */
+    public function preUpdate(){
+        $this->updateDate = new \DateTime();
+    }
 
 
 

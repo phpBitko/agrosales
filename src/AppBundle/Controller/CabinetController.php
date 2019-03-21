@@ -29,7 +29,12 @@ class CabinetController extends SuperController
      */
     public function indexAction()
     {
+
         $data = $this->getDataForSidebar();
+
+        $data['totalViewCount'] = $this->em->getRepository('AppBundle:Advertisement')
+                                    ->getTotalCountView($this->getUser()->getId());
+
         return $this->render('AppBundle:cabinet:dashboard.html.twig', ['data'=>$data]);
     }
 
@@ -53,6 +58,7 @@ class CabinetController extends SuperController
         if ($request->isMethod('POST')) {
             $formAdvertisement->handleRequest($request);
             // Check form data is valid
+
             if ($formAdvertisement->isValid()) {
 
                 $geomAdvertisement = $advertisement->getGeom();
@@ -78,6 +84,7 @@ class CabinetController extends SuperController
                     return $this->redirectToRoute('cabinet_get_my_advertisement', array('selected' => 'pending'));
                 }
             }
+
             $this->addFlash('danger', 'Перевірьте, будь ласка, правильність заповнення даних!');
         }
 

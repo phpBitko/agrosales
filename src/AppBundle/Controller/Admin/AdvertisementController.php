@@ -25,7 +25,7 @@ use AppBundle\Controller\SuperController;
  * Class CabinetController
  * @Route("/admin/advertisement")
  */
-class AdvertisementController extends SuperController
+class AdvertisementController extends BaseAdminController
 {
 
     /**
@@ -42,12 +42,11 @@ class AdvertisementController extends SuperController
      * @param PaginatorServices $paginator
      * @return Response
      *
-     * @Route("/getAdvertisement", name="admin.advertisement_get_advertisement", methods={"GET"})
+     * @Route("/list", name="admin.advertisement_list", methods={"GET"})
      *
      */
     public function getAdvertisementAction(Request $request, PaginatorServices $paginator)
     {
-        $advertisement = new Advertisement();
         $em = $this->getDoctrine()->getManager();
         $advertisementRepository = $em->getRepository('AppBundle:Advertisement');
 
@@ -78,11 +77,7 @@ class AdvertisementController extends SuperController
      */
     public function getUsers()
     {
-
-
         return $this->render('AppBundle:admin:get_users.html.twig');
-
-
     }
 
 }

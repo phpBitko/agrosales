@@ -6,6 +6,7 @@ namespace AppBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
@@ -30,8 +31,22 @@ class User extends BaseUser
 
 
     /**
+     * Plain password. Used for model validation. Must not be persisted.
+     * @Assert\NotBlank(groups={"Create"})
      * @var string
-     *
+     */
+    protected $plainPassword;
+
+    /**
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     * @var string
+     */
+    protected $email;
+
+
+    /**
+     * @var string
      * @ORM\Column(name="mailToken", type="string", length=32, nullable=true)
      */
     private $mailToken;
@@ -41,8 +56,9 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->advertisements = new ArrayCollection();
-        // your own logic
     }
+
+
 
     /**
      * @return string

@@ -8,7 +8,6 @@ use AppBundle\Entity\DirRegion;
 
 class Geometry extends BaseEmServices
 {
-
     /**
      * @param $pointGeom
      * @return mixed
@@ -35,7 +34,6 @@ class Geometry extends BaseEmServices
         return $data;
     }
 
-
     /**
      * @param $pointGeom
      * @return DirRegion|null
@@ -46,7 +44,6 @@ class Geometry extends BaseEmServices
 
         return $region;
     }
-
 
     /**
      * @param $pointGeom

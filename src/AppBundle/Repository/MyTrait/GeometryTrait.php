@@ -162,6 +162,4 @@ trait GeometryTrait
 
         return;
     }
-
-
 }
