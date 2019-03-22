@@ -105,30 +105,20 @@ $(function () {
         if (filterLayer) {
             filterLayer.getSource().clear();
         }
-        mapSales.getOverlays().clear();
-        mapSales.getInteractions().forEach(function (interaction) {
-            if (interaction instanceof Draw) {
-                mapSales.removeInteraction(interaction);
-            }
-        });
-        mapSales.getInteractions().forEach(function (interaction) {
-            if (interaction instanceof Draw) {
-                mapSales.removeInteraction(interaction);
-            }
-        });
+
+        featureMapControl.clearOverlays('filterOverlay');
+        mapSales.removeInteraction(DrowGlobal);
+        mapSales.removeInteraction(DrowLineGlobal);
 
         $('#featureGeom').val('');
         $('#circleRadius, #geomRadius').val('');
     }
-
 
     /**
      * ---------------------------------------------------очищає форму
      */
 
     $('.filter-clear').on('click', function () {
-
-        //$('[name = "item_filter"]')[0].reset();
 
         $('.filter-price input').val('');
         $('.filter-area input').val('');

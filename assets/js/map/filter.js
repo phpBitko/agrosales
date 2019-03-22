@@ -92,20 +92,21 @@ $(function () {
         name: 'filter',
     });
 
-    var draw; // global so we can remove it later
-    var drawLine; // global so we can remove it later
+/*    var draw; // global so we can remove it later
+    var drawLine; // global so we can remove it later*/
+
 
     function addInteractionLine() {
-        drawLine = new Draw({
+        DrowLineGlobal = new Draw({
             source: sourceFilter,
             type: 'LineString',
             maxPoints: 2,
         });
-        mapSales.addInteraction(drawLine);
+        mapSales.addInteraction(DrowLineGlobal);
 
         var listener;
         var geomLine;
-        drawLine.on('drawstart', function (evt) {
+        DrowLineGlobal.on('drawstart', function (evt) {
             sketch = evt.feature;
             listener = sketch.getGeometry().on('change', function (evt) {
                 geomLine = evt.target;
@@ -115,7 +116,7 @@ $(function () {
             });
         }, this);
 
-        drawLine.on('drawend', function () {
+        DrowLineGlobal.on('drawend', function () {
 
             measureTooltipElement.className = 'tooltip tooltip-static';
             measureTooltip.setOffset([0, -7]);
@@ -147,18 +148,18 @@ $(function () {
     function addInteraction() {
         typeSelect = $('#typeGeometry')[0].value;
         if (typeSelect !== 'None') {
-            draw = new Draw({
+            DrowGlobal = new Draw({
                 source: sourceFilter,
                 type: typeSelect
             });
-            mapSales.addInteraction(draw);
+            mapSales.addInteraction(DrowGlobal);
 
             if (typeSelect == 'Circle') {
                 addInteractionLine();
             }
             var listener;
             var geom;
-            draw.on('drawstart', function (evt) {
+            DrowGlobal.on('drawstart', function (evt) {
                 sourceFilter.clear();
                 featureMapControl.clearOverlays('filterOverlay');
                 createMeasureTooltip();
@@ -172,7 +173,7 @@ $(function () {
                 });
             }, this);
 
-            draw.on('drawend', function () {
+            DrowGlobal.on('drawend', function () {
                 measureTooltipElement.className = 'tooltip tooltip-static';
                 measureTooltip.setOffset([0, -7]);
                 if (geom instanceof Polygon) {
@@ -212,12 +213,14 @@ $(function () {
      */
     $('#typeGeometry')[0].onchange = function () {
         if ($('#typeGeometry option:selected').val() !== 'None') {
+            $('.measure-button').removeClass('active');
+            mapSales.removeInteraction(DrowControlGlobal);
             clearFilter();
             $('#geomRadius').prop('disabled', geomRadiusChecked());
             addInteraction();
         } else {
-            mapSales.removeInteraction(draw);
-            mapSales.removeInteraction(drawLine);
+            mapSales.removeInteraction(DrowGlobal);
+            mapSales.removeInteraction(DrowLineGlobal);
         }
     };
 
@@ -229,6 +232,8 @@ $(function () {
         }
 
         if ($('#checkboxGeometry').prop('checked')) {
+            $('.measure-button').removeClass('active');
+            mapSales.removeInteraction(DrowControlGlobal);
             $('#typeGeometry').val('Circle');
             $('#typeGeometry').prop('disabled', false);
             $('#geomRadius').prop('disabled', geomRadiusChecked());
@@ -337,8 +342,8 @@ $(function () {
 
     function clearFilter() {
         layerFilter.getSource().clear();
-        mapSales.removeInteraction(draw);
-        mapSales.removeInteraction(drawLine);
+        mapSales.removeInteraction(DrowGlobal);
+        mapSales.removeInteraction(DrowLineGlobal);
         $('#featureGeom').val('');
         $('#circleRadius, #geomRadius').val('');
         featureMapControl.clearOverlays('filterOverlay');

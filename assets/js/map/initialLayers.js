@@ -1,4 +1,4 @@
-import Map from "ol/Map";
+//import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import OSM from 'ol/source/OSM';
@@ -48,7 +48,6 @@ $(function () {
         isBaseLayer: true,
     });
 
-
     //--------------------------------------------------створюєм новий шар Ділянки з публічної кадастрової карти
     var kievPublichkaSource = new TileWMS({
         url: 'http://map.land.gov.ua/geowebcache/service/wms',
@@ -76,7 +75,7 @@ $(function () {
     mapSales = new MapGlobal({
         target: 'map',
         layers: [
-          /*  osmLayer,*/
+            osmLayer,
             raster,
             /*        kiev2006Layer,*/
             kievPublichka,

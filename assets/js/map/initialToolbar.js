@@ -16,7 +16,7 @@ import layerVector from "ol/layer/Vector";
 global.objWkt = new WKT;
 global.sourceVectorGlobal = sourceVector;
 global.layerVectorGlobal = layerVector;
-global.layerDrawGlobal = Draw;
+//global.layerDrawGlobal = Draw;
 
 
 $(function () {
@@ -100,20 +100,20 @@ $(function () {
 
     key = mapSales.on('pointermove', pointerMoveHandler);
 
-    var draw; // global so we can remove it later
+    //var draw; // global so we can remove it later
 
     var type = 'LineString';
 
     function addInteraction() {
-        draw = new Draw({
+        DrowControlGlobal = new Draw({
             source: source,
             type: type,
             style: [StyleGlobalMeasureInteractAdd, StyleGlobalMeasureInteract],
         });
-        mapSales.addInteraction(draw);
+        mapSales.addInteraction(DrowControlGlobal);
 
         var listener;
-        draw.on('drawstart', function (evt) {
+        DrowControlGlobal.on('drawstart', function (evt) {
             // set sketch
             sketch = evt.feature;
 
@@ -135,7 +135,7 @@ $(function () {
             });
         }, this);
 
-        draw.on('drawend', function () {
+        DrowControlGlobal.on('drawend', function () {
             measureTooltipElement.className = 'tooltip tooltip-static';
             measureTooltip.setOffset([0, -7]);
             // unset sketch
@@ -171,7 +171,7 @@ $(function () {
     function startMeasure(measureObj) {
 
         unByKey(key);
-        mapSales.removeInteraction(draw);
+        mapSales.removeInteraction(DrowControlGlobal);
 
         if (measureObj.hasClass('active')) {
             type = (measureObj.attr('id') == 'control-panel-ruler') ? 'LineString' : 'Polygon';
@@ -195,6 +195,16 @@ $(function () {
         startMeasure($(this));
     });
 
+    $('.measure-button').on('click', function () {
+
+        if ($('#checkboxGeometry').prop('checked') == true) {
+            $('#typeGeometry').val('None');
+            mapSales.removeInteraction(DrowGlobal);
+            mapSales.removeInteraction(DrowLineGlobal);
+            $('#geomRadius').prop('disabled', true);
+        }
+    });
+
 
     $('#control-panel-closest').on('click', function () {
         clearInteraction();
@@ -203,11 +213,10 @@ $(function () {
     });
 
     function clearInteraction() {
-/*        var collection = mapSales.getOverlays();
-        collection.clear();*/
+
         featureMapControl.clearOverlays('measure');
         vectorDraw.getSource().clear();
-        mapSales.removeInteraction(draw);
+        mapSales.removeInteraction(DrowControlGlobal);
         unByKey(key);
         sourceVectorClosest.clear();
     }

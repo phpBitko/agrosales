@@ -2,9 +2,14 @@ import Map from "ol/Map";
 import {Circle as CircleStyle, Fill, Stroke, Style} from "ol/style";
 import {getArea, getLength} from 'ol/sphere.js';
 import Collection from 'ol/Collection';
+import Draw from "ol/interaction/Draw";
 
 global.Map = Map;
 global.MapGlobal = Map;
+global.DrowGlobal = Draw;
+global.DrowLineGlobal = Draw;
+global.DrowControlGlobal = Draw;
+
 global.CollectionGlobal = Collection;
 global.StyleGlobalMeasure = Style;
 global.StyleGlobalMeasureAdd = Style;
