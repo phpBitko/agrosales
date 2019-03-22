@@ -1,15 +1,5 @@
 $(document).ready(function () {
     //-------------------------------------------- ініціалізуєм bootstrap tooltip і змінюєм налаштування
-/*    $('[data-toggle="tooltip"]').tooltip({
-        trigger: 'hover',
-        container: 'body',
-        placement: 'bottom',
-    });*/
-/*    $('.advertisement-filter').tooltip({
-        trigger: 'hover',
-        selector: '[data-toggle="tooltip"]',
-        placement: 'bottom',
-    });*/
 
     $('.map-details-info, .advertisement-filter').tooltip({
         trigger: 'hover',
@@ -29,7 +19,7 @@ $(document).ready(function () {
         $(this).addClass('active');
         var selected = $(this).attr('data-val');
         mapSales.getLayers().forEach(function (l) {
-            if(!(l instanceof VectorLayer) && l.get('name') != 'pub'){
+            if (!(l instanceof VectorLayer) && l.get('name') != 'pub') {
                 l.setVisible(false);
                 if (l.get('name') === selected) {
                     l.setVisible(true);
@@ -39,11 +29,13 @@ $(document).ready(function () {
     });
 
     //Перемикаємо ПКК
-    $('#checkPub').on('click', function (e) {
+    $('#checkPub').on('click', function () {
+
         var layer = getLayerByName('pub', mapSales);
-        if($('#checkPub').prop('checked') === false){
+
+        if ($('#checkPub').prop('checked') === false) {
             layer.setVisible(false);
-        }else{
+        } else {
             layer.setVisible(true);
         }
     });
@@ -84,18 +76,6 @@ $(document).ready(function () {
         $('.map-details-info').removeAttr("style");
 
     });
-
-    /*    $('body').on('mouseover', function () {
-
-            $('[data-toggle="tooltip"]').tooltip({
-                trigger: 'hover',
-            });
-        });*/
-    /*
-        $('body').on('load', '.map-details-info', function () {
-            $('[data-toggle="tooltip"]').tooltip("show");
-
-        });*/
 
     $('body').on('click', '.map-details-info .move-right', function () {
         $('.map-details-info').removeAttr("style");

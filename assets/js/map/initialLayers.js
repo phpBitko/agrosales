@@ -9,8 +9,6 @@ import XYZ from 'ol/source/XYZ.js';
 import {fromLonLat} from 'ol/proj.js';
 import {defaults as defaultControls} from 'ol/control.js';
 
-global.Map = Map;
-
 
 $(function () {
     $('body').preloader();//--------------------запускаємо прелоадер поки все загружаєтся
@@ -71,16 +69,16 @@ $(function () {
     var kievPublichka = new TileLayer({
         source: kievPublichkaSource,
         name: 'pub',
-        visible: 1
+        visible: false,
     });
 
     //---------------------------------------------------- створення об'єкту Map
-    mapSales = new Map({
+    mapSales = new MapGlobal({
         target: 'map',
         layers: [
-            osmLayer,
+          /*  osmLayer,*/
             raster,
-            kiev2006Layer,
+            /*        kiev2006Layer,*/
             kievPublichka,
         ],
         view: new View({

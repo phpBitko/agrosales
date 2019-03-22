@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository\MyTrait;
+use Doctrine\ORM\QueryBuilder;
 
 
 /**
@@ -41,6 +42,28 @@ trait GeometryTrait
         $stmt->execute();
         $result = $stmt->fetchAll();
         return $result[0]['area'];
+    }
+
+
+    /**
+     * Додає до існуючого запиту QueryBuilder параметри фільтрації по колу або полігону
+     *
+     * @param QueryBuilder $qb
+     * @param $geom
+     * @param int $radius
+     * @return QueryBuilder
+     */
+    public function qbAddGeom(QueryBuilder $qb, $geom, $radius = 0)
+    {
+        if ($radius) {
+            $qb->andWhere('ST_Intersects(ST_Buffer(:GEOM,  :RADIUS), a.geom) = true')
+                ->setParameter('GEOM', $geom)
+                ->setParameter('RADIUS', $radius);
+        } else {
+            $qb->andWhere('ST_Intersects(ST_GeomFromText(:GEOM), a.geom) = true')
+                ->setParameter('GEOM', $geom);
+        }
+        return $qb;
     }
 
 

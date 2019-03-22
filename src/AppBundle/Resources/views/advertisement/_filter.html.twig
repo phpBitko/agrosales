@@ -5,14 +5,6 @@
     {% for messages in app.flashes('filter-danger') %}
         <div class="alert alert-danger"> {{ messages }} </div>
     {% endfor %}
-{#    {% if data.errors|length > 0 %}
-        <div class="alert alert-danger">
-            {% for error in data.errors %}
-                <div>{{ error }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}#}
-
     {% if strController == 'map' %}
         {{ form_start(form,{'method': 'POST'}) }}
     {% else %}
@@ -100,7 +92,8 @@
                         </label>
                         {{ form_widget(form.isSewerage) }}
                         <label for="item_filter_isSewerage">
-                            <div class="provision" data-toggle="tooltip" title="{{ "Централізована каналізація"|trans }}">
+                            <div class="provision" data-toggle="tooltip"
+                                 title="{{ "Централізована каналізація"|trans }}">
                                 <i class="sprite sprite-waste"></i>
                             </div>
                         </label>
@@ -112,11 +105,36 @@
                         </label>
                     </div>
                 </li>
+                {% if strController == 'map' %}
+                <li class="filter-geometry">
+                    <i class="fas fa-chart-pie icon-color"></i>
+                    <span>{{ 'Геометрія'|trans }}</span>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="checkboxGeometry" value="option1"
+                                       class="custom-control-input">
+                                <label class="custom-control-label" for="checkboxGeometry"></label>
+                            </div>
+                        </div>
+                        {#<span class="input-group-addon mr-2">
+                            <input type="checkbox" id="checkboxGeometry" value="option1">
+                        </span>#}
+                        <select id="typeGeometry" class="form-control mr-2 w-40 " disabled>
+                            <option value="Circle" selected>{{ 'Радіус'|trans }}</option>
+                            <option value="Polygon">{{ 'Полігон'|trans }}</option>
+                            <option value="None">Курсор</option>
+                        </select>
+
+                        <input type="number" id="geomRadius" class="form-control" disabled></input>
+                    </div>
+                </li>
+                {% endif %}
 
                 <li class="filter-btn">
                     {% if strController == 'map' %}
                         <input value="{{ 'Очистити'|trans }} {{ 'фільтр'|trans }}" class="btn-grey filter-clear"
-                               type="button">
+                               type="button" >
 
                         <input id="filter-submit" type="button"
                                name="submit-filter" value="{{ 'Фільтрувати'|trans }}" class="btn btn-blue">
@@ -135,6 +153,10 @@
                     {% endif %}
                 </li>
             </ul>
+        </div>
+        <div class="box-footer">
+            <input type="hidden" id="featureGeom" name="featureGeom" value="">
+            <input type="hidden" id="circleRadius" name="circleRadius" value="">
 
         </div>
     </div>

@@ -82,7 +82,7 @@ class MapController extends SuperController
             }
 
             $table['details'] = $this->renderView('AppBundle:map:_details.html.twig', ['advertisementDetails' => $advertisementDetails]);
-            return new JsonResponse(['table' => $table, 'data' =>$data], Response::HTTP_OK);
+            return new JsonResponse(['table' => $table], Response::HTTP_OK);
 
         } catch (WarningException $exception) {
             return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
@@ -131,26 +131,30 @@ class MapController extends SuperController
      */
     public function getFilterAdvertisementAction(Request $request, SessionInterface $session, ParseFilterServices $parseFilterServices)
     {
-        $advertisement = $this->em->getRepository('AppBundle:Advertisement');
-        $form = $this->createForm(AdvertisementFilterType::class);
-
-        $filterArray = $session->get($form->getName()) ? $session->get($form->getName()) : $request->get($form->getName());
-
         try {
+            $advertisement = $this->em->getRepository('AppBundle:Advertisement');
+            $form = $this->createForm(AdvertisementFilterType::class);
+            $nameForm = $form->getName();
+            $filterArray = $session->get($nameForm) ? $session->get($nameForm) : $request->get($nameForm);
+
             $filterBuilder = $advertisement->qbFindAllByNotNull('geom', 0, self::STATUS_ADVERTISEMENT['ACTIVE']);
-
             $filterArray = $parseFilterServices->normalizeFilterParam($filterArray);
-
             $form->submit($filterArray);
 
             if ($filterArray) {
                 if ($form->isValid()) {
                     $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+
                 } else {
                     $this->errors = array_values(FormErrorHelper::getErrorMessages($form, true));
                 }
-                $session->remove($form->getName());
+                $session->remove($nameForm);
             }
+
+            if ($request->get('featureGeom')) {
+                $filterBuilder = $advertisement->qbAddGeom($filterBuilder, $request->get('featureGeom'), $request->get('circleRadius'));
+            }
+
             $query = $filterBuilder->getQuery();
             $advertisement = $query->getResult();
 

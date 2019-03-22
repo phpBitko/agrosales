@@ -1,4 +1,84 @@
+
 var featureMapControl = {
+
+    /**
+     * перевіряє чи існує шар з іменем layerName на мапі
+     *
+     * @param {string} layerName, name of Layer.
+     * @return {module:ol/layer/Vector~VectorLayer} | {false}
+     */
+
+    ifLayerExist: function (layerName, map = mapSales) {
+
+        var objLayer = '';
+        map.getLayers().forEach(function (layer) {
+            if (layer.get('name') == layerName) {
+                objLayer = layer;
+            }
+        });
+        return objLayer;
+    },
+
+    /**
+     * Вираховує довжину лінії по координатам
+     *
+     * Length output.
+     * @param {module:ol/geom/LineString~LineString} line The line.
+     * @return {string} The length.
+     */
+
+    lengthFromCoordinate: function (line) {
+
+        let lengthCoordSum = 0;
+        line.forEachSegment(function (start, end) {
+            let dx = Math.pow((end[0] - start[0]), 2);
+            let dy = Math.pow((end[1] - start[1]), 2);
+            lengthCoordSum += Math.sqrt(dx + dy);
+
+        });
+        return lengthCoordSum;
+    },
+
+    /**
+     * Вираховує довжину лінії по координатам і форматує її
+     *
+     * Format length output.
+     * @param {module:ol/geom/LineString~LineString} line The line.
+     * @return {string} The formatted length.
+     */
+
+    formatLengthFromCoordinate: function (line) {
+
+        let length = lengthFromCoordinate(line);
+        var output;
+        if (length > 1000) {
+            output = (Math.round(length / 1000 * 100) / 100) +
+                ' ' + 'км';
+        } else {
+            output = (Math.round(length * 100) / 100) +
+                ' ' + 'м';
+        }
+        return output;
+    },
+
+    /*    /!**
+         * Format length output.
+         * @param {module:ol/geom/LineString~LineString} line The line.
+         * @return {string} The formatted length.
+         *!/
+        formatLength: function (line) {
+            var length = getLength(line);
+            var output;
+            if (length > 1000) {
+                output = (Math.round(length / 1000 * 100) / 100) +
+                    ' ' + 'км';
+            } else {
+                output = (Math.round(length * 100) / 100) +
+                    ' ' + 'м';
+            }
+            return output;
+        },*/
+
 
     /**
      * Зумує на обєкти features (дані в форматі VectorSource, обєкт - Map)
@@ -80,7 +160,6 @@ var featureMapControl = {
         } catch (e) {
             alert(e.message);
         }
-
     },
     /*
         drawFeatureInDraw: function (dataWkt, style = '', map = mapSales) {
@@ -99,6 +178,33 @@ var featureMapControl = {
             map.addInteraction(layer);
             feature.zoomToFeature(dataWkt, map)
         },*/
+    /**
+     * Видаляє написи на карті по ключу (id), у разі відсутності видаляє всі
+     * @param overlaysId
+     */
+
+    clearOverlays: function (overlaysId = 'All') {
+
+        var collections = mapSales.getOverlays();
+        var collectionFilter = new CollectionGlobal();
+
+        if (overlaysId !== 'All') {
+            if (collections.getLength() > 0) {
+                collections.forEach(function (overlay) {
+
+                    if (overlay.getId() !== overlaysId) {
+                        collectionFilter.push(overlay);
+                    }
+                })
+            }
+            collections.clear();
+            collectionFilter.forEach(function (overlay) {
+                mapSales.addOverlay(overlay);
+            })
+        } else {
+            collections.clear();
+        }
+    },
 }
 
 module.exports = featureMapControl;

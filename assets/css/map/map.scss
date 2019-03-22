@@ -148,6 +148,9 @@
   border-left: 1px solid #ffffff;
   border-right: 1px solid #ffffff;
   padding: 6px 15px;
+  .custom-control-label:hover {
+    cursor: pointer;
+  }
 }
 
 .choose-layer-item:last-child {
@@ -269,7 +272,7 @@
 }
 
 .cp-closest {
-  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/placeholder.png") no-repeat center;
+  background: #f9f7f6 url("../../../src/AppBundle/Resources/public/img/distance.png") no-repeat center;
 }
 
 .cp-area {

@@ -16,9 +16,12 @@ bootboxMessage = require('../../js/functionLib/bootboxMessage');
 bootboxAlertMessage = require('../../js/functionLib/bootboxAlertMessage');
 getLayerByName = require('../../js/functionLib/getLayerByName');
 
+
+require('../../js/map/settingStyle');
 require('../../js/map/initialLayers');
-require('../../js/map/initialToolbar');
 featureMapControl = require('../../js/functionLib/featureManipulations');
+require('../../js/map/initialToolbar');
+
 serviceFunction = require('../../js/functionLib/serviceFunction');
 require('../../js/map/addAdvertisement');
 require('../../js/map/visualization');

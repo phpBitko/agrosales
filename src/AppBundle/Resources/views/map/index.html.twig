@@ -38,10 +38,15 @@
             <li id="bingMap" class=" choose-layer-item" data-val="bing">
                 <span>{{ 'Bing map'|trans|raw }}</span></li>
             <li id="pubMap" class=" choose-layer-item" data-val="pub">
-                <div class="form-check">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="checkPub" value="option1"
+                           class="custom-control-input">
+                    <label class="custom-control-label d-inline-block w-100" for="checkPub">{{ 'Публічна карта'|trans|raw }}</label>
+                </div>
+{#                <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="checkPub" checked>
                     <label class="form-check-label" for="checkPub">{{ 'Публічна карта'|trans|raw }}</label>
-                </div>
+                </div>#}
             </li>
         </ul>
     </div>
@@ -51,24 +56,24 @@
             <button id="zoom-in" class="zoom-button my-zoom-in" type="button" data-toggle="tooltip"
                     data-placement="left" title="{{ 'Збільшити'|trans }}"></button>
             <button id="zoom-full" class="my-zoom-full" type="button" data-toggle="tooltip" data-placement="left"
-                    title={{ 'Загальний вигляд'|trans }}></button>
+                    title="{{ 'Загальний вигляд'|trans }}"></button>
             <button id="zoom-out" class=" zoom-button my-zoom-out" type="button" data-toggle="tooltip"
-                    data-placement="left" title={{ 'Зменшити'|trans}}></button>
+                    data-placement="left" title="{{ 'Зменшити'|trans}}"></button>
         </div>
     </div>
 
     <div class="control-panel">
         <div class="zoom-layer-border d-flex flex-column align-items-center">
             <button id="control-panel-layer" class="cp-layer cp-button" type="button" data-placement="left" data-toggle="tooltip"
-                    title={{'Шари'|trans }}></button>
+                    title="{{'Шари'|trans }}"></button>
             <button id="control-panel-ruler" class="cp-ruler measure-button activated-button cp-button" type="button" data-placement="left" data-toggle="tooltip"
-                    title={{'Лінійка'|trans }}></button>
+                    title="{{'Лінійка'|trans }}"></button>
             <button id="control-panel-area" class="cp-area measure-button activated-button cp-button" type="button" data-placement="left" data-toggle="tooltip"
-                    title={{'Площа'|trans }}></button>
+                    title="{{'Площа'|trans }}"></button>
             <button id="control-panel-erase" class="cp-erase cp-button" type="button" data-placement="left"
-                    data-toggle="tooltip" title={{'Очистити'|trans }}></button>
+                    data-toggle="tooltip" title="{{'Очистити'|trans }}"></button>
             <button id="control-panel-closest" class="cp-closest activated-button cp-button" type="button" data-placement="left"
-                    data-toggle="tooltip" title={{"Найближчі об\'єкти"|trans }}></button>
+                    data-toggle="tooltip" title="{{'Найближчі об\'єкти'|trans }}"></button>
             <button id="control-panel-print" class="cp-print cp-button" type="button" data-placement="left" data-toggle="tooltip"
                     title={{'Друк'|trans }}></button>
             <button id="control-panel-placeholder" class="cp-placeholder cp-button" type="button" data-toggle="tooltip"

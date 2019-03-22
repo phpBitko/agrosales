@@ -8,11 +8,14 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Repository\MyTrait\GeometryTrait;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 //Добавити DOC блоки
 class AdvertisementRepository extends EntityRepository
 {
+    use GeometryTrait;
 
     /**
      * Вибирає всі активні об'єкти де вказане поле поле $param не Null
@@ -96,7 +99,8 @@ class AdvertisementRepository extends EntityRepository
      * @param $userId
      * @return mixed
      */
-    public function getCountAdvertisementByStatus($userId){
+    public function getCountAdvertisementByStatus($userId)
+    {
         $qb = $this->createQueryBuilder('a')
             ->select('count(a.dirStatus) as count, s.id, s.name')
             ->innerJoin('AppBundle:dirStatus', 's', 'with', 'a.dirStatus = s.id')
@@ -163,12 +167,10 @@ class AdvertisementRepository extends EntityRepository
         }
 
         foreach ($order as $field => $sort) {
-            $qb->addSelect("CASE WHEN q.$field IS NULL THEN 1 ELSE 0 END as HIDDEN ".$field."_is_null");
-            $qb->addOrderBy($field."_is_null", 'ASC');
+            $qb->addSelect("CASE WHEN q.$field IS NULL THEN 1 ELSE 0 END as HIDDEN " . $field . "_is_null");
+            $qb->addOrderBy($field . "_is_null", 'ASC');
             $qb->addOrderBy("q." . $field, $sort);
         }
-
-
         return $qb;
     }
 

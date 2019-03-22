@@ -4,6 +4,7 @@ namespace AppBundle\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use AppBundle\Form\Helpers\FormErrorHelper;
 
 class AppExtension extends AbstractExtension
 {
@@ -17,8 +18,8 @@ class AppExtension extends AbstractExtension
 
     public function isEmptyCheck($text)
     {
-        if(empty($text)){
-            return 'Інформація відсутня.';
+        if (empty($text)) {
+            return 'Інформація відсутня!';
         }
 
         return $text;
