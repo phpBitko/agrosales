@@ -117,24 +117,23 @@
                                                             </div>
 
                                                             <div class="d-flex flex-wrap">
-
                                                                 <a href="{{ path('advertisement_details', {'id':advertisement.id}) }}"
-                                                                   class="my-btn my-btn-grey btn-sm">
+                                                                   class="m-1 my-btn my-btn-grey btn-sm">
                                                                     Переглянути
                                                                 </a>
 
 
                                                                 <a href="{{ path('cabinet_update_advertisement_id', {'id':advertisement.id}) }}"
-                                                                   class="my-btn my-btn-blue btn-sm">
+                                                                   class=" m-1 my-btn my-btn-blue btn-sm">
                                                                     Редагувати
                                                                 </a>
 
                                                                 {% if data.status.id == 1 or data.status.id == 2 %}
                                                                     <a href="{{ path('cabinet_deactivate_my_advertisement', {'id':advertisement.id}) }}"
-                                                                       class="deactivate-button my-btn my-btn-red btn-sm">Деактивувати</a>
+                                                                       class="m-1 deactivate-button my-btn my-btn-red btn-sm">Деактивувати</a>
                                                                 {% else %}
                                                                     <a href="{{ path('cabinet_activate_advertisement', {'id':advertisement.id}) }}"
-                                                                       class="my-btn my-btn-green btn-sm">Активувати</a>
+                                                                       class="m-1 my-btn my-btn-green btn-sm">Активувати</a>
                                                                 {% endif %}
                                                             </div>
                                                         </div>

@@ -1,4 +1,4 @@
-//import Map from "ol/Map";
+import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import OSM from 'ol/source/OSM';
@@ -8,6 +8,8 @@ import BingMaps from 'ol/source/BingMaps';
 import XYZ from 'ol/source/XYZ.js';
 import {fromLonLat} from 'ol/proj.js';
 import {defaults as defaultControls} from 'ol/control.js';
+
+global.Map = Map;
 
 
 $(function () {
@@ -48,6 +50,17 @@ $(function () {
         isBaseLayer: true,
     });
 
+    var testSource = new XYZ({
+        url: 'http://koda.geoportal.org.ua/map/rtile/temp_8870140600704273/ua/{z}/{x}/{y}.png',
+    });
+
+    var test = new TileLayer({
+        source: testSource,
+        name: 'test',
+        visible: 1,
+        isBaseLayer: true,
+    });
+
     //--------------------------------------------------створюєм новий шар Ділянки з публічної кадастрової карти
     var kievPublichkaSource = new TileWMS({
         url: 'http://map.land.gov.ua/geowebcache/service/wms',
@@ -79,6 +92,7 @@ $(function () {
             raster,
             /*        kiev2006Layer,*/
             kievPublichka,
+            test
         ],
         view: new View({
             center: centerUkraine,

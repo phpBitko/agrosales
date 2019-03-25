@@ -96,21 +96,27 @@ class AdvertisementRepository extends EntityRepository
 
 
     /**
+     * Вибираэмо усі оголошення по статусам, для користувача. Якщо id користувача не передано, тоді вибираємо усі.
+     *
      * @param $userId
      * @return mixed
      */
-    public function getCountAdvertisementByStatus($userId)
+    public function getCountAdvertisementByStatus($userId = 0)
     {
         $qb = $this->createQueryBuilder('a')
             ->select('count(a.dirStatus) as count, s.id, s.name')
-            ->innerJoin('AppBundle:dirStatus', 's', 'with', 'a.dirStatus = s.id')
-            ->where('a.idUser = :USER')
-            ->setParameter('USER', $userId)
-            ->groupBy('a.dirStatus, s.id, s.name')
+            ->innerJoin('AppBundle:dirStatus', 's', 'with', 'a.dirStatus = s.id');
+
+        if ($userId > 0) {
+            $qb->where('a.idUser = :USER')
+                ->setParameter('USER', $userId);
+        }
+
+        $res = $qb->groupBy('a.dirStatus, s.id, s.name')
             ->getQuery()
             ->getResult();
 
-        return $qb;
+        return $res;
     }
 
     /**
@@ -121,7 +127,8 @@ class AdvertisementRepository extends EntityRepository
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getTotalCountView($userId){
+    public function getTotalCountView($userId)
+    {
         $qb = $this->createQueryBuilder('a')
             ->select('sum(a.viewCount)')
             ->where('a.idUser = :USER')

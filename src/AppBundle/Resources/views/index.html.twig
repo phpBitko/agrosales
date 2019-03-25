@@ -11,7 +11,8 @@
 
 {% block header %}
     <div class="header">
-        <nav id='navbar_head' class="navbar navbar-expand-lg shadow">
+        <nav id='navbar_head' class="navbar navbar-expand-lg  shadow">
+            {% block header_container %}
             <div class="container">
                 <a class="navbar-brand logo-link " href="{{ path('main_index') }}">
                     <img class="logo" src=" {{ asset('bundles/app/img/logo.png') }}">
@@ -57,7 +58,7 @@
                             <li class="nav-item">
                                 {% if  is_granted('ROLE_ADMIN') %}
                                     <a class="nav-link main-menu {{ app.request.attributes.get("_route")|slice(0, 5) == 'admin' ? 'active' }}"
-                                       href="{{ path('admin.advertisement_list') }}">
+                                       href="{{ path('admin.index') }}">
                                         <i class="fas fa-tools"></i>{{ 'Панель адміністратора' }}
                                     </a>
                                 {% else %}
@@ -112,6 +113,7 @@
                         {% endif %}
                     </ul>
                 </div>
+                {% endblock %}
             </div>
         </nav>
     </div>

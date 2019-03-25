@@ -140,3 +140,7 @@ form{
 .form-group label {
   font-weight: 600 !important;
 }
+
+.skin-blue .sidebar-menu>li.active>a {
+  border-left-color: #3c8dbc;
+}

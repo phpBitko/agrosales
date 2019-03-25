@@ -16,9 +16,30 @@
 
 {% endblock %}
 
+{% block header %}
+    <div class="header">
+        <nav id='navbar_head' class="navbar navbar-expand-lg flex-column-reverse flex-lg-row {#flex-sm-column-reverse  d-ld-flex#} shadow">
+            {% block header_container %}
+
+                    <a href="#" class="mr-auto sidebar-toggle" data-toggle="push-menu" role="button">
+                        <i class="fas fa-grip-vertical"></i>
+                    </a>
+
+                {{ parent() }}
+
+            {% endblock %}
+        </nav>
+    </div>
+
+    <!-- Sidebar toggle button-->
+
+    <!-- Navbar Right Menu -->
+
+{% endblock %}
+
 {% block body %}
 
-<!-- Site wrapper -->
+    <!-- Site wrapper -->
     <!-- =============================================== -->
 
     {% block main_sidebar %}
@@ -38,7 +59,7 @@
                             <i class="fas fa-home"></i> <span>Домашня сторінка</span>
                         </a>
                     </li>
-                    <li class="treeview  {{ app.request.attributes.get('_route')|slice(0, 28) == 'cabinet_get_my_advertisement' ? 'menu-open'}} ">
+                    <li class="treeview  {{ app.request.attributes.get('_route')|slice(0, 28) == 'cabinet_get_my_advertisement' ? 'menu-open' }} ">
                         <a href="#">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Оголошення</span>
@@ -47,71 +68,83 @@
                             </span>
                         </a>
 
-                        <ul class="treeview-menu sub-menu-1" {{ app.request.attributes.get('_route')|slice(0, 28) == 'cabinet_get_my_advertisement' ? 'style="display:block"'}} >
-                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'active' ? 'active' }}">
-                                        <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'active'}) }}">
+                        <ul class="treeview-menu sub-menu-1" {{ app.request.attributes.get('_route')|slice(0, 28) == 'cabinet_get_my_advertisement' ? 'style="display:block"' }} >
+                            <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'active' ? 'active' }}">
+                                <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'active'}) }}">
 
-                                            <span>Активні</span>
-                                            <span class="pull-right-container">
-                                                {%  if  data.countNotViewMessages['1'] is defined %}
-                                                    <small class="label mr-0 pull-right bg-warning" data-placement="bottom" data-toggle="tooltip"  title="Непрочитаних повідомлень">
+                                    <span>Активні</span>
+                                    <span class="pull-right-container">
+                                                {% if  data.countNotViewMessages['1'] is defined %}
+                                                    <small class="label mr-0 pull-right bg-warning"
+                                                           data-placement="bottom" data-toggle="tooltip"
+                                                           title="Непрочитаних повідомлень">
                                                       {{ data.countNotViewMessages['1'].count }}
                                                     </small>
-                                                {% endif  %}
-                                              <small class="label pull-right mr-0 color-grey" data-placement="bottom"  data-toggle="tooltip" title="Всього оголошень">
+                                                {% endif %}
+                                        <small class="label pull-right mr-0 color-grey" data-placement="bottom"
+                                               data-toggle="tooltip" title="Всього оголошень">
                                                   {{ data.countAdvertisement['1'] is defined ? data.countAdvertisement['1'].count:0 }}
                                               </small>
                                             </span>
-                                        </a>
-                                    </li>
-                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'pending' ? 'active' }}">
-                                        <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'pending'}) }}">
+                                </a>
+                            </li>
+                            <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'pending' ? 'active' }}">
+                                <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'pending'}) }}">
 
-                                            <span>На розгляді</span>
-                                            <span class="pull-right-container">
-                                                {%  if  data.countNotViewMessages['2'] is defined %}
-                                                    <small class="label mr-0 pull-right bg-warning" data-placement="bottom" data-toggle="tooltip"  title="Непрочитаних повідомлень">
+                                    <span>На розгляді</span>
+                                    <span class="pull-right-container">
+                                                {% if  data.countNotViewMessages['2'] is defined %}
+                                                    <small class="label mr-0 pull-right bg-warning"
+                                                           data-placement="bottom" data-toggle="tooltip"
+                                                           title="Непрочитаних повідомлень">
                                                       {{ data.countNotViewMessages['2'].count }}
                                                     </small>
-                                                {% endif  %}
-                                              <small class="label pull-right mr-0 color-grey" data-placement="bottom"  data-toggle="tooltip" title="Всього оголошень">
+                                                {% endif %}
+                                        <small class="label pull-right mr-0 color-grey" data-placement="bottom"
+                                               data-toggle="tooltip" title="Всього оголошень">
                                                   {{ data.countAdvertisement['2'] is defined ? data.countAdvertisement['2'].count:0 }}
                                               </small>
                                             </span>
-                                        </a>
-                                    </li>
-                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'deactivated' ? 'active' }}">
-                                        <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'deactivated'}) }}">
+                                </a>
+                            </li>
+                            <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'deactivated' ? 'active' }}">
+                                <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'deactivated'}) }}">
 
-                                            <span> Деактивовані</span>
-                                            <span class="pull-right-container">
-                                              {%  if  data.countNotViewMessages['4'] is defined %}
-                                                  <small class="label mr-0 pull-right bg-warning" data-placement="bottom" data-toggle="tooltip"  title="Непрочитаних повідомлень">
+                                    <span> Деактивовані</span>
+                                    <span class="pull-right-container">
+                                              {% if  data.countNotViewMessages['4'] is defined %}
+                                                  <small class="label mr-0 pull-right bg-warning"
+                                                         data-placement="bottom" data-toggle="tooltip"
+                                                         title="Непрочитаних повідомлень">
                                                       {{ data.countNotViewMessages['4'].count }}
                                                   </small>
-                                              {% endif  %}
-                                              <small class="label mr-0 pull-right color-grey" data-placement="bottom"  data-toggle="tooltip" title="Всього оголошень">
+                                              {% endif %}
+                                        <small class="label mr-0 pull-right color-grey" data-placement="bottom"
+                                               data-toggle="tooltip" title="Всього оголошень">
                                                   {{ data.countAdvertisement['4'] is defined ? data.countAdvertisement['4'].count:0 }}
                                               </small>
                                             </span>
-                                        </a>
-                                    </li>
-                                    <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'reject' ? 'active' }}">
-                                        <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'reject'}) }}">
+                                </a>
+                            </li>
+                            <li class="sub-menu-select {{ app.request.attributes.get("selected") == 'reject' ? 'active' }}">
+                                <a href="{{ path('cabinet_get_my_advertisement', {'selected' : 'reject'}) }}">
 
-                                            <span>На доопрацюванні</span>
-                                            <span class="pull-right-container">
-                                                {%  if  data.countNotViewMessages['3'] is defined %}
-                                                    <small class="label mr-0 pull-right bg-warning" data-placement="bottom" data-toggle="tooltip"  title="Непрочитаних повідомлень">
+                                    <span>На доопрацюванні</span>
+                                    <span class="pull-right-container">
+                                                {% if  data.countNotViewMessages['3'] is defined %}
+                                                    <small class="label mr-0 pull-right bg-warning"
+                                                           data-placement="bottom" data-toggle="tooltip"
+                                                           title="Непрочитаних повідомлень">
                                                       {{ data.countNotViewMessages['3'].count }}
                                                     </small>
-                                                {% endif  %}
-                                              <small class="label mr-0 pull-right color-grey" data-placement="bottom"  data-toggle="tooltip" title="Всього оголошень">
+                                                {% endif %}
+                                        <small class="label mr-0 pull-right color-grey" data-placement="bottom"
+                                               data-toggle="tooltip" title="Всього оголошень">
                                                   {{ data.countAdvertisement['3'] is defined ? data.countAdvertisement['3'].count:0 }}
                                               </small>
                                             </span>
-                                        </a>
-                                    </li>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="{% if app.request.attributes.get("_route") == 'cabinet_create_advertisement' %}
@@ -119,8 +152,9 @@
                                 {% endif %}">
 
 
-                            <a href="{{ path('cabinet_create_advertisement') }}"><i class="far fa-plus-square"></i>
-                                Створити оголошення</a>
+                        <a href="{{ path('cabinet_create_advertisement') }}"><i class="far fa-plus-square"></i>
+                            <span>Створити оголошення</span></a>
+
 
                     </li>
 
@@ -136,7 +170,7 @@
 
     {% endblock %}
 
-    {% endblock %}
-    {% block footer %}
-    {{ parent() }}
 {% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}

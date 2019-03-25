@@ -1,5 +1,9 @@
 @import '../generalSettings';
 
+html{
+  font-size: unset;
+}
+
 .advertisement_one {
   img {
     max-height: 150px;
@@ -13,13 +17,7 @@
   }
 }
 
-.sub-menu-1{
-  .sub-menu-select.active{
-    border-left: 3px solid #3c8dbc;
-    margin-left: -5px;
-    padding-left: 0px;
-  }
-}
+
 
 .sub-menu-2{
   li.active{
@@ -27,6 +25,10 @@
     margin-left: -26px;
     padding-left: 20px;
   }
+}
+
+.skin-blue .sidebar-menu>li.active>a {
+  border-left-color: #3c8dbc;
 }
 
 .icon{
@@ -217,4 +219,25 @@ tbody tr{
 
 .fa-circle{
   font-size: 12px;
+}
+
+.skin-blue .header .navbar .sidebar-toggle {
+  color: #fff;
+}
+.skin-blue .header .navbar .sidebar-toggle:hover {
+  background-color: #367fa9;
+}
+.header .sidebar-toggle {
+  float: left;
+  background-color: transparent;
+  background-image: none;
+  padding: 15px 15px;
+  font-family: fontAwesome;
+}
+
+@media (max-width: 992px) {
+  .sidebar-toggle{
+    width: 100%;
+    background-color: #367fa9 !important;
+  }
 }
