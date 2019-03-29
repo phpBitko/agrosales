@@ -6,6 +6,8 @@ use AppBundle\Entity\User;
 use AppBundle\Service\Admin\AbstractAdmin;
 use AppBundle\Service\Admin\Interfaces\ListAdminInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,11 +29,12 @@ class UserAdmin extends AbstractAdmin implements ListAdminInterface
     /**
      * UserAdmin constructor.
      * @param EntityManagerInterface $em
-     * @param array $roleHierarchy
+     * @param ContainerInterface $container
      */
-    public function __construct(EntityManagerInterface $em, array $roleHierarchy){
-        $this->roleHierarchy = $roleHierarchy;
-        parent::__construct($em);
+    public function __construct(EntityManagerInterface $em, ContainerInterface $container)
+    {
+        $this->roleHierarchy = $container->getParameter('security.role_hierarchy.roles');
+        parent::__construct($em, $container);
     }
 
     /**

@@ -1,4 +1,4 @@
-{% extends 'AppBundle:admin:index.html.twig' %}
+{% extends 'AppBundle:'~app.request.pathInfo|split('\/')[2]~':index.html.twig' %}
 {% form_theme form '@App/form/fields.html.twig' %}
 
 {% block body %}
@@ -34,7 +34,6 @@
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-sm-12 pl-4 pr-4">
-
                                         {{ form_start(form, {'method': 'POST'}) }}
                                         <div class="box-body">
                                             {% for key, children in form.children %}

@@ -2,8 +2,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Advertisement;
-use AppBundle\Exception\WarningException;
+use AppBundle\Exception\ClientException;
 use AppBundle\Filter\AdvertisementFilterType;
+use AppBundle\Service\ApiClient\OsmRequestClient;
 use AppBundle\Service\ParseFilterServices;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +45,7 @@ class MapController extends SuperController
      * @Route("/getDetailsAdvertisement", name="map_details_advertisement", options={"expose"=true}, methods={"POST"})
      *
      */
-    public function getDetailsAdvertisementAction(Request $request)
+    public function getDetailsAdvertisementAction(Request $request, OsmRequestClient $osmRequestClient)
     {
         try {
             $id = $request->request->getInt('id');
@@ -59,13 +60,13 @@ class MapController extends SuperController
                 return $this->json(array('message' => 'Оголошення не знайдено!'), Response::HTTP_NOT_FOUND);
             }
 
-            /**Отримуємо інформацію з АПІ */
+            /** Отримуємо інформацію з АПІ */
             $data = [];
             if ($request->getHost() == '192.168.33.37' || $request->getHost() == '212.26.131.134' ) {
-                $osmRequestClient = $this->get('app.service.api_client.osm_request_client');
+                //$osmRequestClient = $this->get('app.service.api_client.osm_request_client');
                 if (!$osmRequestClient->isConnect()) {
                     return $this->json([
-                        'message' => 'Виникла помилка доступу до API E-сервісу!'
+                        'message' => $osmRequestClient->getLastErrorMessage()
                     ], Response::HTTP_INTERNAL_SERVER_ERROR);
                 }
 
@@ -79,13 +80,14 @@ class MapController extends SuperController
                         'message' => $osmRequestClient->getLastErrorMessage()
                     ], Response::HTTP_BAD_REQUEST);
                 }
+
             }
 
             $table['details'] = $this->renderView('AppBundle:map:_details.html.twig', ['advertisementDetails' => $advertisementDetails]);
-            return new JsonResponse(['table' => $table], Response::HTTP_OK);
+            return new JsonResponse(['table' => $table, 'data'=>$data], Response::HTTP_OK);
 
-        } catch (WarningException $exception) {
-            return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
+        } catch (ClientException $exception) {
+            return $this->json(['message' => $exception->getMessage(), 'status' => $exception->getStatusMessage()], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -97,14 +99,13 @@ class MapController extends SuperController
      *
      * @return JsonResponse
      */
-    public function getClosestObject(Request $request)
+    public function getClosestObject(Request $request, OsmRequestClient $osmRequestClient)
     {
         try {
             $coord = $request->get('coord');
-            $osmRequestClient = $this->get('app.service.api_client.osm_request_client');
             if (!$osmRequestClient->isConnect()) {
                 return $this->json([
-                    'message' => 'Виникла помилка доступу до API E-сервісу!'
+                    'message' => $osmRequestClient->getLastErrorMessage()
                 ], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
@@ -117,7 +118,7 @@ class MapController extends SuperController
             }
 
             return new JsonResponse($data);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -159,12 +160,12 @@ class MapController extends SuperController
             $advertisement = $query->getResult();
 
             if (empty($advertisement)) {
-                throw new WarningException('Нічого не знайдено!');
+                throw new ClientException('Нічого не знайдено!');
             }
 
             return $this->json(['data' => $advertisement, 'errors' => $this->errors], Response::HTTP_OK);
 
-        } catch (WarningException $exception) {
+        } catch (ClientException $exception) {
             return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);

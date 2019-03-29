@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Exception\WarningException;
+use AppBundle\Exception\ClientException;
 use AppBundle\Entity\DirDistrict;
 use AppBundle\Entity\DirRegion;
 
@@ -18,7 +18,7 @@ class Geometry extends BaseEmServices
         $region = $this->getPositionRegion($pointGeom);
 
         if ($region === null) {
-            throw new WarningException('Область не знайдено!');
+            throw new ClientException('Область не знайдено!');
         }
 
         $data['region'] = $region->getNatoobl();
@@ -26,7 +26,7 @@ class Geometry extends BaseEmServices
         $district = $this->getPositionDistrict($pointGeom);
 
         if ($district === null) {
-            throw new WarningException('Район не знайдено!');
+            throw new ClientException('Район не знайдено!');
         }
 
         $data['district'] = $district->getNatoray();
@@ -44,6 +44,7 @@ class Geometry extends BaseEmServices
 
         return $region;
     }
+
 
     /**
      * @param $pointGeom

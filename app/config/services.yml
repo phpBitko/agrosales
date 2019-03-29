@@ -15,7 +15,9 @@ services:
         public: false
         bind:
               $mailerUser: '%mailer_user%'
-              $roleHierarchy: '%security.role_hierarchy.roles%'
+              $baseUri: '%osm_services_api_token%'
+              $osmServicesApiClientId: '%osm_services_api_client_id%'
+              $osmServicesApiClientSecret: '%osm_services_api_client_secret%'
 
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -59,19 +61,6 @@ services:
             tags:
                 - { name: form.type, alias: app_user_registration }
 
-    app.service.api_client.osm_request_client:
-        class:     AppBundle\Service\ApiClient\OsmRequestClient
-        arguments:
-          ['%osm_services_api_token%']
-        calls:
-          - method: setLogger
-            arguments:
-              ['@logger']
-          - method: setAccessToken
-            arguments:
-              ['%osm_services_api_client_id%', '%osm_services_api_client_secret%']
-        public: true
-        # autowire: false
 
     #app.register:
     #        autoconfigure: false

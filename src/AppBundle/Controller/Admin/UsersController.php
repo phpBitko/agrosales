@@ -24,9 +24,9 @@ class UsersController extends BaseAdminController
      * @Route("/list", name="admin.users_list", methods={"GET"})
      *
      */
-    public function listUsersAction(Request $request, UserAdmin $usersAdmin, PaginatorServices $paginator)
+    public function listUsersAction(Request $request, UserAdmin $userAdmin, PaginatorServices $paginator)
     {
-        return $this->listAction($request, $usersAdmin, $paginator);
+        return $this->listAction($request, $userAdmin, $paginator);
     }
 
 }

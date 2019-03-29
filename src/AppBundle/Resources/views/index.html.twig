@@ -77,24 +77,25 @@
 
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
+                        <li class="nav-item language-toggle">
                             <a href="
                             {% if app.request.attributes.get('_route') is not null%}
-                                {{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'uk'})) }}
+                             {% set locale = (app.request.locale == 'uk') ? 'ru': 'uk' %}
+                                {{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': locale})) }}
                             {% endif %}
-                                " class="main-menu nav-link {{ app.request.locale == app.request.defaultLocale ? 'active' }}">
-                                UA
+                                " class="main-menu nav-link">
+                                {{ app.request.locale == app.request.defaultLocale ? 'UA': 'RU' }}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="
+                        <li class="nav-item language-toggle hidden">
+                       {#     <a href="
                             {% if app.request.attributes.get('_route') is not null%}
                                 {{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'_locale': 'ru'})) }}
                             {% endif %}
                             " class="main-menu nav-link {{ app.request.locale == 'ru' ? 'active' }}">
                                 RU
                             </a>
-                        </li>
+                        </li>#}
                         {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 <a href="{{ path('fos_user_security_logout') }}" class="nav-link main-menu">

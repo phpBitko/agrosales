@@ -22,31 +22,27 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class BaseAdminController extends Controller
 {
-
-
     /**
      * @param Request $request
      * @param ViewMapper $viewMapper
      * @param $id
+     * @param  $entity
      * @return Response
      * @throws \ReflectionException
      *
      * @Route ("/{entity}/{id}/view", name="object_view", methods={"GET"})
      */
-    public function viewAction(Request $request, ViewMapper $viewMapper, $id)
+    public function viewAction(Request $request, ViewMapper $viewMapper, string $entity, int $id)
     {
         $path = explode('/', $request->getPathInfo());
-        //Отримуємо назву табилці
-        $table = array_reverse($path)[2];
 
-
-        $objectConfigFields = $this->getConfigFieldsObject($table);
+        $objectConfigFields =  $this->getConfigFieldsObject('AppBundle\Service\\'.ucfirst($path[2]).'\ConfigFields\\'.ucfirst($entity).ucfirst($path[2]));
         $objectConfigFields->configureViewFields($viewMapper);
 
         $listField = $viewMapper->preparationFieldForQuery($viewMapper->getListFieldName());
 
         $em = $this->getDoctrine()->getManager();
-        $obj = $em->getRepository('AppBundle:' . ucfirst($table))->findByIdOnlyCustomColumn($id, $listField);
+        $obj = $em->getRepository('AppBundle:' . ucfirst($entity))->findByIdOnlyCustomColumn($id, $listField);
         if (empty($obj)) {
             throw new NotFoundHttpException();
         }
@@ -58,7 +54,6 @@ class BaseAdminController extends Controller
                 'data' => $obj[0]
             ]);
     }
-
 
     /**
      * @param Request $request
@@ -116,13 +111,15 @@ class BaseAdminController extends Controller
      * @param $id
      * @param string $entity
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \ReflectionException
      *
      * @Route ("/{entity}/{id}/edit", name="object_edit", methods={"GET", "POST"})
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function editAction(Request $request, $id, string $entity, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $objectConfigFields = $this->container->get('AppBundle\Service\Admin\ConfigFields\\'.ucfirst($entity).'Admin');
+        $path = explode('/', $request->getPathInfo());
+        $objectConfigFields = $this->getConfigFieldsObject('AppBundle\Service\\'.ucfirst($path[2]).'\ConfigFields\\'.ucfirst($entity).ucfirst($path[2]));
 
         //Отримуємо об'єкт для редагування
         $em = $this->getDoctrine()->getManager();
@@ -173,15 +170,15 @@ class BaseAdminController extends Controller
     /**
      * Повертає об'єкт з простору імен \AppBundle\Service\Admin\ConfigFields по назві класу
      *
-     * @param $table
+     * @param $pathClass
      * @return object
      * @throws \ReflectionException
      */
-    protected function getConfigFieldsObject($table)
+    protected function getConfigFieldsObject($pathClass)
     {
         $em = $this->getDoctrine()->getManager();
-        $class = new \ReflectionClass('\AppBundle\Service\Admin\ConfigFields\\' . ucfirst($table) . 'Admin');
-        $obj = $class->newInstance($em);
+        $class = new \ReflectionClass($pathClass);
+        $obj = $class->newInstance($em, $this->container);
         return $obj;
     }
 
@@ -196,6 +193,7 @@ class BaseAdminController extends Controller
     protected function listAction(Request $request, ListAdminInterface $listAdmin, PaginatorServices $paginator): Response
     {
         //Отримуєм квері для пагінатора
+        $listAdmin->initializeList();
         $query = $listAdmin->getListQuery();
 
         if (empty($query)) {

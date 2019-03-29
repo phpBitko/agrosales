@@ -8,7 +8,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Exception\WarningException;
+use AppBundle\Controller\Admin\BaseAdminController;
+use AppBundle\Exception\ClientException;
+use AppBundle\Service\Cabinet\ConfigFields\UserCabinet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\AdvertisementType;
@@ -16,28 +18,47 @@ use AppBundle\Entity\Advertisement;
 use AppBundle\Service\PaginatorServices;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Service\Geometry;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class CabinetController
  * @Route("/cabinet")
  */
-class CabinetController extends SuperController
+class CabinetController extends BaseAdminController
 {
+    const STATUS_ADVERTISEMENT = [
+        'ACTIVE' => 1,
+        'PENDING' => 2,
+        'REJECT' => 3,
+        'DEACTIVATED' => 4
+    ];
 
     /**
      * @Route("/", name="cabinet_index", methods={"GET"})
      */
     public function indexAction()
     {
-
+        $em = $this->getDoctrine()->getManager();
         $data = $this->getDataForSidebar();
-
-        $data['totalViewCount'] = $this->em->getRepository('AppBundle:Advertisement')
+        $data['user'] = $this->getUser();
+        $data['totalViewCount'] = $em->getRepository('AppBundle:Advertisement')
                                     ->getTotalCountView($this->getUser()->getId());
 
         return $this->render('AppBundle:cabinet:dashboard.html.twig', ['data'=>$data]);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @param string $entity
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     *
+     * @Route ("/{entity}/{id}/edit", name="cabinet.object_edit", methods={"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editAction(Request $request, $id, string $entity, UserPasswordEncoderInterface $passwordEncoder){
+        return parent::editAction($request, $id,  $entity, $passwordEncoder);
+    }
 
     /**
      * @param Request $request
@@ -207,8 +228,8 @@ class CabinetController extends SuperController
 
             return $this->json(['address' => $data], Response::HTTP_OK);
 
-        } catch (WarningException $exception) {
-            return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
+        } catch (ClientException $exception) {
+            return $this->json(['message' => $exception->getMessage(), 'status' => $exception->getStatusMessage()], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(['message' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
         }

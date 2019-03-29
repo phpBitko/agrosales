@@ -7,7 +7,7 @@ use AppBundle\Entity\Messages;
 use AppBundle\Entity\User;
 use AppBundle\Entity\ViewInfo;
 use AppBundle\Exception\ViewException;
-use AppBundle\Exception\WarningException;
+use AppBundle\Exception\ClientException;
 use AppBundle\Filter\AdvertisementFilterType;
 use AppBundle\Form\Helpers\FormErrorHelper;
 use AppBundle\Form\MessagesType;
@@ -159,12 +159,12 @@ class AdvertisementController extends SuperController
             $advertisement = $advertisementRepository->findOneBy(['id'=> $id]);
 
             if (empty($advertisement)) {
-                throw new WarningException('Нічого не знайдено!');
+                throw new ClientException('Нічого не знайдено!');
             }
 
             return new JsonResponse(['advertisementPhone' => $advertisement->getDeclarantPhoneNum()], Response::HTTP_OK);
 
-        } catch (WarningException $exception) {
+        } catch (ClientException $exception) {
             return $this->json(['message' => $exception->getMessage(), 'status' => self::RESPONSE_STATUS_WARNING], $exception->getStatusCode());
         } catch (\Exception $exception) {
             return $this->json(array('message' => $exception->getMessage()), Response::HTTP_INTERNAL_SERVER_ERROR);

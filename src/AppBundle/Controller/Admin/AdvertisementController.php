@@ -8,7 +8,7 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Exception\WarningException;
+use AppBundle\Exception\ClientException;
 use AppBundle\Service\PaginatorServices;
 use Symfony\Component\EventDispatcher\Tests\Service;
 use Symfony\Component\HttpFoundation\Request;

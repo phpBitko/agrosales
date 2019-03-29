@@ -29,17 +29,17 @@
 
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">
-                                            <b>{{ 'Ім\'я'|trans }}:</b> <a class="pull-right">Юрій</a>
+                                            <b>{{ 'Ім\'я'|trans }}:</b> <a class="pull-right">{{ data.user.firstName }}</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>{{ 'Електронна адреса'|trans }}:</b> <a class="pull-right">bitko@gmail.com</a>
+                                            <b>{{ 'Електронна адреса'|trans }}:</b> <a class="pull-right">{{ data.user.email }}</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>{{ 'Номер телефону'|trans }}:</b> <a class="pull-right">80638275521</a>
+                                            <b>{{ 'Номер телефону'|trans }}:</b> <a class="pull-right">{{ data.user.phoneNum }}</a>
                                         </li>
                                     </ul>
 
-                                    <a href="#" class="mt-3 my-btn btn my-btn-blue btn-block"><b>Редагувати</b></a>
+                                    <a href="{{ path('cabinet.object_edit', {'entity':'user', 'id':app.user.id}) }}" class="mt-3 my-btn btn my-btn-blue btn-block"><b>Редагувати</b></a>
                                 </div>
                                 <!-- /.box-body -->
                             </div>

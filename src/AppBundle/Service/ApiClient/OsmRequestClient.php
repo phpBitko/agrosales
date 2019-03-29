@@ -26,7 +26,7 @@ class OsmRequestClient
      */
     private $logger;
 
-    public function __construct($baseUri)
+    public function __construct(string $baseUri)
     {
         $this->client = new Client([
             'base_uri' => $baseUri
@@ -43,23 +43,26 @@ class OsmRequestClient
 
 
     /**
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param string $osmServicesApiClientId
+     * @param string $osmServicesApiClientSecret
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     *
+     * @required
+     *
      */
-    public function setAccessToken(string $clientId, string $clientSecret)
+    public function setAccessToken(string $osmServicesApiClientId, string $osmServicesApiClientSecret)
     {
         try {
             $response = $this->client->request('POST', '/oauth/v2/token', [
                 RequestOptions::FORM_PARAMS => [
-                    'client_id' => $clientId,
-                    'client_secret' => $clientSecret,
+                    'client_id' => $osmServicesApiClientId,
+                    'client_secret' => $osmServicesApiClientSecret,
                     'grant_type' => 'client_credentials'
                 ],
                 RequestOptions::VERIFY => false
             ]);
-
             $contents = json_decode($response->getBody()->getContents(), true);
 
             if (is_array($contents) && array_key_exists('access_token', $contents)) {
@@ -69,11 +72,14 @@ class OsmRequestClient
 
             $this->lastErrorMessage = $response->getBody()->getContents();
 
-        } catch (ClientException $e) {
-            $this->getLogger()->critical($e->getMessage());
-            $this->lastErrorMessage = $e->getMessage();
+        } catch (ClientException $exception) {
+            $msg = $exception->getResponse()->getBody()->getContents();
+            $msg = json_decode($msg, true);
+            $this->lastErrorMessage = $msg['error_description'];
+            $this->getLogger()->critical($exception->getResponse()->getBody()->getContents());
 
         } catch (\Exception $e) {
+            $this->lastErrorMessage = 'Виникла помилка доступу до API E-сервісу!';
             $this->getLogger()->critical($e->getMessage());
             $this->lastErrorMessage = $e->getMessage();
         }
@@ -90,6 +96,10 @@ class OsmRequestClient
         return $this->isConnect;
     }
 
+
+    /**
+     * @required
+     */
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -117,12 +127,12 @@ class OsmRequestClient
 
             $contents = json_decode($response->getBody()->getContents(), true);
 
-
             if (is_array($contents)) {
                 return $contents;
             }
 
         } catch (ClientException  $exception) {
+
             $msg = $exception->getResponse()->getBody()->getContents();
             $msg = json_decode($msg, true);
             $this->lastErrorMessage = $msg['error_description'];

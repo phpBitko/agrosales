@@ -2,7 +2,9 @@
 
 namespace AppBundle\Service\Admin;
 
+use AppBundle\Service\Admin\Interfaces\ListAdminInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractAdmin
@@ -33,26 +35,29 @@ abstract class AbstractAdmin
     protected $em;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * AbstractAdmin constructor.
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ContainerInterface $container)
     {
         $this->em = $em;
+        $this->container = $container;
         $this->resolver = new OptionsResolver();
         $this->configureOptions($this->resolver);
-
-        $this->initialize();
     }
 
     /**
      *
      */
-    public function initialize()
+    public function initializeList()
     {
         $listMapper = new ListMapper();
         $this->configureListFields($listMapper);
-
         $listField = $listMapper->getListFieldName();
 
         $listField = $listMapper->preparationFieldForQuery($listField);
@@ -61,7 +66,6 @@ abstract class AbstractAdmin
         $targetRepository = $this->em->getRepository($options['data_class']);
 
         $this->listQuery = $targetRepository->findAllByFieldQuery($listField, $options['order']);
-
         $this->listMapper = $listMapper;
     }
 
@@ -73,11 +77,6 @@ abstract class AbstractAdmin
         return $this->listQuery;
     }
 
-    /**
-     * @param \AppBundle\Service\Admin\ListMapper $listMapper
-     * @return mixed
-     */
-    public abstract function configureListFields(ListMapper $listMapper);
 
     /**
      * @param OptionsResolver $resolver

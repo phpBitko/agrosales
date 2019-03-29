@@ -29,7 +29,6 @@ class User extends BaseUser
      */
     private $advertisements;
 
-
     /**
      * Plain password. Used for model validation. Must not be persisted.
      * @Assert\NotBlank(groups={"Create"})
@@ -44,6 +43,17 @@ class User extends BaseUser
      */
     protected $email;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone_num", type="string", length=20, nullable=true)
+     */
+    private $phoneNum;
+
+    /**
+     * @ORM\Column(name="first_name", type="string", nullable=true,  options={"comment":"Ім'я"})
+     */
+    protected $firstName;
 
     /**
      * @var string
@@ -57,8 +67,6 @@ class User extends BaseUser
         parent::__construct();
         $this->advertisements = new ArrayCollection();
     }
-
-
 
     /**
      * @return string
@@ -76,7 +84,21 @@ class User extends BaseUser
         $this->mailToken = $mailToken;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
 
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void
+    {
+        $this->firstName = $firstName;
+    }
 
     /**
      * Add advertisement.
@@ -113,4 +135,22 @@ class User extends BaseUser
     {
         return $this->advertisements;
     }
+
+    /**
+     * @return string
+     */
+    public function getPhoneNum(): ?string
+    {
+        return $this->phoneNum;
+    }
+
+    /**
+     * @param string $phoneNum
+     */
+    public function setPhoneNum(string $phoneNum): void
+    {
+        $this->phoneNum = $phoneNum;
+    }
+
+
 }
