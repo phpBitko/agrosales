@@ -31,8 +31,8 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        <div class="row">
-            <div class="col-1 detail-column">
+        <div class="row col-12 justify-content-around m-auto pl-0 pr-0">
+            <div class="detail-column">
                 <div class="details-picture-miniature">
                     <div class="details-picture-miniature-container">
                         {% if advertisement.photos|first %}
@@ -46,8 +46,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="details-picture col-6">
+            <div class="details-picture">
                 {#-------------------------bootstrap caruseusel#}
                 <div id="carouselExampleControls" class="carousel carousel-fade" data-ride="carousel">
                     {% if advertisement.photos|length > 1 %}
@@ -86,26 +85,31 @@
                         </a>
                     {% endif %}
                 </div>
-                <div class="details-panel">
+                <div class="details-panel d-flex">
                     <i class="far fa-clock"></i>
                     <span>
                         {{ (advertisement.updateDate) ? advertisement.updateDate|date("d.m.Y H:i"):advertisement.addDate|date("d.m.Y H:i") }}
                     </span>
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Осокорки</span>
-                    <label data-toggle="tooltip" data-placement="bottom" title="{{ 'кількість переглядів'|trans }}">
+                    <label class="d-inline-block ml-auto pr-3" data-toggle="tooltip" data-placement="bottom"
+                           title="{{ 'кількість переглядів'|trans }}">
                         <i class="fas fa-eye"></i>
                         <span>{{ advertisement.viewCount }}</span>
                     </label>
                 </div>
             </div>
-            <div class="details-map col-4">
+            <div class="details-map">
                 <div id="details-map-container">
                     <div class="details-map-navigation">
-                        <button id="details-map-full" class="cp-layer" type="button" tabindex="0"
-                                data-placement="bottom"
-                                data-toggle="tooltip" title="{{ 'Зумувати на ділянку'|trans }}">
-                        </button>
+                        <button id="details-map-full" type="button" class="btn btn-default cp-layer"
+                                data-toggle="tooltip"
+                                title="{{ 'Зумувати на ділянку'|trans }}"></button>
+
+                        {#                        <button  class="cp-layer" type="button" tabindex="0"
+                                                        data-placement="bottom"
+                                                        data-toggle="tooltip" title="{{ 'Зумувати на ділянку'|trans }}">
+                                                </button>#}
                     </div>
                 </div>
                 <div class="details-map-region">
@@ -118,30 +122,47 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col-6">
-                <div class="details-title">{{ advertisement.textHead|isEmpty }}</div>
-                <div class="details-main">
-                    <div class="details-main-caption">
-                        <div>{{ 'Площа'|trans }}:</div>
-                        <div>{{ 'Ціна'|trans }}:</div>
-                        <div>{{ 'Цільове призначення'|trans }}:</div>
+        <div class="row col-12 justify-content-around m-auto pl-0 pr-0 pt-3">
+            <div class="col-lg-8">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <div class="details-title">{{ advertisement.textHead|isEmpty }}</div>
                     </div>
-                    <div class="details-main-values">
-                        <div>{{ advertisement.area|number_format(4,'.',' ') }} {{ 'га'|trans }}</div>
-                        <div>
-                            <span class="details-main-price">{{ advertisement.price|number_format(0,',',' ') }} ₴</span>
-                            |
-                            {{ advertisement.area ? (advertisement.price/advertisement.area/100)|number_format(0,',',' ') }}
-                            ₴/сотка
-                        </div>
-                        <div>
-                            {{ advertisement.dirPurpose ? advertisement.dirPurpose.text :'Не вказано цільове призначення'|trans }}
-                        </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td class="tab-col-title">{{ 'Площа'|trans }}:</td>
+                                <td>
+                                    {{ advertisement.area|number_format(4,'.',' ') }} {{ 'га'|trans }}
+                                </td>
+                                <td><span class="badge bg-red">55%</span></td>
+                            </tr>
+                            <tr>
+
+                                <td class="tab-col-title">{{ 'Ціна'|trans }}:</td>
+                                <td>
+                                    <span class="details-main-price">{{ advertisement.price|number_format(0,',',' ') }}
+                                        ₴</span>
+                                    |
+                                    {{ advertisement.area ? (advertisement.price/advertisement.area/100)|number_format(0,',',' ') }}
+                                    ₴/сотка
+                                </td>
+                                <td><span class="badge bg-yellow">70%</span></td>
+                            </tr>
+                            <tr>
+
+                                <td class="tab-col-title">{{ 'Цільове призначення'|trans }}:</td>
+                                <td>
+                                    {{ advertisement.dirPurpose ? advertisement.dirPurpose.text :'Не вказано цільове призначення'|trans }}
+                                </td>
+                                <td><span class="badge bg-light-blue">30%</span></td>
+                            </tr>
+                        </table>
                     </div>
+                    <!-- /.box-body -->
                 </div>
-                <div class="details-provision">
+                <div class="details-provision col-xl-6 col-md-7 col-sm-9 d-flex justify-content-around">
                     <div class="details-road {{ advertisement.isRoad ? 'active' }}"
                          data-toggle="tooltip"
                          title=" {{ advertisement.isRoad ? 'Присутній'|trans : 'Відсутній'|trans }}
@@ -243,27 +264,66 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-4">
-                <div class="details-author-container">
-                    <div class="details-author">
-                        <div class="details-author-photo">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="details-author-phones">
-                            <a class="text-decoration-none text-color" href=""> {{ advertisement.users.usernameCanonical }}</a>
-                            <div class="phone"> {{ (advertisement.declarantPhoneNum|trim('38','left'))|slice(0,3) ~ '*******' }}</div>
-                            <a href="" class="text-decoration-none show-phone" data-id = '{{ advertisement.Id }}'>{{ 'Показати'|trans }}</a>
-                           {# <div> 063-742-8874</div>#}
-                        </div>
-                        <div class="details-author-additional">
-                            <a class="details-author-advertisement " href="">
-                                <i class="fas fa-list-ul"></i> {{ "Інші об'яви"|trans }}
+            <div class="col-lg-4 mt-sm-4 mt-md-5 mt-lg-0">
+                <div class="box box-primary" id="details-user">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <a class="text-decoration-none text-color" href="">
+                                {{ advertisement.users.usernameCanonical|isEmpty }}
                             </a>
-                            <a class="details-author-writing" href="">
-                                <i class="far fa-envelope"></i> {{ "Написати листа"|trans }}
-                            </a>
+                        </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
                         </div>
                     </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-5 d-flex ">
+                                <div class="details-author-photo m-auto">
+                                    <i class="far fa-user-circle"></i>
+                                </div>
+                                <!-- ./chart-responsive -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-7 col-sm-7 pl-0 pr-0 d-flex flex-wrap justify-content-center">
+
+                                <a class="btn btn-app ">
+                                    <i class="fa fa-list-ul"></i>{{ "Інші об'яви"|trans }}
+                                </a>
+
+                                <a class="btn btn-app">
+                                    <i class="fa fa-envelope"></i> {{ "Написати листа"|trans }}
+                                </a>
+
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="overlay d-flex">
+                        <div class="m-auto">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="box-footer with-border d-flex">
+                        <div class="col-2 input-group-addon">
+                            <i class="fa fa-phone "></i>
+                            {#  <i class="fa fa-refresh fa-spin"></i>#}
+
+                        </div>
+                        <div class="phone col-6">
+                            {{ (advertisement.declarantPhoneNum|trim('38','left'))|slice(0,3) ~ '*******' }}
+                        </div>
+                        <a href="" class="text-decoration-none show-phone d-inline-block col-4"
+                           data-id='{{ advertisement.Id }}' id="phone-show">{{ 'Показати'|trans }}
+                        </a>
+                    </div>
+
                 </div>
                 <div id="details-geom">{{ advertisement.geom }}</div>
             </div>

@@ -1,12 +1,15 @@
-<div class="advertisement-one-list mt-2">
+<div class="advertisement-one-list d-flex align-content-start col-xl-12 mt-2 pt-2 pb-2">
     {% if item.isTop|default(false) == true %}
         <div class="advertisement-one-top"><span>{{ 'В топі'|trans }}</span></div>
     {% endif %}
-    <div class="advertisement-img">
+    <div class="advertisement-img w-25 pr-sm-0 pl-sm-0">
+        <div id="date-small-view" class="d-none">
+            {{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}
+        </div>
         <a href="" alt="">
             {% set photo = item.photos|first %}
             {% if photo %}
-                <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
+                <img id="list-photo" src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
                     ~photo.advertisement.id~'/'~photo.photoNameNew) }}">
             {% else %}
                 <img src="{{ asset('bundles/app/img/empty.jpg') }}">
@@ -17,23 +20,23 @@
         {% endif %}
         <i class="far fa-star advertisement-selected"></i>
     </div>
-    <div class="advertisement-text-list">
+    <div class="advertisement-text-list d-flex flex-wrap w-50  ml-3">
         <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
            class="advertisement-text-title">
-            {% if item.textHead|length >70 %}
-                {{ item.textHead|e|isEmpty|slice(0,66) }}. . .
+            {% if item.textHead|length > 65 %}
+                {{ item.textHead|e|isEmpty|slice(0,61) }}. . .
             {% else %}
                 {{ item.textHead|e|isEmpty }}
             {% endif %}
         </a>
         <div class="advertisement-text-content">
-            {% if item.textAbout|length >130 %}
-                {{ item.textAbout|e|slice(0,125) }}. . .
+            {% if item.textAbout|length >80 %}
+                {{ item.textAbout|e|slice(0,75) }}. . .
             {% else %}
                 {{ item.textAbout|e|isEmpty }}
             {% endif %}
         </div>
-        <div class="details-provision">
+        <div class="details-provision justify-content-around">
             <div class="details-road {{ item.isRoad ? 'active' }}"
                  data-toggle="tooltip" title=" {{ item.isRoad ? 'Присутній'|trans : 'Відсутній'|trans }}
                                      {{ "під'їзд з твердим покриттям"|trans }} ">
@@ -65,25 +68,25 @@
                      alt="">
             </div>
         </div>
-        <div class="advertisement-text-date">
-            {{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}
-        </div>
     </div>
-    <div class="advertisement-properties">
-        <div class="advertisement-properties-text">
+    <div class="advertisement-properties d-flex flex-wrap w-25 ml-auto">
+{#        <div class="advertisement-properties-text">
             <div>{{ 'Площа'|trans }}:</div>
             <div>{{ 'Ціна'|trans }}:</div>
             <div>{{ 'Ціна'|trans }} за сотку:</div>
 
+        </div>#}
+        <div class="advertisement-text-date w-100 text-right d-block">
+            {{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}
         </div>
-        <div class="advertisement-properties-value">
+        <div class="advertisement-properties-value align-self-center pl-2 w-100">
             <div class="advertisement-text-square">{{ item.area|number_format(4,'.',' ') }} {{ 'га'|trans }}</div>
             <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} {{ '₴'|trans }}</div>
             <div class="advertisement-text-square">
                 {{ item.area ? (item.price/item.area/100)|number_format(0,',',' ') }} {{ '₴/сотка'|trans }}
             </div>
         </div>
-        <div class="advertisement-properties-button-container btn-container">
+        <div class="advertisement-properties-button-container btn-container ml-sm-auto">
             <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
                class="advertisement-properties-button btn-blue-cut" tabindex="-1" role="button"
                aria-disabled="true">{{ 'Детально...'|trans }}

@@ -12,44 +12,62 @@
 {% endblock %}
 
 {% block body %}
-    <div class="title">
-        <div class="cover">
+    <div class="title d-flex w-100">
+        <div class="cover"></div>
+        <div class="container">
+            <div class="row">
+                <div class="title-content col-xl-11 col-lg-10 col-sm-9 m-auto ">
+                    <h1>{{ 'Сайт продажу земельних ділянок'|trans }}</h1>
+                    <p> {{ 'Сайт створено для пошуку та розміщення оголошень про продаж та оренду земельних ділянок'|trans }}
+                    </p>
+                </div>
+            </div>
+        </div>
 
-        </div>
-        <div class="title-content col-10">
-            <h1>{{ 'Сайт продажу земельних ділянок'|trans }}</h1>
-            <p> {{ 'Сайт створено для пошуку та розміщення оголошень про продаж та оренду земельних ділянок'|trans }}
-            </p>
-        </div>
+
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-11 blocks-button-else">
-                <a class="block-map" href="{{ path('map_index',{'id' : null} ) }}">
-                    <div class="block-cover">
-                        <img src="{{ asset('bundles/app/img/location.png') }}" alt="map">
+            <div class="col-12 blocks-button-else d-flex flex-wrap justify-content-around">
+                <a class="main-content-block block-map d-flex pt-5 pb-5 mb-4"
+                   href="{{ path('map_index',{'id' : null} ) }}">
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="block-cover">
+                            <img src="{{ asset('bundles/app/img/location.png') }}" alt="map">
+                        </div>
+
+                        <div>{{ 'Перейти на карту'|trans }}</div>
                     </div>
 
-                    <div>{{ 'Перейти на карту'|trans }}</div>
                 </a>
-                <a class="block-advertisement" href="{{ path('cabinet_create_advertisement') }}">
-                    <div class="block-cover">
-                        <img src="{{ asset('bundles/app/img/map-of-roads.png') }}" alt="map">
+                <a class="main-content-block block-advertisement block-map d-flex pt-5 pb-5 mb-4"
+                   href="{{ path('cabinet_create_advertisement') }}">
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="block-cover">
+                            <img src="{{ asset('bundles/app/img/map-of-roads.png') }}" alt="map">
+                        </div>
+                        <div class="ml-3">{{ 'Додати оголошення'|trans }}</div>
                     </div>
-                    <div>{{ 'Додати оголошення'|trans }}</div>
+
                 </a>
-                <a class="block-search" href="{{ path('advertisement_index') }}">
-                    <div class="block-cover">
-                        <img src="{{ asset('bundles/app/img/planet-earth.png') }}" alt="map">
+                <a class="main-content-block block-search block-map d-flex pt-5 pb-5 mb-4"
+                   href="{{ path('advertisement_index') }}">
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="block-cover">
+                            <img src="{{ asset('bundles/app/img/planet-earth.png') }}" alt="map">
+                        </div>
+                        <div>{{ 'Пошук ділянки'|trans }}</div>
                     </div>
-                    <div>{{ 'Пошук ділянки'|trans }}</div>
+
                 </a>
             </div>
         </div>
         <div class="row">
-            <div class="col-11 last-advertisement-title">{{ 'Останні оголошення'|trans }}</div>
-            <div class="last-advertisement col-11">
-
+            <div class="col-11 last-advertisement-title m-auto pt-3">
+                {{ 'Останні оголошення'|trans }}
+            </div>
+            <div class="last-advertisement d-flex m-auto col-xl-12 col-lg-11 col-md-10 col-sm-7 col-7"
+                 id="last-advertisement">
                 {% for item in advertisement %}
                     <div class="advertisement-one">
                         <div class="advertisement-img">
@@ -64,20 +82,22 @@
                                 {% endif %}
                             </a>
                         </div>
-                        <div class="advertisement-text">
-                            <a href="{{ path('advertisement_details',{'id' : item.id}) }}"
+                        <div class="advertisement-text d-flex">
+                            <a class="col-xl-8 pr-0 pl-0" href="{{ path('advertisement_details',{'id' : item.id}) }}"
                                class="advertisement-text-title">
-                                {% if item.textHead|length > 40 %}
-                                    {{ item.textHead|e|slice(0,38) }}. . .
+                                {% if item.textHead|length > 35 %}
+                                    {{ item.textHead|e|slice(0,32) }}. . .
                                 {% else %}
                                     {{ item.textHead|e|isEmpty }}
                                 {% endif %}
                             </a>
-                            <div>
-                                <div class="advertisement-text-square">
+                            <div class="col-xl-4 pr-0 pl-1">
+                                <div class="advertisement-text-square w-100">
                                     {{ item.area|number_format(4,'.',' ') }} га
                                 </div>
-                                <div class="advertisement-text-price">{{ item.price|number_format(0,',',' ') }} ₴</div>
+                                <div class="advertisement-text-price w-100">{{ item.price|number_format(0,',',' ') }}
+                                    ₴
+                                </div>
                             </div>
                         </div>
                     </div>

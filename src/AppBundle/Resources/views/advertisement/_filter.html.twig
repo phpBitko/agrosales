@@ -1,7 +1,7 @@
 {#{% form_theme form '@App/form/fields.html.twig' %}#}
 {% set strController = app.request.attributes.get('_route')|slice(0,3) %}
 
-<div class="advertisement-filter hidden col-3" xmlns="http://www.w3.org/1999/html">
+<div class="advertisement-filter hidden ml-3 mr-2" xmlns="http://www.w3.org/1999/html">
     {% for messages in app.flashes('filter-danger') %}
         <div class="alert alert-danger"> {{ messages }} </div>
     {% endfor %}
@@ -10,15 +10,15 @@
     {% else %}
         {{ form_start(form,{'method': 'GET'}) }}
     {% endif %}
-    <div class="box box-solid hidden">
+    <div class="box box-solid" id="filter">
         <div class="box-header">
             {% if strController == 'map' %}
                 <img src="{{ asset('bundles/app/img/filter-outline_white.png') }}">
             {% endif %}
             <div class="box-title">{{ 'Фільтр'|trans }}</div>
             <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" id="btn-box">
+                    <i class="fa fa-minus" id="btn-label"></i>
                 </button>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     {% set strUri = app.request.requestUri|split('?', 2) %}
                     {% if  data.filterAttributes is not empty %}
                         <div>{{ 'Результати фільтрування'|trans }}</div>
-                        <div class="filter-result-tags">
+                        <div class="filter-result-tags d-flex flex-wrap justify-content-start">
                             {% for item in  data.filterAttributes %}
                                 {% if (item.strText is defined) %}
                                     <a href="{{ strUri[0] ~ '?' ~ item.strHref }}">
@@ -43,34 +43,33 @@
                 {% endif %}
             </div>
 
-            <ul class="nav nav-pills nav-stacked">
-                <li class="filter-price">
+            <ul class="nav nav-pills nav-stacked justify-content-between">
+                <li class="filter-block filter-price">
                     <i class="fas fa-hand-holding-usd icon-color "></i>
                     <span name='price'>{{ 'Ціна'|trans }}, грн</span>
                     {{ form_widget(form.price) }}
                     <input id="slider-price" data-slider-id='ex1Slider' type="text"/>
                 </li>
-                <li class="filter-area">
+                <li class="filter-block filter-area">
                     <i class="fas fa-vector-square icon-color"></i>
                     <span>{{ 'Площа'|trans }}, га</span>
                     {{ form_widget(form.area) }}
                     <input id="slider-area" data-slider-id='ex2Slider' type="text"/>
                 </li>
-                <li class="filter-date">
+                <li class="filter-block filter-date">
                     <i class="far fa-calendar-alt icon-color"></i>
                     <span>{{ 'Дата'|trans }} {{ 'розміщення'|trans }}</span>
                     {{ form_widget(form.addDate) }}
-
                 </li>
-                <li class="filter-purpose">
+                <li class="filter-purpose ">
                     <i class="fab fa-elementor icon-color"></i>
                     <span>{{ 'Цільове'|trans }} {{ 'призначення'|trans }}</span>
                     {{ form_widget(form.dirPurpose) }}
                 </li>
-                <li class="filter-provision">
+                <li class="filter-provision flex-align-center d-flex flex-wrap col-12 pr-1 pl-1  ">
                     <i class="fas fa-random icon-color"></i>
                     <span>{{ "Облаштування"|trans }}</span>
-                    <div>
+                    <div class="col-12 pr-1 pl-1 d-flex justify-content-between">
                         {{ form_widget(form.isRoad) }}
                         <label for="item_filter_isRoad">
                             <div class="provision" data-toggle="tooltip"
@@ -123,7 +122,7 @@
                         <select id="typeGeometry" class="form-control mr-2 w-40 " disabled>
                             <option value="Circle" selected>{{ 'Радіус'|trans }}</option>
                             <option value="Polygon">{{ 'Полігон'|trans }}</option>
-                            <option value="None">Курсор</option>
+                          {#  <option value="None">Курсор</option>#}
                         </select>
 
                         <input type="number" id="geomRadius" class="form-control" disabled></input>
@@ -131,7 +130,7 @@
                 </li>
                 {% endif %}
 
-                <li class="filter-btn">
+                <li class="filter-btn d-flex w-100 justify-content-between">
                     {% if strController == 'map' %}
                         <input value="{{ 'Очистити'|trans }} {{ 'фільтр'|trans }}" class="btn-grey filter-clear"
                                type="button" >
@@ -144,7 +143,7 @@
                         <a class="btn-grey" href="{{ strUri[0] }}">{{ 'Очистити'|trans }}</a>
                         <div class="filter-container btn-container">
                             <input id="filter-submit" type="submit"
-                                   name="submit-filter" value="{{ 'Фільтрувати'|trans }}" class="btn btn-blue-cut">
+                                   name="submit-filter" value="{{ 'Фільтрувати'|trans }}" class="btn btn-blue-cut pl-2 pr-2">
                             <button id="btn-filter" type="submit" name="filter" class="btn btn-position-cut"
                                     formaction="{{ path('map_index') }}" formmethod="post">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -157,7 +156,6 @@
         <div class="box-footer">
             <input type="hidden" id="featureGeom" name="featureGeom" value="">
             <input type="hidden" id="circleRadius" name="circleRadius" value="">
-
         </div>
     </div>
     {{ form_end(form) }}

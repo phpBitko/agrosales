@@ -18,7 +18,6 @@ class MessagesRepository extends EntityRepository
     use GeometryTrait;
     use AdminTrait;
 
-
     public function getCountNotViewMessages(int $idUser, int $status = 0){
         if (!($idUser > 0) ){
             return;

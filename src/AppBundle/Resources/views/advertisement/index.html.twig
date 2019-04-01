@@ -9,17 +9,18 @@
     <script src="{{ asset('build/manifest.js') }}"></script>
     <script src="{{ asset('build/vendor.js') }}"></script>
     <script src="{{ asset('build/advertisement.js') }}"></script>
+
 {% endblock %}
 
 {% block body %}
     <div class="container">
-        <div class="row">
+        <div class="row no-wrap main-container">
             {{ include('@App/advertisement/_filter.html.twig', { 'form': form }) }}
-            <div class="advertisement col-9">
-                <div class="advertisement-control-panel">
-                    <div class="sorting-price">
+            <div class="advertisement d-flex flex-wrap align-content-start justify-content-lg-between justify-content-xl-between m-auto">
+                <div class="advertisement-control-panel d-flex align-items-center w-100">
+                    <div class="sorting-price col-xl-6 col-md-5 pl-sm-0 pr-sm-0">
                         <div class="dropdown ">
-                            <button class="btn" type="button" id="dropdownMenuButton"
+                            <button class="btn d-flex justify-content-between" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                                 <div>{{ data.sortString|trans }}</div>
@@ -36,30 +37,35 @@
                         </div>
                     </div>
 
-                    <div class="count">
+                    <div class="count col-xl-4 col-md-5">
                         {{ 'Всього'|trans }} {{ 'результатів'|trans|raw }}: {{ advertisement.getTotalItemCount }}
                     </div>
-                    <a href="{{ path('advertisement_index',{'typeView' : 'tab'}) ~ (app.request.queryString ? '?' ~
-                    app.request.queryString ) }}">
-                        <i class="fas fa-th"></i>
-                    </a>
-                    <a href="{{ path('advertisement_index',{'typeView' : 'list'})~ (app.request.queryString ? '?' ~
-                    app.request.queryString) }}">
-                        <i class="fas fa-bars"></i>
-                    </a>
+                    <div class="col-2 d-flex pr-sm-0 justify-content-end" id="turn-view">
+                        <a class="mr-3" id="btn-tab"
+                           href="{{ path('advertisement_index',{'typeView' : 'tab'}) ~ (app.request.queryString ? '?' ~
+                           app.request.queryString ) }}">
+                            <i class="fas fa-th"></i>
+                        </a>
+                        <a class="mr-3 mr-sm-1" id="btn-list"
+                           href="{{ path('advertisement_index',{'typeView' : 'list'})~ (app.request.queryString ? '?' ~
+                           app.request.queryString) }}">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                    </div>
+
                 </div>
                 {% if (advertisement.getTotalItemCount == 0) %}
-                    <div >{{ 'Жодного результату не знайдено'|trans }}!</div>
+                    <div class="m-auto mt-lg-5">{{ 'Жодного результату не знайдено'|trans }}!</div>
                 {% else %}
                     {% for item in advertisement %}
                         {{ include('@App/advertisement/' ~ data.typeView ~ '_view.html.twig', { 'item': item }) }}
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="row col-12 justify-content-center">
-                <div class="navigation  text-center">
-                    {{ knp_pagination_render(advertisement) }}
-                </div>
+        </div>
+        <div class="row col-12 justify-content-center">
+            <div class="navigation text-center mt-3">
+                {{ knp_pagination_render(advertisement) }}
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ $(function () {
 
     $('[data-toggle="tooltip"]').tooltip({
         placement: 'bottom',
+        trigger: 'hover',
     });
 
     $('#myModal').on('shown.bs.modal', function () {
@@ -22,15 +23,15 @@ $(function () {
     });
 
     //------------------------------ ініціалізуєм слайдер Ціна
-    if($("input").is('#slider-price')) {
+    if ($("input").is('#slider-price')) {
         $('#slider-price').slider({
             range: true,
             min: 0,
             max: 1000000,
             ticks: [0, 5000, 20000, 100000, 1000000],
-            ticks_positions: [0, 25, 50, 75, 100],
+            ticks_positions: [0, 20, 45, 72, 100],
             ticks_snap_bounds: 500,
-            ticks_labels: ['0', '5000', '20 000', '100 тис.', '1 млн.'],
+            ticks_labels: ['0', '5000', '20 тис.', '100 тис.', '1 млн.'],
             step: 100,
             lock_to_ticks: false,
             reversed: false,
@@ -67,5 +68,14 @@ $(function () {
         numericInput: true,
 
     });
+
+    /*    const large = window.matchMedia('all and (max-width: 1199px)');
+        if (large.matches) {
+
+            $('.box').addClass('collapsed-box');
+            $('#btn-label').addClass('fa-plus');
+            $('#btn-label').removeClass('fa-minus');
+        }*/
+
 
 });

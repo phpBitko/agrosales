@@ -59,5 +59,42 @@ $(function () {
 
     }
 
+    /**
+     * Змінює вигляд оголошень на list при ширині екрана менше 768px
+     */
+
+    function modifyUrl() {
+        let hrefStart = window.location.href;
+        let urlStart = hrefStart.split('?');
+
+        if (urlStart[0].slice(-3) == 'tab') {
+            hrefModify = urlStart[0].replace('/tab', '');
+
+            if (typeof urlStart[1] !== "undefined") {
+                hrefModify = hrefModify + '?' + urlStart[1]
+            }
+            window.location = hrefModify;
+        }
+    }
+
+    const large = window.matchMedia('all and (max-width: 1199px)');
+    if (large.matches) {
+        $('#filter').addClass('collapsed-box');
+        $('#btn-label').addClass('fa-plus');
+        $('#btn-label').removeClass('fa-minus');
+    }
+
+    const small = window.matchMedia('all and (max-width: 768px)');
+    if (small.matches) {
+        modifyUrl();
+    }
+    $(window).on('resize', function () {
+        var win = $(this); //this = window
+
+        if (win.width() < 769) {
+            modifyUrl();
+        }
+    });
+
 
 });

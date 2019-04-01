@@ -2,8 +2,8 @@
     {% if item.isTop|default(false) == true %}
         <div class="advertisement-one-top"><span>{{ 'В топі'|trans }}</span></div>
     {% endif %}
-    <div class="advertisement-img">
-        <a href="#" alt="" data-toggle="modal" data-target="#advertisementModal">
+    <div class="advertisement-img-tab">
+        <a href="#" data-toggle="modal" data-target="#advertisementModal">
             {% set photo = item.photos|first %}
             {% if photo %}
                 <img src="{{ asset('/advertisement/'~photo.addDate|date('Y-m-d')~'/'
@@ -105,12 +105,15 @@
                 {{ item.textAbout|e|isEmpty }}
             {% endif %}
         </div>
-        <div class="advertisement-text-date"><i class="far fa-clock"></i>
-            <div>{{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}</div>
+        <div class="align-self-end w-100 d-flex flex-wrap justify-content-between">
+            <div class="advertisement-text-date"><i class="far fa-clock"></i>
+                <div>{{ item.updateDate ? item.updateDate|date("d.m.Y") : item.addDate|date("d.m.Y") }}</div>
+            </div>
+            <a class="advertisement-text-position" href="{{ path('map_index',{'id' : item.id}) }}">Осокорки
+                <i class="fas fa-map-marker-alt"></i>
+            </a>
         </div>
-        <a class="advertisement-text-position" href="{{ path('map_index',{'id' : item.id}) }}">Осокорки
-            <i class="fas fa-map-marker-alt"></i>
-        </a>
+
 
     </div>
     <div class="advertisement-geom">{{ item.geom }}</div>

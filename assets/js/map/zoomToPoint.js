@@ -1,5 +1,3 @@
-
-
 $(function () {
     $('body').on('click', '.map-details-info .advertisement-text-position', function (func) {
         func.preventDefault();
@@ -8,6 +6,5 @@ $(function () {
             featureMapControl.zoomToFeatureWKT($('#map-properties-geom').text());
         }
     });
-
-})
+});
 

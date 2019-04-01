@@ -11,56 +11,52 @@
 //$text-color: #414042; //---------колір основного тексту
 
 //---------------------------------блок оголошень
+
+a:hover {
+  text-decoration: none;
+}
+i {
+  color: #adb5bd;
+}
+.advertisement-selected {
+  padding: 1px;
+  position: absolute;
+  top: 7px;
+  left: 239px;
+  color: #adb5bd;
+  transition: 0.2s;
+  &:hover {
+    color: #cb132d;
+    cursor: pointer;
+  }
+  &:active {
+    color: #870215;
+
+  }
+}
+
 .advertisement {
-  //  border: solid 1px #5eb5e0;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  width: 75%;
+  padding: 0 15px;
+
   .advertisement-control-panel {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    border-bottom: 1px solid #d9d9d9;
-    padding-bottom: 15px;
     height: fit-content;
-    /*.panel-sort {
-      flex-grow: 2;
-      a{
-        font-size: 1rem;
-        display: inline-block;
-        text-decoration: none;
-        color: #7c7a7a;
-      }
-    }*/
+
     .count {
-      margin-right: 20px;
       flex-grow: 1;
       color: #adb5bd;
     }
     .sorting-price {
       flex-grow: 2;
       button {
-        display: flex;
-        justify-content: space-between;
-        background-color: #e9ecef;
         border-color: #ced4da;
         border-radius: 2px;
         color: $text-color;
         font-size: 0.9rem;
         width: 250px;
-        text-align: left;
-        &:active {
-          background-color: darken(#e9ecef, 20%);
-          // box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
-        }
-        &:focus {
-          box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
-        }
-
       }
       .dropdown-menu a {
+        display: block;
         font-size: 0.9rem;
         padding: 0.25rem 1.5rem;
         font-weight: 400;
@@ -70,19 +66,13 @@
         border: 0;
         width: 100%;
         color: lighten($text-color, 10%);
-
         &:hover {
-          text-decoration: none;
           background-color: #f8f9fa;
           color: $text-color;
         }
       }
-
     }
     a {
-      margin-right: 20px;
-      display: block;
-
       font-size: 1.8rem;
       i {
         color: #adb5bd;
@@ -90,17 +80,15 @@
           color: #626161;
         }
       }
-
     }
   }
   // ------------------------------окреме оголошення
   .advertisement-one {
     position: relative;
-    width: 282px;
+    width: 265px;
     border: solid 1px #d9d9d9;
     margin: 20px 0;
     transition: 0.1s;
-    //fheight: fit-content;
 
     &:hover {
       border: solid 1px white;
@@ -130,34 +118,19 @@
       z-index: 10;
     }
     //----------------------------блок img
-    .advertisement-img {
+    .advertisement-img-tab {
       position: relative;
-      height: 187px;
+      height: 175px;
       overflow: hidden;
       img {
-        max-height: 187px;
-        max-width: 282px;
+        max-height: 175px;
+        max-width: 265px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
       }
-      .advertisement-selected {
-        padding: 1px;
-        position: absolute;
-        top: 7px;
-        left: 255px;
-        color: #adb5bd;
-        transition: 0.2s;
-        &:hover {
-          color: #cb132d;
-          cursor: pointer;
-        }
-        &:active {
-          color: #870215;
 
-        }
-      }
       .advertisement-one-photo-count {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -165,7 +138,7 @@
         user-select: none;
         padding-left: 4px;
         position: absolute;
-        top: 155px;
+        top: 143px;
         left: 0px;
         background: rgba(173, 181, 189, 0.43);
         width: 61px;
@@ -180,11 +153,8 @@
   // ------------------------------окреме оголошення list
   .advertisement-one-list {
     position: relative;
-    width: 100%;
     border: solid 1px #d9d9d9;
     transition: 0.1s;
-    display: flex;
-    padding-right: 10px;
     height: fit-content;
 
     &:hover {
@@ -207,34 +177,20 @@
     //----------------------------блок img
     .advertisement-img {
       position: relative;
-      height: 165px;
       overflow: hidden;
-      width: 223px;
-      padding: 10px;
       img {
-        max-height: 142px;
-        max-width: 213px;
+        max-height: 152px;
+        max-width: 200px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        margin-left: 6px;
       }
       .advertisement-selected {
-        padding: 1px;
-        position: absolute;
-        top: 7px;
-        left: 255px;
-        color: #adb5bd;
-        transition: 0.2s;
-        &:hover {
-          color: #cb132d;
-          cursor: pointer;
-        }
-        &:active {
-          color: #870215;
-        }
+        left: 161px;
+        top: 15px;
       }
+
       .advertisement-one-photo-count {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -242,8 +198,8 @@
         user-select: none;
         padding-left: 4px;
         position: absolute;
-        top: 123px;
-        left: 11px;
+        top: 109px;
+        left: 0px;
         background: rgba(173, 181, 189, 0.43);
         width: 61px;
         color: white;
@@ -251,11 +207,7 @@
     }
     //--------------------------------блок текстова частина
     .advertisement-text-list {
-      padding: 10px 0 10px 18px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      width: 50%;
+
       a.advertisement-text-title {
         color: $base-color;
         word-break: break-all;
@@ -273,14 +225,12 @@
         word-break: break-all;
       }
       .details-provision {
-        margin-top: 0px;
         display: flex;
-        width: 70%;
+        width: 73%;
         align-items: center;
+        margin-top: 15px;
         div {
-          //width: 32px;
           background-color: #f1f1f1;
-          margin-right: 12px;
           padding: 8px;
           text-align: center;
           border: 1px solid #e1e1e1;
@@ -293,9 +243,7 @@
           border: 2px solid #7bd74a;
         }
       }
-      .advertisement-text-date, .advertisement-text-position {
-        width: 120px;
-      }
+
       .advertisement-text-date {
         color: #5c5c5c;
         font-size: 1rem;
@@ -304,18 +252,12 @@
       }
     }
     .advertisement-properties {
-      display: flex;
-      width: 28%;
-      padding: 10px 0 10px 0;
-      flex-wrap: wrap;
 
       .advertisement-properties-button-container {
         width: 100%;
-
         .advertisement-properties-button {
           width: 177px;
         }
-
         .advertisement-text-position {
           width: 49px;
         }
@@ -333,11 +275,7 @@
         }
       }
       .advertisement-properties-value {
-        width: 45%;
-        padding-left: 15px;
-        div:last-child {
-          margin-top: 3px;
-        }
+
         .advertisement-text-square {
           color: $text-color;
           font-size: 1.1rem;
@@ -352,7 +290,7 @@
 
   //--------------------------------блок текстова частина
   .advertisement-text {
-    padding: 7px 16px;
+    padding: 7px 12px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -366,12 +304,10 @@
       word-break: break-all;
       &:hover {
         color: #0d7fce;
-        //сolor: lighten( $base-color, 20% );
         cursor: pointer;
         text-decoration: none;
       }
     }
-
     .advertisement-text-square {
       margin-top: 10px;
       color: $text-color;
@@ -399,10 +335,9 @@
       color: $text-color;
       word-break: break-all;
     }
-    .advertisement-text-date, .advertisement-text-position {
-      width: 120px;
-    }
+
     .advertisement-text-date {
+      width: 120px;
       display: flex;
       color: #5c5c5c;
       font-size: 1rem;
@@ -433,19 +368,147 @@
       text-decoration: none;
     }
   }
-
 }
-
-/*.poster-setting {
-  width: 300px;
-  //border: solid 1px #5eb5e0;
-}*/
 
 .btn-input {
   font-size: 1.5rem;
-  //vertical-align: bottom;
 }
 
 .color--white {
   color: #c8e8f7;
+}
+
+@media (max-width: 1199px) {
+  .main-container {
+    flex-wrap: wrap;
+  }
+  .advertisement-filter {
+    width: 100%;
+    padding: 0 25px;
+  }
+  .filter-block {
+    width: 30%;
+  }
+  .filter-purpose {
+    max-width: 59%;
+  }
+  .filter-provision {
+    max-width: 39%;
+  }
+  .advertisement {
+    width: 95%;
+  }
+
+  #item_filter_dirPurpose {
+    height: 85px;
+  }
+
+}
+
+@media screen and (max-width: 992px) {
+  .advertisement {
+    justify-content: space-around;
+  }
+  .advertisement-img {
+    width: 28%!important;
+  }
+  .advertisement-text-list {
+    width: 48%!important;
+  }
+  .advertisement-filter {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .main-container {
+    flex-wrap: wrap;
+  }
+  .filter-block {
+    width: 32%;
+  }
+  #ex1Slider {
+    font-size:0.9rem;
+  }
+  #dropdownMenuButton {
+    width:207px;
+  }
+  #list-photo {
+    max-height: 117px;
+  }
+  .details-provision {
+    width: 85%!important;
+    margin-top: 0px;
+  }
+  .advertisement-properties-button {
+    width:147px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #list-photo {
+    max-height: 120px;
+  }
+
+  .advertisement {
+    width: 99%;
+  }
+  .advertisement-one-list {
+    flex-wrap: wrap;
+
+  }
+  .advertisement-img {
+    width: 40%!important;
+    height: 120px;
+
+    #date-small-view {
+      display: block!important;
+      position: absolute;
+      z-index: 10;
+      top: 8px;
+      left: 0px;
+      background: rgba(173, 181, 189, 0.7);
+      color: white;
+    }
+
+    .advertisement-one-photo-count {
+      display:none;
+    }
+  }
+  .advertisement-text-list {
+    width: 55%!important;
+  }
+  .details-provision {
+    width: 100%!important;
+    margin-top: 0px!important;
+  }
+  .advertisement-properties {
+    width: 100%!important;
+    justify-content: space-between;
+    margin-top: 10px;
+    .advertisement-text-date {
+      width: 30%!important;
+      text-align:left!important;
+      display: none!important;
+    }
+    .advertisement-properties-value {
+      width: 60%!important;
+    }
+    .advertisement-properties-button-container {
+      width: 37%!important;
+    }
+  }
+
+  .filter-block {
+    width: 100%;
+  }
+  .filter-purpose {
+    max-width: 100%;
+  }
+
+  .filter-provision {
+    max-width: 60%;
+  }
+  #turn-view{
+    display: none!important;
+  }
+
 }

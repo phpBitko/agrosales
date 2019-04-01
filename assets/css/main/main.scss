@@ -2,15 +2,19 @@
 @import '~slick-carousel/slick/slick';
 @import '~slick-carousel/slick/slick-theme.css';
 
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .title {
   position: relative;
   background: url("../../../src/AppBundle/Resources/public/img/title.jpg") no-repeat center;
   height: 300px;
   background-size: cover;
-  width: 100%;
   color: white;
   text-align: center;
-  margin: 0 auto;
+
   .cover {
     position: absolute;
     top: 0;
@@ -20,102 +24,55 @@
     width: 100%;
     opacity: 0.7;
   }
+  .container {
+    background-color: transparent;
+  }
   .title-content {
-    margin: 0 auto;
     padding-top: 150px;
     text-align: left;
-    max-width: 1350px;
-    h1 {
-      //margin-top: 9rem;
-    }
   }
 }
 
-.blocks-button {
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding-bottom: 35px;
-  border-bottom: 1px solid #d9d9d9;
-  a {
-    margin-top: 35px;
-    display: flex;
-    background-color: #f1f1f1;
-    width: 30%;
-    height: 188px;
-    align-items: center;
-    min-width: 340px;
-    color: inherit;
-
-    &:hover {
-      box-shadow: 0px 1px 6px 0px #bfb8b8;
-      cursor: pointer;
-      color: #ff7f00 !important;
-      text-decoration: none;
-    }
-    div {
-      font-size: 1.2rem;
-      margin: 0 auto;
-      text-align: center;
-    }
-  }
-  img {
-    width: 188px;
-  }
+.main-content-block {
+  width: 30%;
 }
 
 .blocks-button-else {
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding-bottom: 35px;
+
   border-bottom: 1px solid #d9d9d9;
   a {
-    margin-top: 35px;
-    display: flex;
     background-color: #f1f1f1;
-    width: 30%;
-    height: 188px;
     align-items: center;
     min-width: 340px;
     color: inherit;
     transition: 0.2s;
     &:hover {
       box-shadow: 0px 1px 6px 0px #bfb8b8;
-      cursor: pointer;
       color: #007bff !important;
-      text-decoration: none;
     }
     .block-cover {
       padding: 15px;
       transform: rotate(45deg);
       border-radius: 0.35rem;
       border: solid 2px rgba(210, 215, 217, 1);
-
     }
     div {
       font-size: 1.2rem;
       margin: 0 auto;
-      text-align: center;
+      //text-align: center;
     }
   }
   img {
     width: 68px;
     transform: rotate(-45deg);
   }
-
 }
 
 .last-advertisement {
-  margin: 0 auto;
-  margin-top: 15px;
-  display: flex;
 
   // ------------------------------окреме оголошення
   .advertisement-one {
-    width: 282px!important;
+    width: 270px !important;
     border: solid 1px #d9d9d9;
     margin: 20px 0;
     transition: 0.1s;
@@ -127,63 +84,57 @@
     //----------------------------блок img
     .advertisement-img {
       position: relative;
-      height: 187px;
+      height: 178px;
       overflow: hidden;
       img {
-        max-height: 187px;
-        max-width: 282px;
+        max-height: 185px;
+        max-width: 270px;
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
       }
-
     }
   }
   //--------------------------------блок текстова частина
   .advertisement-text {
     padding: 7px;
-    display: flex;
     justify-content: space-between;
-    font-size: 1.1rem;
     line-height: 1.5rem;
     border-top: 1px solid #d9d9d9;
 
     a.advertisement-text-title {
       color: $base-color;
       display: block;
-      width: 70%;
       &:hover {
         color: #0d7fce;
-        cursor: pointer;
-        text-decoration: none;
       }
     }
-
-    .advertisement-text-square {
-      color: $text-color;
-      font-size: 1rem;
-      width: 100%;
-    }
     .advertisement-text-price {
-      width: 100%;
       color: #ff7f00;
       font-size: 1.2rem;
       align-self: center;
     }
-
-    .advertisement-text-content {
-      width: 100%;
-      margin: 10px 0;
-      font-size: 1rem;
-      color: $text-color;
-    }
-
   }
-
-}
-.last-advertisement-title {
-  margin: 0 auto;
-  margin-top: 25px;
 }
 
+@media screen and (max-width: 1199px) {
+  .main-content-block {
+    width: 55%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .main-content-block {
+    width: 65%;
+  }
+  .title-content {
+    padding-top: 115px!important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .main-content-block {
+    width: 78%;
+  }
+}

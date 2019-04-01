@@ -1,8 +1,12 @@
 @import '~ol/ol.css';
 $base-color: #3c8dbc;
 $text-color: #626161;
+.overlay {
+  visibility: hidden;
+}
 
 .detail-column {
+  width: 14%;
   padding: 0 0 0 10px;
   a {
     text-decoration: none;
@@ -26,9 +30,12 @@ $text-color: #626161;
     margin-top: 10px;
   }
 }
+.details-picture {
+  width: 49%;
+}
 
 .details-picture-miniature {
-  height: 400px;
+  height: 388px;
   overflow: hidden;
   position: relative;
 
@@ -63,12 +70,12 @@ $text-color: #626161;
   }
   .carousel-item {
     width: 100%;
-    height: 400px;
+    height: 368px;
     position: relative;
 
     img {
       max-height: 400px;
-      max-width: 670px;
+      max-width: 547px;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -91,7 +98,7 @@ $text-color: #626161;
 .details-panel {
   margin-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #777777;
+  //border-bottom: 1px solid #777777;
   i {
     font-size: 1.5rem;
     color: #adb5bd;
@@ -110,28 +117,30 @@ $text-color: #626161;
 }
 
 .details-map {
-
+  width:31%;
   position: relative;
+
   #details-map-container {
-    height: 400px;
+    height: 369px;
   }
 
   .details-map-navigation {
     position: absolute;
-    top: 356px;
-    left: 21px;
+    top: 322px;
+    left: 7px;
     height: 37px;
     z-index: 100;
-    border: 1px solid #00a2ad;
+    //border: 1px solid #00a2ad;
     #details-map-full {
-      width: 35px;
-      height: 35px;
+      width: 41px;
+      height: 41px;
       background: #f2efe9 url("../../../src/AppBundle/Resources/public/img/magnifying-glass.png") no-repeat center;
-      border: none;
-      border-bottom: 1px solid #d8d7d7;
+      //border: none;
+      //border-bottom: 1px solid #d8d7d7;
       &:hover {
-        background-color: #dffff9;
+      //  background-color: #dffff9;
         cursor: pointer;
+        background-color: #e7e7e7;
       }
     }
   }
@@ -148,7 +157,7 @@ $text-color: #626161;
 .details-title {
   color: $base-color;
   font-size: 1.5rem;
-  margin-top: 20px;
+  //margin-top: 20px;
 }
 
 .details-main {
@@ -175,23 +184,24 @@ $text-color: #626161;
     div:last-child {
       margin-top: 5px;
     }
-    .details-main-price {
-      vertical-align: middle;
-      color: #ff7f00;
-      font-size: 1.4rem;
-    }
+
   }
+}
+.details-main-price {
+  vertical-align: middle;
+  color: #ff7f00;
+  font-size: 1.4rem;
 }
 
 .details-provision {
   margin-top: 25px;
-  display: flex;
-  width: 100%;
+  //display: flex;
+  //width: 100%;
 
   div {
     //width: 32px;
     background-color: #f1f1f1;
-    margin-right: 20px;
+    //margin-right: 20px;
     padding: 10px;
     text-align: center;
     border: 1px solid #e1e1e1;
@@ -243,18 +253,24 @@ $text-color: #626161;
   padding: 25px 5px;
 }
 
+.box-body {
+  i {
+    font-size: 2.8rem;
+  }
+}
+
 .details-author-container {
   width: 100%;
   .details-author {
     transition: 0.2s;
     display: flex;
-    width: 436px;
+    //width: 436px;
     background-color: #f1f1f1;
     padding: 10px 10px;
     border: 1px solid #e1e1e1;
     border-radius: 3px;
 
-  i {
+    i {
       font-size: 2.8rem;
     }
     .details-author-photo {
@@ -316,4 +332,102 @@ $text-color: #626161;
   background-color: #fffbcd;
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
+}
+#details-user {
+  .btn-app {
+    font-size: 0.9rem;
+    background-color: #f4f4f4;
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  #details-user {
+    .btn-app {
+      //font-size: 0.9rem;
+      width: 75%;
+    }
+  }
+
+
+  .detail-column {
+    width: 14%;
+    .details-picture-miniature {
+      height: 336px;
+    }
+  }
+
+  .details-picture {
+    width: 52%;
+    align-items: center;
+    #carouselExampleControls {
+      .carousel-inner {
+        width: 100%;
+        max-height: 350px;
+        .carousel-item {
+          width: 100%;
+          height: 321px;
+          position: relative;
+          img {
+            max-height: 315px;
+            max-width: 470px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+    }
+  }
+  .details-map {
+    width: 31%;
+    margin-top: 5px;
+
+    #details-map-container {
+      height: 312px;
+      .details-map-navigation {
+        top: 268px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 992px) {
+  #details-user {
+    .btn-app {
+     width: 33%;
+    }
+  }
+  .detail-column {
+    width: 24%;
+  }
+  .details-picture {
+    width: 75%;
+  }
+  .details-map {
+    width: 95%;
+    #details-map-container {
+      height: 200px;
+      .details-map-navigation {
+        top:157px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  #details-user {
+    .btn-app {
+      width: 43%;
+    }
+  }
+
+}
+@media screen and (max-width: 576px) {
+  #details-user {
+    .btn-app {
+      width: 43%;
+    }
+  }
+
 }

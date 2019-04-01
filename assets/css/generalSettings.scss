@@ -22,17 +22,23 @@ $tooltip-border-color: white; //колір межі
   src: url('../fonts/MyriadPro-Regular.otf');
 }
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1400px;
-  }
+.container {
+  min-width: 500px;
 }
+
+@media (min-width: 1200px) {
+  /*  .container {
+      max-width: 1400px;
+    }*/
+}
+
 .icon-color {
   color: $icon-color;
 }
+
 //**************************************************Загальні налаштування
 .text-color {
-  color: $text-color!important;
+  color: $text-color !important;
 }
 
 /*a:hover {
@@ -40,7 +46,7 @@ $tooltip-border-color: white; //колір межі
 }*/
 
 .alert {
-  border-radius: 0.2rem!important;
+  border-radius: 0.2rem !important;
 }
 
 //-------------------------------------------- change standart properties tooltips
@@ -63,18 +69,16 @@ $tooltip-border-color: white; //колір межі
 }
 
 //---------- для стрілки вниз
-.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before{
+.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
   border-bottom-color: $background-field;
   opacity: 1 !important;
 }
 
 //---------- для стрілки вліво
-.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before{
+.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
   border-left-color: $background-field;
   opacity: 1 !important;
 }
-
-
 
 //---------------------------------------------------------------------------------------
 body {
@@ -90,6 +94,10 @@ body {
   background-color: $base-color;
 }
 
+/*.navbar-toggler-icon {
+  color: white;
+}*/
+
 .logo-link {
   width: 110px;
   padding: 0.3rem 1rem 0.3rem 0.6rem !important;
@@ -102,9 +110,12 @@ body {
 .main-menu:hover {
   color: #edf8fd;
 }
-
-.navbar-toggler-icon {
+/*.navbar-toggler-icon {
   color: #0000F0;
+}*/
+
+.no-wrap {
+  flex-wrap: nowrap;
 }
 
 .body_content .container {
@@ -123,6 +134,22 @@ body {
   color: #721c24 !important;
   background-color: #f8d7da !important;
   border-color: #f5c6cb !important;
+}
+
+.tab-col-title {
+  color: #484848;
+}
+.main-container {
+  i {
+    color: #adb5bd;
+  }
+}
+
+
+.collapse {
+  i {
+    color: white;
+  }
 }
 
 .navbar-brand {
@@ -230,6 +257,10 @@ body {
   width: 20% !important;
 }
 
+.w-25 {
+  width: 25% !important;
+}
+
 .w-30 {
   width: 30% !important;
 }
@@ -242,18 +273,20 @@ body {
   width: 60% !important;
 }
 
+.w-65 {
+  width: 65% !important;
+}
+
 .w-70 {
   width: 80% !important;
 }
 
-.w-90 {
-  width: 90% !important;
+.w-75 {
+  width: 75% !important;
 }
 
-@media (max-width: 992px) {
-  .navbar-nav {
-    height: auto !important;
-  }
+.w-90 {
+  width: 90% !important;
 }
 
 .alert {
@@ -262,8 +295,8 @@ body {
 
 .bootbox.bootbox-alert .modal-header {
   padding: 0.5rem 1rem;
-
   color: #fff;
+
   &.errorBootboxHead {
     background-color: #d9534f;
   }
@@ -273,7 +306,6 @@ body {
   &.okBootboxHead {
     background-color: #50bd53;
   }
-  //border-radius: 0;
 }
 
 .preloader {
@@ -289,11 +321,12 @@ body {
     cursor: pointer;
   }
 }
+
 //---------------------------------------кнопки
 .btn-grey {
-  color: #626161!important;
-  border-radius: 0.2rem!important;
-  border: 1px solid #8e8e8e!important;
+  color: #626161 !important;
+  border-radius: 0.2rem !important;
+  border: 1px solid #8e8e8e !important;
   text-align: center;
   display: inline-block;
   height: 35px;
@@ -303,17 +336,17 @@ body {
 
   &:hover {
     text-decoration: none;
-    color: white!important;
+    color: white !important;
     background-color: #adadad;
   }
 }
 
 .btn-blue {
-  color: #3c8dbc!important;
-  border: 1px solid #3c8dbc!important;
-  border-radius: 0.2rem!important;
+  color: #3c8dbc !important;
+  border: 1px solid #3c8dbc !important;
+  border-radius: 0.2rem !important;
   height: 35px;
-  background-color:transparent;
+  background-color: transparent;
   display: inline-block;
   font-weight: 400;
   text-align: center;
@@ -331,7 +364,7 @@ body {
   &:hover {
     background-color: #aad4f5;
     text-decoration: none;
-    color: white!important;
+    color: white !important;
   }
 }
 
@@ -342,7 +375,7 @@ body {
   padding-bottom: 2px;
 
   .btn-blue-cut {
-    color: $base-color!important;
+    color: $base-color !important;
     text-align: center;
     display: block;
     height: 35px;
@@ -351,9 +384,9 @@ body {
     transition: 0.1s;
     padding-top: 5px;
     &:hover {
-      background-color: #aad4f5!important;
+      background-color: #aad4f5 !important;
       text-decoration: none;
-      color: white!important;
+      color: white !important;
 
     }
   }
@@ -376,7 +409,7 @@ body {
     }
     &:hover {
       cursor: pointer;
-      color: #626161!important;
+      color: #626161 !important;
       text-decoration: none;
     }
   }
@@ -386,11 +419,11 @@ body {
   margin-top: -11px;
 }
 
-.color-grey{
-  color:#8aa4af
+.color-grey {
+  color: #8aa4af
 }
 
-.my-btn{
+.my-btn {
   text-align: center;
   border-radius: 0.2rem;
   transition: 0.1s;
@@ -413,7 +446,7 @@ body {
 }
 
 .my-btn-grey {
-  color:$text-color;
+  color: $text-color;
   border: 1px solid lighten($text-color, 10%);
   &:hover {
     background-color: lighten($text-color, 35%);
@@ -445,5 +478,20 @@ body {
   &:hover {
     background-color: #7fe07f;
   }
+
+}
+
+@media screen and (max-width: 1199px) {
+
+}
+
+@media screen and (max-width: 992px) {
+
+  .navbar-nav {
+    height: auto !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
 
 }

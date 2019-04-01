@@ -115,6 +115,7 @@ class AdvertisementFilterType extends AbstractType
             'label' => 'Цільове призначення',
             'multiple' => true,
             'class' => DirPurpose::class,
+            'attr' => ['class' => 'form-control'],
             'choice_label' => function ($purpose) {
                 return $purpose->getCode() . ' ' . $purpose->getText();
             },

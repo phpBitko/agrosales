@@ -91,8 +91,9 @@ $(function () {
 //------------------------------- обробка кнопок фільтра
     $('#filter-submit').on('click', function () {
         var formData = new FormData($('[name = "item_filter"]')[0]);
-
         getFilterAdvertisement(formData);
+        mapSales.removeInteraction(DrowGlobal);
+        mapSales.removeInteraction(DrowLineGlobal);
     });
 
     /**
