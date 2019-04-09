@@ -12,6 +12,8 @@ import {unByKey} from 'ol/Observable.js';
 import WKT from 'ol/format/WKT';
 import sourceVector from "ol/source/Vector";
 import layerVector from "ol/layer/Vector";
+import Icon from "ol/style/Icon";
+import Style from "ol/style/Style";
 
 global.objWkt = new WKT;
 global.sourceVectorGlobal = sourceVector;
@@ -54,6 +56,7 @@ $(function () {
         })
     });
 
+
     //------------------------------vector layer for measure
     var source = new VectorSource();
 
@@ -63,7 +66,7 @@ $(function () {
         style: [StyleGlobalMeasureAdd, StyleGlobalMeasure]
     });
 
-    //vectorDraw.setStyle(StyleGlobalMeasure);
+        //vectorDraw.setStyle(StyleGlobalMeasure);
 
     //-------------------------------------- for measure
 
@@ -95,6 +98,7 @@ $(function () {
         }
     };
     mapSales.addLayer(vectorDraw);
+
 
     var key;
 
@@ -199,10 +203,13 @@ $(function () {
 
         if ($('#checkboxGeometry').prop('checked') == true) {
             $('#typeGeometry').val('None');
-            mapSales.removeInteraction(DrowGlobal);
+            mapSales.removeInteraction(DrowGlobal);//-------------відключаєм інтерекшен фільтра
             mapSales.removeInteraction(DrowLineGlobal);
             $('#geomRadius').prop('disabled', true);
         }
+        //mapSales.removeInteraction(SelectFeatureGlobal);
+        //console.log(mapSales.getInteractions());
+
     });
 
 

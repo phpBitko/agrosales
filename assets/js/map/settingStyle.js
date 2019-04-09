@@ -3,14 +3,20 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from "ol/style";
 import {getArea, getLength} from 'ol/sphere.js';
 import Collection from 'ol/Collection';
 import Draw from "ol/interaction/Draw";
+import Select from "ol/interaction/Select";
+import Icon from "ol/style/Icon";
 
 global.Map = Map;
 global.MapGlobal = Map;
 global.DrowGlobal = Draw;
 global.DrowLineGlobal = Draw;
 global.DrowControlGlobal = Draw;
+global.SelectFeatureGlobal = Select;
 
 global.CollectionGlobal = Collection;
+
+global.styleGlobalAdvert = Style;
+global.styleGlobalAdvertBlue = Style;
 global.StyleGlobalMeasure = Style;
 global.StyleGlobalMeasureAdd = Style;
 global.StyleGlobalMeasureInteract = Style;
@@ -20,6 +26,27 @@ global.formatArea = '';
 
 $(function () {
 
+
+    /**
+     * Стиль для відображення ділянок на карті (оголошень)
+     */
+
+    styleGlobalAdvert = new Style({
+        image: new Icon({
+            src: '/bundles/app/img/maps-andflags.png',
+        })
+    });
+
+
+    /**
+     * Стиль для відображення ділянок на карті під час виділення (наведення)
+     */
+    styleGlobalAdvertBlue = new Style({
+        image: new Icon({
+            src: '/bundles/app/img/maps-and-flagsblue.png',
+        })
+    });
+
     /**
      * Стиль для відображення вимирів панелі управління
      */
@@ -28,23 +55,27 @@ $(function () {
             color: 'rgba(255, 255, 255, 0.2)',
         }),
         stroke: new Stroke({
-            color: '#755C48',
+            //color: '#755C48',
+            color: '#ffc107',
             width: 2,
-            /*lineDash: [10, 10],*/
         }),
         image: new CircleStyle({
             radius: 5,
             fill: new Fill({
-                color: '#755C48',
+                //color: '#755C48',
+                color: '#e08113',
             })
         })
     });
+
+    /**
+     * Додатковий стиль для відображення нарисованого
+     */
 
     StyleGlobalMeasureAdd = new Style({
         stroke: new Stroke({
             color: 'white',
             width: 3,
-          /*  lineDash: [10, 10]*/
         }),
     });
 

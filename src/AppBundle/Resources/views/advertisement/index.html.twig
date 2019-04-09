@@ -14,12 +14,12 @@
 
 {% block body %}
     <div class="container">
-        <div class="row no-wrap main-container">
+        <div class="row no-wrap main-container align-items-start">
             {{ include('@App/advertisement/_filter.html.twig', { 'form': form }) }}
-            <div class="advertisement d-flex flex-wrap align-content-start justify-content-lg-between justify-content-xl-between m-auto">
+            <div class="advertisement d-flex flex-wrap align-content-start justify-content-lg-between justify-content-xl-between align-self-start">
                 <div class="advertisement-control-panel d-flex align-items-center w-100">
                     <div class="sorting-price col-xl-6 col-md-5 pl-sm-0 pr-sm-0">
-                        <div class="dropdown ">
+                        <div class="dropdown">
                             <button class="btn d-flex justify-content-between" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 

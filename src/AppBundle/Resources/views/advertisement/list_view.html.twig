@@ -37,6 +37,13 @@
             {% endif %}
         </div>
         <div class="details-provision justify-content-around">
+            <div class="mr-lg-3 details-house {{ item.isHouse ? 'active' }}"
+                 data-toggle="tooltip" title=" {{ item.isHouse ? 'Присутній'|trans : 'Відсутній'|trans }}
+                                     {{ "будинок"|trans }} ">
+                <img src="{{ asset('bundles/app/img/ico/house_'~(item.isHouse ? 'on' : 'off')~'.png') }}"
+                     alt="">
+            </div>
+
             <div class="details-road {{ item.isRoad ? 'active' }}"
                  data-toggle="tooltip" title=" {{ item.isRoad ? 'Присутній'|trans : 'Відсутній'|trans }}
                                      {{ "під'їзд з твердим покриттям"|trans }} ">

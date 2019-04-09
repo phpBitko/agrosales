@@ -84,6 +84,12 @@ class AdvertisementFilterType extends AbstractType
                 ])
             ],
         ]);
+        $builder->add('isHouse', Filters\CheckboxFilterType::class, [
+            'label' => 'Будинок',
+            'attr' => ['class' => ''],
+            'required' => false,
+            'label_attr' => ['class' => 'font-weight-bold'],
+        ]);
 
         $builder->add('isElectricity', Filters\CheckboxFilterType::class, [
             'label' => 'Електрика',

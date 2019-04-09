@@ -13,7 +13,7 @@ class ParseFilterServices
      */
     public function normalizeFilterParam($filterParams)
     {
-        if($filterParams) {
+        if ($filterParams) {
             $filterParams['price']['left_number'] = !empty($filterParams['price']['left_number']) ?
                 floor($filterParams['price']['left_number']) : '';
             $filterParams['price']['right_number'] = !empty($filterParams['price']['right_number']) ?
@@ -54,8 +54,8 @@ class ParseFilterServices
                     $resultFilter[$k]['strHref'] = $str;
                 }
             }
-
             $resultFilter = $this->parseResultFilter($resultFilter);
+
         }
         return $resultFilter;
     }
@@ -116,6 +116,9 @@ class ParseFilterServices
                         break;
                     case 'dirPurpose':
                         $arrCopy[$k]['strText'] = 'цільове призначення';
+                        break;
+                    case 'isHouse':
+                        $arrCopy[$k]['strText'] = 'є будинок';
                         break;
                 }
             }

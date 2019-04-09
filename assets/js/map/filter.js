@@ -92,6 +92,8 @@ $(function () {
         name: 'filter',
     });
 
+    mapSales.addLayer(layerFilter);
+
 /*    var draw; // global so we can remove it later
     var drawLine; // global so we can remove it later*/
 
@@ -227,9 +229,9 @@ $(function () {
 
     $('#checkboxGeometry').change(function () {
 
-        if (featureMapControl.ifLayerExist('filter') == '') {
+/*        if (featureMapControl.ifLayerExist('filter') == '') {
             mapSales.addLayer(layerFilter);
-        }
+        }*/
 
         if ($('#checkboxGeometry').prop('checked')) {
             $('.measure-button').removeClass('active');

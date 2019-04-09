@@ -136,7 +136,7 @@
                                 <td>
                                     {{ advertisement.area|number_format(4,'.',' ') }} {{ 'га'|trans }}
                                 </td>
-                                <td><span class="badge bg-red">55%</span></td>
+                                <td>{#<span class="badge bg-red">55%</span>#}</td>
                             </tr>
                             <tr>
 
@@ -148,7 +148,7 @@
                                     {{ advertisement.area ? (advertisement.price/advertisement.area/100)|number_format(0,',',' ') }}
                                     ₴/сотка
                                 </td>
-                                <td><span class="badge bg-yellow">70%</span></td>
+                                <td>{#<span class="badge bg-yellow">70%</span>#}</td>
                             </tr>
                             <tr>
 
@@ -156,13 +156,29 @@
                                 <td>
                                     {{ advertisement.dirPurpose ? advertisement.dirPurpose.text :'Не вказано цільове призначення'|trans }}
                                 </td>
-                                <td><span class="badge bg-light-blue">30%</span></td>
+                                <td>{#<span class="badge bg-light-blue">30%</span>#}</td>
+                            </tr>
+                            <tr>
+                                <td class="tab-col-title">{{ 'Кадастровий номер'|trans }}:</td>
+                                <td>
+                                    {{ advertisement.cadastralNumber ? advertisement.cadastralNumber :'Не вказано кадастровий номер'|trans }}
+                                </td>
+                                <td></td>
                             </tr>
                         </table>
                     </div>
                     <!-- /.box-body -->
                 </div>
-                <div class="details-provision col-xl-6 col-md-7 col-sm-9 d-flex justify-content-around">
+                <div class="details-provision col-xl-7 col-lg-8 col-md-7 col-sm-10 d-flex justify-content-around ">
+                    <div class="mr-3 details-road {{ advertisement.isHouse ? 'active' }}"
+                         data-toggle="tooltip"
+                         title=" {{ advertisement.isHouse ? 'Присутній'|trans : 'Відсутній'|trans }}
+                          {{ "будинок"|trans }}">
+                        <img src="{{ asset('bundles/app/img/ico/house_'~(advertisement.isHouse ? 'on' : 'off')~'.png') }}"
+                             alt="">
+                    </div>
+
+
                     <div class="details-road {{ advertisement.isRoad ? 'active' }}"
                          data-toggle="tooltip"
                          title=" {{ advertisement.isRoad ? 'Присутній'|trans : 'Відсутній'|trans }}

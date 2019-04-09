@@ -48,7 +48,16 @@
         </a>
     {% endif %}
 </div>
-<div class="map-provision">
+<div class="map-provision ">
+{#    <div class="w-100">
+        <div class="mr-lg-3 details-house {{ advertisementDetails.isHouse ? 'active' }}"
+             data-toggle="tooltip" title=" {{ advertisementDetails.isHouse ? 'Присутній'|trans : 'Відсутній'|trans }}
+                                     {{ "будинок"|trans }} ">
+            <img src="{{ asset('bundles/app/img/ico/house_'~(advertisementDetails.isHouse ? 'on' : 'off')~'.png') }}"
+                 alt="">
+        </div>
+    </div>#}
+
     <div class="details-road {{ advertisementDetails.isRoad ? 'active' }}" data-toggle="tooltip"
          title=" {{ advertisementDetails.isRoad ? 'Присутній':'Відсутній' }} під'їзд з твердим покриттям ">
         <img src="{{ asset('bundles/app/img/ico/road_'~(advertisementDetails.isRoad ? 'on' : 'off')~'.png') }}" alt="">

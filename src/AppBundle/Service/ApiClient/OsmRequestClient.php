@@ -34,6 +34,15 @@ class OsmRequestClient
     }
 
     /**
+     * @required
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        dump($logger);
+        $this->logger = $logger;
+    }
+
+    /**
      * @return null|string
      */
     public function getLastErrorMessage(): ?string
@@ -75,11 +84,13 @@ class OsmRequestClient
         } catch (ClientException $exception) {
             $msg = $exception->getResponse()->getBody()->getContents();
             $msg = json_decode($msg, true);
+            dump($exception);
             $this->lastErrorMessage = $msg['error_description'];
             $this->getLogger()->critical($exception->getResponse()->getBody()->getContents());
 
         } catch (\Exception $e) {
             $this->lastErrorMessage = 'Виникла помилка доступу до API E-сервісу!';
+            dump($e);
             $this->getLogger()->critical($e->getMessage());
             $this->lastErrorMessage = $e->getMessage();
         }
@@ -97,13 +108,7 @@ class OsmRequestClient
     }
 
 
-    /**
-     * @required
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
+
 
     public function getLogger()
     {

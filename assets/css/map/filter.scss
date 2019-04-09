@@ -163,6 +163,9 @@
         input[type=checkbox]:checked + label .sprite-idea {
           background-position: -32px 0;
         }
+        input[type=checkbox]:checked + label .sprite-house {
+          background-position: -96px -32px;
+        }
         .provision {
           background-color: #f1f1f1;
           margin: 0 4px;
@@ -192,6 +195,9 @@
           }
           .sprite-idea {
             background-position: 0 0;
+          }
+          .sprite-house {
+            background-position: -96px -64px;
           }
           &:hover {
             cursor: pointer;

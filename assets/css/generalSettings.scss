@@ -1,7 +1,6 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $fa-font-path: "~font-awesome/fonts";
 
-
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-select/dist/css/bootstrap-select';
 @import "~@fortawesome/fontawesome-free/css/all.css";
@@ -15,7 +14,6 @@ $icon-color: #adb5bd; //колір іконок в оголошенні
 $background-field: #515151; //колір підложки
 $tooltip-font-color: white; //колір тексту
 $tooltip-border-color: white; //колір межі
-
 
 @font-face {
   font-family: 'MyriadPro';
@@ -110,6 +108,7 @@ body {
 .main-menu:hover {
   color: #edf8fd;
 }
+
 /*.navbar-toggler-icon {
   color: #0000F0;
 }*/
@@ -139,12 +138,15 @@ body {
 .tab-col-title {
   color: #484848;
 }
+
 .main-container {
   i {
     color: #adb5bd;
+    &:hover {
+      color: #616161;
+    }
   }
 }
-
 
 .collapse {
   i {
@@ -415,7 +417,7 @@ body {
   }
 }
 
-.sidebar-menu li>a>.pull-right-container{
+.sidebar-menu li > a > .pull-right-container {
   margin-top: -11px;
 }
 
@@ -435,12 +437,12 @@ body {
   }
 }
 
-.navbar-toggler-icon{
+.navbar-toggler-icon {
   color: white;
 }
 
-.navbar-toggler{
-  &:focus{
+.navbar-toggler {
+  &:focus {
     outline: none;
   }
 }

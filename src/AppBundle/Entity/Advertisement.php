@@ -122,6 +122,30 @@ class Advertisement implements InstanceUserInterface
      */
     private $isRoad = false;
 
+
+    /**
+     * @var bool
+     * @ORM\Column(name="is_house", type="boolean", nullable=true)
+     */
+    private $isHouse = false;
+
+    /**
+     * @return bool
+     */
+    public function isHouse(): bool
+    {
+        return $this->isHouse;
+    }
+
+    /**
+     * @param bool $isHouse
+     */
+    public function setIsHouse(bool $isHouse): void
+    {
+        $this->isHouse = $isHouse;
+    }
+
+
     /**
      * @var boolean
      * @ORM\Column(name="is_archive", type="boolean", nullable=true)
@@ -172,6 +196,31 @@ class Advertisement implements InstanceUserInterface
      */
     private $declarantPhoneNum;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cadastral_number", type="string", length=22, nullable=true)
+     */
+    private $cadastralNumber;
+
+    /**
+     * @return mixed
+     */
+    public function getCadastralNumber()
+    {
+        return $this->cadastralNumber;
+    }
+
+    /**
+     * @param mixed $cadastralNumber
+     */
+    public function setCadastralNumber($cadastralNumber): void
+    {
+        $this->cadastralNumber = $cadastralNumber;
+    }
+
+
     /**
      * @var integer
      *
@@ -199,7 +248,6 @@ class Advertisement implements InstanceUserInterface
      * @ORM\JoinColumn(name="id_dir_district", referencedColumnName="id")
      */
     private $dirDistrict;
-
 
     /**
      *
@@ -281,7 +329,6 @@ class Advertisement implements InstanceUserInterface
      */
     private $coordL;
 
-
     /**
      * Constructor
      */
@@ -322,7 +369,6 @@ class Advertisement implements InstanceUserInterface
     {
         $this->viewInfo = $viewInfo;
     }
-
 
     /**
      * @return bool
@@ -371,7 +417,6 @@ class Advertisement implements InstanceUserInterface
     {
         $this->messages = $messages;
     }
-
 
 
     /**
@@ -612,6 +657,7 @@ class Advertisement implements InstanceUserInterface
     {
         $this->isWaterSupply = $isWaterSupply;
     }
+
 
     /**
      * @return bool
