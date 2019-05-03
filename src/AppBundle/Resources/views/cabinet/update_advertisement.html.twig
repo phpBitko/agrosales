@@ -207,6 +207,21 @@
                                         </span>
                                     </div>
                                 </div>
+                                <div class="toggle_type_geom">
+                                    <div class="input-group toggle_geom_group">
+                                        <button id="point_geom" class="btn btn-default active" type="button"
+                                                data-toggle="tooltip" data-placement="bottom" title=""
+                                                data-original-title="Точка" data-val="Point">
+                                            <i class="fas fa-map-pin"></i>
+                                        </button>
+                                        <button id="polygon_geom" class="btn btn-default hide" type="button"
+                                                data-toggle="tooltip" data-placement="bottom" title=""
+                                                data-original-title="Полігон" data-val="Polygon">
+                                            <i class="fas fa-vector-square"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
                                 <div id="map-create-container">
                                 </div>
                                 {% for message in app.flashes('noticeMap') %}

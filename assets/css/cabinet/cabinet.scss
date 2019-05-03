@@ -104,7 +104,7 @@ html{
 
 }
 
-
+.toggle_type_geom,
 .map_search_block{
   height: 30px;
   position: absolute;
@@ -114,7 +114,6 @@ html{
     height: 27px;
     padding-bottom: 0.15rem;
   }
-
   #btn_search_cad_num{
     background-color: #3c8dbc;
     border-radius: 0;
@@ -125,8 +124,29 @@ html{
       box-shadow: none;
     }
   }
-
 }
+
+#point_geom,
+#polygon_geom{
+  background-color: #3c8dbc;
+  border-radius: 0;
+  color: white;
+  padding: 0.1rem 0.30rem;
+  &:focus{
+    box-shadow: none;
+  }
+}
+
+
+.toggle_type_geom{
+  right: 10px;
+  .fas{
+    font-size: 16px;
+    width: 16px;
+    vert-align: middle;
+  }
+}
+
 .navbar-nav>li>a:hover{
   background: #4c99c6 !important;
 }

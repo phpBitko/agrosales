@@ -76,6 +76,12 @@ class Advertisement implements InstanceUserInterface
     private $geom;
 
     /**
+     * @var geometry
+     * @ORM\Column(name="geom_polygon", type="geometry", nullable=true)
+     */
+    private $geomPolygon;
+
+    /**
      * @var string
      * @ORM\Column(name="text_about", type="text", nullable=true)
      * @Assert\NotBlank()
@@ -132,7 +138,7 @@ class Advertisement implements InstanceUserInterface
     /**
      * @return bool
      */
-    public function isHouse(): bool
+    public function isHouse(): ?bool
     {
         return $this->isHouse;
     }
@@ -144,6 +150,23 @@ class Advertisement implements InstanceUserInterface
     {
         $this->isHouse = $isHouse;
     }
+
+    /**
+     * @return geometry
+     */
+    public function getGeomPolygon()
+    {
+        return $this->geomPolygon;
+    }
+
+    /**
+     * @param geometry $geomPolygon
+     */
+    public function setGeomPolygon($geomPolygon): void
+    {
+        $this->geomPolygon = $geomPolygon;
+    }
+
 
 
     /**
@@ -832,9 +855,7 @@ class Advertisement implements InstanceUserInterface
      */
     public function doStuffOnPostPersist()
     {
-        if (!empty($this->getCoordB()) && !empty($this->getCoordL())) {
-            $this->setGeom('point(' . $this->getCoordB() . ' ' . $this->getCoordL() . ')');
-        }
+
     }
 
 

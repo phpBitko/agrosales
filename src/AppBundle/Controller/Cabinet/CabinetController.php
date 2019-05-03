@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vetal
- * Date: 15.08.2018
- * Time: 17:19
- */
-
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Cabinet;
 
 use AppBundle\Controller\Admin\BaseAdminController;
+use AppBundle\Controller\ControllerTrait\GeneralFunction;
 use AppBundle\Exception\ClientException;
 use AppBundle\Service\Cabinet\ConfigFields\UserCabinet;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +13,7 @@ use AppBundle\Service\PaginatorServices;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Service\Geometry;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class CabinetController
@@ -26,6 +21,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class CabinetController extends BaseAdminController
 {
+    use GeneralFunction;
+
     const STATUS_ADVERTISEMENT = [
         'ACTIVE' => 1,
         'PENDING' => 2,
@@ -47,18 +44,21 @@ class CabinetController extends BaseAdminController
         return $this->render('AppBundle:cabinet:dashboard.html.twig', ['data'=>$data]);
     }
 
+
     /**
      * @param Request $request
      * @param $id
      * @param string $entity
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \ReflectionException
      *
      * @Route ("/{entity}/{id}/edit", name="cabinet.object_edit", methods={"GET", "POST"})
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function editAction(Request $request, $id, string $entity, UserPasswordEncoderInterface $passwordEncoder){
         return parent::editAction($request, $id,  $entity, $passwordEncoder);
     }
+
 
     /**
      * @param Request $request
@@ -82,7 +82,14 @@ class CabinetController extends BaseAdminController
 
             if ($formAdvertisement->isValid()) {
 
-                $geomAdvertisement = $advertisement->getGeom();
+                $geomPolygonAdvertisement = $advertisement->getGeomPolygon();
+                if(!empty($geomPolygonAdvertisement)){
+                    $geomAdvertisement = $em->getRepository('AppBundle:Advertisement')->getCentroid($geomPolygonAdvertisement);
+                    $advertisement->setGeom($geomAdvertisement);
+                }else{
+                    $geomAdvertisement = $advertisement->getGeom();
+                }
+
                 $region = $geometryServices->getPositionRegion($geomAdvertisement);
 
                 if (null === $region) {
@@ -214,7 +221,7 @@ class CabinetController extends BaseAdminController
     /**
      * @param Request $request
      * @param Geometry $geometryServices
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/getPosition", name="cabinet_get_position", methods={"POST"}, options={"expose"=true})
      *
@@ -223,7 +230,6 @@ class CabinetController extends BaseAdminController
     {
         try {
             $geom = $request->get('geom');
-
             $data = $geometryServices->getPositionAddress($geom);
 
             return $this->json(['address' => $data], Response::HTTP_OK);

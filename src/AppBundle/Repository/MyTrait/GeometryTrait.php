@@ -171,11 +171,11 @@ trait GeometryTrait
      * @param $pointGeom
      * @return bool
      */
-    public function getPositionByGeom($pointGeom)
+    public function getPositionByGeom($geom)
     {
         $qb = $this->createQueryBuilder('a')
             ->where('ST_Intersects(a.theGeom900913 , ST_GeomFromText(:GEOM,900913)) = true')
-            ->setParameter('GEOM', $pointGeom)
+            ->setParameter('GEOM', $geom)
             ->getQuery();
 
         $id = $qb->getResult();
@@ -183,6 +183,31 @@ trait GeometryTrait
             return $id[0];
         }
 
-        return;
+        return null;
     }
+
+    /**
+     * Повертаэ центроїд геометрії ($geom)
+     *
+     * @param $geom
+     *
+     * @return bool
+     */
+    public function getCentroid($geom)
+    {
+        $stmt = $this->getEntityManager()
+            ->getConnection()
+            ->prepare('select ST_AsText(ST_Centroid(ST_GeomFromText(:POLYGON, 3857)))');
+        $stmt->bindParam('POLYGON', $geom);
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result['0']['st_astext'];
+    }
+
 }

@@ -4,6 +4,7 @@ namespace AppBundle\Service\Admin;
 
 use AppBundle\Service\Admin\Interfaces\ListAdminInterface;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -52,10 +53,13 @@ abstract class AbstractAdmin
     }
 
     /**
-     *
+     * Тільки для класів які реалізують ListAdminInterface
      */
     public function initializeList()
     {
+        if(!($this instanceof ListAdminInterface)){
+            throw new \Exception('Об\'єкт не реалізує ListAdminInterface');
+        }
         $listMapper = new ListMapper();
         $this->configureListFields($listMapper);
         $listField = $listMapper->getListFieldName();
@@ -108,7 +112,7 @@ abstract class AbstractAdmin
     }
 
     /**
-     * @return \AppBundle\Service\Admin\ListMapper
+     * @return ListMapper
      */
     public function getListMapper(): ListMapper
     {
@@ -116,7 +120,7 @@ abstract class AbstractAdmin
     }
 
     /**
-     * @return \AppBundle\Service\Admin\ViewMapper
+     * @return ViewMapper
      */
     public function getViewMapper(): ViewMapper
     {

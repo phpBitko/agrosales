@@ -8,6 +8,7 @@ use GuzzleHttp\{
 use GuzzleHttp\Exception\ClientException;
 use Psr\Log\LoggerInterface;
 
+
 class OsmRequestClient
 {
     /** @var Client $client */
@@ -33,12 +34,12 @@ class OsmRequestClient
         ]);
     }
 
+
     /**
-     * @required
+     * @param LoggerInterface $logger
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
-        dump($logger);
         $this->logger = $logger;
     }
 
@@ -84,13 +85,11 @@ class OsmRequestClient
         } catch (ClientException $exception) {
             $msg = $exception->getResponse()->getBody()->getContents();
             $msg = json_decode($msg, true);
-            dump($exception);
             $this->lastErrorMessage = $msg['error_description'];
             $this->getLogger()->critical($exception->getResponse()->getBody()->getContents());
 
         } catch (\Exception $e) {
             $this->lastErrorMessage = 'Виникла помилка доступу до API E-сервісу!';
-            dump($e);
             $this->getLogger()->critical($e->getMessage());
             $this->lastErrorMessage = $e->getMessage();
         }
@@ -102,15 +101,16 @@ class OsmRequestClient
     /**
      * @return mixed
      */
-    public function isConnect()
+    public function isConnect(): bool
     {
         return $this->isConnect;
     }
 
 
-
-
-    public function getLogger()
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger(): ?LoggerInterface
     {
         return $this->logger;
     }

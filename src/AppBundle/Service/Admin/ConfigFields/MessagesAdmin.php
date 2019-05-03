@@ -67,7 +67,7 @@ class MessagesAdmin extends AbstractAdmin implements ListAdminInterface
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

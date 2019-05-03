@@ -1,15 +1,18 @@
 require('jquery-inputmask');
-import OSM from "ol/source/OSM";
+
 import TileLayer from "ol/layer/Tile";
 import View from "ol/View";
 import {defaults as defaultControls} from "ol/control";
 import Map from "ol/Map";
 import Overlay from "ol/Overlay";
 import {fromLonLat} from "ol/proj";
-import {transform} from "ol/proj";
 import WKT from 'ol/format/WKT.js';
 import Point from 'ol/geom/Point.js';
+import Polygon from 'ol/geom/Polygon.js';
 import TileWMS from "ol/source/TileWMS";
+import {Vector as VectorLayer} from 'ol/layer.js';
+import Draw from 'ol/interaction/Draw.js';
+import {OSM, Vector as VectorSource} from 'ol/source.js';
 
 
 
@@ -19,12 +22,12 @@ $(function () {
     $("#text_search_cad_num").mask("9999999999:99:999:9999");
     $('#advertisement_declarantPhoneNum').mask("(999)999-99-99");
 
-    var osmLayer = new TileLayer({
+    let osmLayer = new TileLayer({
         source: new OSM(),
         name: 'osm'
     });
 
-    var kievPublichkaSource = new TileWMS({
+    let kievPublichkaSource = new TileWMS({
         url: 'http://map.land.gov.ua/geowebcache/service/wms',
         params: {
             'LAYERS': 'kadastr',
@@ -41,19 +44,26 @@ $(function () {
     });
 
     // Земельні ділянки
-    var kievPublichka = new TileLayer({
+    let kievPublichka = new TileLayer({
         source: kievPublichkaSource,
         name: 'pub',
         visible: 1
     });
 
-    var centerUkraine = fromLonLat([30.582233, 50.382778]);
+    let centerUkraine = fromLonLat([30.582233, 50.382778]);
 
-    var mapCabinet = new Map({
+    let sourceParcel = new VectorSource({wrapX: false});
+
+    let vectorParcel = new VectorLayer({
+        source: sourceParcel
+    });
+
+    let mapCabinet = new Map({
         target: 'map-create-container',
         layers: [
             osmLayer,
-            kievPublichka
+            kievPublichka,
+            vectorParcel
         ],
         view: new View({
             center: centerUkraine,
@@ -73,21 +83,78 @@ $(function () {
 
 
     if($('#advertisement_geom').val() !== undefined && $('#advertisement_geom').val() !== ''){
-        var wkt = new WKT();
-        var features = wkt.readFeature($('#advertisement_geom').val());
-        advertMarker.setPosition(features.getGeometry().getCoordinates());
+        let geom ;
+        let typeGeom;
+
+        if($('#advertisement_geomPolygon').val() !== ''){
+            geom = $('#advertisement_geomPolygon').val();
+            typeGeom = 'polygon';
+        }else{
+            geom = $('#advertisement_geom').val();
+            typeGeom = 'point';
+        }
+
+        let wkt = new WKT();
+        let features = wkt.readFeature(geom);
+        console.log(features);
+        sourceParcel.addFeature(features);
+
+        let extent = sourceParcel.getExtent();
+        mapCabinet.getView().fit(extent);
     }
 
-    mapCabinet.on('singleclick', function (event) {
-        $('#map-create-container').preloader();
-        advertMarker.setPosition(event.coordinate);
-        $('#advertisement-map-marker').show();
-        var geom = new WKT().writeGeometry(new Point(event.coordinate));
-        getAddress(geom);
-        $('#advertisement_geom').val(geom);
-    });
-    mapCabinet.addOverlay(advertMarker);
+    let draw;
+    function addInteraction(typeSelect) {
+        if (typeSelect !== 'None') {
+            draw = new Draw({
+                source: sourceParcel,
+                type: typeSelect
+            });
+            mapCabinet.addInteraction(draw);
+        }
+    }
 
+    let typeGeom = 'Point';
+
+    $('.toggle_geom_group button').on('click', function () {
+        mapCabinet.removeInteraction(draw);
+        sourceParcel.clear();
+
+        $.each($('.toggle_geom_group button'), function () {
+            $(this).toggleClass('hide').toggleClass('active');
+            if($(this).hasClass('active')){
+                typeGeom = $(this).attr('data-val');
+                addInteraction($(this).attr('data-val'));
+                draw.on('drawstart', function (evt) {
+                    sourceParcel.clear();
+                });
+            }
+        });
+    });
+
+    addInteraction(typeGeom);
+    sourceParcel.on('addfeature', function(evt){
+        let feature = evt.feature;
+        let coords = feature.getGeometry().getCoordinates();
+        let geomObject;
+        let geom;
+        if(typeGeom === 'Point'){
+            geomObject = new Point(coords);
+            geom = new WKT().writeGeometry(geomObject);
+            $('#advertisement_geomPolygon').val('');
+            $('#advertisement_geom').val(geom);
+        }else{
+            geomObject = new Polygon(coords);
+            geom = new WKT().writeGeometry(geomObject);
+            $('#advertisement_geom').val('');
+            $('#advertisement_geomPolygon').val(geom);
+        }
+        getAddress(geom);
+    });
+
+    draw.on('drawstart', function (evt) {
+        sourceParcel.clear();
+    });
 
     /*Пошук по кадастрововму номеру*/
     var coatuuRegExp = new RegExp('^([0-9]{10}:[0-9]{2}:[0-9]{3}:[0-9]{4})$');
@@ -105,20 +172,25 @@ $(function () {
                         'cadnum': searchval
                     },
                     success: function (data) {
+                        $('.for-preloader').preloader('remove');
                         if (data.data[0].st_xmin == null) {
                             $('.for-preloader').preloader('remove');
                             if (advertMarker !== undefined) {
                                 $('#advert-map-marker').hide();
-                                bootbox.alert('Нічого не знайдено!');
+                                bootboxMessage('Нічого не знайдено!');
                             }
                         } else {
+                            sourceParcel.clear();
                             var box = [data.data[0].st_xmin, data.data[0].st_ymin, data.data[0].st_xmax, data.data[0].st_ymax];
                             view.fit(box, mapCabinet.getSize());
                             view.setZoom(18);
-                            var coord = mapCabinet.getView().getCenter()
-                            advertMarker.setPosition(coord);
-                            $('#advert-map-marker').show();
-                            var geom = new WKT().writeGeometry(new Point(coord));
+
+                            let wkt = new WKT();
+                            let coord = mapCabinet.getView().getCenter();
+                            let geom = new WKT().writeGeometry(new Point(coord));
+                            let features = wkt.readFeature(geom);
+                            sourceParcel.addFeature(features);
+
                             $('#advertisement_geom').val(geom);
                             getAddress(geom);
                         }
@@ -134,7 +206,7 @@ $(function () {
                     }
                 });
             } else {
-                bootbox.alert('Кадастровий номер не вірний!')
+                bootboxMessage('Кадастровий номер не вірний!')
             }
         }
     });

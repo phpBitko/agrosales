@@ -102,6 +102,7 @@ doctrine:
                             ST_Distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
                             ST_Within: Jsor\Doctrine\PostGIS\Functions\ST_Within
                             ST_Multi: Jsor\Doctrine\PostGIS\Functions\ST_Multi
+                            ST_Centroid: Jsor\Doctrine\PostGIS\Functions\ST_Centroid
                             ST_IsValid: Jsor\Doctrine\PostGIS\Functions\ST_IsValid
                             INT: GromadaBundle\Query\CastAsInteger
 

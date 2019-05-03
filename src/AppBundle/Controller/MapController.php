@@ -130,7 +130,7 @@ class MapController extends SuperController
      *
      * @return JsonResponse
      */
-    public function getFilterAdvertisementAction(Request $request, SessionInterface $session, ParseFilterServices $parseFilterServices)
+    public function getFilterAdvertisementAction(Request $request, SessionInterface $session, ParseFilterServices $parseFilterServices): JsonResponse
     {
         try {
             $advertisement = $this->em->getRepository('AppBundle:Advertisement');

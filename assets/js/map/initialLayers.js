@@ -90,7 +90,7 @@ $(function () {
         layers: [
             osmLayer,
             raster,
-            /*        kiev2006Layer,*/
+            kiev2006Layer,
             kievPublichka,
             test
         ],

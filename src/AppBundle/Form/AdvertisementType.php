@@ -120,6 +120,10 @@ class AdvertisementType extends AbstractType
                 'label' => false,
                 'required' => false
             ])
+            ->add('geomPolygon', HiddenType::class, [
+                'label' => false,
+                'required' => false
+            ])
             ->add('photos', CollectionType::class, [
               //  'label' => 'Виберіть фото',
                 'entry_type'   		=> PhotosType::class,
