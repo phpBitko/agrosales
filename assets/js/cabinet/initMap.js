@@ -1,3 +1,5 @@
+import Style from "ol/style/Style";
+
 require('jquery-inputmask');
 
 import TileLayer from "ol/layer/Tile";
@@ -13,6 +15,7 @@ import TileWMS from "ol/source/TileWMS";
 import {Vector as VectorLayer} from 'ol/layer.js';
 import Draw from 'ol/interaction/Draw.js';
 import {OSM, Vector as VectorSource} from 'ol/source.js';
+import {Circle as CircleStyle, Fill, Stroke} from "ol/style";
 
 
 
@@ -54,8 +57,30 @@ $(function () {
 
     let sourceParcel = new VectorSource({wrapX: false});
 
+    let styleParcel = new Style({
+        fill: new Fill({
+            color: '#7cff47'
+        }),
+        stroke: new Stroke({
+            color: '#484848',
+            width: 2,
+        }),
+        image: new CircleStyle({
+            radius: 6,
+            stroke: new Stroke({
+                color: '#ff0800',
+                width: 2,
+            }),
+            fill: new Fill({
+                color: '#fffcf3'
+            })
+        }),
+    });
+
     let vectorParcel = new VectorLayer({
-        source: sourceParcel
+        source: sourceParcel,
+        style: styleParcel,
+        opacity: 0.9
     });
 
     let mapCabinet = new Map({

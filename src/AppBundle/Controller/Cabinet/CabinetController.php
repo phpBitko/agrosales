@@ -151,7 +151,14 @@ class CabinetController extends BaseAdminController
         if ($request->isMethod('POST')) {
             // Check form data is valid
             if ($formAdvertisement->isValid()) {
-                $geomAdvertisement = $advertisement->getGeom();
+                $geomPolygonAdvertisement = $advertisement->getGeomPolygon();
+                if(!empty($geomPolygonAdvertisement)){
+                    $geomAdvertisement = $em->getRepository('AppBundle:Advertisement')->getCentroid($geomPolygonAdvertisement);
+                    $advertisement->setGeom($geomAdvertisement);
+                }else{
+                    $geomAdvertisement = $advertisement->getGeom();
+                }
+
                 $region = $geometryServices->getPositionRegion($geomAdvertisement);
 
                 if (null === $region) {
